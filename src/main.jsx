@@ -324,7 +324,7 @@ const goals = [
 const faqs = [
   {
     q: 'E se in futuro voglio una modifica? E i bug?',
-    a: 'Le modifiche future costano 15 € a modifica e verranno usate come prova nel portfolio Trebla Studio.\nI bug li sistemiamo gratis, previa nostra valutazione che si tratti effettivamente di un bug.',
+    a: 'Sono incluse 2 revisioni (anche correzioni testo) prima della pubblicazione. Dopo, modifiche future costano 15 € cad. e verranno usate come prova nel portfolio Trebla Studio (previo consenso).\nI bug li sistemiamo gratis, previa nostra valutazione che si tratti effettivamente di un bug.',
   },
   {
     q: 'Quanto tempo ci vuole per realizzare il sito?',
@@ -336,7 +336,7 @@ const faqs = [
   },
   {
     q: "L'acconto è incluso nel prezzo?",
-    a: "Sì, l'acconto del 10% è incluso nel prezzo finale e serve solo a bloccare le tempistiche. Il resto lo paghi alla consegna.",
+    a: "Sì, l'acconto del 10% è incluso nel prezzo finale e serve solo a bloccare le tempistiche (validità preventivo 2 settimane). Il resto lo paghi alla consegna in contanti/bonifico. Prezzo finale senza IVA aggiunta (al momento senza P.IVA). Se il sito a metà lavoro non prosegue, concordiamo chiusura — non è rimborsabile se il lavoro è già stato svolto correttamente.",
   },
   {
     q: 'Il dominio è incluso nel prezzo?',
@@ -732,10 +732,10 @@ function App() {
             <p>Lo stesso team che realizza il tuo sito ha realizzato anche il sito di Pikete Label e ne cura la gestione, stessa cura anche per gli eventi della tua attività.</p>
           </div>
           <a className="portfolio-feature" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
-            <span className="portfolio-kicker">Sito realizzato da noi — caso studio</span>
+            <span className="portfolio-kicker">Sito realizzato da noi — caso studio #1</span>
             <strong>Pikete Label</strong>
-            <span className="portfolio-sub">etichetta musicale</span>
-            <p><strong style={{ color: '#fff' }}>Problema:</strong> presenza online assente / <strong style={{ color: '#fff' }}>Obiettivo:</strong> vetrina catalogo artisti / <strong style={{ color: '#fff' }}>Soluzione:</strong> sito vetrina responsive con catalogo, <strong style={{ color: '#fff' }}>Ruolo Trebla:</strong> design + sviluppo + gestione — <strong style={{ color: '#fff' }}>Risultato:</strong> [DA AGGIUNGERE: traffico/richieste/feedback reale — non inventato] <span style={{ opacity: 0.8 }}>(link verificabile)</span></p>
+            <span className="portfolio-sub">etichetta musicale — Asti/Alessandrino</span>
+            <p><strong style={{ color: '#fff' }}>Problema:</strong> prezzo alto agenzie, sito poco moderno / <strong style={{ color: '#fff' }}>Obiettivo:</strong> abbassare prezzo senza perdere qualità, vetrina artisti moderna / <strong style={{ color: '#fff' }}>Soluzione:</strong> sito vetrina responsive catalogo artisti con design attuale / <strong style={{ color: '#fff' }}>Ruolo Trebla:</strong> design + sviluppo (HTML/CSS/TS/React) + gestione — <strong style={{ color: '#fff' }}>Risultato:</strong> sito online, citato su giornale provinciale dell’Alessandrino, richieste eventi in entrata (metriche precise in raccolta). <span style={{ opacity: 0.8 }}>(link verificabile)</span></p>
             <span className="portfolio-cta"><span>Scopri la musica dei nostri artisti</span><span>sito realizzato da noi →</span></span>
           </a>
           <div style={{ marginTop: '18px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
@@ -753,47 +753,48 @@ function App() {
             </div>
           </div>
           <div style={{ marginTop: '22px', border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
-            <strong style={{ fontSize: '14px', display: 'block', marginBottom: '12px' }}>Prova sociale — [DA COMPLETARE: servono 3 testimonianze reali con autorizzazione]</strong>
+            <strong style={{ fontSize: '14px', display: 'block', marginBottom: '12px' }}>Prova sociale — in raccolta</strong>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-              <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 1 — nome, attività, città, link/recensione Google verificabile — DA INSERIRE]”</div>
+              <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 1 — DA INSERIRE: hai detto ne fornirai 3, + logo Febbraio — in attesa]”</div>
               <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 2 — DA INSERIRE]”</div>
-              <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 3 — DA INSERIRE]”</div>
+              <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 3 — DA INSERIRE]” — rating diretto 5/5 non su Google (nessuna recensione Google al momento)</div>
             </div>
-            <p style={{ marginTop: '12px', fontSize: '12px', color: '#6d8894' }}>Mostreremo solo recensioni autentiche con fonte (Google, link) e loghi autorizzati. Niente invettive inventate. Invia screenshot/link.</p>
+            <p style={{ marginTop: '12px', fontSize: '12px', color: '#6d8894' }}>Nessuna recensione Google attiva al momento; rating 5/5 raccolto direttamente. Loghi/clienti solo con permesso.</p>
           </div>
           <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-            <strong style={{ fontSize: '14px', display: 'block', marginBottom: '8px' }}>Perché ci scelgono (in attesa di numeri reali)</strong>
+            <strong style={{ fontSize: '14px', display: 'block', marginBottom: '8px' }}>Perché ci scelono — dati reali</strong>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', fontSize: '13px' }}>
-              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>[N progetti — DA INSERIRE]</span>
-              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>[Rating Google — DA INSERIRE]</span>
-              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>[Tempo medio risposta — DA INSERIRE]</span>
-              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Consegna 10gg* · 1 revisione · Bug fix valutato</span>
+              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>1 progetto online (Pikete Label) + concept in arrivo</span>
+              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Nessun Google rating (raccolta diretta 5/5)</span>
+              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Risposta entro 2 giorni lavorativi</span>
+              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Consegna 10gg* · 2 revisioni · Bug fix valutato</span>
+              <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Citato su giornale Alessandrino</span>
             </div>
           </div>
         </section>
 
-        {/* Chi siamo — P0 placeholder senza inventare dati */}
+        {/* Chi siamo — dati reali forniti 27/08 (non inventati) */}
         <section id="chi-siamo" className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
           <p className="section-label">Chi siamo</p>
           <div className="section-intro">
             <h2>Il team dietro<br /><em>Trebla Studio.</em></h2>
-            <p>Studio digitale agile per piccole attività di Asti e Piemonte. Qui sotto trovi le informazioni autentiche su chi lavora al progetto — [DA COMPLETARE con dati reali, vedi domande sotto].</p>
+            <p>Siamo in due, ad Asti. Trebla nasce come progetto di Alberto e si è estesa con Pikete Label (nostro cliente diventato partner). Valorizziamo il potere dei giovani: anche i giovani possono lavorare bene, con fiducia, e offrire qualcosa di più accessibile e moderno — perché per una piccola attività un sito non dovrebbe costare una fortuna.</p>
           </div>
           <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
-            <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-              <strong style={{ fontSize: '14px' }}>[Foto reale]</strong>
-              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>[Nome e ruolo — es. Founder / Design & Dev] — [Breve bio, anni esperienza, competenze: design, sviluppo, SEO base, foto] — [DA INSERIRE]</p>
+            <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
+              <strong style={{ fontSize: '14px' }}>Alberto Simoni — Sviluppo &amp; Coordinamento</strong>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Founder. Competenze reali: HTML, CSS, TypeScript, React, Vercel. Perito. Gestisce progetto, codice e pubblicazione. Foto professionali disponibili — [inserire file]. Lingue: italiano, inglese (albanese su richiesta, non principale).</p>
             </div>
-            <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-              <strong style={{ fontSize: '14px' }}>[Foto reale]</strong>
-              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>[Nome e ruolo — es. Contenuti / Relazione clienti] — [Competenze,エリア Piemonte/Asti, modalità collaborazione] — [DA INSERIRE]</p>
+            <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
+              <strong style={{ fontSize: '14px' }}>Francesco — Design &amp; Social Media Manager</strong>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Designer + social media manager. Cura grafiche, identità, contenuti social, supporto creativo. Strumenti: Da Vinci Resolve, Light (Lightroom). Foto professionali disponibili.</p>
             </div>
-            <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
+            <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
               <strong style={{ fontSize: '14px' }}>Come lavoriamo, dove operiamo</strong>
-              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>• Sede operativa: [Città/Asti — DA INSERIRE, non inventiamo indirizzo]<br/>• Area servita: Asti e Piemonte (anche remoto)<br/>• Partner: Pikete Label (musica) — ruolo: fornitura artisti per eventi<br/>• Responsabilità progetto: [DA INSERIRE]</p>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>• Sede: Asti — su appuntamento (nessun indirizzo vetrina, incontro in sede concordata)<br/>• Area: solo Asti e Piemonte (non a distanza nazionale)<br/>• Foto professionali di studio già disponibili<br/>• Partner: Pikete Label — fornitura artisti per eventi<br/>• Orari: Lun, Mer, Gio, Ven (Mar chiuso, Sab-Dom chiuso) — [orario esatto da confermare]<br/>• Tono: molto professionale</p>
             </div>
           </div>
-          <p style={{ marginTop: '14px', fontSize: '12px', color: '#6d8894' }}>Nota: mostriamo solo volti/nomi reali con consenso. Nessun nome inventato. Invia le info e sostituiamo i placeholder.</p>
+          <p style={{ marginTop: '14px', fontSize: '12px', color: '#6d8894' }}>Nota: siamo 2 giovani professionisti. Al momento senza P.IVA/ditta (progetto in avvio) — vedi nota trasparenza in Prezzi/Contatti.</p>
         </section>
 
         {/* Come lavoriamo */}
@@ -820,7 +821,7 @@ function App() {
             <article>
               <span>03</span>
               <h3>Pubblicazione in 10 giorni</h3>
-              <p>Mettiamo online il sito, colleghiamo WhatsApp, Google Business e tutto ciò che serve per farti trovare subito. Include 1 giro di revisioni + garanzia bug previa valutazione. Vedi “Cosa ricevi” e FAQ.</p>
+              <p>Mettiamo online il sito, colleghiamo WhatsApp, Google Business e tutto ciò che serve per farti trovare subito. Include 2 revisioni (correzioni testo incluse) + garanzia bug previa valutazione. Vedi “Cosa ricevi” e FAQ.</p>
             </article>
           </div>
         </section>
@@ -835,7 +836,7 @@ function App() {
                 <em>alla tua portata.</em>
               </h2>
               <p>
-                Niente uffici e niente intermediari: parli direttamente con chi costruisce il tuo sito. Lavoriamo con struttura leggera così manteniamo prezzi accessibili — la cifra la vedi prima di iniziare, con elenco chiaro di cosa è incluso ed escluso (vedi dettagli sotto). Prezzi IVA esclusa.
+                Niente uffici e niente intermediari: parli direttamente con chi costruisce il tuo sito. Lavoriamo con struttura leggera così manteniamo prezzi accessibili — la cifra la vedi prima di iniziare, con elenco chiaro di cosa è incluso ed escluso (vedi dettagli sotto). Prezzo finale indicato — al momento senza P.IVA (nessuna IVA aggiunta), pagamento in contanti/bonifico. In fase di regolarizzazione.
               </p>
               <a className="button button-light" href="#preventivo">
                 Fai un preventivo
@@ -848,15 +849,15 @@ function App() {
               </li>
               <li>
                 <b>Prezzo trasparente prima di iniziare</b>
-                <span>Stima immediata nel configuratore con dettaglio di cosa è incluso (pagine, funzioni standard, Google Business inclusa) e cosa è extra. Prezzi IVA esclusa.</span>
+                <span>Stima immediata nel configuratore con dettaglio di cosa è incluso (pagine, funzioni standard, cookie banner gratuito incluso, Google Business inclusa) e cosa è extra. Prezzo finale, senza IVA aggiunta (no P.IVA al momento).</span>
               </li>
               <li>
-                <b>Consegna in 10 giorni lavorativi*</b>
-                <span>*Per progetti essenziali, dopo aver ricevuto tutti i materiali (testi, foto, logo) e le tue approvazioni. Se mancano contenuti i tempi si allungano.</span>
+                <b>Consegna in 10 giorni lavorativi* — garantiti</b>
+                <span>*Per progetti essenziali, dopo aver ricevuto tutti i materiali e le tue approvazioni. 2 revisioni incluse (correzioni testo incluse). Se mancano contenuti i tempi si allungano.</span>
               </li>
               <li>
                 <b>Zero abbonamenti mensili</b>
-                <span>Nessun canone fisso obbligatorio: il sito web è di tua proprietà.</span>
+                <span>Nessun canone fisso obbligatorio: il sito è di tua proprietà. Manutenzione facoltativa solo se servono modifiche frequenti (su richiesta).</span>
               </li>
             </ul>
           </div>
@@ -865,32 +866,32 @@ function App() {
               <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Cosa include “da 350 €”*</strong>
               <span style={{ color: '#d5e4e9' }}>
                 • 1 pagina singola fluida (o sito multi-pagina da 400 €)<br/>
-                • Design responsive, testi base, SEO di base (title/meta/H1), form contatti + WhatsApp<br/>
-                • Scheda Google Business inclusa, collegamenti mappa/orari, ottimizzazione performance base<br/>
-                • 1 giro di revisioni incluso, consegna file e proprietà sito<br/>
-                • *Prezzi IVA esclusa. Dominio/hosting esclusi.
+                • Design responsive, testi a metà con te, SEO abbastanza avanzata (title/meta/H1/alt/sitemap), form+WhatsApp/Email<br/>
+                • Cookie banner gratuito incluso, Scheda Google Business inclusa, performance base<br/>
+                • 2 revisioni incluse (correzioni testo incluse), consegna proprietà sito<br/>
+                • *Prezzo finale, senza IVA aggiunta (no P.IVA). Dominio/hosting esclusi, pagamento contanti/bonifico.
               </span>
             </div>
             <div>
               <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Extra a scelta</strong>
               <span style={{ color: '#d5e4e9' }}>
                 • Pagine aggiuntive (+10 € cad.), funzioni per settore (vedi configuratore)<br/>
-                • Social/Design solo se selezionati (vedi prezzi nel configuratore)<br/>
-                • Foto sul posto (+20 €) o immagini archivio gratuite<br/>
-                • Modifiche future: 15 € cad. (usate come prova portfolio, previo consenso)
+                • Social/Design solo se selezionati (pacchetto completo con design su richiesta)<br/>
+                • Foto sul posto (+20 € + rimborso trasporto se fuori Asti) o immagini archivio gratuite (non ancora attive)<br/>
+                • Modifiche future: 15 € cad. (piccole correzioni testo incluse nelle 2 revisioni)
               </span>
             </div>
             <div>
               <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Cosa ricevi alla consegna</strong>
               <span style={{ color: '#d5e4e9' }}>
-                • Sito pubblicato su Vercel, dominio intestato a te<br/>
-                • Accessi, proprietà codice/contenuti, guida rapida modifica testi<br/>
-                • Garanzia bug: fix gratis previa nostra valutazione che sia bug<br/>
-                • Assistenza a richiesta (vedi FAQ/Assistenza)
+                • Sito pubblicato su Vercel, dominio intestato a te (paghi tu direttamente Vercel)<br/>
+                • Proprietà codice/contenuti, guida rapida (modifica testi non insegnata di default)<br/>
+                • Garanzia bug: fix gratis previa valutazione che sia bug<br/>
+                • Backup/sicurezza: HTTPS base, backup su richiesta (da definire)
               </span>
             </div>
           </div>
-          <p style={{ marginTop: '16px', fontSize: '11px', color: '#8fb8c9', lineHeight: '1.5' }}>* Fascia “da 350 €” per pagina singola essenziale; i progetti con più pagine/funzioni/social/design salgono in base alle scelte nel configuratore. Tutti i prezzi indicati sono IVA esclusa.</p>
+          <p style={{ marginTop: '16px', fontSize: '11px', color: '#8fb8c9', lineHeight: '1.5' }}>* Fascia “da 350 €” pagina singola; multi-pagina 400 €. Prezzi finali senza IVA aggiunta (al momento senza P.IVA — in regolarizzazione). Preventivo valido 2 settimane. Acconto 10% incluso a bloccare tempistiche, resto a consegna. Se il sito a metà lavoro non ti soddisfa, concordiamo chiusura — condizioni in Termini.</p>
         </section>
 
         {/* Preventivo Interattivo */}
@@ -981,7 +982,7 @@ function App() {
                   <b>Sito Web</b>
                   <small>Presenza online completa, veloce e visibile su tutti i dispositivi.</small>
                     <small style={{ marginTop: '10px', color: 'var(--blue)', fontWeight: '800' }}>
-                      Da 350 € <span style={{ fontWeight: 400, fontSize: '11px' }}>IVA escl.</span>
+                      Da 350 € <span style={{ fontWeight: 400, fontSize: '11px' }}>finale</span>
                     </small>
                 </button>
 
@@ -1035,7 +1036,7 @@ function App() {
                 {!isAltro && (
                 <div className="form-block">
                   <p className="form-title">Struttura del sito web</p>
-                  <p className="form-help">Scegli tra una pagina singola fluida (350 € IVA escl.) o un sito completo a più pagine (400 € IVA escl.). Include responsive, SEO base e 1 revisione.</p>
+                  <p className="form-help">Scegli tra una pagina singola fluida (350 € finale) o un sito completo a più pagine (400 € finale). Include responsive, SEO avanzata, cookie banner gratuito e 2 revisioni.</p>
                   <div className="choice-grid">
                     {[
                       { id: 'Pagina singola', label: 'Pagina singola (350 €)' },
@@ -1272,10 +1273,10 @@ function App() {
               <div>
                 {estimateRevealed ? (
                   <>
-                     <span>La tua stima — IVA esclusa</span>
-                    <strong>{quoteLabel} <small>stima IVA escl.</small></strong>
-                    <p>La stima è indicativa: il prezzo finale può variare dopo aver parlato insieme dei dettagli del progetto. Tutti i prezzi sono IVA esclusa.</p>
-                    <p>Pronto in 10 giorni lavorativi* · Scheda Google inclusa · Nessun abbonamento mensile · *vedi condizioni in Prezzi/FAQ.</p>
+                     <span>La tua stima — prezzo finale</span>
+                    <strong>{quoteLabel} <small>stima finale</small></strong>
+                    <p>La stima è indicativa: il prezzo finale può variare dopo aver parlato insieme dei dettagli. Prezzo finale senza IVA aggiunta (no P.IVA al momento).</p>
+                    <p>Pronto in 10 giorni lavorativi* garantiti* · Scheda Google inclusa · Cookie banner gratuito · 2 revisioni · *vedi condizioni.</p>
                     {hasSite && (
                       <p className="estimate-note">Acconto 10% per bloccare le tempistiche ({Math.round(currentTotal * 0.1)} € su {currentTotal} €) — resto alla consegna</p>
                     )}
@@ -1317,50 +1318,50 @@ function App() {
           <p className="section-label">Eventi e attivazioni</p>
           <div className="section-intro">
             <h2>Musica dal vivo<br /><em>per la tua attività.</em></h2>
-            <p>In collaborazione con Pikete Label (etichetta musicale gestita dallo stesso team) possiamo portare artisti per inaugurazioni, serate a tema o promozioni. Attività separata dal servizio sito/social/design.</p>
+            <p>In collaborazione con Pikete Label (stabile) — 4 cantanti disponibili. Attività separata dal sito/social/design.</p>
           </div>
           <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
               <strong style={{ display: 'block', fontSize: '14px', marginBottom: '6px' }}>Per chi è utile</strong>
-              <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Bar, ristoranti, negozi, centri estetici, associazioni che vogliono inaugurare o animare una serata. Formato piccolo, impianto base.</span>
+              <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Bar, ristoranti, negozi, associazioni — inaugurazioni, promozioni, serate a tema. Canto live, formato piccolo.</span>
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
-              <strong style={{ display: 'block', fontSize: '14px', marginBottom: '6px' }}>Cosa include e costi</strong>
-              <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Artisti Pikete Label, scaletta concordata, promozione coordinata con il sito. Costo su misura in base a data, durata e location — preventivo a parte. <a href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', fontWeight: 800 }}>Vedi artisti →</a></span>
+              <strong style={{ display: 'block', fontSize: '14px', marginBottom: '6px' }}>Costi indicativi</strong>
+              <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Da 60 €/ora per 1 cantante fino a 250 €/ora per tutti e 4 i cantanti. Prezzo su misura per durata/location. <a href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', fontWeight: 800 }}>Vedi artisti →</a> — pagina/evento dedicato: solo su Pikete Label al momento.</span>
             </div>
           </div>
-          <p style={{ marginTop: '14px', fontSize: '13px', color: 'var(--muted)' }}>Nota: l’evento non è incluso nel prezzo del sito; è un’attivazione opzionale e separata.</p>
+          <p style={{ marginTop: '14px', fontSize: '13px', color: 'var(--muted)' }}>Nota: evento non incluso nel prezzo sito; attivazione opzionale e separata.</p>
         </section>
 
         {/* FAQ */}
         <section id="servizi-dettaglio" className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
-          <p className="section-label">Dettaglio servizi — senza inventare</p>
+          <p className="section-label">Dettaglio servizi — dati reali</p>
           <div className="section-intro">
             <h2>Cosa facciamo,<br /><em>nel dettaglio.</em></h2>
-            <p>Pagine dedicate in arrivo. Qui il perimetro concreto per ogni servizio — senza blocchi assoluti, con percorso consigliato.</p>
+            <p>Pagine dedicate arriveranno dopo (con testi originali). Qui perimetro concreto — percorso consigliato: sito cuore, ma social/design anche da soli se priorità.</p>
           </div>
           <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
-              <strong>Sito Web</strong>
-              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Tipologie: vetrina, landing, multi-pagina (no e-commerce avanzato al momento). Deliverable: design responsive, SEO base, form+WhatsApp, mappa/orari, Google Business inclusa, 1 revisione. Non incluso: dominio/hosting, copy lungo fornito da te, foto se non scelte. Strumenti: Vercel/hosting statico. Integrazioni: WhatsApp, Maps. Tempi: 10gg* post-materiali. Costi: da 350 € IVA escl. + extra.</p>
+              <strong>Sito Web — da 350 € finale</strong>
+              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Vetrina/landing/multi-pagina (no e-commerce complesso). Include: design responsive, SEO abbastanza avanzata, form+WhatsApp/Email/Instagram/prenotazioni, mappa/orari, Google Business inclusa, cookie banner gratuito, 2 revisioni. Testi: fatti a metà col cliente. Non incluso: dominio/hosting (paghi tu Vercel). Strumenti: HTML/CSS/TS/React, Vercel. Tempi: 10gg* garantiti post-materiali.</p>
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
               <strong>Social Media</strong>
-              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Piano editoriale, creatività grafiche storie, reel brevi, frequenza concordata, approvazione via WhatsApp, report base. Cuore consigliato: sito, ma possiamo partire anche solo da social se priorità corretta. Prezzi nel configuratore.</p>
+              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Piano editoriale, grafiche storie, reel brevi — frequenza concordata, approvazione WhatsApp. Anche senza sito se necessario. Prezzi nel configuratore. Pacchetto completo con design valutabile.</p>
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
               <strong>Design &amp; Branding</strong>
-              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Logo/rinnovo, biglietti, volantini/locandine/menu cartaceo, grafiche web coordinate, materiali stampa pronti. Palette e font coerenti col sito. Anche qui: sito consigliato come cuore, ma non blocco assoluto.</p>
+              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Logo/rinnovo (se serve, Fiverr esterno), biglietti, volantini/locandine/menu cartaceo, grafiche web coordinate. Sito consigliato ma non obbligatorio.</p>
             </div>
           </div>
           <div style={{ marginTop: '16px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
             <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '16px', background: '#fbfbf9' }}>
-              <strong>Per settore — pagine dedicate [IN ARRIVO, richiedono testi originali per Asti/Piemonte]</strong>
-              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Ristoranti/pizzerie (menu, prenotazioni, mappa, WhatsApp) · Hotel/B&amp;B (camere, servizi, gallery, richieste, lingue, recensioni) · Negozi (prodotti, orari, promo, Google Business) · Saloni (servizi, listino, prenotazione, team, prima/dopo) · Artigiani (lavori, zone servite, sopralluogo) · Professionisti (metodo, casi, FAQ) · Associazioni (calendario, iscrizioni). Ogni pagina avrà contenuti non ripetitivi + SEO locale.</p>
+              <strong>Pagine settore — in arrivo (non ancora attive)</strong>
+              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Tutte e 7 previste: ristoranti, hotel/B&amp;B, negozi, saloni, artigiani, professionisti, associazioni — con contenuti non originali al momento (da scrivere). Nessuna foto settore ancora. Ogni pagina avrà menu/prenotazioni/camere/prodotti/listino ecc. SEO locale Asti/Piemonte.</p>
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px' }}>
-              <strong>Cosa NON facciamo (al momento)</strong>
-              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>E-commerce complesso, gestionali avanzati, campagne Ads complesse — dopo aver consolidato il core. Se ti servono, ti indichiamo partner o percorso. Trasparenza prima di tutto.</p>
+              <strong>Cosa NON facciamo</strong>
+              <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Max e-commerce no, campagne complesse no — solo sito vetrina essenziale ora. Integrazioni: WhatsApp, Email, Instagram, prenotazioni. No newsletter avanzata.</p>
             </div>
           </div>
         </section>
@@ -1401,30 +1402,31 @@ function App() {
         </div>
         <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
           <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
-            <strong style={{ display: 'block', marginBottom: '8px' }}>Garanzia bug &amp; revisioni</strong>
+            <strong style={{ display: 'block', marginBottom: '8px' }}>Garanzia bug &amp; 2 revisioni</strong>
             <span style={{ color: 'var(--muted)' }}>
-              • 1 giro di revisioni incluso prima della pubblicazione<br/>
+              • 2 revisioni incluse prima della pubblicazione (correzioni testo incluse)<br/>
               • Bug fix gratis previa nostra valutazione che sia effettivamente bug (non modifica)<br/>
               • Modifiche future: 15 € cad., usate come prova portfolio previo consenso<br/>
-              • Tempi risposta indicativi: [DA INSERIRE — es. entro 24h feriale]
+              • Risposta entro 2 giorni lavorativi
             </span>
           </div>
           <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
             <strong style={{ display: 'block', marginBottom: '8px' }}>Dominio, hosting, proprietà</strong>
             <span style={{ color: 'var(--muted)' }}>
-              • Dominio intestato a te, pagato direttamente a Vercel/hosting (costo variabile ~10-20 €/anno)<br/>
-              • Hosting su Vercel — possiamo mantenerlo o consegnarti accessi<br/>
+              • Dominio intestato a te, pagato direttamente a Vercel (costo variabile ~10-20 €/anno)<br/>
+              • Hosting su Vercel — manteniamo noi o ti consegniamo accessi<br/>
               • Proprietà: codice, testi e grafiche consegnate sono tue<br/>
-              • Licenze/immagini archivio: verificate per uso commerciale
+              • Immagini archivio: non ancora attive (al momento solo tue foto o nostre sul posto)
             </span>
           </div>
           <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
             <strong style={{ display: 'block', marginBottom: '8px' }}>Manutenzione facoltativa</strong>
             <span style={{ color: 'var(--muted)' }}>
-              • Aggiornamenti contenuti su richiesta (non abbonamento obbligatorio)<br/>
-              • Backup, sicurezza, rinnovi: su richiesta<br/>
-              • Formazione rapida per modificare testi base<br/>
-              • Procedura richiesta: WhatsApp/Email — [SLA DA INSERIRE]
+              • Aggiornamenti contenuti su richiesta (non abbonamento obbligatorio; abbonamento valutato per chi ha molte modifiche)<br/>
+              • Backup su richiesta (non incluso di default)<br/>
+              • Sicurezza HTTPS base garantita<br/>
+              • Formazione modifica testi: non inclusa di default (su richiesta)<br/>
+              • Richiesta via WhatsApp/Email
             </span>
           </div>
         </div>
@@ -1437,29 +1439,32 @@ function App() {
           <h2>Parliamone<br /><em>davvero.</em></h2>
           <p>Risposta rapida, canali diretti, area servita chiara.</p>
         </div>
-        <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+          <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
           <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '20px' }}>
             <strong style={{ display: 'block', marginBottom: '12px' }}>Contatti diretti</strong>
-            <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a> — canale preferito</p>
-            <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>Email:</strong> <a href={`mailto:${email}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>{email}</a></p>
-            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Orari risposta:</strong> [DA INSERIRE — es. Lun-Ven 9-18] — [Tempo medio risposta: DA INSERIRE]</p>
-            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Area servita:</strong> Asti e Piemonte — disponibile anche in remoto/videochiamata</p>
-            <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede operativa:</strong> [DA INSERIRE — città/indirizzo se vuoi mostrarlo, altrimenti “su appuntamento ad Asti”]</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a> — canale preferito (tutto via WhatsApp, no videochiamata)</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>Email:</strong> <a href={`mailto:${email}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>{email}</a> — definitiva</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Orari:</strong> Lun, Mer, Gio, Ven tutto il giorno (Mar chiuso, Sab-Dom chiuso) — lezione: lavori concentrati in questi giorni</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Risposta:</strong> entro 2 giorni lavorativi</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Area servita:</strong> solo Asti e Piemonte</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede:</strong> Asti — su appuntamento in sede (nessun indirizzo vetrina) — mappa non presente</p>
+            <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Lingue:</strong> italiano, inglese, albanese occasionale</p>
             <div style={{ marginTop: '16px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Vorrei prenotare una chiamata per il mio sito.')}`} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--blue)', color: '#fff', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Prenota chiamata su WhatsApp →</a>
+              <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Vorrei prenotare una chiamata per il mio sito.')}`} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--blue)', color: '#fff', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Prenota su WhatsApp →</a>
               <a href={`mailto:${email}`} style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Scrivi via Email</a>
             </div>
           </div>
-          <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '20px', background: '#fbfbf9' }}>
-            <strong style={{ display: 'block', marginBottom: '12px' }}>Dati aziendali — [DA COMPLETARE]</strong>
+          <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '20px', background: '#fbfbf9' }}>
+            <strong style={{ display: 'block', marginBottom: '12px' }}>Dati aziendali — trasparenza</strong>
             <p style={{ margin: '0 0 6px', fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6' }}>
-              Ragione sociale: [DA INSERIRE]<br/>
-              P.IVA / C.F.: [DA INSERIRE — obbligatorio per fattura e footer legale]<br/>
-              Titolare trattamento privacy: [Nome — DA INSERIRE]<br/>
-              PEC / SDI: [Se presente — DA INSERIRE]<br/>
-              Privacy / Cookie / Termini: vedi link in footer (pagine da validare con professionista)
+              Ragione sociale: Trebla Studio (progetto giovane in avvio)<br/>
+              P.IVA: non disponibile al momento — nessuna fattura IVA (prezzo finale, pagamento contanti/bonifico — in regolarizzazione)<br/>
+              Titolare privacy: Alberto Simoni — {email}<br/>
+              Google Business: non attivo al momento<br/>
+              Form alternativo: non attivo (solo configuratore + WhatsApp/Email)<br/>
+              Privacy / Cookie / Termini: vedi footer — bozze in attesa di validazione professionale
             </p>
-            <p style={{ margin: '12px 0 0', fontSize: '12px', color: '#6d8894' }}>Non inventiamo dati fiscali. Inserisci quelli reali e li pubblichiamo qui e in footer.</p>
+            <p style={{ margin: '12px 0 0', fontSize: '12px', color: '#6d8894' }}>Prezzi indicati sono finali senza IVA aggiunta. Pagamento solo contanti/bonifico. Per fattura, avviseremo quando P.IVA sarà attiva.</p>
           </div>
         </div>
       </section>
@@ -1485,21 +1490,21 @@ function App() {
           Parliamone su WhatsApp
         </a>
         <section id="privacy" className="section" style={{ paddingTop: '24px', paddingBottom: '12px', background: 'transparent' }}>
-          <p className="section-label">Privacy — placeholder da validare</p>
-          <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>Privacy Policy — [BOZZA NON LEGALE, DA VALIDARE CON PROFESSIONISTA]</h3>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>Titolare: [DA INSERIRE] — Email: {email} — Dati raccolti: nome attività, settore, preferenze sito, messaggio inviato via WhatsApp (nessun database proprietario attuale). Finalità: rispondere a richieste preventivo. Base giuridica: consenso/esecuzione misure precontrattuali. Conservazione: [DA INSERIRE]. Diritti: accesso/cancellazione scrivendo a {email}. [Completa con informativa estesa e validazione legale prima di campagne].</p>
+          <p className="section-label">Privacy — bozza in attesa di validazione</p>
+          <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>Privacy Policy — [BOZZA NON LEGALE]</h3>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>Titolare: Alberto Simoni — {email} — Nessuna privacy policy professionale attiva al momento, nessun analytics/cookie di profilazione, nessun database proprietario: i dati del configuratore vengono inviati solo via WhatsApp per rispondere alla richiesta e conservati in chat per 2 settimane. Diritti: scrivi a {email}. [Da validare con professionista prima di campagne].</p>
         </section>
         <section id="cookie" className="section" style={{ paddingTop: '12px', paddingBottom: '12px', background: 'transparent' }}>
-          <p className="section-label">Cookie — placeholder</p>
-          <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>Cookie Policy — [BOZZA]</h3>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>Questo sito attualmente non imposta cookie di profilazione proprietari; usa solo tecnici necessari e font Google (verifica consenso). Se attiverai analytics/ads, aggiungi banner consenso e aggiorna qui. [DA VALIDARE].</p>
+          <p className="section-label">Cookie — bozza</p>
+          <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>Cookie Policy</h3>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>Nessun cookie di profilazione impostato; solo tecnici necessari + font Google. Cookie banner gratuito incluso nel sito ma nessun consenso avanzato attivo. [Da validare].</p>
         </section>
         <section id="termini" className="section" style={{ paddingTop: '12px', paddingBottom: '24px', background: 'transparent' }}>
-          <p className="section-label">Termini — placeholder</p>
-          <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>Termini di servizio — [BOZZA]</h3>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>Preventivi validi 30 giorni, prezzi IVA esclusa, acconto 10% incluso a bloccare tempistiche (resto a consegna), 1 revisione inclusa, extra a consumo. Proprietà sito trasferita a saldo. [DA VALIDARE con professionista].</p>
+          <p className="section-label">Termini — bozza</p>
+          <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>Termini di servizio</h3>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>Preventivo valido 2 settimane, prezzo finale senza IVA aggiunta (no P.IVA al momento). Acconto 10% incluso a bloccare tempistiche, resto a consegna (contanti/bonifico). 2 revisioni incluse. Proprietà sito trasferita a saldo. Se il sito a metà lavoro non prosegue, concordiamo chiusura; non rimborsabile se lavoro già svolto correttamente. [Da validare].</p>
         </section>
-        <small>© 2026 Trebla Studio — <a href="#privacy" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Privacy</a> · <a href="#cookie" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Cookie</a> · <a href="#termini" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Termini</a> — P.IVA [DA INSERIRE]</small>
+        <small>© 2026 Trebla Studio — <a href="#privacy" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Privacy</a> · <a href="#cookie" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Cookie</a> · <a href="#termini" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Termini</a> — senza P.IVA (progetto giovane in avvio, Asti) — futuro dominio: trebla.studio</small>
       </footer>
 
       {quickContactOpen && (
