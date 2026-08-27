@@ -782,16 +782,16 @@ function App() {
           </div>
           <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-              <strong style={{ fontSize: '14px' }}>Alberto Simoni — Sviluppo &amp; Coordinamento</strong>
-              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Founder. Competenze reali: HTML, CSS, TypeScript, React, Vercel. Perito. Gestisce progetto, codice e pubblicazione. Foto professionali disponibili — [inserire file]. Lingue: italiano, inglese (albanese su richiesta, non principale).</p>
+              <strong style={{ fontSize: '14px' }}>Albert Simoni — Sviluppo</strong>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Dev. Competenze: HTML, CSS, TypeScript, React, Vercel. Perito. Gestisce progetto, codice e pubblicazione. Studente — foto non ancora disponibili (video in arrivo). Lingue: italiano, inglese (albanese su richiesta, non principale).</p>
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-              <strong style={{ fontSize: '14px' }}>Francesco — Design &amp; Social Media Manager</strong>
-              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Designer + social media manager. Cura grafiche, identità, contenuti social, supporto creativo. Strumenti: Da Vinci Resolve, Light (Lightroom). Foto professionali disponibili.</p>
+              <strong style={{ fontSize: '14px' }}>Gabriel Santospirito — Design &amp; Social Media Manager</strong>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Designer &amp; SMM. Cura grafiche, identità, contenuti social. Studente — foto non ancora disponibili (video in arrivo). Strumenti: Da Vinci Resolve, Light.</p>
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
               <strong style={{ fontSize: '14px' }}>Come lavoriamo, dove operiamo</strong>
-              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>• Sede: Asti — su appuntamento (nessun indirizzo vetrina, incontro in sede concordata)<br/>• Area: solo Asti e Piemonte (non a distanza nazionale)<br/>• Foto professionali di studio già disponibili<br/>• Partner: Pikete Label — fornitura artisti per eventi<br/>• Orari: Lun, Mer, Gio, Ven (Mar chiuso, Sab-Dom chiuso) — [orario esatto da confermare]<br/>• Tono: molto professionale</p>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>• Sede: Asti — su appuntamento (nessun indirizzo vetrina)<br/>• Area: solo Asti e Piemonte<br/>• Partner: Pikete Label — fornitura artisti per eventi<br/>• Orari: Mar chiuso sempre, resto 15:00-18:45<br/>• Risposta: fino alle 23<br/>• Tono: molto professionale</p>
             </div>
           </div>
           <p style={{ marginTop: '14px', fontSize: '12px', color: '#6d8894' }}>Nota: siamo 2 giovani professionisti. Al momento senza P.IVA/ditta (progetto in avvio) — vedi nota trasparenza in Prezzi/Contatti.</p>
@@ -1444,8 +1444,8 @@ function App() {
             <strong style={{ display: 'block', marginBottom: '12px' }}>Contatti diretti</strong>
             <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a> — canale preferito (tutto via WhatsApp, no videochiamata)</p>
             <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>Email:</strong> <a href={`mailto:${email}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>{email}</a> — definitiva</p>
-            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Orari:</strong> Lun, Mer, Gio, Ven tutto il giorno (Mar chiuso, Sab-Dom chiuso) — lezione: lavori concentrati in questi giorni</p>
-            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Risposta:</strong> entro 2 giorni lavorativi</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Orari:</strong> Mar chiuso sempre, Lun/Mer/Gio/Ven/Sab/Dom 15:00-18:45</p>
+            <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Risposta:</strong> fino alle 23 / entro 2 giorni lavorativi</p>
             <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Area servita:</strong> solo Asti e Piemonte</p>
             <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede:</strong> Asti — su appuntamento in sede (nessun indirizzo vetrina) — mappa non presente</p>
             <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Lingue:</strong> italiano, inglese, albanese occasionale</p>
