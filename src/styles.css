@@ -126,12 +126,27 @@ a {
 }
 
 .hero h1,
+.section h1,
 .section h2 {
   margin: 0;
   letter-spacing: -0.075em;
   line-height: 0.97;
   font-size: clamp(53px, 6vw, 89px);
 }
+.section h1 { font-size: clamp(50px, 5.8vw, 86px); }
+.skip-link:focus {
+  left: 12px !important;
+  top: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  background: var(--ink);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  z-index: 999;
+  overflow: visible !important;
+}
+html { scroll-padding-top: 88px; }
 
 .hero h1 em,
 .section h2 em,
@@ -1125,6 +1140,25 @@ a {
 
 .modal-close:hover {
   color: var(--ink);
+}
+
+/* Focus visible */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.choice:focus-visible, .event-option:focus-visible, .service-choice:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Footer grid responsive */
+@media (max-width: 760px) {
+  .footer > div:first-child { grid-template-columns: 1fr !important; gap: 20px !important; text-align: center; }
+  .footer > div:first-child > nav, .footer > div:first-child > div { text-align: center; align-items: center; }
 }
 
 /* Responsive & Mobile Menu */

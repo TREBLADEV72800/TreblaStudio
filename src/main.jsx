@@ -403,7 +403,8 @@ function Header({ onOpenQuick }) {
   }, []);
   return (
     <header className="header">
-      <Link className="logo" to="/" aria-label="Trebla Studio - torna in cima" onClick={() => setMenuOpen(false)}>
+      <a href="#main" className="skip-link" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>Salta al contenuto</a>
+      <Link className="logo" to="/" aria-label="Trebla Studio - torna alla homepage" onClick={() => setMenuOpen(false)}>
         <picture><source srcSet="/trebla-logo.webp" type="image/webp" /><img src="/trebla-logo-transparent.png" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" fetchPriority="high" /></picture>
       </Link>
       <nav className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Navigazione principale">
@@ -414,10 +415,10 @@ function Header({ onOpenQuick }) {
         <Link to="/prezzi" onClick={() => setMenuOpen(false)}>Prezzi</Link>
         <Link to="/faq" onClick={() => setMenuOpen(false)}>FAQ</Link>
         <Link to="/contatti" onClick={() => setMenuOpen(false)}>Contatti</Link>
-        <Link className="nav-mobile-cta" to="/preventivo" onClick={() => setMenuOpen(false)}>Fai un preventivo</Link>
+        <Link className="nav-mobile-cta" to="/preventivo" onClick={() => setMenuOpen(false)}>Configura il preventivo</Link>
       </nav>
-      <button type="button" className="header-cta" onClick={onOpenQuick}>Parliamone</button>
-      <button className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
+      <button type="button" className="header-cta" onClick={onOpenQuick} aria-label="Scrivici su WhatsApp — parliamone">Parliamone</button>
+      <button className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span><span></span><span></span>
       </button>
     </header>
@@ -427,25 +428,34 @@ function Header({ onOpenQuick }) {
 function Footer() {
   return (
     <footer className="footer">
-      <div>
-        <strong className="footer-brand">Trebla Studio</strong>
-        <p>Digitalizza la tua piccola azienda — Asti, Piemonte.</p>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '32px', width: '100%', maxWidth: '1200px', textAlign: 'left' }}>
+        <div>
+          <strong className="footer-brand">Trebla Studio</strong>
+          <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.<br />Siti web per piccole attività in Piemonte.<br /><span style={{ color: '#d8e3e7', fontSize: '12px' }}>Mar chiuso · resto 15:00-18:45 · risposta fino alle 23</span></p>
+          <a href={`mailto:${email}`} style={{ display: 'inline-block', marginTop: '12px', color: '#fff', fontWeight: 800, fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{email}</a>
+        </div>
+        <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Navigazione</strong>
+          <Link to="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Scopri i servizi</Link>
+          <Link to="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Vedi i lavori</Link>
+          <Link to="/chi-siamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Chi siamo</Link>
+          <Link to="/come-lavoriamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Metodo</Link>
+          <Link to="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Vedi i prezzi</Link>
+          <Link to="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
+        </nav>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Contatti &amp; legale</strong>
+          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti</Link>
+          <a href={`https://wa.me/${whatsapp}`} style={{ color: '#d8e3e7', fontSize: '14px' }}>Scrivici su WhatsApp</a>
+          <Link to="/privacy" style={{ color: '#d8e3e7', fontSize: '14px' }}>Privacy</Link>
+          <Link to="/cookie" style={{ color: '#d8e3e7', fontSize: '14px' }}>Cookie</Link>
+          <Link to="/termini" style={{ color: '#d8e3e7', fontSize: '14px' }}>Termini</Link>
+        </div>
       </div>
-      <nav className="footer-nav" aria-label="Navigazione footer">
-        <Link to="/servizi">Servizi</Link>
-        <Link to="/come-lavoriamo">Metodo</Link>
-        <Link to="/prezzi">Prezzi</Link>
-        <Link to="/faq">FAQ</Link>
-        <Link to="/contatti">Contatti</Link>
-        <a href={`mailto:${email}`}>{email}</a>
-        <Link to="/privacy">Privacy</Link>
-        <Link to="/cookie">Cookie</Link>
-        <Link to="/termini">Termini</Link>
-      </nav>
-      <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Contatta Trebla Studio su WhatsApp">
-        <WhatsAppIcon /> Parliamone su WhatsApp
+      <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp" style={{ marginTop: '24px' }}>
+        <WhatsAppIcon /> Scrivici su WhatsApp
       </a>
-      <small>© 2026 Trebla Studio — <Link to="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Privacy</Link> · <Link to="/cookie" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Cookie</Link> · <Link to="/termini" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Termini</Link> — senza P.IVA (progetto giovane in avvio, Asti) — futuro dominio: trebla.studio</small>
+      <small style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '14px', lineHeight: '1.6' }}>© 2026 Trebla Studio · Asti, Piemonte · <Link to="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Privacy</Link> · <Link to="/cookie" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Cookie</Link> · <Link to="/termini" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Termini</Link></small>
     </footer>
   );
 }
@@ -454,7 +464,7 @@ function Layout({ children, onOpenQuick }) {
   return (
     <>
       <Header onOpenQuick={onOpenQuick} />
-      <main>{children}</main>
+      <main id="main">{children}</main>
       <Footer />
     </>
   );
@@ -469,24 +479,26 @@ function HomePage() {
       <section className="hero">
         <div className="hero-copy">
           <h1>La tua attività<br /><em>merita di essere vista.</em></h1>
-          <p>Realizziamo siti web chiari e curati per piccole attività di Asti e Piemonte, pronti a farti ricevere richieste, prenotazioni e contatti. Lavoriamo senza uffici e intermediari: così manteniamo prezzi più accessibili e ti mostriamo prima cosa è incluso.</p>
+          <p style={{ maxWidth: '380px' }}>Siti web per piccole attività di Asti e Piemonte — chiari, veloci e facili da contattare. Per ricevere più richieste e prenotazioni. A partire da 350 €, prezzo trasparente prima di iniziare.</p>
           <div className="hero-actions">
-            <Link className="button button-main" to="/preventivo">Fai un preventivo</Link>
-            <Link className="button button-quiet" to="/servizi">Vedi i servizi</Link>
+            <Link className="button button-main" to="/preventivo">Configura il preventivo</Link>
+            <Link className="button button-quiet" to="/servizi" style={{ fontWeight: 600 }}>Scopri i servizi</Link>
           </div>
+          <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--muted)' }}>Risposta fino alle 23 · Consegna in 10 giorni* dopo materiali · 2 revisioni incluse</p>
         </div>
         <div className="hero-card">
-          <span className="card-kicker">Trebla Studio</span>
+          <span className="card-kicker">Trebla Studio — Asti</span>
           <strong>Un passo concreto<br /><em>verso il digitale.</em></strong>
           <p>Per rendere la tua attività più visibile, più chiara e più facile da contattare.</p>
         </div>
       </section>
 
       <section className="audience">
-        <p>Per chi ha qualcosa di valido da dimostrare</p>
+        <p>Per chi ha qualcosa di valido da dimostrare — <span style={{ fontWeight: 400, opacity: 0.8, fontSize: '13px' }}>categorie indicative</span></p>
         <div>
           <span>Ristoranti</span><span>Hotel & B&B</span><span>Saloni di bellezza</span><span>Negozi</span><span>Artigiani</span><span>Professionisti</span><span>Piccole imprese</span>
         </div>
+        <p style={{ marginTop: '10px', fontSize: '12px', opacity: 0.7, fontWeight: 400 }}>Non sono filtri — esplora i <Link to="/servizi" style={{ textDecoration: 'underline', color: '#fff' }}>servizi</Link> per i dettagli per ogni settore.</p>
       </section>
 
       <section className="section">
@@ -498,15 +510,18 @@ function HomePage() {
         <div className="service-grid">
           <Link to="/servizi/siti-web" className="service-card service-main" style={{ textDecoration: 'none', color: 'inherit' }}>
             <span>01</span><h3>Sito web</h3><p>Una presenza su internet chiara, curata e facile da usare per trasformare chi ti cerca in un cliente reale.</p>
-            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)' }}>Dettagli →</span>
+            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: design responsive, SEO, form WhatsApp, mappa, 2 revisioni. A partire da 350 €.</p>
+            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli sito web →</span>
           </Link>
           <Link to="/servizi/social-media" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
             <span>02</span><h3>Social media</h3><p>Contenuti e gestione per rendere la tua presenza attiva e coerente ogni settimana.</p>
-            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)' }}>Dettagli →</span>
+            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel. Acquistabile anche senza sito.</p>
+            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli social →</span>
           </Link>
           <Link to="/servizi/design" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
             <span>03</span><h3>Design e grafiche</h3><p>Logo, grafiche promozionali e materiali coordinati che rendono la tua attività riconoscibile.</p>
-            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)' }}>Dettagli →</span>
+            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini. Acquistabile anche senza sito.</p>
+            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli design →</span>
           </Link>
         </div>
       </section>
@@ -515,14 +530,22 @@ function HomePage() {
         <p className="section-label">Un esempio concreto</p>
         <div className="section-intro">
           <h2>Lo abbiamo<br /><em>già fatto.</em></h2>
-          <p>Lo stesso team che realizza il tuo sito ha realizzato anche il sito di Pikete Label e ne cura la gestione.</p>
+          <p>Un solo caso reale mostrato con precisione — senza inventare. Altri in arrivo.</p>
         </div>
-        <Link className="portfolio-feature" to="/portfolio">
-          <span className="portfolio-kicker">Sito realizzato da noi — caso studio #1</span>
-          <strong>Pikete Label</strong>
-          <span className="portfolio-sub">etichetta musicale — Asti/Alessandrino</span>
-          <p>Sito vetrina e catalogo artisti interamente progettato da Trebla Studio — citato su giornale provinciale dell’Alessandrino.</p>
-          <span className="portfolio-cta"><span>Vai al portfolio</span><span>sito realizzato da noi →</span></span>
+        <Link className="portfolio-feature" to="/portfolio" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '18px', alignItems: 'center' }}>
+          <div>
+            <span className="portfolio-kicker">Cliente — Settore — Intervento</span>
+            <strong>Pikete Label</strong>
+            <span className="portfolio-sub">Etichetta musicale — Asti/Alessandrino · Sito vetrina + catalogo artisti</span>
+            <p style={{ marginTop: '8px' }}><strong style={{ color: '#fff', fontWeight: 800 }}>Ruolo Trebla:</strong> design + sviluppo (HTML/CSS/TS/React) + gestione · <strong style={{ color: '#fff', fontWeight: 800 }}>Stato:</strong> sito pubblicato, citato su giornale provinciale Alessandrino (fonte verificabile su richiesta) · <strong style={{ color: '#fff', fontWeight: 800 }}>Risultato:</strong> presenza online attiva, richieste eventi in entrata (metriche in raccolta, non inventate).</p>
+            <span className="portfolio-cta"><span>Vedi i lavori — portfolio</span><span>sito realizzato da noi →</span></span>
+          </div>
+          <div style={{ background: '#0f2a3a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', padding: '12px', textAlign: 'center', minHeight: '140px', display: 'grid', placeItems: 'center' }}>
+            <div>
+              <div style={{ width: '100%', height: '90px', background: '#bdd4df', borderRadius: '6px', display: 'grid', placeItems: 'center', color: '#173d56', fontWeight: 800, fontSize: '12px' }}>Anteprima<br/>piketelabel.vercel.app</div>
+              <p style={{ marginTop: '8px', fontSize: '11px', color: '#bdd4df', lineHeight: '1.4' }}>Screenshot reale in arrivo<br/>— visita il sito live</p>
+            </div>
+          </div>
         </Link>
       </section>
 
@@ -531,28 +554,29 @@ function HomePage() {
         <div className="price-grid">
           <div>
             <h2>Una proposta<br /><em>alla tua portata.</em></h2>
-            <p>Prezzo finale indicato — senza P.IVA (nessuna IVA aggiunta), pagamento contanti/bonifico. La cifra la vedi prima di iniziare.</p>
-            <Link className="button button-light" to="/preventivo">Fai un preventivo</Link>
-            <Link className="button button-quiet" to="/prezzi" style={{ marginLeft: '10px', background: 'transparent', color: '#fff', borderColor: 'rgba(255,255,255,0.4)' }}>Vedi prezzi</Link>
+            <p>Prezzo trasparente, a partire da 350 €. La cifra la vedi prima di iniziare, con dettaglio di cosa è incluso ed escluso.</p>
+            <Link className="button button-light" to="/preventivo">Configura il preventivo</Link>
+            <Link className="button button-quiet" to="/prezzi" style={{ marginLeft: '10px', background: 'transparent', color: '#fff', borderColor: 'rgba(255,255,255,0.4)' }}>Vedi i prezzi</Link>
           </div>
           <ul>
-            <li><b>Prezzo trasparente</b><span>Stima immediata, 2 revisioni, cookie banner gratuito incluso.</span></li>
-            <li><b>Consegna in 10 giorni*</b><span>*Garantiti dopo materiali e approvazioni.</span></li>
-            <li><b>Zero abbonamenti</b><span>Il sito è di tua proprietà.</span></li>
+            <li><b>Prezzo trasparente</b><span>A partire da 350 €, 2 revisioni, cookie banner gratuito incluso.</span></li>
+            <li><b>Consegna in 10 giorni*</b><span>*Dopo materiali e approvazioni complete.</span></li>
+            <li><b>Zero abbonamenti*</b><span>*Il sito è di tua proprietà. Costi tecnici dominio/hosting separati (vedi dettagli).</span></li>
           </ul>
         </div>
+        <p style={{ marginTop: '16px', fontSize: '11px', color: '#8fb8c9', lineHeight: '1.5' }}>Dettagli fiscali e amministrativi (modalità di pagamento, ricevuta, condizioni) nella pagina <Link to="/termini" style={{ color: '#fff', textDecoration: 'underline' }}>Termini</Link> e su richiesta — verifica con professionista.</p>
       </section>
 
       <section className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
         <p className="section-label">Prossimo passo</p>
         <div className="section-intro">
           <h2>Pronto a<br /><em>iniziare?</em></h2>
-          <p>Configura la tua proposta in 2 minuti o parliamone direttamente su WhatsApp.</p>
+          <p>Configura la tua proposta in 2 minuti — poi ti rispondiamo fino alle 23.</p>
         </div>
-        <div style={{ marginTop: '22px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <Link className="button button-main" to="/preventivo">Configura preventivo</Link>
-          <a className="button button-quiet" href={`https://wa.me/${whatsapp}`}>WhatsApp diretto</a>
-          <Link className="button button-quiet" to="/contatti">Contatti</Link>
+        <div style={{ marginTop: '22px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Link className="button button-main" to="/preventivo">Configura il preventivo</Link>
+          <a className="button button-quiet" href={`https://wa.me/${whatsapp}`} style={{ background: '#fff', border: '1px solid var(--line)' }}>Scrivici su WhatsApp</a>
+          <Link to="/contatti" style={{ fontSize: '13px', fontWeight: 700, color: 'var(--blue)', textDecoration: 'underline', padding: '10px' }}>Vedi tutti i contatti →</Link>
         </div>
       </section>
     </>
@@ -565,7 +589,7 @@ function ServiziPage() {
     <section className="section">
       <p className="section-label">Servizi</p>
       <div className="section-intro">
-        <h2>Cosa facciamo,<br /><em>nel dettaglio.</em></h2>
+        <h1>Cosa facciamo,<br /><em>nel dettaglio.</em></h1>
         <p>Tre servizi chiari. Il sito è il cuore consigliato, ma puoi partire anche da social o design se è la priorità. <Link to="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vai al preventivo →</Link></p>
       </div>
       <div className="service-grid" style={{ marginTop: '32px' }}>
@@ -593,7 +617,7 @@ function ServizioSitiWebPage() {
     <section className="section">
       <p className="section-label">Servizi — Sito Web</p>
       <div className="section-intro">
-        <h2>Sito web<br /><em>chiaro e curato.</em></h2>
+        <h1>Sito web<br /><em>chiaro e curato.</em></h1>
         <p>Da 350 € finale (pagina singola) o 400 € multi-pagina. 10 giorni garantiti post-materiali, 2 revisioni.</p>
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
@@ -620,7 +644,7 @@ function ServizioSocialPage() {
     <section className="section">
       <p className="section-label">Servizi — Social Media</p>
       <div className="section-intro">
-        <h2>Social<br /><em>coerenti.</em></h2>
+        <h1>Social<br /><em>coerenti.</em></h1>
         <p>Piano editoriale, grafiche storie, reel brevi. Approvazione via WhatsApp. Cuore consigliato: sito, ma possiamo partire anche solo da social.</p>
       </div>
       <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Prezzi nel configuratore per ogni tipologia (Reel, Stories, promo). Instagram/TikTok + Google Business inclusa nel sito.</p>
@@ -634,7 +658,7 @@ function ServizioDesignPage() {
     <section className="section">
       <p className="section-label">Servizi — Design</p>
       <div className="section-intro">
-        <h2>Design<br /><em>riconoscibile.</em></h2>
+        <h1>Design<br /><em>riconoscibile.</em></h1>
         <p>Logo/rinnovo, biglietti, volantini/locandine/menu cartaceo, grafiche web coordinate. Sito consigliato ma non obbligatorio.</p>
       </div>
       <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Se il logo va rifatto da zero, collaboriamo via Fiverr esterno. Materiali pronti per stampa.</p>
@@ -649,7 +673,7 @@ function PortfolioPage() {
     <section className="section portfolio-section">
       <p className="section-label">Portfolio</p>
       <div className="section-intro">
-        <h2>Lo abbiamo<br /><em>già fatto.</em></h2>
+        <h1>Lo abbiamo<br /><em>già fatto.</em></h1>
         <p>Un caso reale + placeholder trasparenti per i prossimi (non mostriamo mai concept come clienti reali).</p>
       </div>
       <a className="portfolio-feature" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
@@ -701,7 +725,7 @@ function ChiSiamoPage() {
     <section className="section" style={{ background: '#fff' }}>
       <p className="section-label">Chi siamo</p>
       <div className="section-intro">
-        <h2>Il team dietro<br /><em>Trebla Studio.</em></h2>
+        <h1>Il team dietro<br /><em>Trebla Studio.</em></h1>
         <p>Siamo in due, ad Asti. Trebla nasce come progetto di Albert e si è estesa con Pikete Label. Valorizziamo il potere dei giovani: anche i giovani possono lavorare bene, con fiducia, offrendo qualcosa di più accessibile e moderno.</p>
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
@@ -729,7 +753,7 @@ function MetodoPage() {
     <section className="section method-section">
       <p className="section-label">Come lavoriamo</p>
       <div className="section-intro">
-        <h2>Dall'idea<br /><em>alla presenza online.</em></h2>
+        <h1>Dall'idea<br /><em>alla presenza online.</em></h1>
         <p>Un percorso concreto, con passaggi chiari e conversazione vera sulle necessità della tua attività.</p>
       </div>
       <div className="method-grid">
@@ -752,7 +776,7 @@ function PrezziPage() {
       <p className="section-label">Prezzi chiari</p>
       <div className="price-grid">
         <div>
-          <h2>Una proposta<br /><em>alla tua portata.</em></h2>
+          <h1>Una proposta<br /><em>alla tua portata.</em></h1>
           <p>Niente uffici e niente intermediari: parli direttamente con chi costruisce il tuo sito. Prezzo finale indicato — senza P.IVA (nessuna IVA aggiunta), pagamento contanti/bonifico.</p>
           <Link className="button button-light" to="/preventivo">Fai un preventivo</Link>
         </div>
@@ -787,7 +811,7 @@ function AssistenzaPage() {
     <section className="section" style={{ background: '#fbfbf9' }}>
       <p className="section-label">Assistenza</p>
       <div className="section-intro">
-        <h2>Dopo il lancio,<br /><em>non spariamo.</em></h2>
+        <h1>Dopo il lancio,<br /><em>non spariamo.</em></h1>
         <p>Chi aggiorna cosa, in quanto tempo e a quale costo — tutto scritto prima di iniziare.</p>
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
@@ -815,7 +839,7 @@ function FaqPage() {
     <section className="section faq-section">
       <p className="section-label">Domande frequenti</p>
       <div className="section-intro">
-        <h2>Dubbi o domande?<br /><em>Ecco le risposte.</em></h2>
+        <h1>Dubbi o domande?<br /><em>Ecco le risposte.</em></h1>
         <p>Tutto quello che c'è da sapere prima di iniziare il tuo progetto.</p>
       </div>
       <div className="faq-list">
@@ -836,7 +860,7 @@ function ContattiPage() {
     <section className="section">
       <p className="section-label">Contatti</p>
       <div className="section-intro">
-        <h2>Parliamone<br /><em>davvero.</em></h2>
+        <h1>Parliamone<br /><em>davvero.</em></h1>
         <p>Risposta rapida, canali diretti, area servita chiara.</p>
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
@@ -871,7 +895,7 @@ function EventiPage() {
     <section className="section" style={{ background: '#fff' }}>
       <p className="section-label">Eventi e attivazioni</p>
       <div className="section-intro">
-        <h2>Musica dal vivo<br /><em>per la tua attività.</em></h2>
+        <h1>Musica dal vivo<br /><em>per la tua attività.</em></h1>
         <p>In collaborazione con Pikete Label (stabile) — 4 cantanti disponibili. Attività separata dal sito/social/design.</p>
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
@@ -889,12 +913,31 @@ function EventiPage() {
   );
 }
 
+function NotFoundPage() {
+  usePageTitle('Trebla Studio — Pagina non trovata');
+  return (
+    <section className="section" style={{ textAlign: 'center', padding: '60px 7vw' }}>
+      <p className="section-label">Errore 404</p>
+      <h1 style={{ fontSize: 'clamp(36px, 6vw, 64px)', margin: '0 0 16px', letterSpacing: '-0.05em' }}>Pagina non trovata.<br /><em style={{ fontFamily: 'var(--serif)' }}>Torniamo da capo.</em></h1>
+      <p style={{ color: 'var(--muted)', maxWidth: '520px', margin: '0 auto 24px', fontSize: '16px', lineHeight: '1.6' }}>L’indirizzo che hai aperto non esiste o è stato spostato. Trebla Studio è ancora qui, a due passi da Asti.</p>
+      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <Link className="button button-main" to="/">Torna alla homepage</Link>
+        <Link className="button button-quiet" to="/servizi">Vedi i servizi</Link>
+        <Link className="button button-quiet" to="/preventivo">Configura il preventivo</Link>
+        <a className="button" href={`https://wa.me/${whatsapp}`} style={{ background: '#25d366', color: '#fff' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
+        <Link className="button button-quiet" to="/contatti">Contatti</Link>
+      </div>
+      <p style={{ marginTop: '18px', fontSize: '13px', color: 'var(--muted)' }}>Se stavi cercando: <Link to="/prezzi" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>Prezzi</Link> · <Link to="/portfolio" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>Lavori</Link> · <Link to="/faq" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>FAQ</Link></p>
+    </section>
+  );
+}
+
 function PrivacyPage() {
   usePageTitle('Trebla Studio — Privacy');
   return (
     <section className="section">
       <p className="section-label">Privacy — bozza</p>
-      <h2>Privacy Policy<br /><em>bozza non legale.</em></h2>
+      <h1>Privacy Policy<br /><em>bozza non legale.</em></h1>
       <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>
         Titolare: Albert Simoni — {email} — Nessuna policy professionale attiva, nessun analytics/cookie profilazione, nessun database proprietario: i dati del configuratore vengono inviati solo via WhatsApp per rispondere alla richiesta e conservati in chat per 2 settimane. Diritti: scrivi a {email}. [Da validare con professionista prima di campagne].
       </p>
@@ -906,7 +949,7 @@ function CookiePage() {
   return (
     <section className="section">
       <p className="section-label">Cookie — bozza</p>
-      <h2>Cookie Policy</h2>
+      <h1>Cookie Policy</h1>
       <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>Nessun cookie di profilazione; solo tecnici necessari + font Google. Cookie banner gratuito incluso. [Da validare].</p>
     </section>
   );
@@ -916,7 +959,7 @@ function TerminiPage() {
   return (
     <section className="section">
       <p className="section-label">Termini — bozza</p>
-      <h2>Termini di<br /><em>servizio.</em></h2>
+      <h1>Termini di<br /><em>servizio.</em></h1>
       <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>
         Preventivo valido 2 settimane, prezzo finale senza IVA aggiunta (no P.IVA). Acconto 10% incluso a bloccare tempistiche, resto a consegna (contanti/bonifico). 2 revisioni incluse. Proprietà sito trasferita a saldo. Se a metà lavoro non prosegue, chiusura concordata; non rimborsabile se lavoro già svolto correttamente. [Da validare].
       </p>
@@ -926,10 +969,11 @@ function TerminiPage() {
 
 // ---- Configuratore Page (Preventivo) ----
 function PreventivoPage() {
-  usePageTitle('Trebla Studio — Preventivo | Asti');
+  usePageTitle('Trebla Studio — Configura il preventivo | Trebla Studio Asti');
   const [typeSearch, setTypeSearch] = useState('');
   const [openCategory, setOpenCategory] = useState(null);
   const [estimateRevealed, setEstimateRevealed] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const revealTime = useRef(0);
   const [form, setForm] = useState(INITIAL_FORM);
   const update = (key, value) => setForm((c) => ({ ...c, [key]: value }));
@@ -1010,6 +1054,7 @@ function PreventivoPage() {
     if (form.notes && form.notes.trim()) messageLines.push('','*NOTE AGGIUNTIVE:*',form.notes.trim());
     const message = messageLines.join('\n');
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+    setSubmitted(true);
   };
   const currentFeatureList = featuresByType[form.type] || [];
   return (
@@ -1019,10 +1064,17 @@ function PreventivoPage() {
         <h2>Costruiamo<br /><em>la tua proposta.</em></h2>
         <p>Il sito è il cuore consigliato. Rispondi alle domande per vedere la stima aggiornarsi. — <Link to="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vedi prezzi chiari →</Link></p>
       </div>
-      <form className="quote-form" onSubmit={sendQuote}>
+      <form className="quote-form" onSubmit={sendQuote} noValidate>
+        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '12px 16px', background: '#fbfbf9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', marginBottom: '16px' }}>
+          <span style={{ fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--blue)' }}>A che punto sei</span>
+          <span aria-live="polite" style={{ color: missingFields.length ? '#b35a00' : '#0a7a2e', fontWeight: 700 }}>{missingFields.length ? `${missingFields.length} passaggi mancanti` : 'Pronto per la stima — completa il consenso'}</span>
+          <span style={{ fontSize: '11px', color: 'var(--muted)' }}>{Math.round(((6 - missingFields.length) / 6) * 100)}%</span>
+        </div>
         <div className={missingFields.includes('il nome della tua attività') ? 'form-block pending' : 'form-block'}>
-          <p className="form-title">La tua attività {missingFields.includes('il nome della tua attività') && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
-          <label>Come si chiama la tua attività?<input required value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="Inserisci il nome dell'attività" /></label>
+          <p className="form-title">La tua attività <span style={{ color: '#b35a00', fontSize: '12px', fontWeight: 400 }}>* obbligatorio</span> {missingFields.includes('il nome della tua attività') && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
+          <label htmlFor="field-name">Come si chiama la tua attività?</label>
+          <input id="field-name" required value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="Inserisci il nome dell'attività" aria-required="true" aria-invalid={missingFields.includes('il nome della tua attività')} />
+          {missingFields.includes('il nome della tua attività') && <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#b35a00' }}>Inserisci il nome — serve per intestare il preventivo.</p>}
         </div>
         <div className={(!form.type || (isAltro && form.typeOther.trim().length < 2)) ? 'form-block pending' : 'form-block'}>
           <p className="form-title">Che tipo di attività è? {(!form.type || (isAltro && form.typeOther.trim().length < 2)) && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
@@ -1251,7 +1303,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/cookie" element={<CookiePage />} />
           <Route path="/termini" element={<TerminiPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
       {quickContactOpen && (
