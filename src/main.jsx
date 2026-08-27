@@ -58,7 +58,7 @@ const extendedFeatures = {
   'Gelateria / Pasticceria': [
     { name: 'Vetrina gusti e torte', price: 10 },
     { name: 'Ordini e prenotazioni torte su WhatsApp', price: 15 },
-    { name: 'Orari e stagione — incluso', price: 0 },
+    { name: 'Orari e stagione, incluso', price: 0 },
   ],
   'Macelleria / Gastronomia': [
     { name: 'Vetrina tagli e specialità', price: 15 },
@@ -98,7 +98,7 @@ const extendedFeatures = {
   'Abbigliamento / Boutique': [
     { name: 'Catalogo collezione', price: 15 },
     { name: 'Novità e promozioni', price: 10 },
-    { name: 'Contatti e orari — incluso', price: 0 },
+    { name: 'Contatti e orari, incluso', price: 0 },
   ],
   'Fioraio / Vivaio': [
     { name: 'Catalogo composizioni', price: 15 },
@@ -162,7 +162,7 @@ const featuresByType = {
     { name: 'Menu digitale (pagina sul sito, no QR)', price: 0 },
     { name: 'Menu con codice QR stampabile', price: 15 },
     { name: 'Prenotazione tavoli su WhatsApp', price: 15 },
-    { name: 'Orari di apertura e mappa — incluso', price: 0 },
+    { name: 'Orari di apertura e mappa, incluso', price: 0 },
     { name: 'Storia del locale e filosofia in cucina', price: 10 },
     { name: 'Sezione eventi e serate speciali', price: 10 },
   ],
@@ -171,14 +171,14 @@ const featuresByType = {
     { name: 'Ordini da asporto su WhatsApp', price: 15 },
     { name: 'Vetrina specialità e piatti tipici', price: 10 },
     { name: 'Promozioni e offerte del giorno', price: 10 },
-    { name: 'Orari di apertura e mappa — incluso', price: 0 },
+    { name: 'Orari di apertura e mappa, incluso', price: 0 },
   ],
   'Hotel o B&B': [
     { name: 'Modulo richiesta disponibilità camere', price: 20 },
     { name: 'Schede camere con foto e servizi inclusi', price: 15 },
     { name: 'Listino prezzi e offerte stagionali', price: 10 },
     { name: 'Guida al territorio e cosa visitare', price: 15 },
-    { name: 'Orari e mappa — incluso', price: 0 },
+    { name: 'Orari e mappa, incluso', price: 0 },
   ],
   'Salone di bellezza o parrucchiere': [
     { name: 'Listino trattamenti e prezzi', price: 15 },
@@ -186,13 +186,13 @@ const featuresByType = {
     { name: 'Galleria lavori (prima e dopo)', price: 15 },
     { name: 'Presentazione del personale e qualifiche', price: 10 },
     { name: 'Offerte e pacchetti speciali', price: 10 },
-    { name: 'Orari e mappa — incluso', price: 0 },
+    { name: 'Orari e mappa, incluso', price: 0 },
   ],
   'Negozio o bottega': [
     { name: 'Vetrina e catalogo dei prodotti', price: 20 },
     { name: 'Ordini veloci su WhatsApp e ritiro in negozio', price: 15 },
     { name: 'Sezione novità del mese e promozioni', price: 10 },
-    { name: 'Orari di apertura e mappa — incluso', price: 0 },
+    { name: 'Orari di apertura e mappa, incluso', price: 0 },
     { name: 'Storia del negozio e marchi trattati', price: 10 },
   ],
   'Falegnameria': [
@@ -424,8 +424,8 @@ function Header({ onOpenQuick }) {
   return (
     <header className="header">
       <a href="#main" className="skip-link" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>Salta al contenuto</a>
-      <Link className="logo" to="/" aria-label="Trebla Studio - torna alla homepage" onClick={() => setMenuOpen(false)}>
-        <picture><source srcSet="/trebla-logo.webp" type="image/webp" /><img src="/trebla-logo-transparent.png" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" fetchPriority="high" /></picture>
+      <Link className="logo" to="/" aria-label="Trebla Studio, torna alla homepage" onClick={() => setMenuOpen(false)}>
+        <picture><source srcSet="/trebla-logo.webp" type="image/webp" /><img src="/trebla-logo-transparent.png" alt="Trebla Studio, Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" fetchPriority="high" /></picture>
       </Link>
       <nav id="main-nav" className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Navigazione principale">
         <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
@@ -439,7 +439,7 @@ function Header({ onOpenQuick }) {
         <Link className="nav-mobile-cta" to="/preventivo" onClick={() => setMenuOpen(false)}>Configura il preventivo</Link>
       </nav>
       <button type="button" className="header-cta" onClick={onOpenQuick} aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
-      <button className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu — 7 voci'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
+      <button className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu, 7 voci'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span><span></span><span></span>
       </button>
     </header>
@@ -468,8 +468,8 @@ function Footer() {
         </nav>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Contatti</strong>
-          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp — preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
-          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti — su appuntamento</Link>
+          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp, preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
+          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti, su appuntamento</Link>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginTop: '2px', fontSize: '13px', lineHeight: '1' }}>
             <Link to="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Privacy</Link>
             <span style={{ color: '#4a6573' }}>·</span>
@@ -497,7 +497,7 @@ function Layout({ children, onOpenQuick }) {
 // ---- PAGES ----
 
 function HomePage() {
-  usePageTitle('Trebla Studio — Siti Web per Piccole Imprese in Piemonte | Asti');
+  usePageTitle('Trebla Studio, Siti Web per Piccole Imprese in Piemonte | Asti');
   return (
     <>
       <section className="hero">
@@ -511,7 +511,7 @@ function HomePage() {
           <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--muted)' }}>Prezzo indicato prima di iniziare.</p>
         </div>
         <div className="hero-card">
-          <span className="card-kicker">Trebla Studio — Asti</span>
+          <span className="card-kicker">Trebla Studio, Asti</span>
           <strong>Un percorso semplice,<br /><em>dal primo messaggio al sito online.</em></strong>
         </div>
       </section>
@@ -555,7 +555,7 @@ function HomePage() {
         </div>
         <Link className="portfolio-feature" to="/portfolio">
           <div>
-            <span className="portfolio-kicker">Pikete Label — Etichetta musicale</span>
+            <span className="portfolio-kicker">Pikete Label, Etichetta musicale</span>
             <strong>Pikete Label</strong>
             <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
             <p style={{ marginTop: '8px' }}>Sito vetrina responsive per etichetta musicale: design, sviluppo e gestione.</p>
@@ -585,7 +585,7 @@ function HomePage() {
         <p className="section-label">Preventivo</p>
         <div className="section-intro">
           <h2>Configura<br /><em>il preventivo.</em></h2>
-          <p>Rispondi a poche domande per ricevere il tuo preventivo — oppure <a href="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>vai alla pagina dedicata →</a></p>
+          <p>Rispondi a poche domande per ricevere il tuo preventivo, oppure <a href="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>vai alla pagina dedicata →</a></p>
         </div>
         <p style={{ marginTop: '12px', fontSize: '13px' }}><a href="/preventivo" className="button button-main" style={{ display: 'inline-flex' }}>Apri configuratore completo →</a></p>
       </section>
@@ -607,7 +607,7 @@ function HomePage() {
 }
 
 function ServiziPage() {
-  usePageTitle('Trebla Studio — Servizi: Siti Web, Social, Design | Asti');
+  usePageTitle('Trebla Studio, Servizi: Siti Web, Social, Design | Asti');
   return (
     <section className="section">
       <p className="section-label">Servizi</p>
@@ -632,7 +632,7 @@ function ServiziPage() {
           <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli →</span>
         </Link>
       </div>
-      <p style={{ marginTop: '18px', fontSize: '13px', color: 'var(--muted)', textAlign: 'center' }}>Ogni servizio è indipendente: se scegli solo Social ricevi solo Social, se scegli solo Design solo Design — oppure combinali.</p>
+      <p style={{ marginTop: '18px', fontSize: '13px', color: 'var(--muted)', textAlign: 'center' }}>Ogni servizio è indipendente: se scegli solo Social ricevi solo Social, se scegli solo Design solo Design, oppure combinali.</p>
       <div className="pacchetti-grid" style={{ marginTop: '14px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fff' }}>
           <strong style={{ fontSize: '14px' }}>Solo Social</strong>
@@ -655,10 +655,10 @@ function ServiziPage() {
 }
 
 function ServizioSitiWebPage() {
-  usePageTitle('Trebla Studio — Siti Web | Asti');
+  usePageTitle('Trebla Studio, Siti Web | Asti');
   return (
     <section className="section">
-      <p className="section-label">Servizi — Sito Web</p>
+      <p className="section-label">Servizi, Sito Web</p>
       <div className="section-intro">
         <h1>Sito web<br /><em>chiaro e curato.</em></h1>
         <p>Da 350 € finale (pagina singola) o 400 € multi-pagina.</p>
@@ -686,10 +686,10 @@ function ServizioSitiWebPage() {
   );
 }
 function ServizioSocialPage() {
-  usePageTitle('Trebla Studio — Social Media | Asti');
+  usePageTitle('Trebla Studio, Social Media | Asti');
   return (
     <section className="section">
-      <p className="section-label">Servizi — Social Media</p>
+      <p className="section-label">Servizi, Social Media</p>
       <div className="section-intro">
         <h1>Social<br /><em>coerenti.</em></h1>
         <p>Pianifichiamo contenuti, grafiche e reel brevi per rendere i tuoi canali più coerenti. Puoi iniziare dai social o integrarli al sito.</p>
@@ -700,10 +700,10 @@ function ServizioSocialPage() {
   );
 }
 function ServizioDesignPage() {
-  usePageTitle('Trebla Studio — Design | Asti');
+  usePageTitle('Trebla Studio, Design | Asti');
   return (
     <section className="section">
-      <p className="section-label">Servizi — Design</p>
+      <p className="section-label">Servizi, Design</p>
       <div className="section-intro">
         <h1>Design<br /><em>riconoscibile.</em></h1>
         <p>Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente.</p>
@@ -715,7 +715,7 @@ function ServizioDesignPage() {
 }
 
 function PortfolioPage() {
-  usePageTitle('Trebla Studio — Portfolio | Asti');
+  usePageTitle('Trebla Studio, Portfolio | Asti');
   return (
     <section className="section portfolio-section">
       <p className="section-label">Portfolio</p>
@@ -724,7 +724,7 @@ function PortfolioPage() {
         <p>Un progetto pubblicato, curato in ogni dettaglio.</p>
       </div>
       <a className="portfolio-feature" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
-        <span className="portfolio-kicker">Pikete Label — Etichetta musicale</span>
+        <span className="portfolio-kicker">Pikete Label, Etichetta musicale</span>
         <strong>Pikete Label</strong>
         <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
         <p style={{ marginTop: '8px' }}>Design, sviluppo e gestione del sito vetrina responsive.</p>
@@ -735,7 +735,7 @@ function PortfolioPage() {
 }
 
 function ChiSiamoPage() {
-  usePageTitle('Trebla Studio — Chi siamo | Asti');
+  usePageTitle('Trebla Studio, Chi siamo | Asti');
   return (
     <section className="section" style={{ background: '#fff' }}>
       <p className="section-label">Chi siamo</p>
@@ -745,16 +745,16 @@ function ChiSiamoPage() {
       </div>
       <div className="team-grid">
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-          <strong style={{ fontSize: '14px' }}>Albert Simoni — Sviluppo</strong>
+          <strong style={{ fontSize: '14px' }}>Albert Simoni, Sviluppo</strong>
           <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>HTML, CSS, TypeScript, React, Vercel. Gestisce progetto, codice e pubblicazione.</p>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-          <strong style={{ fontSize: '14px' }}>Gabriel Santospirito — Design &amp; SMM</strong>
+          <strong style={{ fontSize: '14px' }}>Gabriel Santospirito, Design &amp; SMM</strong>
           <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Grafiche, identità, contenuti social.</p>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
           <strong style={{ fontSize: '14px' }}>Dove operiamo</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Asti — su appuntamento.<br />Area: Asti e Piemonte.</p>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Asti, su appuntamento.<br />Area: Asti e Piemonte.</p>
         </div>
       </div>
       <div style={{ marginTop: '22px' }}><a className="button button-main" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp →</a></div>
@@ -763,7 +763,7 @@ function ChiSiamoPage() {
 }
 
 function MetodoPage() {
-  usePageTitle('Trebla Studio — Come lavoriamo | Asti');
+  usePageTitle('Trebla Studio, Come lavoriamo | Asti');
   return (
     <section className="section method-section">
       <p className="section-label">Come lavoriamo</p>
@@ -784,7 +784,7 @@ function MetodoPage() {
 }
 
 function PrezziPage() {
-  usePageTitle('Trebla Studio — Prezzi chiari | Asti');
+  usePageTitle('Trebla Studio, Prezzi chiari | Asti');
   return (
     <section className="section price-section">
       <p className="section-label">Prezzi chiari</p>
@@ -819,13 +819,13 @@ function PrezziPage() {
 }
 
 function AssistenzaPage() {
-  usePageTitle('Trebla Studio — Assistenza | Asti');
+  usePageTitle('Trebla Studio, Assistenza | Asti');
   return (
     <section className="section" style={{ background: '#fbfbf9' }}>
       <p className="section-label">Assistenza</p>
       <div className="section-intro">
         <h1>Dopo il lancio,<br /><em>non spariamo.</em></h1>
-        <p>Chi aggiorna cosa, in quanto tempo e a quale costo — tutto scritto prima di iniziare.</p>
+        <p>Chi aggiorna cosa, in quanto tempo e a quale costo, tutto scritto prima di iniziare.</p>
       </div>
       <div className="assistenza-grid" style={{ marginTop: '24px', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
@@ -846,7 +846,7 @@ function AssistenzaPage() {
 }
 
 function FaqPage() {
-  usePageTitle('Trebla Studio — FAQ | Asti');
+  usePageTitle('Trebla Studio, FAQ | Asti');
   const [openFaq, setOpenFaq] = useState(null);
   return (
     <section className="section faq-section">
@@ -875,7 +875,7 @@ function FaqPage() {
 }
 
 function ContattiPage() {
-  usePageTitle('Trebla Studio — Contatti | Asti');
+  usePageTitle('Trebla Studio, Contatti | Asti');
   return (
     <section className="section">
       <p className="section-label">Contatti</p>
@@ -889,7 +889,7 @@ function ContattiPage() {
           <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a></p>
           <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>Email:</strong> <a href={`mailto:${email}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>{email}</a></p>
           <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Area:</strong> Asti e Piemonte</p>
-          <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede:</strong> Asti — su appuntamento</p>
+          <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede:</strong> Asti, su appuntamento</p>
           <div style={{ marginTop: '16px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Vorrei prenotare una chiamata per il mio sito.')}`} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--blue)', color: '#fff', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Prenota su WhatsApp →</a>
             <a href={`mailto:${email}`} style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Scrivi via Email</a>
@@ -905,18 +905,18 @@ function ContattiPage() {
 }
 
 function EventiPage() {
-  usePageTitle('Trebla Studio — Eventi musicali | Asti');
+  usePageTitle('Trebla Studio, Eventi musicali | Asti');
   return (
     <section className="section" style={{ background: '#fff' }}>
       <p className="section-label">Eventi e attivazioni</p>
       <div className="section-intro">
         <h1>Musica dal vivo<br /><em>per la tua attività.</em></h1>
-        <p>In collaborazione con Pikete Label (stabile) — 4 cantanti disponibili. Attività separata dal sito/social/design.</p>
+        <p>In collaborazione con Pikete Label (stabile), 4 cantanti disponibili. Attività separata dal sito/social/design.</p>
       </div>
       <div className="eventi-grid" style={{ marginTop: '24px', gap: '18px' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
           <strong style={{ display: 'block', fontSize: '14px', marginBottom: '6px' }}>Per chi è utile</strong>
-          <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Bar, ristoranti, negozi, associazioni — inaugurazioni, promozioni, serate a tema. Canto live, formato piccolo.</span>
+          <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Bar, ristoranti, negozi, associazioni, inaugurazioni, promozioni, serate a tema. Canto live, formato piccolo.</span>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
           <strong style={{ display: 'block', fontSize: '14px', marginBottom: '6px' }}>Costi indicativi</strong>
@@ -929,7 +929,7 @@ function EventiPage() {
 }
 
 function NotFoundPage() {
-  usePageTitle('Trebla Studio — Pagina non trovata');
+  usePageTitle('Trebla Studio, Pagina non trovata');
   return (
     <section className="section" style={{ textAlign: 'center', padding: '60px 7vw' }}>
       <p className="section-label">Errore 404</p>
@@ -948,19 +948,19 @@ function NotFoundPage() {
 }
 
 function PrivacyPage() {
-  usePageTitle('Trebla Studio — Privacy');
+  usePageTitle('Trebla Studio, Privacy');
   return (
     <section className="section">
       <p className="section-label">Privacy</p>
       <h1>Privacy Policy</h1>
       <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>
-        Titolare: Albert Simoni — {email}. I dati inseriti nel configuratore vengono utilizzati esclusivamente per rispondere alla richiesta di preventivo via WhatsApp o email e non vengono salvati in database proprietari. Per esercitare i diritti, scrivi a {email}.
+        Titolare: Albert Simoni, {email}. I dati inseriti nel configuratore vengono utilizzati esclusivamente per rispondere alla richiesta di preventivo via WhatsApp o email e non vengono salvati in database proprietari. Per esercitare i diritti, scrivi a {email}.
       </p>
     </section>
   );
 }
 function CookiePage() {
-  usePageTitle('Trebla Studio — Cookie');
+  usePageTitle('Trebla Studio, Cookie');
   return (
     <section className="section">
       <p className="section-label">Cookie</p>
@@ -970,7 +970,7 @@ function CookiePage() {
   );
 }
 function TerminiPage() {
-  usePageTitle('Trebla Studio — Termini');
+  usePageTitle('Trebla Studio, Termini');
   return (
     <section className="section">
       <p className="section-label">Termini</p>
@@ -984,7 +984,7 @@ function TerminiPage() {
 
 // ---- Configuratore Page (Preventivo) ----
 function PreventivoPage() {
-  usePageTitle('Trebla Studio — Configura il preventivo | Trebla Studio Asti');
+  usePageTitle('Trebla Studio, Configura il preventivo | Trebla Studio Asti');
   const [typeSearch, setTypeSearch] = useState('');
   const [openCategory, setOpenCategory] = useState(null);
   const [estimateRevealed, setEstimateRevealed] = useState(false);
@@ -1031,7 +1031,7 @@ function PreventivoPage() {
         if (found) total += found.price;
       });
     }
-    if (form.bannerDiscount) total = Math.max(0, total - 20);
+    if (form.bannerDiscount) total = Math.max(0, total, 20);
     return total;
   }, [isAltro, hasSite, hasSocial, hasDesign, form.bannerDiscount, form.structure, form.photos, form.features, form.type, form.pages, form.socialPlatforms, form.socialNeeds, form.designNeeds]);
   const quoteLabel = (hasSite || hasSocial || hasDesign) ? `€ ${currentTotal}` : 'Seleziona un servizio';
@@ -1056,12 +1056,12 @@ function PreventivoPage() {
   if (!timingOk) missingFields.push('i tempi desiderati');
   const privacyOk = form.privacy;
   const canReveal = missingFields.length === 0 && privacyOk;
-  const stepLabel = !nomeOk || !tipoOk ? 'Passo 1 di 4 — attività' : !serviziOk ? 'Passo 2 di 4 — servizi' : (!obiettiviOk || !timingOk) ? 'Passo 3 di 4 — obiettivi e tempi' : !privacyOk ? 'Passo 4 di 4 — privacy' : 'Pronto per la stima';
+  const stepLabel = !nomeOk || !tipoOk ? 'Passo 1 di 4, attività' : !serviziOk ? 'Passo 2 di 4, servizi' : (!obiettiviOk || !timingOk) ? 'Passo 3 di 4, obiettivi e tempi' : !privacyOk ? 'Passo 4 di 4, privacy' : 'Pronto per la stima';
   const revealEstimate = () => { revealTime.current = Date.now(); setEstimateRevealed(true); };
   const sendQuote = (event) => {
     event.preventDefault();
     if (!estimateRevealed) { if (canReveal) revealEstimate(); return; }
-    if (Date.now() - revealTime.current < 1000) return;
+    if (Date.now(), revealTime.current < 1000) return;
     if (!hasSite && !hasSocial && !hasDesign) { alert('Seleziona almeno un servizio (Sito, Social o Design).'); return; }
     const selectedServices = form.services.map((id) => (id === 'site' ? 'Sito Web' : id === 'social' ? 'Social Media' : 'Design e Grafiche')).join(' + ');
     const messageLines = [
@@ -1100,7 +1100,7 @@ function PreventivoPage() {
         <div className={nomeOk ? 'form-block' : 'form-block pending'}>
           <label htmlFor="field-name" className="form-title" style={{ fontSize: '16px' }}>Nome della tua attività <span style={{ color: '#b35a00', fontSize: '12px', fontWeight: 400 }}>*</span> {!nomeOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</label>
           <input id="field-name" required value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="Es. Pasticceria Rossi" aria-required="true" aria-invalid={!nomeOk} />
-          {!nomeOk && <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#b35a00' }}>Inserisci il nome — serve per intestare il preventivo.</p>}
+          {!nomeOk && <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#b35a00' }}>Inserisci il nome, serve per intestare il preventivo.</p>}
         </div>
         <div className={tipoOk ? 'form-block' : 'form-block pending'}>
           <p className="form-title">Che tipo di attività è? {!tipoOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
@@ -1108,18 +1108,18 @@ function PreventivoPage() {
           {typeSearch.trim() ? (
             <div className="choice-grid">
               {businessTypes.filter(t => t.toLowerCase().includes(typeSearch.toLowerCase())).map((type) => (
-                <button type="button" className={form.type === type ? 'choice selected' : 'choice'} onClick={() => handleTypeChange(type)} key={type}>{type === 'Professionista' ? <><span style={{ fontWeight: 700 }}>Professionista</span><span style={{ fontWeight: 400, marginLeft: 6, color: 'var(--muted)' }}>— geometra, commercialista...</span></> : type}</button>
+                <button type="button" className={form.type === type ? 'choice selected' : 'choice'} onClick={() => handleTypeChange(type)} key={type}>{type === 'Professionista' ? <><span style={{ fontWeight: 700 }}>Professionista</span><span style={{ fontWeight: 400, marginLeft: 6, color: 'var(--muted)' }}>, geometra, commercialista...</span></> : type}</button>
               ))}
-              {businessTypes.filter(t => t.toLowerCase().includes(typeSearch.toLowerCase())).length === 0 && <p className="form-help">Nessun risultato — seleziona Altro.</p>}
+              {businessTypes.filter(t => t.toLowerCase().includes(typeSearch.toLowerCase())).length === 0 && <p className="form-help">Nessun risultato, seleziona Altro.</p>}
             </div>
           ) : (
             <>
               {Object.entries(businessCategories).map(([cat, types]) => (
                 <details key={cat} open={openCategory === cat} onToggle={(e) => setOpenCategory(e.target.open ? cat : null)} style={{ borderBottom: '1px solid var(--line)', padding: '10px 0' }}>
-                  <summary style={{ cursor: 'pointer', font: '700 13px var(--mono)', letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink)' }}>{cat} — {types.length}</summary>
+                  <summary style={{ cursor: 'pointer', font: '700 13px var(--mono)', letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink)' }}>{cat}, {types.length}</summary>
                   <div className="choice-grid" style={{ marginTop: '10px' }}>
                     {types.map((type) => (
-                      <button type="button" className={form.type === type ? 'choice selected' : 'choice'} onClick={() => handleTypeChange(type)} key={type}>{type === 'Professionista' ? <><span style={{ fontWeight: 700 }}>Professionista</span><span style={{ fontWeight: 400, marginLeft: 6, color: 'var(--muted)' }}>— geometra, commercialista...</span></> : type}</button>
+                      <button type="button" className={form.type === type ? 'choice selected' : 'choice'} onClick={() => handleTypeChange(type)} key={type}>{type === 'Professionista' ? <><span style={{ fontWeight: 700 }}>Professionista</span><span style={{ fontWeight: 400, marginLeft: 6, color: 'var(--muted)' }}>, geometra, commercialista...</span></> : type}</button>
                     ))}
                   </div>
                 </details>
@@ -1147,7 +1147,7 @@ function PreventivoPage() {
             </button>
           </div>
           <div style={{ marginTop: '12px' }}>
-            <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Non so cosa fare per il sito, mi aiutate a scegliere?')}`} target="_blank" rel="noopener noreferrer" className="button button-quiet" style={{ width: '100%', justifyContent: 'center', borderStyle: 'dashed', background: '#fbfbf9', fontSize: '13px' }}>Non so cosa fare per il sito — scrivici su WhatsApp →</a>
+            <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Non so cosa fare per il sito, mi aiutate a scegliere?')}`} target="_blank" rel="noopener noreferrer" className="button button-quiet" style={{ width: '100%', justifyContent: 'center', borderStyle: 'dashed', background: '#fbfbf9', fontSize: '13px' }}>Non so cosa fare per il sito, scrivici su WhatsApp →</a>
           </div>
         </div>
         {hasSite && form.type && (
@@ -1288,7 +1288,7 @@ function PreventivoPage() {
         </div>
         {submitted && (
           <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fff', fontSize: '13px' }}>
-            <strong>Grazie — richiesta inviata su WhatsApp.</strong>
+            <strong>Grazie, richiesta inviata su WhatsApp.</strong>
             <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Ti interessa anche un evento di inaugurazione con musica dal vivo? <Link to="/eventi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vedi Eventi →</Link></p>
           </div>
         )}
