@@ -1047,12 +1047,12 @@ html { scroll-padding-top: 88px; }
 .footer {
   background: var(--ink);
   color: var(--white);
-  padding: 36px 7vw 20px;
+  padding: 28px 7vw 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 20px;
+  gap: 14px;
 }
 
 .footer-brand { font: 800 16px var(--sans); letter-spacing: -0.02em; }
@@ -1666,6 +1666,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .footer > div:first-child { gap: 14px !important; }
   .footer > div:first-child > nav,
   .footer > div:first-child > div { gap: 6px !important; }
+  .footer > div:first-child > div:last-child { order: -1; }
   .footer nav { flex-direction: row !important; flex-wrap: wrap; gap: 6px 12px !important; justify-content: center; }
   .footer nav a { font-size: 13px; padding: 4px 0; }
   .footer small { padding-top: 10px; font-size: 10px; }

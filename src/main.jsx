@@ -428,6 +428,7 @@ function Header({ onOpenQuick }) {
         <picture><source srcSet="/trebla-logo.webp" type="image/webp" /><img src="/trebla-logo-transparent.png" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" fetchPriority="high" /></picture>
       </Link>
       <nav id="main-nav" className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Navigazione principale">
+        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
         <Link to="/servizi" onClick={() => setMenuOpen(false)}>Servizi</Link>
         <Link to="/portfolio" onClick={() => setMenuOpen(false)}>Lavori</Link>
         <Link to="/chi-siamo" onClick={() => setMenuOpen(false)}>Chi siamo</Link>
@@ -448,30 +449,34 @@ function Header({ onOpenQuick }) {
 function Footer() {
   return (
     <footer className="footer">
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '32px', width: '100%', maxWidth: '1200px', textAlign: 'left' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '28px', width: '100%', maxWidth: '1200px', textAlign: 'left' }}>
         <div>
           <strong className="footer-brand">Trebla Studio</strong>
           <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.<br />Siti web per piccole attività in Piemonte.</p>
-          <a href={`mailto:${email}`} style={{ display: 'inline-block', marginTop: '12px', color: '#fff', fontWeight: 800, fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{email}</a>
+          <a href={`mailto:${email}`} style={{ display: 'inline-block', marginTop: '10px', color: '#fff', fontWeight: 800, fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{email}</a>
         </div>
-        <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Esplora</strong>
+        <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Esplora</strong>
           <Link to="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Servizi</Link>
           <Link to="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Lavori</Link>
           <Link to="/come-lavoriamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Metodo</Link>
           <Link to="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Prezzi</Link>
           <Link to="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
         </nav>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Contatti</strong>
-          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti</Link>
-          <a href={`https://wa.me/${whatsapp}`} style={{ color: '#d8e3e7', fontSize: '14px' }}>Scrivici su WhatsApp</a>
-          <Link to="/privacy" style={{ color: '#d8e3e7', fontSize: '14px' }}>Privacy</Link>
-          <Link to="/cookie" style={{ color: '#d8e3e7', fontSize: '14px' }}>Cookie</Link>
-          <Link to="/termini" style={{ color: '#d8e3e7', fontSize: '14px' }}>Termini</Link>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Contatti</strong>
+          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp — preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
+          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti — su appuntamento</Link>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginTop: '2px', fontSize: '13px', lineHeight: '1' }}>
+            <Link to="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Privacy</Link>
+            <span style={{ color: '#4a6573' }}>·</span>
+            <Link to="/cookie" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Cookie</Link>
+            <span style={{ color: '#4a6573' }}>·</span>
+            <Link to="/termini" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Termini</Link>
+          </div>
         </div>
       </div>
-      <small style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '14px', lineHeight: '1.6' }}>© 2026 Trebla Studio · Asti, Piemonte</small>
+      <small style={{ marginTop: '14px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px', lineHeight: '1' }}>© 2026 Trebla Studio · Asti, Piemonte</small>
     </footer>
   );
 }
