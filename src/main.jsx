@@ -630,7 +630,7 @@ function ServizioSitiWebPage() {
         <h1>Sito web<br /><em>chiaro e curato.</em></h1>
         <p>Da 350 € finale (pagina singola) o 400 € multi-pagina.</p>
       </div>
-      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
+      <div className="siti-grid" style={{ marginTop: '24px', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
           <strong>Progettazione</strong>
           <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Layout responsive, testi realizzati con il cliente, struttura delle pagine.</p>
@@ -710,7 +710,7 @@ function ChiSiamoPage() {
         <h1>Il team dietro<br /><em>Trebla Studio.</em></h1>
         <p>Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione.</p>
       </div>
-      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
+      <div className="team-grid">
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
           <strong style={{ fontSize: '14px' }}>Albert Simoni — Sviluppo</strong>
           <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>HTML, CSS, TypeScript, React, Vercel. Gestisce progetto, codice e pubblicazione.</p>
@@ -767,7 +767,7 @@ function PrezziPage() {
           <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
         </ul>
       </div>
-      <div style={{ marginTop: '32px', borderTop: '1px solid rgba(255,255,255,0.18)', paddingTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', fontSize: '13px', lineHeight: '1.6' }}>
+      <div className="prezzi-detail-grid" style={{ marginTop: '32px', borderTop: '1px solid rgba(255,255,255,0.18)', paddingTop: '24px', gap: '24px', fontSize: '13px', lineHeight: '1.6' }}>
         <div>
           <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Cosa include “da 350 €”</strong>
           <span style={{ color: '#d5e4e9' }}>• 1 pagina singola fluida (o multi-pagina da 400 €)<br />• Design responsive, testi con il cliente<br />• Contatti diretti, mappa<br />• Proprietà del sito</span>
@@ -794,7 +794,7 @@ function AssistenzaPage() {
         <h1>Dopo il lancio,<br /><em>non spariamo.</em></h1>
         <p>Chi aggiorna cosa, in quanto tempo e a quale costo — tutto scritto prima di iniziare.</p>
       </div>
-      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
+      <div className="assistenza-grid" style={{ marginTop: '24px', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
           <strong style={{ display: 'block', marginBottom: '8px' }}>Revisioni e correzioni</strong>
           <span style={{ color: 'var(--muted)' }}>• 2 revisioni incluse<br />• Bug valutati come tali<br />• Modifiche future su richiesta</span>
@@ -843,7 +843,7 @@ function ContattiPage() {
         <h1>Parliamone<br /><em>davvero.</em></h1>
         <p>Risposta rapida, canali diretti, area servita chiara.</p>
       </div>
-      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+      <div className="contacts-grid">
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '20px' }}>
           <strong style={{ display: 'block', marginBottom: '12px' }}>Contatti diretti</strong>
           <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a></p>
@@ -873,7 +873,7 @@ function EventiPage() {
         <h1>Musica dal vivo<br /><em>per la tua attività.</em></h1>
         <p>In collaborazione con Pikete Label (stabile) — 4 cantanti disponibili. Attività separata dal sito/social/design.</p>
       </div>
-      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
+      <div className="eventi-grid" style={{ marginTop: '24px', gap: '18px' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
           <strong style={{ display: 'block', fontSize: '14px', marginBottom: '6px' }}>Per chi è utile</strong>
           <span style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.5' }}>Bar, ristoranti, negozi, associazioni — inaugurazioni, promozioni, serate a tema. Canto live, formato piccolo.</span>

@@ -14,8 +14,39 @@
   --mono: 'DM Mono', monospace;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+main,
+section,
+.card,
+.team-grid,
+.contacts-grid,
+.portfolio-feature,
+.siti-grid,
+.eventi-grid,
+.prezzi-detail-grid,
+.assistenza-grid {
+  min-width: 0;
+}
+
+a,
+p,
+span,
+strong {
+  overflow-wrap: anywhere;
 }
 
 html {
@@ -209,7 +240,7 @@ html { scroll-padding-top: 88px; }
   background: var(--blue-soft);
 }
 
-/* Hero card (pulito, senza le 3 linee) */
+/* Hero card — fix overflow decorazione P1 */
 .hero-card {
   height: 440px;
   background: var(--blue);
@@ -218,7 +249,8 @@ html { scroll-padding-top: 88px; }
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow: clip;
+  isolation: isolate;
 }
 
 .hero-card:before,
@@ -228,6 +260,7 @@ html { scroll-padding-top: 88px; }
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   pointer-events: none;
+  max-inline-size: 100%;
 }
 
 .hero-card:before {
@@ -249,8 +282,15 @@ html { scroll-padding-top: 88px; }
 .portfolio-section .section-intro { margin-bottom: 10px; display: flex; flex-direction: column; gap: 0; align-items: flex-start; }
 .portfolio-section .section-intro h2 { margin: 0 0 10px 0; }
 .portfolio-section .section-intro p { margin: 0; padding-top: 0; max-width: 520px; }
-.portfolio-feature { display: flex; flex-direction: column; gap: 6px; margin-top: 0; background: var(--blue); color: var(--white); padding: 18px 20px; text-decoration: none; position: relative; overflow: hidden; }
-.portfolio-feature:before { content: ''; position: absolute; width: 420px; height: 420px; right: -120px; top: -110px; border: 1px solid rgba(255,255,255,0.18); border-radius: 50%; pointer-events: none; }
+.portfolio-feature { display: flex; flex-direction: column; gap: 6px; margin-top: 0; background: var(--blue); color: var(--white); padding: 18px 20px; text-decoration: none; position: relative; overflow: clip; isolation: isolate; min-width: 0; }
+.portfolio-feature:before { content: ''; position: absolute; width: 420px; height: 420px; right: -120px; top: -110px; border: 1px solid rgba(255,255,255,0.18); border-radius: 50%; pointer-events: none; max-inline-size: 100%; }
+.portfolio-feature,
+.portfolio-feature > *,
+.portfolio-feature strong,
+.portfolio-feature .portfolio-sub,
+.portfolio-feature p { min-width: 0; max-width: 100%; }
+.portfolio-feature .portfolio-sub,
+.portfolio-feature p { overflow-wrap: anywhere; }
 .portfolio-kicker { font: 10px var(--mono); text-transform: uppercase; letter-spacing: 0.12em; color: #bdd4df; position: relative; z-index: 1; }
 .portfolio-feature strong { font: 700 22px var(--sans); position: relative; z-index: 1; line-height: 1.1; }
 .portfolio-sub { font: 400 14px var(--serif); font-style: italic; color: #bdd4df; position: relative; z-index: 1; margin-top: -2px; }
@@ -316,6 +356,20 @@ html { scroll-padding-top: 88px; }
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+/* Grids responsive fix P0 — minmax prevents overflow */
+.team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 24px; }
+.team-grid > * { min-width: 0; }
+.contacts-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 24px; margin-top: 24px; }
+.contacts-grid > * { min-width: 0; }
+.siti-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.siti-grid > * { min-width: 0; }
+.eventi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.eventi-grid > * { min-width: 0; }
+.prezzi-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.prezzi-detail-grid > * { min-width: 0; }
+.assistenza-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.assistenza-grid > * { min-width: 0; }
 
 /* Sections */
 .section {
@@ -1551,4 +1605,68 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .choice-grid.compact .choice {
     text-align: left;
   }
+}
+
+/* P0/P1 mobile critical — guardrail responsive (non nasconde scrollbar) */
+@media (max-width: 767px) {
+  .contacts-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .siti-grid,
+  .eventi-grid,
+  .prezzi-detail-grid,
+  .assistenza-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .team-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .team-grid > * { min-width: 0; }
+  .hero-card::before,
+  .hero-card::after {
+    transform: scale(.72);
+    transform-origin: right bottom;
+  }
+  .portfolio-feature {
+    display: block;
+    padding: 18px 20px;
+  }
+  .portfolio-feature strong,
+  .portfolio-feature .portfolio-sub {
+    display: block;
+  }
+  .portfolio-feature .portfolio-sub {
+    margin-top: 4px;
+  }
+  /* Home verticale compatta — target 2900-3300px */
+  .hero { padding: 20px 16px 0; }
+  .hero-copy > p { margin: 16px 0 18px; font-size: 15px; }
+  .audience { padding: 14px 16px; }
+  .audience p { font-size: 14px; }
+  .section { padding: 20px 16px; }
+  .section-intro > p { margin-top: 12px; }
+  .service-grid { margin-top: 20px; }
+  .service-card,
+  .service-card:last-child { padding: 16px 0; }
+  .service-card h3,
+  .service-main h3 { margin: 16px 0 6px; font-size: 24px; }
+  .portfolio-section .section-intro { margin-bottom: 6px; }
+  .price-grid ul { margin-top: 20px; }
+  .price-grid li { padding: 12px 0; }
+  .quote-section { padding-bottom: 32px; }
+  .quote-form { margin-top: 20px; }
+  .form-block { padding: 16px 0; }
+  /* Footer compatto 360-420px */
+  .footer { padding: 24px 16px 16px; gap: 14px; }
+  .footer > div:first-child { gap: 14px !important; }
+  .footer > div:first-child > nav,
+  .footer > div:first-child > div { gap: 6px !important; }
+  .footer nav { flex-direction: row !important; flex-wrap: wrap; gap: 6px 12px !important; justify-content: center; }
+  .footer nav a { font-size: 13px; padding: 4px 0; }
+  .footer small { padding-top: 10px; font-size: 10px; }
 }
