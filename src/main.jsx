@@ -336,7 +336,7 @@ const faqs = [
   },
   {
     q: "L'acconto è incluso nel prezzo?",
-    a: "Sì, l'acconto del 10% è incluso nel prezzo finale e serve solo a bloccare le tempistiche (validità preventivo 2 settimane). Il resto lo paghi alla consegna in contanti/bonifico. Prezzo finale senza IVA aggiunta (al momento senza P.IVA). Se il sito a metà lavoro non prosegue, concordiamo chiusura — non è rimborsabile se il lavoro è già stato svolto correttamente.",
+    a: "L'acconto fa parte del prezzo finale e serve a confermare l'avvio. Il resto alla consegna. Dettagli su tempi e modalità vengono concordati prima di iniziare.",
   },
   {
     q: 'Il dominio è incluso nel prezzo?',
@@ -385,7 +385,27 @@ const INITIAL_FORM = {
 };
 
 function usePageTitle(title) {
-  useEffect(() => { document.title = title; window.scrollTo(0,0); }, [title]);
+  useEffect(() => {
+    document.title = title;
+    window.scrollTo(0,0);
+    const canonicalHref = `https://treblastudio.vercel.app${window.location.pathname}`;
+    let link = document.querySelector('link[rel="canonical"]');
+    if (link) link.setAttribute('href', canonicalHref);
+    else {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      link.setAttribute('href', canonicalHref);
+      document.head.appendChild(link);
+    }
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      if (title.includes('Servizi') && title.includes('Siti Web')) metaDesc.setAttribute('content', 'Siti web chiari e curati per piccole attività: layout responsive, contatti diretti, mappa e visibilità. Da 350 € finale.');
+      else if (title.includes('Portfolio')) metaDesc.setAttribute('content', 'Portfolio Trebla Studio: progetto Pikete Label pubblicato ad Asti/Alessandrino. Design, sviluppo e gestione.');
+      else if (title.includes('Chi siamo')) metaDesc.setAttribute('content', 'Trebla Studio ad Asti: incontro tra sviluppo, design e comunicazione per piccole imprese.');
+      else if (title.includes('Prezzi')) metaDesc.setAttribute('content', 'Prezzi chiari Trebla Studio: parti da 350 €, dettaglio incluso, tempi concordati, nessun canone obbligatorio.');
+      else if (title.includes('Contatti')) metaDesc.setAttribute('content', 'Contatti Trebla Studio ad Asti: WhatsApp ed email, area Asti e Piemonte, su appuntamento.');
+    }
+  }, [title]);
 }
 
 function ScrollToTop() {
@@ -407,7 +427,7 @@ function Header({ onOpenQuick }) {
       <Link className="logo" to="/" aria-label="Trebla Studio - torna alla homepage" onClick={() => setMenuOpen(false)}>
         <picture><source srcSet="/trebla-logo.webp" type="image/webp" /><img src="/trebla-logo-transparent.png" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" fetchPriority="high" /></picture>
       </Link>
-      <nav className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Navigazione principale">
+      <nav id="main-nav" className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Navigazione principale">
         <Link to="/servizi" onClick={() => setMenuOpen(false)}>Servizi</Link>
         <Link to="/portfolio" onClick={() => setMenuOpen(false)}>Lavori</Link>
         <Link to="/chi-siamo" onClick={() => setMenuOpen(false)}>Chi siamo</Link>
@@ -417,8 +437,8 @@ function Header({ onOpenQuick }) {
         <Link to="/contatti" onClick={() => setMenuOpen(false)}>Contatti</Link>
         <Link className="nav-mobile-cta" to="/preventivo" onClick={() => setMenuOpen(false)}>Configura il preventivo</Link>
       </nav>
-      <button type="button" className="header-cta" onClick={onOpenQuick} aria-label="Scrivici su WhatsApp — parliamone">Parliamone</button>
-      <button className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
+      <button type="button" className="header-cta" onClick={onOpenQuick} aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
+      <button className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu — 7 voci'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span><span></span><span></span>
       </button>
     </header>
@@ -431,20 +451,19 @@ function Footer() {
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '32px', width: '100%', maxWidth: '1200px', textAlign: 'left' }}>
         <div>
           <strong className="footer-brand">Trebla Studio</strong>
-          <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.<br />Siti web per piccole attività in Piemonte.<br /><span style={{ color: '#d8e3e7', fontSize: '12px' }}>Mar chiuso · resto 15:00-18:45 · risposta fino alle 23</span></p>
+          <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.<br />Siti web per piccole attività in Piemonte.</p>
           <a href={`mailto:${email}`} style={{ display: 'inline-block', marginTop: '12px', color: '#fff', fontWeight: 800, fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{email}</a>
         </div>
         <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Navigazione</strong>
-          <Link to="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Scopri i servizi</Link>
-          <Link to="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Vedi i lavori</Link>
-          <Link to="/chi-siamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Chi siamo</Link>
+          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Esplora</strong>
+          <Link to="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Servizi</Link>
+          <Link to="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Lavori</Link>
           <Link to="/come-lavoriamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Metodo</Link>
-          <Link to="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Vedi i prezzi</Link>
+          <Link to="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Prezzi</Link>
           <Link to="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
         </nav>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Contatti &amp; legale</strong>
+          <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '4px' }}>Contatti</strong>
           <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti</Link>
           <a href={`https://wa.me/${whatsapp}`} style={{ color: '#d8e3e7', fontSize: '14px' }}>Scrivici su WhatsApp</a>
           <Link to="/privacy" style={{ color: '#d8e3e7', fontSize: '14px' }}>Privacy</Link>
@@ -452,10 +471,7 @@ function Footer() {
           <Link to="/termini" style={{ color: '#d8e3e7', fontSize: '14px' }}>Termini</Link>
         </div>
       </div>
-      <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp" style={{ marginTop: '24px' }}>
-        <WhatsAppIcon /> Scrivici su WhatsApp
-      </a>
-      <small style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '14px', lineHeight: '1.6' }}>© 2026 Trebla Studio · Asti, Piemonte · <Link to="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Privacy</Link> · <Link to="/cookie" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Cookie</Link> · <Link to="/termini" style={{ color: '#8ea8b3', textDecoration: 'underline' }}>Termini</Link></small>
+      <small style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '14px', lineHeight: '1.6' }}>© 2026 Trebla Studio · Asti, Piemonte</small>
     </footer>
   );
 }
@@ -479,49 +495,48 @@ function HomePage() {
       <section className="hero">
         <div className="hero-copy">
           <h1>La tua attività<br /><em>merita di essere vista.</em></h1>
-          <p style={{ maxWidth: '380px' }}>Siti web per piccole attività di Asti e Piemonte — chiari, veloci e facili da contattare. Per ricevere più richieste e prenotazioni. A partire da 350 €, prezzo trasparente prima di iniziare.</p>
+          <p style={{ maxWidth: '380px' }}>Realizziamo siti web chiari e curati per piccole attività di Asti e Piemonte. Per farti ricevere richieste, prenotazioni e contatti.</p>
           <div className="hero-actions">
             <Link className="button button-main" to="/preventivo">Configura il preventivo</Link>
             <Link className="button button-quiet" to="/servizi" style={{ fontWeight: 600 }}>Scopri i servizi</Link>
           </div>
-          <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--muted)' }}>Risposta fino alle 23 · Consegna in 10 giorni* dopo materiali · 2 revisioni incluse</p>
+          <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--muted)' }}>Prezzo indicato prima di iniziare.</p>
         </div>
         <div className="hero-card">
           <span className="card-kicker">Trebla Studio — Asti</span>
-          <strong>Un passo concreto<br /><em>verso il digitale.</em></strong>
-          <p>Per rendere la tua attività più visibile, più chiara e più facile da contattare.</p>
+          <strong>Un percorso semplice,<br /><em>dal primo messaggio al sito online.</em></strong>
         </div>
       </section>
 
       <section className="audience">
-        <p>Per chi ha qualcosa di valido da dimostrare — <span style={{ fontWeight: 400, opacity: 0.8, fontSize: '13px' }}>categorie indicative</span></p>
-        <div>
-          <span>Ristoranti</span><span>Hotel & B&B</span><span>Saloni di bellezza</span><span>Negozi</span><span>Artigiani</span><span>Professionisti</span><span>Piccole imprese</span>
-        </div>
-        <p style={{ marginTop: '10px', fontSize: '12px', opacity: 0.7, fontWeight: 400 }}>Non sono filtri — esplora i <Link to="/servizi" style={{ textDecoration: 'underline', color: '#fff' }}>servizi</Link> per i dettagli per ogni settore.</p>
+        <p>Per ristoranti, B&amp;B, negozi, saloni, artigiani e professionisti.</p>
       </section>
 
       <section className="section">
         <p className="section-label">Servizi</p>
         <div className="section-intro">
           <h2>Il digitale,<br /><em>fatto semplice.</em></h2>
-          <p>Una presenza online chiara per uscire dal passaparola e arrivare davanti a potenziali clienti. — <Link to="/servizi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Scopri i dettagli →</Link></p>
+          <div>
+            <p>Sito web, social e design: scegli da dove iniziare.</p>
+          </div>
         </div>
         <div className="service-grid">
           <Link to="/servizi/siti-web" className="service-card service-main" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <span>01</span><h3>Sito web</h3><p>Una presenza su internet chiara, curata e facile da usare per trasformare chi ti cerca in un cliente reale.</p>
-            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: design responsive, SEO, form WhatsApp, mappa, 2 revisioni. A partire da 350 €.</p>
-            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli sito web →</span>
+            <span>01</span><h3>Sito web</h3><p>Una presenza chiara e curata per trasformare chi ti cerca in cliente.</p>
+            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: struttura responsive, contatti diretti, mappa.</p>
+            <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli sito web →</span>
           </Link>
           <Link to="/servizi/social-media" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <span>02</span><h3>Social media</h3><p>Contenuti e gestione per rendere la tua presenza attiva e coerente ogni settimana.</p>
-            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel. Acquistabile anche senza sito.</p>
-            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli social →</span>
+            <span>02</span><h3>Social media</h3><p>Contenuti e gestione per una presenza attiva e coerente ogni settimana.</p>
+            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel.</p>
+            <p style={{ marginTop: '8px', fontSize: '11px', color: '#2d6685', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Acquistabile anche senza sito</p>
+            <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli social →</span>
           </Link>
           <Link to="/servizi/design" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <span>03</span><h3>Design e grafiche</h3><p>Logo, grafiche promozionali e materiali coordinati che rendono la tua attività riconoscibile.</p>
-            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini. Acquistabile anche senza sito.</p>
-            <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli design →</span>
+            <span>03</span><h3>Design e grafiche</h3><p>Logo e materiali coordinati per un’immagine riconoscibile.</p>
+            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini.</p>
+            <p style={{ marginTop: '8px', fontSize: '11px', color: '#2d6685', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Acquistabile anche senza sito</p>
+            <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli design →</span>
           </Link>
         </div>
       </section>
@@ -530,21 +545,15 @@ function HomePage() {
         <p className="section-label">Un esempio concreto</p>
         <div className="section-intro">
           <h2>Lo abbiamo<br /><em>già fatto.</em></h2>
-          <p>Un solo caso reale mostrato con precisione — senza inventare. Altri in arrivo.</p>
+          <p>Un progetto pubblicato, curato in ogni dettaglio.</p>
         </div>
-        <Link className="portfolio-feature" to="/portfolio" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '18px', alignItems: 'center' }}>
+        <Link className="portfolio-feature" to="/portfolio">
           <div>
-            <span className="portfolio-kicker">Cliente — Settore — Intervento</span>
+            <span className="portfolio-kicker">Pikete Label — Etichetta musicale</span>
             <strong>Pikete Label</strong>
-            <span className="portfolio-sub">Etichetta musicale — Asti/Alessandrino · Sito vetrina + catalogo artisti</span>
-            <p style={{ marginTop: '8px' }}><strong style={{ color: '#fff', fontWeight: 800 }}>Ruolo Trebla:</strong> design + sviluppo (HTML/CSS/TS/React) + gestione · <strong style={{ color: '#fff', fontWeight: 800 }}>Stato:</strong> sito pubblicato, citato su giornale provinciale Alessandrino (fonte verificabile su richiesta) · <strong style={{ color: '#fff', fontWeight: 800 }}>Risultato:</strong> presenza online attiva, richieste eventi in entrata (metriche in raccolta, non inventate).</p>
-            <span className="portfolio-cta"><span>Vedi i lavori — portfolio</span><span>sito realizzato da noi →</span></span>
-          </div>
-          <div style={{ background: '#0f2a3a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', padding: '12px', textAlign: 'center', minHeight: '140px', display: 'grid', placeItems: 'center' }}>
-            <div>
-              <div style={{ width: '100%', height: '90px', background: '#bdd4df', borderRadius: '6px', display: 'grid', placeItems: 'center', color: '#173d56', fontWeight: 800, fontSize: '12px' }}>Anteprima<br/>piketelabel.vercel.app</div>
-              <p style={{ marginTop: '8px', fontSize: '11px', color: '#bdd4df', lineHeight: '1.4' }}>Screenshot reale in arrivo<br/>— visita il sito live</p>
-            </div>
+            <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
+            <p style={{ marginTop: '8px' }}>Sito vetrina responsive per etichetta musicale: design, sviluppo e gestione.</p>
+            <span className="portfolio-cta"><span>Vedi il caso studio →</span></span>
           </div>
         </Link>
       </section>
@@ -554,29 +563,28 @@ function HomePage() {
         <div className="price-grid">
           <div>
             <h2>Una proposta<br /><em>alla tua portata.</em></h2>
-            <p>Prezzo trasparente, a partire da 350 €. La cifra la vedi prima di iniziare, con dettaglio di cosa è incluso ed escluso.</p>
+            <p>Parti da 350 €. Prima di iniziare sai cosa è incluso.</p>
             <Link className="button button-light" to="/preventivo">Configura il preventivo</Link>
             <Link className="button button-quiet" to="/prezzi" style={{ marginLeft: '10px', background: 'transparent', color: '#fff', borderColor: 'rgba(255,255,255,0.4)' }}>Vedi i prezzi</Link>
           </div>
           <ul>
-            <li><b>Prezzo trasparente</b><span>A partire da 350 €, 2 revisioni, cookie banner gratuito incluso.</span></li>
-            <li><b>Consegna in 10 giorni*</b><span>*Dopo materiali e approvazioni complete.</span></li>
-            <li><b>Zero abbonamenti*</b><span>*Il sito è di tua proprietà. Costi tecnici dominio/hosting separati (vedi dettagli).</span></li>
+            <li><b>Prezzo chiaro</b><span>Con dettaglio di cosa è incluso.</span></li>
+            <li><b>Tempi concordati</b><span>Consegna definita dopo i materiali.</span></li>
+            <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
           </ul>
         </div>
-        <p style={{ marginTop: '16px', fontSize: '11px', color: '#8fb8c9', lineHeight: '1.5' }}>Dettagli fiscali e amministrativi (modalità di pagamento, ricevuta, condizioni) nella pagina <Link to="/termini" style={{ color: '#fff', textDecoration: 'underline' }}>Termini</Link> e su richiesta — verifica con professionista.</p>
       </section>
 
       <section className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
         <p className="section-label">Prossimo passo</p>
         <div className="section-intro">
           <h2>Pronto a<br /><em>iniziare?</em></h2>
-          <p>Configura la tua proposta in 2 minuti — poi ti rispondiamo fino alle 23.</p>
+          <p>Raccontaci di cosa hai bisogno: ti indichiamo il punto di partenza più adatto.</p>
         </div>
-        <div style={{ marginTop: '22px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+        <div className="final-cta" style={{ marginTop: '22px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
           <Link className="button button-main" to="/preventivo">Configura il preventivo</Link>
           <a className="button button-quiet" href={`https://wa.me/${whatsapp}`} style={{ background: '#fff', border: '1px solid var(--line)' }}>Scrivici su WhatsApp</a>
-          <Link to="/contatti" style={{ fontSize: '13px', fontWeight: 700, color: 'var(--blue)', textDecoration: 'underline', padding: '10px' }}>Vedi tutti i contatti →</Link>
+          <Link to="/contatti" style={{ fontSize: '13px', fontWeight: 700, color: 'var(--blue)', textDecoration: 'underline', padding: '10px' }}>Tutti i contatti</Link>
         </div>
       </section>
     </>
@@ -590,22 +598,24 @@ function ServiziPage() {
       <p className="section-label">Servizi</p>
       <div className="section-intro">
         <h1>Cosa facciamo,<br /><em>nel dettaglio.</em></h1>
-        <p>Tre servizi chiari. Il sito è il cuore consigliato, ma puoi partire anche da social o design se è la priorità. <Link to="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vai al preventivo →</Link></p>
+        <p>Tre servizi modulari: scegli da dove iniziare.</p>
       </div>
       <div className="service-grid" style={{ marginTop: '32px' }}>
         <Link to="/servizi/siti-web" className="service-card service-main" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <span>01</span><h3>Sito web</h3><p>Da 350 € finale. Responsive, SEO avanzata, cookie banner gratuito, 2 revisioni, WhatsApp/Email/Instagram/prenotazioni, Google Business inclusa.</p>
+          <span>01</span><h3>Sito web</h3><p>Una presenza chiara e curata per farti trovare e ricevere richieste.</p>
+          <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: struttura responsive, contatti diretti, mappa.</p>
+          <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli →</span>
         </Link>
         <Link to="/servizi/social-media" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <span>02</span><h3>Social media</h3><p>Piano editoriale, grafiche storie, reel brevi. Approvazione WhatsApp. Anche senza sito.</p>
+          <span>02</span><h3>Social media</h3><p>Piano editoriale, grafiche e reel per canali più coerenti.</p>
+          <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel.</p>
+          <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli →</span>
         </Link>
         <Link to="/servizi/design" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <span>03</span><h3>Design e grafiche</h3><p>Logo (o via Fiverr), biglietti, volantini/locandine/menu, grafiche web coordinate.</p>
+          <span>03</span><h3>Design e grafiche</h3><p>Logo e materiali coordinati per un’immagine riconoscibile.</p>
+          <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini.</p>
+          <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli →</span>
         </Link>
-      </div>
-      <div style={{ marginTop: '24px', border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9', fontSize: '13px', lineHeight: '1.6' }}>
-        <strong>Per settore — pagine dedicate in arrivo</strong>
-        <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Ristoranti, Hotel/B&B, Negozi, Saloni, Artigiani, Professionisti, Associazioni — <Link to="/portfolio" style={{ color: 'var(--blue)', fontWeight: 800 }}>vedi esempi →</Link></p>
       </div>
     </section>
   );
@@ -618,20 +628,24 @@ function ServizioSitiWebPage() {
       <p className="section-label">Servizi — Sito Web</p>
       <div className="section-intro">
         <h1>Sito web<br /><em>chiaro e curato.</em></h1>
-        <p>Da 350 € finale (pagina singola) o 400 € multi-pagina. 10 giorni garantiti post-materiali, 2 revisioni.</p>
+        <p>Da 350 € finale (pagina singola) o 400 € multi-pagina.</p>
       </div>
-      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
+      <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
-          <strong>Cosa include</strong>
-          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Design responsive, testi a metà con te, SEO abbastanza avanzata (title/meta/H1/alt/sitemap), form+WhatsApp, mappa/orari, Google Business inclusa, cookie banner gratuito, performance base, 2 revisioni, proprietà sito.</p>
+          <strong>Progettazione</strong>
+          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Layout responsive, testi realizzati con il cliente, struttura delle pagine.</p>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
-          <strong>Extra</strong>
-          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Pagine +10€, funzioni per settore (vedi configuratore), foto sul posto +20€ + trasporto se fuori Asti, modifiche future 15€ cad.</p>
+          <strong>Contatti</strong>
+          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>WhatsApp, email, form, mappa, orari e prenotazioni quando previste.</p>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
-          <strong>Strumenti &amp; consegna</strong>
-          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>HTML/CSS/TS/React su Vercel, dominio intestato a te (paghi tu Vercel ~10-20€/anno), HTTPS, backup su richiesta.</p>
+          <strong>Visibilità</strong>
+          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Title, meta description, heading, alt text, sitemap e configurazioni concordate.</p>
+        </div>
+        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px' }}>
+          <strong>Consegna</strong>
+          <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Pubblicazione, indicazioni su dominio/hosting e proprietà del sito.</p>
         </div>
       </div>
       <div style={{ marginTop: '18px' }}><Link className="button button-main" to="/preventivo">Configura il tuo sito →</Link></div>
@@ -645,9 +659,9 @@ function ServizioSocialPage() {
       <p className="section-label">Servizi — Social Media</p>
       <div className="section-intro">
         <h1>Social<br /><em>coerenti.</em></h1>
-        <p>Piano editoriale, grafiche storie, reel brevi. Approvazione via WhatsApp. Cuore consigliato: sito, ma possiamo partire anche solo da social.</p>
+        <p>Pianifichiamo contenuti, grafiche e reel brevi per rendere i tuoi canali più coerenti. Puoi iniziare dai social o integrarli al sito.</p>
       </div>
-      <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Prezzi nel configuratore per ogni tipologia (Reel, Stories, promo). Instagram/TikTok + Google Business inclusa nel sito.</p>
+      <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Canali su misura per la tua attività, con approvazione rapida via WhatsApp.</p>
       <Link className="button button-main" to="/preventivo" style={{ marginTop: '18px' }}>Configura social →</Link>
     </section>
   );
@@ -659,9 +673,9 @@ function ServizioDesignPage() {
       <p className="section-label">Servizi — Design</p>
       <div className="section-intro">
         <h1>Design<br /><em>riconoscibile.</em></h1>
-        <p>Logo/rinnovo, biglietti, volantini/locandine/menu cartaceo, grafiche web coordinate. Sito consigliato ma non obbligatorio.</p>
+        <p>Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente.</p>
       </div>
-      <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Se il logo va rifatto da zero, collaboriamo via Fiverr esterno. Materiali pronti per stampa.</p>
+      <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Materiali pronti per stampa e web, coordinati con il tuo stile.</p>
       <Link className="button button-main" to="/preventivo" style={{ marginTop: '18px' }}>Configura design →</Link>
     </section>
   );
@@ -674,47 +688,15 @@ function PortfolioPage() {
       <p className="section-label">Portfolio</p>
       <div className="section-intro">
         <h1>Lo abbiamo<br /><em>già fatto.</em></h1>
-        <p>Un caso reale + placeholder trasparenti per i prossimi (non mostriamo mai concept come clienti reali).</p>
+        <p>Un progetto pubblicato, curato in ogni dettaglio.</p>
       </div>
       <a className="portfolio-feature" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
-        <span className="portfolio-kicker">Caso studio #1 — sito realizzato da noi</span>
+        <span className="portfolio-kicker">Pikete Label — Etichetta musicale</span>
         <strong>Pikete Label</strong>
-        <span className="portfolio-sub">etichetta musicale — Asti/Alessandrino</span>
-        <p><strong style={{ color: '#fff' }}>Problema:</strong> prezzo alto agenzie, sito poco moderno / <strong style={{ color: '#fff' }}>Obiettivo:</strong> vetrina artisti moderna a prezzo accessibile / <strong style={{ color: '#fff' }}>Soluzione:</strong> sito vetrina responsive catalogo / <strong style={{ color: '#fff' }}>Ruolo:</strong> design + sviluppo + gestione — <strong style={{ color: '#fff' }}>Risultato:</strong> online, citato su giornale provinciale Alessandrino, richieste eventi in entrata.</p>
-        <span className="portfolio-cta"><span>Scopri la musica dei nostri artisti</span><span>sito realizzato da noi →</span></span>
+        <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
+        <p style={{ marginTop: '8px' }}>Design, sviluppo e gestione del sito vetrina responsive.</p>
+        <span className="portfolio-cta"><span>Visita il sito →</span></span>
       </a>
-      <div style={{ marginTop: '18px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-        <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '16px', background: '#fff' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#2d6685' }}>[Prossimo caso]</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>[Ristorante/B&B/Artigiano — Asti] — scheda con problema/obiettivo/soluzione/pagine/risultato + link reale.</p>
-        </div>
-        <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '16px', background: '#fff' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#2d6685' }}>[Prossimo caso]</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>[Settore] — filtrabile, con immagini desktop/mobile e testimonianza.</p>
-        </div>
-        <div style={{ border: '1px dashed #cbd3d5', borderRadius: '8px', padding: '16px', background: '#fff' }}>
-          <strong style={{ fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#2d6685' }}>[Prossimo caso]</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>[Settore] — in attesa autorizzazione cliente.</p>
-        </div>
-      </div>
-      <div style={{ marginTop: '22px', border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
-        <strong style={{ fontSize: '14px', display: 'block', marginBottom: '12px' }}>Prova sociale — in raccolta</strong>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-          <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 1 — in attesa]”</div>
-          <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 2 — in attesa]”</div>
-          <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5', borderLeft: '3px solid var(--blue)', paddingLeft: '12px' }}>“[Testimonianza 3 — rating 5/5 diretto, non su Google]”</div>
-        </div>
-        <p style={{ marginTop: '12px', fontSize: '12px', color: '#6d8894' }}>Nessuna recensione Google attiva; rating diretto 5/5. Video in arrivo.</p>
-      </div>
-      <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-        <strong style={{ fontSize: '14px', display: 'block', marginBottom: '8px' }}>Perché ci scelgono</strong>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', fontSize: '13px' }}>
-          <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>1 progetto online (Pikete Label) + concept in arrivo</span>
-          <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Risposta fino alle 23 / entro 2gg</span>
-          <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Consegna 10gg* · 2 revisioni · Bug fix valutato</span>
-          <span style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '8px 12px', background: '#fff' }}>Citato su giornale Alessandrino</span>
-        </div>
-      </div>
     </section>
   );
 }
@@ -726,23 +708,23 @@ function ChiSiamoPage() {
       <p className="section-label">Chi siamo</p>
       <div className="section-intro">
         <h1>Il team dietro<br /><em>Trebla Studio.</em></h1>
-        <p>Siamo in due, ad Asti. Trebla nasce come progetto di Albert e si è estesa con Pikete Label. Valorizziamo il potere dei giovani: anche i giovani possono lavorare bene, con fiducia, offrendo qualcosa di più accessibile e moderno.</p>
+        <p>Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione.</p>
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
           <strong style={{ fontSize: '14px' }}>Albert Simoni — Sviluppo</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Dev. HTML, CSS, TypeScript, React, Vercel. Perito. Gestisce progetto, codice e pubblicazione. Studente — foto non ancora, video in arrivo. Lingue: IT, EN (AL su richiesta).</p>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>HTML, CSS, TypeScript, React, Vercel. Gestisce progetto, codice e pubblicazione.</p>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
           <strong style={{ fontSize: '14px' }}>Gabriel Santospirito — Design &amp; SMM</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Designer &amp; SMM. Grafiche, identità, contenuti social. Studente — foto non ancora, video in arrivo. Tools: Da Vinci Resolve, Light.</p>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Grafiche, identità, contenuti social.</p>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fbfbf9' }}>
-          <strong style={{ fontSize: '14px' }}>Come lavoriamo, dove operiamo</strong>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>• Sede: Asti — su appuntamento (nessun indirizzo vetrina)<br/>• Area: solo Asti e Piemonte<br/>• Partner: Pikete Label — artisti per eventi<br/>• Orari: Mar chiuso sempre, resto 15:00-18:45<br/>• Risposta fino alle 23<br/>• Tono: molto professionale</p>
+          <strong style={{ fontSize: '14px' }}>Dove operiamo</strong>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '8px 0 0', lineHeight: '1.5' }}>Asti — su appuntamento.<br />Area: Asti e Piemonte.</p>
         </div>
       </div>
-      <p style={{ marginTop: '14px', fontSize: '12px', color: '#6d8894' }}>Siamo un progetto giovane in avvio, al momento senza P.IVA — trasparenza in Prezzi/Contatti.</p>
+      <div style={{ marginTop: '22px' }}><a className="button button-main" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp →</a></div>
     </section>
   );
 }
@@ -757,13 +739,12 @@ function MetodoPage() {
         <p>Un percorso concreto, con passaggi chiari e conversazione vera sulle necessità della tua attività.</p>
       </div>
       <div className="method-grid">
-        <article><span>01</span><h3>Ascolto e Obiettivi</h3><p>Parliamo di cosa fai, di chi sono i tuoi clienti e di come presentare al meglio la tua attività.</p></article>
-        <article><span>02</span><h3>Creazione su misura</h3><p>Realizziamo il tuo sito, i testi e le grafiche curando ogni singolo dettaglio per renderlo veloce e chiaro.</p></article>
-        <article><span>03</span><h3>Pubblicazione in 10 giorni</h3><p>Mettiamo online il sito, colleghiamo WhatsApp, Google Business e tutto ciò che serve per farti trovare subito. Include 2 revisioni + garanzia bug previa valutazione.</p></article>
-      </div>
-      <div style={{ marginTop: '22px', border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff', fontSize: '13px', lineHeight: '1.6' }}>
-        <strong>Dettaglio processo — trasparenza</strong>
-        <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Brief via WhatsApp → raccolta materiali (testi/foto/logo) → design → 2 revisioni → approvazione → pubblicazione su Vercel → formazione base se richiesta. Tempo 10gg garantiti solo se materiali completi.</p>
+        <article><span>01</span><h3>Brief su WhatsApp</h3><p>Ci racconti attività, obiettivi e stile.</p></article>
+        <article><span>02</span><h3>Materiali</h3><p>Raccogliamo testi, foto e logo.</p></article>
+        <article><span>03</span><h3>Design</h3><p>Progettiamo layout e contenuti.</p></article>
+        <article><span>04</span><h3>Revisioni</h3><p>Due giri di correzioni inclusi.</p></article>
+        <article><span>05</span><h3>Approvazione</h3><p>Confermi tutto prima di pubblicare.</p></article>
+        <article><span>06</span><h3>Pubblicazione</h3><p>Mettiamo online su Vercel e ti mostriamo come aggiornare.</p></article>
       </div>
     </section>
   );
@@ -777,30 +758,29 @@ function PrezziPage() {
       <div className="price-grid">
         <div>
           <h1>Una proposta<br /><em>alla tua portata.</em></h1>
-          <p>Niente uffici e niente intermediari: parli direttamente con chi costruisce il tuo sito. Prezzo finale indicato — senza P.IVA (nessuna IVA aggiunta), pagamento contanti/bonifico.</p>
-          <Link className="button button-light" to="/preventivo">Fai un preventivo</Link>
+          <p>Parli direttamente con chi costruisce il tuo sito. Prezzo indicato prima di iniziare.</p>
+          <Link className="button button-light" to="/preventivo">Configura il preventivo</Link>
         </div>
         <ul>
-          <li><b>Prezzo trasparente</b><span>Stima immediata, 2 revisioni, cookie banner gratuito incluso, Google Business inclusa.</span></li>
-          <li><b>Consegna in 10 giorni*</b><span>*Garantiti dopo materiali e approvazioni. 2 revisioni incluse.</span></li>
-          <li><b>Zero abbonamenti</b><span>Il sito è di tua proprietà. Manutenzione facoltativa.</span></li>
+          <li><b>Prezzo chiaro</b><span>Con dettaglio di cosa è incluso.</span></li>
+          <li><b>Tempi concordati</b><span>Definiti dopo i materiali.</span></li>
+          <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
         </ul>
       </div>
       <div style={{ marginTop: '32px', borderTop: '1px solid rgba(255,255,255,0.18)', paddingTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', fontSize: '13px', lineHeight: '1.6' }}>
         <div>
-          <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Cosa include “da 350 €”*</strong>
-          <span style={{ color: '#d5e4e9' }}>• 1 pagina singola fluida (o multi-pagina da 400 €)<br/>• Design responsive, testi a metà, SEO abbastanza avanzata, form+WhatsApp/Email<br/>• Cookie banner gratuito, Google Business inclusa<br/>• 2 revisioni incluse, proprietà sito<br/>• *Prezzo finale, senza IVA aggiunta. Dominio/hosting esclusi.</span>
+          <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Cosa include “da 350 €”</strong>
+          <span style={{ color: '#d5e4e9' }}>• 1 pagina singola fluida (o multi-pagina da 400 €)<br />• Design responsive, testi con il cliente<br />• Contatti diretti, mappa<br />• Proprietà del sito</span>
         </div>
         <div>
           <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Extra a scelta</strong>
-          <span style={{ color: '#d5e4e9' }}>• Pagine +10€, funzioni per settore<br/>• Social/Design solo se selezionati<br/>• Foto sul posto +20€ + trasporto se fuori Asti<br/>• Modifiche future 15€ cad.</span>
+          <span style={{ color: '#d5e4e9' }}>• Pagine aggiuntive<br />• Funzioni per settore<br />• Social e design su richiesta<br />• Foto sul posto su richiesta</span>
         </div>
         <div>
-          <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Cosa ricevi alla consegna</strong>
-          <span style={{ color: '#d5e4e9' }}>• Sito su Vercel, dominio intestato a te (paghi tu Vercel)<br/>• Proprietà codice/contenuti<br/>• Garanzia bug previa valutazione<br/>• Assistenza su richiesta</span>
+          <strong style={{ display: 'block', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#b7d6e2', marginBottom: '8px' }}>Condizioni principali</strong>
+          <span style={{ color: '#d5e4e9' }}>• Due revisioni incluse<br />• Sito pubblicato su Vercel<br />• Dettagli su dominio e assistenza su richiesta</span>
         </div>
       </div>
-      <p style={{ marginTop: '16px', fontSize: '11px', color: '#8fb8c9', lineHeight: '1.5' }}>* Fascia “da 350 €” pagina singola; multi 400€. Prezzi finali senza IVA aggiunta (no P.IVA). Preventivo valido 2 settimane. Acconto 10% incluso, resto a consegna. Se a metà lavoro non prosegue, chiusura concordata.</p>
     </section>
   );
 }
@@ -816,16 +796,16 @@ function AssistenzaPage() {
       </div>
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', fontSize: '13px', lineHeight: '1.6' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
-          <strong style={{ display: 'block', marginBottom: '8px' }}>Garanzia bug &amp; 2 revisioni</strong>
-          <span style={{ color: 'var(--muted)' }}>• 2 revisioni incluse (correzioni testo incluse)<br/>• Bug fix gratis previa valutazione che sia bug<br/>• Modifiche future 15€ cad.<br/>• Risposta entro 2gg / fino alle 23</span>
+          <strong style={{ display: 'block', marginBottom: '8px' }}>Revisioni e correzioni</strong>
+          <span style={{ color: 'var(--muted)' }}>• 2 revisioni incluse<br />• Bug valutati come tali<br />• Modifiche future su richiesta</span>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
           <strong style={{ display: 'block', marginBottom: '8px' }}>Dominio, hosting, proprietà</strong>
-          <span style={{ color: 'var(--muted)' }}>• Dominio intestato a te, pagato a Vercel ~10-20€/anno<br/>• Hosting Vercel<br/>• Proprietà codice/contenuti tue<br/>• Immagini archivio non ancora attive</span>
+          <span style={{ color: 'var(--muted)' }}>• Dominio intestato a te<br />• Hosting Vercel<br />• Proprietà codice e contenuti tua</span>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '18px', background: '#fff' }}>
           <strong style={{ display: 'block', marginBottom: '8px' }}>Manutenzione facoltativa</strong>
-          <span style={{ color: 'var(--muted)' }}>• Aggiornamenti su richiesta (abbonamento valutato per chi ha molte modifiche)<br/>• Backup su richiesta<br/>• HTTPS base<br/>• Richiesta via WhatsApp/Email</span>
+          <span style={{ color: 'var(--muted)' }}>• Aggiornamenti su richiesta<br />• Backup su richiesta<br />• Richiesta via WhatsApp o email</span>
         </div>
       </div>
     </section>
@@ -866,23 +846,18 @@ function ContattiPage() {
       <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '20px' }}>
           <strong style={{ display: 'block', marginBottom: '12px' }}>Contatti diretti</strong>
-          <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a> — tutto via WhatsApp, no videochiamata</p>
-          <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>Email:</strong> <a href={`mailto:${email}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>{email}</a> — definitiva</p>
-          <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Orari:</strong> Mar chiuso sempre, resto 15:00-18:45</p>
-          <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Risposta:</strong> fino alle 23 / entro 2 giorni lavorativi</p>
-          <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Area:</strong> solo Asti e Piemonte</p>
-          <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede:</strong> Asti — su appuntamento (nessun indirizzo vetrina)</p>
-          <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Lingue:</strong> italiano, inglese, albanese occasionale</p>
+          <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>WhatsApp:</strong> <a href={`https://wa.me/${whatsapp}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>+39 351 892 4471</a></p>
+          <p style={{ margin: '0 0 8px', fontSize: '14px' }}><strong>Email:</strong> <a href={`mailto:${email}`} style={{ color: 'var(--blue)', textDecoration: 'underline' }}>{email}</a></p>
+          <p style={{ margin: '0 0 8px', fontSize: '14px', color: 'var(--muted)' }}><strong>Area:</strong> Asti e Piemonte</p>
+          <p style={{ margin: '0', fontSize: '14px', color: 'var(--muted)' }}><strong>Sede:</strong> Asti — su appuntamento</p>
           <div style={{ marginTop: '16px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Vorrei prenotare una chiamata per il mio sito.')}`} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--blue)', color: '#fff', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Prenota su WhatsApp →</a>
             <a href={`mailto:${email}`} style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '10px 16px', fontWeight: 800, fontSize: '13px' }}>Scrivi via Email</a>
           </div>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '20px', background: '#fbfbf9' }}>
-          <strong style={{ display: 'block', marginBottom: '12px' }}>Dati aziendali — trasparenza</strong>
-          <p style={{ margin: '0 0 6px', fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6' }}>
-            Ragione sociale: Trebla Studio (progetto giovane in avvio)<br/>P.IVA: non disponibile — prezzo finale, pagamento contanti/bonifico<br/>Titolare privacy: Albert Simoni — {email}<br/>Google Business: non attivo<br/>Form alternativo: non attivo (solo configuratore + WhatsApp/Email)<br/>Privacy / Cookie / Termini: vedi footer — bozze
-          </p>
+          <strong style={{ display: 'block', marginBottom: '12px' }}>Come raggiungerci</strong>
+          <p style={{ margin: '0', fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6' }}>Scrivici su WhatsApp o via email per fissare un appuntamento. Rispondiamo ai messaggi entro la giornata.</p>
         </div>
       </div>
     </section>
@@ -936,10 +911,10 @@ function PrivacyPage() {
   usePageTitle('Trebla Studio — Privacy');
   return (
     <section className="section">
-      <p className="section-label">Privacy — bozza</p>
-      <h1>Privacy Policy<br /><em>bozza non legale.</em></h1>
+      <p className="section-label">Privacy</p>
+      <h1>Privacy Policy</h1>
       <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>
-        Titolare: Albert Simoni — {email} — Nessuna policy professionale attiva, nessun analytics/cookie profilazione, nessun database proprietario: i dati del configuratore vengono inviati solo via WhatsApp per rispondere alla richiesta e conservati in chat per 2 settimane. Diritti: scrivi a {email}. [Da validare con professionista prima di campagne].
+        Titolare: Albert Simoni — {email}. I dati inseriti nel configuratore vengono utilizzati esclusivamente per rispondere alla richiesta di preventivo via WhatsApp o email e non vengono salvati in database proprietari. Per esercitare i diritti, scrivi a {email}.
       </p>
     </section>
   );
@@ -948,9 +923,9 @@ function CookiePage() {
   usePageTitle('Trebla Studio — Cookie');
   return (
     <section className="section">
-      <p className="section-label">Cookie — bozza</p>
+      <p className="section-label">Cookie</p>
       <h1>Cookie Policy</h1>
-      <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>Nessun cookie di profilazione; solo tecnici necessari + font Google. Cookie banner gratuito incluso. [Da validare].</p>
+      <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>Utilizziamo solo cookie tecnici necessari al funzionamento del sito e font Google. Nessun cookie di profilazione.</p>
     </section>
   );
 }
@@ -958,10 +933,10 @@ function TerminiPage() {
   usePageTitle('Trebla Studio — Termini');
   return (
     <section className="section">
-      <p className="section-label">Termini — bozza</p>
+      <p className="section-label">Termini</p>
       <h1>Termini di<br /><em>servizio.</em></h1>
       <p style={{ marginTop: '18px', fontSize: '14px', lineHeight: '1.6', color: 'var(--muted)', maxWidth: '720px' }}>
-        Preventivo valido 2 settimane, prezzo finale senza IVA aggiunta (no P.IVA). Acconto 10% incluso a bloccare tempistiche, resto a consegna (contanti/bonifico). 2 revisioni incluse. Proprietà sito trasferita a saldo. Se a metà lavoro non prosegue, chiusura concordata; non rimborsabile se lavoro già svolto correttamente. [Da validare].
+        Le proposte includono due revisioni. La proprietà del sito viene trasferita alla consegna. Dettagli su tempi, costi e modalità di pagamento vengono concordati prima di iniziare.
       </p>
     </section>
   );
@@ -1020,16 +995,28 @@ function PreventivoPage() {
     return total;
   }, [isAltro, hasSite, hasSocial, hasDesign, form.bannerDiscount, form.structure, form.photos, form.features, form.type, form.pages, form.socialPlatforms, form.socialNeeds, form.designNeeds]);
   const quoteLabel = (hasSite || hasSocial || hasDesign) ? `Stima: ${currentTotal} €` : 'Seleziona un servizio per la stima';
+  const nomeOk = form.name.trim().length >= 2;
+  const tipoOk = !!form.type && (!isAltro || form.typeOther.trim().length >= 2);
+  const serviziOk = hasSite || hasSocial || hasDesign;
+  const strutturaOk = !hasSite || isAltro || !!form.structure;
+  const fotoOk = !hasSite || isAltro || !!form.photos;
+  const socialOk = !hasSocial || (form.socialPlatforms.length > 0 && form.socialNeeds.length > 0);
+  const designOk = !hasDesign || form.designNeeds.length > 0;
+  const obiettiviOk = isAltro || form.goals.length > 0;
+  const timingOk = !!form.timing;
   const missingFields = [];
-  if (form.name.trim().length < 2) missingFields.push('il nome della tua attività');
-  if (!form.type) missingFields.push('il tipo di attività');
-  if (isAltro && form.typeOther.trim().length < 2) missingFields.push('la descrizione della tua attività');
-  if (!hasSite && !hasSocial && !hasDesign) missingFields.push('un servizio (Sito, Social o Design)');
-  if (hasSite && !isAltro && !form.structure) missingFields.push('la struttura del sito');
-  if (hasSite && !isAltro && !form.photos) missingFields.push('le foto');
-  if (hasSocial && !(form.socialPlatforms.length > 0 && form.socialNeeds.length > 0)) missingFields.push('le scelte Social Media');
-  if (hasDesign && form.designNeeds.length === 0) missingFields.push('i materiali grafici');
-  const canReveal = missingFields.length === 0 && form.privacy;
+  if (!nomeOk) missingFields.push('il nome della tua attività');
+  if (!tipoOk) missingFields.push('il tipo di attività');
+  if (!serviziOk) missingFields.push('un servizio (Sito, Social o Design)');
+  if (hasSite && !isAltro && !strutturaOk) missingFields.push('la struttura del sito');
+  if (hasSite && !isAltro && !fotoOk) missingFields.push('le foto');
+  if (hasSocial && !socialOk) missingFields.push('le scelte Social Media');
+  if (hasDesign && !designOk) missingFields.push('i materiali grafici');
+  if (!isAltro && !obiettiviOk) missingFields.push('un obiettivo');
+  if (!timingOk) missingFields.push('i tempi desiderati');
+  const privacyOk = form.privacy;
+  const canReveal = missingFields.length === 0 && privacyOk;
+  const stepLabel = !nomeOk || !tipoOk ? 'Passo 1 di 4 — attività' : !serviziOk ? 'Passo 2 di 4 — servizi' : (!obiettiviOk || !timingOk) ? 'Passo 3 di 4 — obiettivi e tempi' : !privacyOk ? 'Passo 4 di 4 — privacy' : 'Pronto per la stima';
   const revealEstimate = () => { revealTime.current = Date.now(); setEstimateRevealed(true); };
   const sendQuote = (event) => {
     event.preventDefault();
@@ -1047,11 +1034,11 @@ function PreventivoPage() {
     }
     if (hasSocial) messageLines.push('','*SOCIAL MEDIA*',`• *Canali:* ${form.socialPlatforms.join(', ') || 'Da decidere'}`,`• *Opzioni:* ${form.socialNeeds.join(', ') || 'Da decidere'}`);
     if (hasDesign) messageLines.push('','*DESIGN & GRAFICHE*',`• *Materiali:* ${form.designNeeds.join(', ') || 'Da decidere'}`);
-    if (form.musicEvent && form.musicEvent !== 'Non al momento') messageLines.push('','*EVENTO MUSICALE (LABEL)*',`• ${form.musicEvent}`);
     messageLines.push('','━━━━━━━━━━━━━━━━━━━','*PIANIFICAZIONE*');
     if (!isAltro) messageLines.push(`• *Obiettivi:* ${form.goals.join(', ')}`);
     messageLines.push(`• *Tempi desiderati:* ${form.timing || 'Da definire'}`,'',`*STIMA CALCOLATA:* ${currentTotal} €`,'━━━━━━━━━━━━━━━━━━━');
     if (form.notes && form.notes.trim()) messageLines.push('','*NOTE AGGIUNTIVE:*',form.notes.trim());
+    if (form.bannerDiscount) messageLines.push('','*Sconto partner richiesto*');
     const message = messageLines.join('\n');
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
@@ -1062,23 +1049,22 @@ function PreventivoPage() {
       <p className="section-label">La tua proposta</p>
       <div className="section-intro">
         <h2>Costruiamo<br /><em>la tua proposta.</em></h2>
-        <p>Il sito è il cuore consigliato. Rispondi alle domande per vedere la stima aggiornarsi. — <Link to="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vedi prezzi chiari →</Link></p>
+        <p>Rispondi a poche domande per ricevere una stima. <Link to="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline', fontSize: '13px' }}>Vedi prezzi chiari</Link></p>
       </div>
+      <p style={{ marginTop: '10px', fontSize: '12px' }}><a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Ho un dubbio sul preventivo, possiamo parlarne?')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>Hai un dubbio? Scrivici →</a></p>
       <form className="quote-form" onSubmit={sendQuote} noValidate>
-        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '12px 16px', background: '#fbfbf9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', marginBottom: '16px' }}>
-          <span style={{ fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--blue)' }}>A che punto sei</span>
-          <span aria-live="polite" style={{ color: missingFields.length ? '#b35a00' : '#0a7a2e', fontWeight: 700 }}>{missingFields.length ? `${missingFields.length} passaggi mancanti` : 'Pronto per la stima — completa il consenso'}</span>
-          <span style={{ fontSize: '11px', color: 'var(--muted)' }}>{Math.round(((6 - missingFields.length) / 6) * 100)}%</span>
+        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '12px 16px', background: '#fbfbf9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', marginBottom: '16px', gap: '12px' }}>
+          <span style={{ fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--blue)' }}>{stepLabel}</span>
+          <span aria-live="polite" style={{ color: missingFields.length ? '#b35a00' : '#0a7a2e', fontWeight: 700, whiteSpace: 'nowrap' }}>{missingFields.length ? `${missingFields.length} da completare` : 'Pronto'}</span>
         </div>
-        <div className={missingFields.includes('il nome della tua attività') ? 'form-block pending' : 'form-block'}>
-          <p className="form-title">La tua attività <span style={{ color: '#b35a00', fontSize: '12px', fontWeight: 400 }}>* obbligatorio</span> {missingFields.includes('il nome della tua attività') && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
-          <label htmlFor="field-name">Come si chiama la tua attività?</label>
-          <input id="field-name" required value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="Inserisci il nome dell'attività" aria-required="true" aria-invalid={missingFields.includes('il nome della tua attività')} />
-          {missingFields.includes('il nome della tua attività') && <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#b35a00' }}>Inserisci il nome — serve per intestare il preventivo.</p>}
+        <div className={nomeOk ? 'form-block' : 'form-block pending'}>
+          <label htmlFor="field-name" className="form-title" style={{ fontSize: '16px' }}>Nome della tua attività <span style={{ color: '#b35a00', fontSize: '12px', fontWeight: 400 }}>*</span> {!nomeOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</label>
+          <input id="field-name" required value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="Es. Pasticceria Rossi" aria-required="true" aria-invalid={!nomeOk} />
+          {!nomeOk && <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#b35a00' }}>Inserisci il nome — serve per intestare il preventivo.</p>}
         </div>
-        <div className={(!form.type || (isAltro && form.typeOther.trim().length < 2)) ? 'form-block pending' : 'form-block'}>
-          <p className="form-title">Che tipo di attività è? {(!form.type || (isAltro && form.typeOther.trim().length < 2)) && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
-          <input value={typeSearch} onChange={(e) => setTypeSearch(e.target.value)} placeholder="Cerca la tua attività... (es. pizzeria, barbiere)" style={{ marginBottom: '14px' }} />
+        <div className={tipoOk ? 'form-block' : 'form-block pending'}>
+          <p className="form-title">Che tipo di attività è? {!tipoOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
+          <input value={typeSearch} onChange={(e) => setTypeSearch(e.target.value)} placeholder="Cerca la tua attività... (es. pizzeria, barbiere)" style={{ marginBottom: '14px' }} aria-label="Cerca tipo attività" />
           {typeSearch.trim() ? (
             <div className="choice-grid">
               {businessTypes.filter(t => t.toLowerCase().includes(typeSearch.toLowerCase())).map((type) => (
@@ -1099,29 +1085,26 @@ function PreventivoPage() {
                 </details>
               ))}
               <button type="button" className={form.type === 'Altro' ? 'choice selected' : 'choice'} onClick={() => handleTypeChange('Altro')} style={{ marginTop: '12px' }}>Altro</button>
+              <p style={{ marginTop: '8px', fontSize: '12px', color: 'var(--muted)' }}>Non trovi la tua attività? Scegli Altro.</p>
             </>
           )}
           {form.type === 'Altro' && (
-            <label className="type-other">Che attività fai? Descrivici la tua attività<input required value={form.typeOther} onChange={(e) => update('typeOther', e.target.value)} placeholder="Es. venditori ambulanti, associazione, negozio online..." /></label>
+            <label className="type-other">Che attività fai? Descrivici la tua attività<input required value={form.typeOther} onChange={(e) => update('typeOther', e.target.value)} placeholder="Es. venditori ambulanti, associazione..." /></label>
           )}
         </div>
-        <div className={(!form.services.length) ? 'form-block pending' : 'form-block'}>
-          <p className="form-title">Di cosa hai bisogno? {(!form.services.length) && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
-          <p className="form-help">{hasSite ? 'Perfetto — Sito Web incluso (cuore). Aggiungi Social o Design solo se ti servono davvero.' : hasSocial || hasDesign ? 'Hai selezionato Social/Design senza sito: il sito è il cuore consigliato, ma possiamo iniziare anche da brand/social se è la priorità.' : 'Il sito è il cuore del progetto (consigliato). Puoi aggiungere Social/Design subito oppure iniziare anche solo da quelli.'}</p>
+        <div className={serviziOk ? 'form-block' : 'form-block pending'}>
+          <p className="form-title">Di cosa hai bisogno? {!serviziOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
+          <p className="form-help">Seleziona il servizio che ti serve ora. Puoi combinarne più di uno.</p>
           <div className="service-choice-grid">
-            <button type="button" className={hasSite ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('site')}>
-              <span>{hasSite ? '✓' : '+'}</span><b>Sito Web</b><small>Presenza online completa, veloce e visibile su tutti i dispositivi.</small><small style={{ marginTop: '10px', color: 'var(--blue)', fontWeight: '800' }}>Da 350 € <span style={{ fontWeight: 400, fontSize: '11px' }}>finale</span></small>
+            <button type="button" className={hasSite ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('site')} aria-pressed={hasSite}>
+              <span>{hasSite ? '✓' : '+'}</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small><small style={{ marginTop: '10px', color: hasSite ? '#c7d6dc' : 'var(--blue)', fontWeight: '800' }}>Da 350 € finale</small>
             </button>
-            <button type="button" className={hasSocial ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('social')}>
-              <span>{hasSocial ? '✓' : '+'}</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small>{!hasSite && hasSocial && <small style={{ marginTop: '10px', color: '#b35a00', fontWeight: '800' }}>Consigliato con Sito Web</small>}
+            <button type="button" className={hasSocial ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('social')} aria-pressed={hasSocial}>
+              <span>{hasSocial ? '✓' : '+'}</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small>
             </button>
-            <button type="button" className={hasDesign ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('design')}>
-              <span>{hasDesign ? '✓' : '+'}</span><b>Design e Grafiche</b><small>Logo, locandine, volantini e materiali coordinati.</small>{!hasSite && hasDesign && <small style={{ marginTop: '10px', color: '#b35a00', fontWeight: '800' }}>Consigliato con Sito Web</small>}
+            <button type="button" className={hasDesign ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('design')} aria-pressed={hasDesign}>
+              <span>{hasDesign ? '✓' : '+'}</span><b>Design e Grafiche</b><small>Logo, locandine, volantini e materiali coordinati.</small>
             </button>
-          </div>
-          <div className="form-escape-block">
-            <p className="escape-kicker">Hai dubbi?</p>
-            <p>Non sai cosa scegliere?<br /><a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Non so bene cosa scegliere per il mio sito, possiamo parlarne direttamente?')}`} target="_blank" rel="noopener noreferrer">Parliamone direttamente su WhatsApp <span>→</span></a></p>
           </div>
         </div>
         {hasSite && form.type && (
@@ -1129,7 +1112,7 @@ function PreventivoPage() {
             {!isAltro && (
               <div className="form-block">
                 <p className="form-title">Struttura del sito web</p>
-                <p className="form-help">Scegli tra una pagina singola fluida (350 € finale) o un sito completo a più pagine (400 € finale). Include responsive, SEO avanzata, cookie banner gratuito e 2 revisioni.</p>
+                <p className="form-help">Scegli tra una pagina singola fluida o un sito completo a più pagine.</p>
                 <div className="choice-grid">
                   {[{ id: 'Pagina singola', label: 'Pagina singola (350 €)' },{ id: 'Sito completo a più pagine', label: 'Sito completo a più pagine (400 €)' }].map((str) => (
                     <button type="button" className={form.structure === str.id ? 'choice selected' : 'choice'} onClick={() => update('structure', str.id)} key={str.id}>{str.label}</button>
@@ -1156,9 +1139,9 @@ function PreventivoPage() {
                     ))}
                   </div>
                 </div>
-                <div className={!isAltro && !form.photos ? 'form-block pending' : 'form-block'}>
-                  <p className="form-title">Foto e immagini {!isAltro && !form.photos && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
-                  <p className="form-help">Le immagini sono fondamentali. Dicci come stai messo: se non ne hai, veniamo noi a scattarle sul posto (+20€ + trasporto se fuori Asti).</p>
+                <div className={!fotoOk ? 'form-block pending' : 'form-block'}>
+                  <p className="form-title">Foto e immagini {!fotoOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</p>
+                  <p className="form-help">Se non ne hai, possiamo venire a scattarle sul posto.</p>
                   <div className="choice-grid">
                     {[{ id: 'Ho già le foto', label: 'Ho già le foto (le invio io)' },{ id: 'Servono le foto (le scattate voi)', label: 'Scattate voi sul posto' },{ id: 'Parto da zero', label: 'Non ho niente, usiamo immagini di archivio' }].map((photo) => (
                       <button type="button" className={form.photos === photo.id ? 'choice selected' : 'choice'} onClick={() => update('photos', photo.id)} key={photo.id}>{photo.label}</button>
@@ -1169,11 +1152,10 @@ function PreventivoPage() {
             )}
           </>
         )}
-        {hasSite && hasSocial && (
+        {hasSocial && (
           <>
             <div className="form-block">
               <p className="form-title">Social Media: su quali canali vuoi puntare?</p>
-              <p className="form-help"><strong>Scheda Google My Business inclusa</strong> nel sito — non è un extra. Qui scegli i canali aggiuntivi.</p>
               <div className="choice-grid">
                 {socialPlatforms.map((plat) => (
                   <button type="button" className={form.socialPlatforms.includes(plat) ? 'choice selected' : 'choice'} onClick={() => toggle('socialPlatforms', plat)} key={plat}>{plat} (+10 €)</button>
@@ -1191,7 +1173,7 @@ function PreventivoPage() {
             </div>
           </>
         )}
-        {hasSite && hasDesign && (
+        {hasDesign && (
           <div className="form-block">
             <p className="form-title">Design e Materiali Grafici</p>
             <p className="form-help">Materiali su misura per {form.type}.</p>
@@ -1202,73 +1184,77 @@ function PreventivoPage() {
             </div>
           </div>
         )}
-        <div className="form-block">
-          <p className="form-title">Sconto partner Trebla — 20 €</p>
-          <p className="form-help">Aggiungi un piccolo banner discreto “Realizzato da Trebla Studio” nel tuo sito e sblocca subito lo sconto partner.</p>
-          <button type="button" className={form.bannerDiscount ? 'choice selected' : 'choice'} onClick={() => update('bannerDiscount', !form.bannerDiscount)}>{form.bannerDiscount ? '✓ Sconto partner attivo' : 'Applica sconto partner — 20 €'}</button>
-        </div>
-        <div className="form-block">
-          <p className="form-title">Evento musicale opzionale?</p>
-          <p className="form-help">Se ti interessa musica dal vivo per inaugurazione/promo, lo gestiamo tramite Pikete Label. Costo 60€/h singolo — 250€/h tutti e 4. Vedi <Link to="/eventi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>dettagli evento →</Link></p>
-          <div className="event-options">
-            {['Sì, voglio info per evento musicale','Da valutare più avanti','Non al momento'].map((ev) => (
-              <button type="button" className={form.musicEvent === ev ? 'event-option selected' : 'event-option'} onClick={() => update('musicEvent', ev)} key={ev}>{ev}</button>
-            ))}
-          </div>
-        </div>
         {!isAltro && (
           <div className="form-block">
             <p className="form-title">Cosa vuoi ottenere principalmente?</p>
+            <p className="form-help">Puoi scegliere più di un obiettivo.</p>
             <div className="choice-grid goals">
               {goals.map((goal) => (
-                <button type="button" className={form.goals.includes(goal) ? 'choice selected' : 'choice'} onClick={() => toggle('goals', goal)} key={goal}>{goal}</button>
+                <button type="button" className={form.goals.includes(goal) ? 'choice selected' : 'choice'} onClick={() => toggle('goals', goal)} key={goal} aria-pressed={form.goals.includes(goal)}>{goal}</button>
               ))}
             </div>
           </div>
         )}
-        <div className="form-block form-split">
-          <label>Quando vorresti iniziare?
-            <div className="choice-grid compact">
-              {['Appena possibile (10 giorni)', 'Entro un mese', 'Sto valutando'].map((time) => (
-                <button type="button" className={form.timing === time ? 'choice selected' : 'choice'} onClick={() => update('timing', time)} key={time}>{time}</button>
-              ))}
-            </div>
-          </label>
-          <label>Raccontaci qualcosa<textarea value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Dettagli, richieste particolari o cose importanti da sapere (opzionale)" rows="3" /></label>
+        <div className="form-block">
+          <label htmlFor="field-timing" className="form-title" style={{ fontSize: '16px', marginBottom: '12px', display: 'block' }}>Quando vorresti iniziare?</label>
+          <div className="choice-grid compact">
+            {['Appena possibile', 'Entro un mese', 'Sto valutando'].map((time) => (
+              <button type="button" id={time === 'Appena possibile' ? 'field-timing' : undefined} className={form.timing === time ? 'choice selected' : 'choice'} onClick={() => update('timing', time)} key={time} aria-pressed={form.timing === time}>{time}</button>
+            ))}
+          </div>
+        </div>
+        <div className="form-block">
+          <label htmlFor="field-notes" className="form-title" style={{ fontSize: '16px', marginBottom: '6px', display: 'block' }}>Note per il progetto</label>
+          <p className="form-help" style={{ marginBottom: '10px' }}>Facoltativo: funzioni, colori, esempi o esigenze da sapere.</p>
+          <textarea id="field-notes" value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Es. vorrei un sito con prenotazioni e colori chiari..." rows="4" style={{ width: '100%', border: '1px solid var(--line)', borderRadius: '8px', padding: '12px', font: '14px var(--sans)', background: '#fff', minHeight: '96px', resize: 'vertical' }} />
         </div>
         <div className="form-block" style={{ borderBottom: 'none', paddingBottom: '8px' }}>
           <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontWeight: 400, fontSize: '13px', lineHeight: '1.5', cursor: 'pointer' }}>
-            <input type="checkbox" checked={form.privacy} onChange={(e) => update('privacy', e.target.checked)} style={{ width: '18px', height: '18px', marginTop: '2px', accentColor: 'var(--blue)' }} />
-            <span>Ho letto l’<Link to="/privacy" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>informativa privacy</Link> e acconsento al trattamento dei dati per ricevere il preventivo via WhatsApp/Email. I dati non vengono salvati su database ma usati solo per rispondere. *</span>
+            <input type="checkbox" checked={form.privacy} onChange={(e) => update('privacy', e.target.checked)} style={{ width: '18px', height: '18px', marginTop: '2px', accentColor: 'var(--blue)' }} required aria-required="true" />
+            <span>Ho letto l’<Link to="/privacy" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>informativa privacy</Link> e acconsento al trattamento dei dati per ricevere il preventivo. *</span>
           </label>
-          <p style={{ fontSize: '12px', color: 'var(--muted)', margin: '10px 0 0 28px', lineHeight: '1.5' }}>Tracciamento: nessun analytics proprietario attivo ora.</p>
         </div>
         <div className="estimate">
           <div>
             {estimateRevealed ? (
               <>
-                <span>La tua stima — prezzo finale</span><strong>{quoteLabel} <small>stima finale</small></strong>
-                <p>La stima è indicativa: il prezzo finale può variare dopo aver parlato insieme. Prezzo finale senza IVA aggiunta (no P.IVA).</p>
-                <p>Pronto in 10 giorni* garantiti* · Google inclusa · Cookie banner gratuito · 2 revisioni · *vedi condizioni.</p>
-                {(hasSite || hasSocial || hasDesign) && <p className="estimate-note">Acconto 10% per bloccare le tempistiche ({Math.round(currentTotal * 0.1)} € su {currentTotal} €) — resto alla consegna</p>}
+                <span>La tua stima</span><strong>{quoteLabel} <small>stima</small></strong>
+                <p>Stima indicativa. Il prezzo finale viene concordato insieme.</p>
+                {(hasSite || hasSocial || hasDesign) && <p className="estimate-note">Stima: {currentTotal} €</p>}
               </>
             ) : (
               <>
-                <span>Stima finale</span><strong>{canReveal ? 'Sei pronto per la stima' : 'Completa il modulo'}</strong>
-                <p>{!form.privacy ? 'Manca il consenso privacy per sbloccare la stima.' : canReveal ? 'Hai risposto a tutto: premi "Mostra la stima" per scoprire il prezzo.' : `Per sbloccare la stima manca ancora: ${missingFields.join(', ')}.`}</p>
+                <span>Stima finale</span><strong>{canReveal ? 'Pronto per la stima' : 'Completa il modulo'}</strong>
+                <p>{!privacyOk ? 'Manca il consenso privacy per sbloccare la stima.' : canReveal ? 'Hai risposto a tutto: premi "Mostra la stima".' : `Per sbloccare la stima manca ancora: ${missingFields.join(', ')}.`}</p>
               </>
             )}
           </div>
           {estimateRevealed ? (
-            <button className="wa-cta" type="submit" disabled={!hasSite && !hasSocial && !hasDesign}><WhatsAppIcon /> Invia stima su WhatsApp</button>
+            <button className="wa-cta" type="submit" disabled={!hasSite && !hasSocial && !hasDesign}><WhatsAppIcon /> Invia su WhatsApp</button>
           ) : canReveal ? (
             <button className="wa-cta" type="button" onClick={revealEstimate}>Mostra la stima</button>
           ) : null}
         </div>
+        {estimateRevealed && (
+          <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fbfbf9', fontSize: '13px', lineHeight: '1.5' }}>
+            <label style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', fontWeight: 600 }}>
+              <input type="checkbox" checked={form.bannerDiscount} onChange={(e) => update('bannerDiscount', e.target.checked)} style={{ accentColor: 'var(--blue)' }} />
+              Vuoi applicare lo sconto partner? Scopri come funziona: aggiungi un banner discreto “Realizzato da Trebla Studio” (−20 €).
+            </label>
+          </div>
+        )}
+        {submitted && (
+          <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fff', fontSize: '13px' }}>
+            <strong>Grazie — richiesta inviata su WhatsApp.</strong>
+            <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Ti interessa anche un evento di inaugurazione con musica dal vivo? <Link to="/eventi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vedi Eventi →</Link></p>
+          </div>
+        )}
       </form>
     </section>
   );
 }
+
+
 
 function App() {
   const [quickContactOpen, setQuickContactOpen] = useState(false);
