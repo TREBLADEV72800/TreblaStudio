@@ -1257,14 +1257,14 @@ function PreventivoPage() {
             <button className="wa-cta" type="button" onClick={revealEstimate}>Mostra la stima</button>
           ) : null}
         </div>
-        {estimateRevealed && (
-          <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fbfbf9', fontSize: '13px', lineHeight: '1.5' }}>
-            <label style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', fontWeight: 600 }}>
-              <input type="checkbox" checked={form.bannerDiscount} onChange={(e) => update('bannerDiscount', e.target.checked)} style={{ accentColor: 'var(--blue)' }} />
-              Vuoi applicare lo sconto partner? Scopri come funziona: aggiungi un banner discreto “Realizzato da Trebla Studio” (−20 €).
-            </label>
-          </div>
-        )}
+        <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fbfbf9', fontSize: '13px', lineHeight: '1.5' }}>
+          <label style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', fontWeight: 600, opacity: estimateRevealed ? 1 : 0.7 }}>
+            <input type="checkbox" checked={form.bannerDiscount} onChange={(e) => update('bannerDiscount', e.target.checked)} style={{ accentColor: 'var(--blue)' }} />
+            Vuoi applicare lo sconto partner? Aggiungi un banner discreto “Realizzato da Trebla Studio” (−20 €).
+          </label>
+          {estimateRevealed && form.bannerDiscount && <p style={{ margin: '8px 0 0 28px', fontSize: '12px', color: '#0a7a2e', fontWeight: 700 }}>Sconto applicato — nuova stima: {currentTotal} € (era {currentTotal + 20} €)</p>}
+          {!estimateRevealed && <p style={{ margin: '6px 0 0 28px', fontSize: '11px', color: 'var(--muted)' }}>Applica lo sconto prima o dopo aver mostrato la stima — il totale si aggiorna in tempo reale.</p>}
+        </div>
         {submitted && (
           <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fff', fontSize: '13px' }}>
             <strong>Grazie — richiesta inviata su WhatsApp.</strong>
