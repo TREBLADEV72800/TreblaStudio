@@ -508,7 +508,6 @@ function HomePage() {
             <Link className="button button-main" to="/preventivo">Configura il preventivo</Link>
             <Link className="button button-quiet" to="/servizi" style={{ fontWeight: 600 }}>Scopri i servizi</Link>
           </div>
-          <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--muted)' }}>Prezzo indicato prima di iniziare.</p>
         </div>
         <div className="hero-card">
           <span className="card-kicker">Trebla Studio, Asti</span>
