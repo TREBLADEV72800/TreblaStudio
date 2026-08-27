@@ -838,12 +838,19 @@ function FaqPage() {
         <p>Tutto quello che c'è da sapere prima di iniziare il tuo progetto.</p>
       </div>
       <div className="faq-list">
-        {faqs.map((faq, index) => (
-          <article key={index} className={openFaq === index ? 'faq-card faq-active' : 'faq-card'} onClick={() => setOpenFaq(openFaq === index ? null : index)}>
-            <div className="faq-header"><h3>{faq.q}</h3><span className="faq-plus">{openFaq === index ? '−' : '+'}</span></div>
-            {openFaq === index && <p style={{ whiteSpace: 'pre-line' }}>{faq.a}</p>}
-          </article>
-        ))}
+        {faqs.map((faq, index) => {
+          const isOpen = openFaq === index;
+          const panelId = `faq-panel-${index}`;
+          const btnId = `faq-btn-${index}`;
+          return (
+            <article key={index} className={isOpen ? 'faq-card faq-active' : 'faq-card'}>
+              <button id={btnId} className="faq-header" aria-expanded={isOpen} aria-controls={panelId} onClick={() => setOpenFaq(isOpen ? null : index)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px', background: 'transparent', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>
+                <h3 style={{ margin: 0 }}>{faq.q}</h3><span className="faq-plus" aria-hidden="true">{isOpen ? '−' : '+'}</span>
+              </button>
+              {isOpen && <p id={panelId} role="region" aria-labelledby={btnId} style={{ whiteSpace: 'pre-line' }}>{faq.a}</p>}
+            </article>
+          );
+        })}
       </div>
     </section>
   );
@@ -1112,7 +1119,7 @@ function PreventivoPage() {
           <p className="form-help">Seleziona il servizio che ti serve ora. Puoi combinarne più di uno.</p>
           <div className="service-choice-grid">
             <button type="button" className={hasSite ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('site')} aria-pressed={hasSite}>
-              <span>{hasSite ? '✓' : '+'}</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small><small style={{ marginTop: '10px', color: hasSite ? '#c7d6dc' : 'var(--blue)', fontWeight: '800' }}>Da 350 € finale</small>
+              <span>{hasSite ? '✓' : '+'}</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small><small style={{ marginTop: '10px', color: hasSite ? '#c7d6dc' : 'var(--blue)', fontWeight: '800' }}>Da 350 €</small>
             </button>
             <button type="button" className={hasSocial ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('social')} aria-pressed={hasSocial}>
               <span>{hasSocial ? '✓' : '+'}</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small>
