@@ -1016,7 +1016,7 @@ function PreventivoPage() {
     if (form.bannerDiscount) total = Math.max(0, total - 20);
     return total;
   }, [isAltro, hasSite, hasSocial, hasDesign, form.bannerDiscount, form.structure, form.photos, form.features, form.type, form.pages, form.socialPlatforms, form.socialNeeds, form.designNeeds]);
-  const quoteLabel = (hasSite || hasSocial || hasDesign) ? `Stima: ${currentTotal} €` : 'Seleziona un servizio per la stima';
+  const quoteLabel = (hasSite || hasSocial || hasDesign) ? `€ ${currentTotal}` : 'Seleziona un servizio';
   const nomeOk = form.name.trim().length >= 2;
   const tipoOk = !!form.type && (!isAltro || form.typeOther.trim().length >= 2);
   const serviziOk = hasSite || hasSocial || hasDesign;
@@ -1240,30 +1240,31 @@ function PreventivoPage() {
           <div>
             {estimateRevealed ? (
               <>
-                <span>La tua stima</span><strong>{quoteLabel} <small>stima</small></strong>
-                <p>Stima indicativa. Il prezzo finale viene concordato insieme.</p>
-                {(hasSite || hasSocial || hasDesign) && <p className="estimate-note">Stima: {currentTotal} €</p>}
+                <span>Totale indicativo</span><strong>€ {currentTotal}</strong>
+                <p>Prezzo concordato insieme prima di iniziare.</p>
               </>
             ) : (
               <>
-                <span>Stima finale</span><strong>{canReveal ? 'Pronto per la stima' : 'Completa il modulo'}</strong>
-                <p>{!privacyOk ? 'Manca il consenso privacy per sbloccare la stima.' : canReveal ? 'Hai risposto a tutto: premi "Mostra la stima".' : `Per sbloccare la stima manca ancora: ${missingFields.join(', ')}.`}</p>
+                <span>Preventivo</span><strong>{canReveal ? 'Pronto' : 'Completa i campi'}</strong>
+                <p>{!privacyOk ? 'Manca il consenso privacy.' : canReveal ? 'Hai risposto a tutto.' : `Manca: ${missingFields.join(', ')}.`}</p>
               </>
             )}
           </div>
           {estimateRevealed ? (
             <button className="wa-cta" type="submit" disabled={!hasSite && !hasSocial && !hasDesign}><WhatsAppIcon /> Invia su WhatsApp</button>
           ) : canReveal ? (
-            <button className="wa-cta" type="button" onClick={revealEstimate}>Mostra la stima</button>
-          ) : null}
+            <button className="wa-cta" type="button" onClick={revealEstimate}>Mostra il totale</button>
+          ) : (
+            <a className="wa-cta" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?')}`} target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> Scrivici su WhatsApp</a>
+          )}
         </div>
         <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fbfbf9', fontSize: '13px', lineHeight: '1.5' }}>
           <label style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', fontWeight: 600, opacity: estimateRevealed ? 1 : 0.7 }}>
             <input type="checkbox" checked={form.bannerDiscount} onChange={(e) => update('bannerDiscount', e.target.checked)} style={{ accentColor: 'var(--blue)' }} />
             Vuoi applicare lo sconto partner? Aggiungi un banner discreto “Realizzato da Trebla Studio” (−20 €).
           </label>
-          {estimateRevealed && form.bannerDiscount && <p style={{ margin: '8px 0 0 28px', fontSize: '12px', color: '#0a7a2e', fontWeight: 700 }}>Sconto applicato — nuova stima: {currentTotal} € (era {currentTotal + 20} €)</p>}
-          {!estimateRevealed && <p style={{ margin: '6px 0 0 28px', fontSize: '11px', color: 'var(--muted)' }}>Applica lo sconto prima o dopo aver mostrato la stima — il totale si aggiorna in tempo reale.</p>}
+          {estimateRevealed && form.bannerDiscount && <p style={{ margin: '8px 0 0 28px', fontSize: '12px', color: '#0a7a2e', fontWeight: 700 }}>Sconto applicato — nuovo totale: € {currentTotal} (era € {currentTotal + 20})</p>}
+          {!estimateRevealed && <p style={{ margin: '6px 0 0 28px', fontSize: '11px', color: 'var(--muted)' }}>Il totale si aggiorna in tempo reale.</p>}
         </div>
         {submitted && (
           <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fff', fontSize: '13px' }}>
