@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://treblastudio.vercel.app/sitemap.xml
