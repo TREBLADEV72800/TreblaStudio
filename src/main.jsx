@@ -1152,7 +1152,7 @@ function PreventivoPage() {
           <p className="form-help">Seleziona il servizio che ti serve ora. Puoi combinarne più di uno.</p>
           <div className="service-choice-grid">
             <button type="button" className={hasSite ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('site')} aria-pressed={hasSite}>
-              <span>{hasSite ? '✓' : '+'}</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small><small style={{ marginTop: '10px', color: hasSite ? '#c7d6dc' : 'var(--blue)', fontWeight: '800' }}>Da 350 €</small>
+              <span>{hasSite ? '✓' : '+'}</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small>
             </button>
             <button type="button" className={hasSocial ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('social')} aria-pressed={hasSocial}>
               <span>{hasSocial ? '✓' : '+'}</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small>
