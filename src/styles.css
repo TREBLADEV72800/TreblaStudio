@@ -1616,7 +1616,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .siti-grid,
   .eventi-grid,
   .prezzi-detail-grid,
-  .assistenza-grid {
+  .assistenza-grid,
+  .pacchetti-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 }

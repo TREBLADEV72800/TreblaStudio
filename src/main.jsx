@@ -585,7 +585,7 @@ function HomePage() {
         <p className="section-label">Preventivo</p>
         <div className="section-intro">
           <h2>Configura<br /><em>il preventivo.</em></h2>
-          <p>Rispondi a poche domande per ricevere una stima — oppure <a href="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>vai alla pagina dedicata →</a></p>
+          <p>Rispondi a poche domande per ricevere il tuo preventivo — oppure <a href="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>vai alla pagina dedicata →</a></p>
         </div>
         <p style={{ marginTop: '12px', fontSize: '13px' }}><a href="/preventivo" className="button button-main" style={{ display: 'inline-flex' }}>Apri configuratore completo →</a></p>
       </section>
@@ -631,6 +631,24 @@ function ServiziPage() {
           <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini.</p>
           <span style={{ marginTop: '12px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px' }}>Dettagli →</span>
         </Link>
+      </div>
+      <p style={{ marginTop: '18px', fontSize: '13px', color: 'var(--muted)', textAlign: 'center' }}>Ogni servizio è indipendente: se scegli solo Social ricevi solo Social, se scegli solo Design solo Design — oppure combinali.</p>
+      <div className="pacchetti-grid" style={{ marginTop: '14px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fff' }}>
+          <strong style={{ fontSize: '14px' }}>Solo Social</strong>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '6px 0 0' }}>Solo gestione social, senza sito.</p>
+          <Link to="/preventivo" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura Social →</Link>
+        </div>
+        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fff' }}>
+          <strong style={{ fontSize: '14px' }}>Solo Design</strong>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '6px 0 0' }}>Solo grafiche e logo, senza sito.</p>
+          <Link to="/preventivo" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura Design →</Link>
+        </div>
+        <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fbfbf9' }}>
+          <strong style={{ fontSize: '14px' }}>Pacchetto Completo</strong>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '6px 0 0' }}>Sito + Social + Design insieme.</p>
+          <Link to="/preventivo" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura completo →</Link>
+        </div>
       </div>
     </section>
   );
@@ -1058,7 +1076,7 @@ function PreventivoPage() {
     if (hasDesign) messageLines.push('','*DESIGN & GRAFICHE*',`• *Materiali:* ${form.designNeeds.join(', ') || 'Da decidere'}`);
     messageLines.push('','━━━━━━━━━━━━━━━━━━━','*PIANIFICAZIONE*');
     if (!isAltro) messageLines.push(`• *Obiettivi:* ${form.goals.join(', ')}`);
-    messageLines.push(`• *Tempi desiderati:* ${form.timing || 'Da definire'}`,'',`*STIMA CALCOLATA:* ${currentTotal} €`,'━━━━━━━━━━━━━━━━━━━');
+    messageLines.push(`• *Tempi desiderati:* ${form.timing || 'Da definire'}`,'',`*TOTALE INDICATIVO:* ${currentTotal} €`,'━━━━━━━━━━━━━━━━━━━');
     if (form.notes && form.notes.trim()) messageLines.push('','*NOTE AGGIUNTIVE:*',form.notes.trim());
     if (form.bannerDiscount) messageLines.push('','*Sconto partner richiesto*');
     const message = messageLines.join('\n');
@@ -1071,7 +1089,7 @@ function PreventivoPage() {
       <p className="section-label">La tua proposta</p>
       <div className="section-intro">
         <h2>Costruiamo<br /><em>la tua proposta.</em></h2>
-        <p>Rispondi a poche domande per ricevere una stima. <Link to="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline', fontSize: '13px' }}>Vedi prezzi chiari</Link></p>
+        <p>Rispondi a poche domande per ricevere il tuo preventivo. <Link to="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline', fontSize: '13px' }}>Vedi prezzi chiari</Link></p>
       </div>
       <p style={{ marginTop: '10px', fontSize: '12px' }}><a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Ho un dubbio sul preventivo, possiamo parlarne?')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>Hai un dubbio? Scrivici →</a></p>
       <form className="quote-form" onSubmit={sendQuote} noValidate>
@@ -1127,6 +1145,9 @@ function PreventivoPage() {
             <button type="button" className={hasDesign ? 'service-choice selected' : 'service-choice'} onClick={() => handleServiceToggle('design')} aria-pressed={hasDesign}>
               <span>{hasDesign ? '✓' : '+'}</span><b>Design e Grafiche</b><small>Logo, locandine, volantini e materiali coordinati.</small>
             </button>
+          </div>
+          <div style={{ marginTop: '12px' }}>
+            <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Non so cosa fare per il sito, mi aiutate a scegliere?')}`} target="_blank" rel="noopener noreferrer" className="button button-quiet" style={{ width: '100%', justifyContent: 'center', borderStyle: 'dashed', background: '#fbfbf9', fontSize: '13px' }}>Non so cosa fare per il sito — scrivici su WhatsApp →</a>
           </div>
         </div>
         {hasSite && form.type && (
@@ -1258,13 +1279,12 @@ function PreventivoPage() {
             <a className="wa-cta" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?')}`} target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> Scrivici su WhatsApp</a>
           )}
         </div>
-        <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fbfbf9', fontSize: '13px', lineHeight: '1.5' }}>
-          <label style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', fontWeight: 600, opacity: estimateRevealed ? 1 : 0.7 }}>
-            <input type="checkbox" checked={form.bannerDiscount} onChange={(e) => update('bannerDiscount', e.target.checked)} style={{ accentColor: 'var(--blue)' }} />
-            Vuoi applicare lo sconto partner? Aggiungi un banner discreto “Realizzato da Trebla Studio” (−20 €).
-          </label>
-          {estimateRevealed && form.bannerDiscount && <p style={{ margin: '8px 0 0 28px', fontSize: '12px', color: '#0a7a2e', fontWeight: 700 }}>Sconto applicato — nuovo totale: € {currentTotal} (era € {currentTotal + 20})</p>}
-          {!estimateRevealed && <p style={{ margin: '6px 0 0 28px', fontSize: '11px', color: 'var(--muted)' }}>Il totale si aggiorna in tempo reale.</p>}
+        <div style={{ marginTop: '14px' }}>
+          <button type="button" className={form.bannerDiscount ? 'choice selected' : 'choice'} onClick={() => update('bannerDiscount', !form.bannerDiscount)} style={{ width: '100%', justifyContent: 'center', padding: '14px 18px', fontSize: '14px', minHeight: '44px' }}>
+            {form.bannerDiscount ? '✓ Sconto partner applicato −20 €' : 'Applica sconto partner −20 €'}
+          </button>
+          <p style={{ marginTop: '8px', fontSize: '12px', color: 'var(--muted)', textAlign: 'center' }}>Banner discreto “Realizzato da Trebla Studio”</p>
+          {estimateRevealed && form.bannerDiscount && <p style={{ marginTop: '6px', fontSize: '12px', color: '#0a7a2e', fontWeight: 700, textAlign: 'center' }}>Nuovo totale: € {currentTotal}</p>}
         </div>
         {submitted && (
           <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fff', fontSize: '13px' }}>
