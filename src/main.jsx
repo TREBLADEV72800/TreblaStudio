@@ -637,17 +637,17 @@ function ServiziPage() {
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fff' }}>
           <strong style={{ fontSize: '14px' }}>Solo Social</strong>
           <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '6px 0 0' }}>Solo gestione social, senza sito.</p>
-          <Link to="/preventivo" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura Social →</Link>
+          <Link to="/preventivo?services=social" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura Social →</Link>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fff' }}>
           <strong style={{ fontSize: '14px' }}>Solo Design</strong>
           <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '6px 0 0' }}>Solo grafiche e logo, senza sito.</p>
-          <Link to="/preventivo" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura Design →</Link>
+          <Link to="/preventivo?services=design" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura Design →</Link>
         </div>
         <div style={{ border: '1px solid var(--line)', borderRadius: '8px', padding: '16px', background: '#fbfbf9' }}>
           <strong style={{ fontSize: '14px' }}>Pacchetto Completo</strong>
           <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '6px 0 0' }}>Sito + Social + Design insieme.</p>
-          <Link to="/preventivo" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura completo →</Link>
+          <Link to="/preventivo?services=site,social,design" style={{ display: 'inline-block', marginTop: '10px', fontSize: '13px', fontWeight: 800, color: 'var(--blue)' }}>Configura completo →</Link>
         </div>
       </div>
     </section>
@@ -681,7 +681,7 @@ function ServizioSitiWebPage() {
           <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Pubblicazione, indicazioni su dominio/hosting e proprietà del sito.</p>
         </div>
       </div>
-      <div style={{ marginTop: '18px' }}><Link className="button button-main" to="/preventivo">Configura il tuo sito →</Link></div>
+      <div style={{ marginTop: '18px' }}><Link className="button button-main" to="/preventivo?services=site">Configura il tuo sito →</Link></div>
     </section>
   );
 }
@@ -695,7 +695,7 @@ function ServizioSocialPage() {
         <p>Pianifichiamo contenuti, grafiche e reel brevi per rendere i tuoi canali più coerenti. Puoi iniziare dai social o integrarli al sito.</p>
       </div>
       <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Canali su misura per la tua attività, con approvazione rapida via WhatsApp.</p>
-      <Link className="button button-main" to="/preventivo" style={{ marginTop: '18px' }}>Configura social →</Link>
+      <Link className="button button-main" to="/preventivo?services=social" style={{ marginTop: '18px' }}>Configura social →</Link>
     </section>
   );
 }
@@ -709,7 +709,7 @@ function ServizioDesignPage() {
         <p>Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente.</p>
       </div>
       <p style={{ marginTop: '18px', color: 'var(--muted)', maxWidth: '620px' }}>Materiali pronti per stampa e web, coordinati con il tuo stile.</p>
-      <Link className="button button-main" to="/preventivo" style={{ marginTop: '18px' }}>Configura design →</Link>
+      <Link className="button button-main" to="/preventivo?services=design" style={{ marginTop: '18px' }}>Configura design →</Link>
     </section>
   );
 }
@@ -991,6 +991,21 @@ function PreventivoPage() {
   const [submitted, setSubmitted] = useState(false);
   const revealTime = useRef(0);
   const [form, setForm] = useState(INITIAL_FORM);
+  const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const svc = params.get('services') || params.get('service');
+    if (svc) {
+      const list = svc.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+      const mapped = list.map(s => {
+        if (s === 'site' || s === 'sito' || s === 'siti-web' || s === 'sito-web' || s === 'siti') return 'site';
+        if (s === 'social' || s === 'social-media' || s === 'sm') return 'social';
+        if (s === 'design' || s === 'grafiche' || s === 'grafica') return 'design';
+        return s;
+      }).filter(s => ['site','social','design'].includes(s));
+      if (mapped.length) setForm(c => ({ ...c, services: mapped }));
+    }
+  }, [location.search]);
   const update = (key, value) => setForm((c) => ({ ...c, [key]: value }));
   const toggle = (key, value) => setForm((c) => ({ ...c, [key]: c[key].includes(value) ? c[key].filter((i) => i !== value) : [...c[key], value] }));
   const handleTypeChange = (type) => setForm((c) => ({ ...c, type, features: [], pages: [] }));
@@ -1281,7 +1296,7 @@ function PreventivoPage() {
         </div>
         <div style={{ marginTop: '14px' }}>
           <button type="button" className={form.bannerDiscount ? 'choice selected' : 'choice'} onClick={() => update('bannerDiscount', !form.bannerDiscount)} style={{ width: '100%', justifyContent: 'center', padding: '14px 18px', fontSize: '14px', minHeight: '44px' }}>
-            {form.bannerDiscount ? '✓ Sconto partner applicato −20 €' : 'Applica sconto partner −20 €'}
+            {form.bannerDiscount ? 'Sconto partner applicato −20 €' : 'Applica sconto partner −20 €'}
           </button>
           <p style={{ marginTop: '8px', fontSize: '12px', color: 'var(--muted)', textAlign: 'center' }}>Banner discreto “Realizzato da Trebla Studio”</p>
           {estimateRevealed && form.bannerDiscount && <p style={{ marginTop: '6px', fontSize: '12px', color: '#0a7a2e', fontWeight: 700, textAlign: 'center' }}>Nuovo totale: € {currentTotal}</p>}
