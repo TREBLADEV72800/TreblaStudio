@@ -519,65 +519,67 @@ function HomePage() {
         <p>Per ristoranti, B&amp;B, negozi, saloni, artigiani e professionisti.</p>
       </section>
 
-      <section className="section">
-        <p className="section-label">Servizi</p>
-        <div className="section-intro">
-          <h2>Il digitale,<br /><em>fatto semplice.</em></h2>
-          <div>
-            <p>Sito web, social e design: scegli da dove iniziare.</p>
+      <div style={{ background: '#fff', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
+        <section className="section" style={{ padding: '28px 7vw 16px', borderBottom: '1px solid var(--line)' }}>
+          <p className="section-label">Cosa facciamo</p>
+          <div className="section-intro">
+            <h2>Il digitale,<br /><em>fatto semplice.</em></h2>
+            <p>Sito web, social e design: scegli da dove iniziare. Ogni servizio è indipendente e pensato per piccole attività come la tua.</p>
           </div>
-        </div>
-        <div className="service-grid">
-          <Link to="/servizi/siti-web" className="service-card service-main" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <span>01</span><h3>Sito web</h3><p>Una presenza chiara e curata per trasformare chi ti cerca in cliente.</p>
-            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: struttura responsive, contatti diretti, mappa.</p>
-            <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli sito web →</span>
-          </Link>
-          <Link to="/servizi/social-media" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <span>02</span><h3>Social media</h3><p>Contenuti e gestione per una presenza attiva e coerente ogni settimana.</p>
-            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel.</p>
-            <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli social →</span>
-          </Link>
-          <Link to="/servizi/design" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <span>03</span><h3>Design e grafiche</h3><p>Logo e materiali coordinati per un’immagine riconoscibile.</p>
-            <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini.</p>
-            <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli design →</span>
-          </Link>
-        </div>
-      </section>
+          <div className="service-grid" style={{ marginTop: '20px' }}>
+            <Link to="/servizi/siti-web" className="service-card service-main" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <span>01</span><h3>Sito web</h3><p>Una presenza chiara e curata per trasformare chi ti cerca in cliente.</p>
+              <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: struttura responsive, contatti diretti, mappa.</p>
+              <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli sito web →</span>
+            </Link>
+            <Link to="/servizi/social-media" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <span>02</span><h3>Social media</h3><p>Contenuti e gestione per una presenza attiva e coerente ogni settimana.</p>
+              <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel.</p>
+              <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli social →</span>
+            </Link>
+            <Link to="/servizi/design" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <span>03</span><h3>Design e grafiche</h3><p>Logo e materiali coordinati per un’immagine riconoscibile.</p>
+              <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini.</p>
+              <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli design →</span>
+            </Link>
+          </div>
+          <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--muted)', fontStyle: 'italic', textAlign: 'center' }}>Così lo abbiamo già messo in pratica —</p>
+        </section>
 
-      <section className="section portfolio-section">
-        <p className="section-label">Un esempio concreto</p>
-        <div className="section-intro">
-          <h2>Lo abbiamo<br /><em>già fatto.</em></h2>
-          <p>Un progetto pubblicato, curato in ogni dettaglio.</p>
-        </div>
-        <Link className="portfolio-feature" to="/portfolio">
-          <div>
-            <span className="portfolio-kicker">Pikete Label, Etichetta musicale</span>
-            <strong>Pikete Label</strong>
-            <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
-            <p style={{ marginTop: '8px' }}>Sito vetrina responsive per etichetta musicale: design, sviluppo e gestione.</p>
-            <span className="portfolio-cta"><span>Vedi il caso studio →</span></span>
+        <section className="section portfolio-section" style={{ padding: '16px 7vw', background: 'transparent' }}>
+          <p className="section-label">Un esempio concreto</p>
+          <div className="section-intro">
+            <h2>Lo abbiamo<br /><em>già fatto.</em></h2>
+            <p>Un progetto pubblicato, curato in ogni dettaglio, che mostra il nostro modo di lavorare.</p>
           </div>
-        </Link>
-      </section>
+          <Link className="portfolio-feature" to="/portfolio">
+            <div>
+              <span className="portfolio-kicker">Pikete Label, Etichetta musicale</span>
+              <strong>Pikete Label</strong>
+              <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
+              <p style={{ marginTop: '8px' }}>Sito vetrina responsive per etichetta musicale: design, sviluppo e gestione.</p>
+              <span className="portfolio-cta"><span>Vedi il caso studio →</span></span>
+            </div>
+          </Link>
+          <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--muted)', fontStyle: 'italic', textAlign: 'center' }}>— con un prezzo chiaro, fin da subito.</p>
+        </section>
 
-      <section className="section price-section">
-        <p className="section-label">Prezzi chiari</p>
-        <div className="price-grid">
-          <div>
-            <h2>Una proposta<br /><em>alla tua portata.</em></h2>
-            <p>Parti da 350 €. Prima di iniziare sai cosa è incluso.</p>
-            <Link className="button button-light" to="/prezzi">Vedi i prezzi</Link>
+        <section className="section price-section" style={{ padding: '16px 7vw 28px' }}>
+          <p className="section-label">Prezzi chiari</p>
+          <div className="price-grid">
+            <div>
+              <h2>Una proposta<br /><em>alla tua portata.</em></h2>
+              <p>Parti da 350 €. Prima di iniziare sai cosa è incluso, senza sorprese.</p>
+              <Link className="button button-light" to="/prezzi">Vedi i prezzi</Link>
+            </div>
+            <ul>
+              <li><b>Prezzo chiaro</b><span>Con dettaglio di cosa è incluso.</span></li>
+              <li><b>Tempi concordati</b><span>Consegna definita dopo i materiali.</span></li>
+              <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
+            </ul>
           </div>
-          <ul>
-            <li><b>Prezzo chiaro</b><span>Con dettaglio di cosa è incluso.</span></li>
-            <li><b>Tempi concordati</b><span>Consegna definita dopo i materiali.</span></li>
-            <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
-          </ul>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <section className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
         <p className="section-label">Prossimo passo</p>
