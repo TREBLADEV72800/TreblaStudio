@@ -537,13 +537,11 @@ function HomePage() {
           <Link to="/servizi/social-media" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
             <span>02</span><h3>Social media</h3><p>Contenuti e gestione per una presenza attiva e coerente ogni settimana.</p>
             <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: piano editoriale, grafiche, reel.</p>
-            <p style={{ marginTop: '8px', fontSize: '11px', color: '#2d6685', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Acquistabile anche senza sito</p>
             <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli social →</span>
           </Link>
           <Link to="/servizi/design" className="service-card" style={{ textDecoration: 'none', color: 'inherit' }}>
             <span>03</span><h3>Design e grafiche</h3><p>Logo e materiali coordinati per un’immagine riconoscibile.</p>
             <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--muted)', fontWeight: 600 }}>Include: logo, biglietti, volantini.</p>
-            <p style={{ marginTop: '8px', fontSize: '11px', color: '#2d6685', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Acquistabile anche senza sito</p>
             <span style={{ marginTop: '16px', display: 'inline-block', fontWeight: 800, color: 'var(--blue)', fontSize: '13px', paddingBottom: '4px' }}>Dettagli design →</span>
           </Link>
         </div>
