@@ -575,6 +575,15 @@ function HomePage() {
         </div>
       </section>
 
+      <section id="preventivo-home" className="section quote-section" style={{ background: '#fbfbf9', borderTop: '1px solid var(--line)' }}>
+        <p className="section-label">Preventivo</p>
+        <div className="section-intro">
+          <h2>Configura<br /><em>il preventivo.</em></h2>
+          <p>Rispondi a poche domande per ricevere una stima — oppure <a href="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>vai alla pagina dedicata →</a></p>
+        </div>
+        <p style={{ marginTop: '12px', fontSize: '13px' }}><a href="/preventivo" className="button button-main" style={{ display: 'inline-flex' }}>Apri configuratore completo →</a></p>
+      </section>
+
       <section className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
         <p className="section-label">Prossimo passo</p>
         <div className="section-intro">
