@@ -455,13 +455,16 @@ function Footer() {
           <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.<br />Siti web per piccole attività in Piemonte.</p>
           <a href={`mailto:${email}`} style={{ display: 'inline-block', marginTop: '10px', color: '#fff', fontWeight: 800, fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{email}</a>
         </div>
-        <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+        <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Esplora</strong>
-          <Link to="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Servizi</Link>
-          <Link to="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Lavori</Link>
-          <Link to="/come-lavoriamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Metodo</Link>
-          <Link to="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Prezzi</Link>
-          <Link to="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 14px' }}>
+            <Link to="/" style={{ color: '#d8e3e7', fontSize: '14px' }}>Home</Link>
+            <Link to="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Servizi</Link>
+            <Link to="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Lavori</Link>
+            <Link to="/come-lavoriamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Metodo</Link>
+            <Link to="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Prezzi</Link>
+            <Link to="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
+          </div>
         </nav>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Contatti</strong>
