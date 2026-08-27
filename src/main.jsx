@@ -452,7 +452,7 @@ function Footer() {
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '28px', width: '100%', maxWidth: '1200px', textAlign: 'left' }}>
         <div>
           <strong className="footer-brand">Trebla Studio</strong>
-          <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.<br />Siti web per piccole attività in Piemonte.</p>
+          <p style={{ marginTop: '8px', lineHeight: '1.6' }}>Studio indipendente ad Asti.</p>
           <a href={`mailto:${email}`} style={{ display: 'inline-block', marginTop: '10px', color: '#fff', fontWeight: 800, fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{email}</a>
         </div>
         <nav aria-label="Navigazione footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -469,7 +469,7 @@ function Footer() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Contatti</strong>
           <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp, preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
-          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti, su appuntamento</Link>
+          <Link to="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti</Link>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginTop: '2px', fontSize: '13px', lineHeight: '1' }}>
             <Link to="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Privacy</Link>
             <span style={{ color: '#4a6573' }}>·</span>
@@ -570,8 +570,7 @@ function HomePage() {
           <div>
             <h2>Una proposta<br /><em>alla tua portata.</em></h2>
             <p>Parti da 350 €. Prima di iniziare sai cosa è incluso.</p>
-            <Link className="button button-light" to="/preventivo">Configura il preventivo</Link>
-            <Link className="button button-quiet" to="/prezzi" style={{ marginLeft: '10px', background: 'transparent', color: '#fff', borderColor: 'rgba(255,255,255,0.4)' }}>Vedi i prezzi</Link>
+            <Link className="button button-light" to="/prezzi">Vedi i prezzi</Link>
           </div>
           <ul>
             <li><b>Prezzo chiaro</b><span>Con dettaglio di cosa è incluso.</span></li>
@@ -579,15 +578,6 @@ function HomePage() {
             <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
           </ul>
         </div>
-      </section>
-
-      <section id="preventivo-home" className="section quote-section" style={{ background: '#fbfbf9', borderTop: '1px solid var(--line)' }}>
-        <p className="section-label">Preventivo</p>
-        <div className="section-intro">
-          <h2>Configura<br /><em>il preventivo.</em></h2>
-          <p>Rispondi a poche domande per ricevere il tuo preventivo, oppure <a href="/preventivo" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>vai alla pagina dedicata →</a></p>
-        </div>
-        <p style={{ marginTop: '12px', fontSize: '13px' }}><a href="/preventivo" className="button button-main" style={{ display: 'inline-flex' }}>Apri configuratore completo →</a></p>
       </section>
 
       <section className="section" style={{ background: '#fff', borderTop: '1px solid var(--line)' }}>
