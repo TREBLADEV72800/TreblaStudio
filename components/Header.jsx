@@ -140,7 +140,7 @@ export default function Header({ onOpenQuick }) {
         style={{ zIndex: 1100, position: 'relative', display: 'grid', placeItems: 'center' }}
       >
         {open ? (
-          <span style={{ fontSize: '36px', lineHeight: 1, fontWeight: 300, color: 'var(--ink)', display: 'block', transform: 'translateY(-1px)' }}>×</span>
+          <span style={{ fontSize: '44px', lineHeight: 1, fontWeight: 300, color: 'var(--blue)', display: 'block', transform: 'translateY(-2px)' }}>×</span>
         ) : (
           <>
             <span></span><span></span><span></span>
