@@ -13,14 +13,12 @@ export default function HomePage() {
       {/* HERO minimal — titolo clue mantenuto */}
       <section className="hero" style={{ minHeight: '480px', padding: '48px 7vw 40px' }}>
         <div className="hero-copy">
-          <p className="section-label" style={{ marginBottom: '12px' }}>Asti · Piemonte — solo per chi parte da zero</p>
           <h1 style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}>La tua attività<br /><em>merita di essere vista.</em></h1>
           <p style={{ maxWidth: '420px', fontSize: '18px', marginTop: '18px' }}>Realizziamo siti web chiari e curati per piccole attività di Asti e Piemonte. Per farti ricevere richieste, prenotazioni e contatti.</p>
           <div className="hero-actions" style={{ marginTop: '28px' }}>
-            <Link className="button button-main" href="/preventivo">Configura preventivo — 2 min</Link>
+            <Link className="button button-main" href="/preventivo">Configura preventivo in 2 min</Link>
             <a className="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
-          <p style={{ marginTop: '14px', fontSize: '12px', color: 'var(--muted)' }}>Risposta entro oggi · Nessun impegno</p>
         </div>
         <div className="hero-card" style={{ height: '420px' }}>
           <span className="card-kicker">Trebla Studio — 2 persone, Asti</span>
