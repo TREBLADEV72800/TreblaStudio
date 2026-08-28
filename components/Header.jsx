@@ -67,29 +67,6 @@ export default function Header({ onOpenQuick }) {
         borderTop: '1px solid var(--line)',
       }}
     >
-      <button
-        type="button"
-        aria-label="Chiudi menu"
-        onClick={() => setOpen(false)}
-        style={{
-          position: 'absolute',
-          top: '88px',
-          right: '20px',
-          width: '44px',
-          height: '44px',
-          display: 'grid',
-          placeItems: 'center',
-          background: 'var(--paper)',
-          border: '1px solid var(--line)',
-          borderRadius: '999px',
-          fontSize: '26px',
-          lineHeight: 1,
-          color: 'var(--ink)',
-          cursor: 'pointer',
-        }}
-      >
-        ×
-      </button>
       <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '100%', maxWidth: '380px' }}>
         <p style={{ font: '700 10px var(--mono)', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 22px', opacity: 0.9 }}>Menu — Trebla Studio</p>
         {NAV.map((item, idx) => (
