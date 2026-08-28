@@ -20,10 +20,10 @@ export default function HomePage() {
             <a className="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </div>
-        <div className="hero-card" style={{ height: '420px' }}>
+        <div className="hero-card" style={{ height: '300px', padding: '24px', justifyContent: 'center' }}>
           <span className="card-kicker">Trebla Studio — Asti</span>
-          <strong style={{ fontSize: 'clamp(28px, 3.2vw, 42px)' }}>Un percorso semplice,<br /><em>dal primo messaggio al sito online.</em></strong>
-          <p>Ci sentiamo, capiamo cosa ti serve davvero e lo realizziamo. Senza tecnicismi.</p>
+          <strong style={{ fontSize: 'clamp(22px, 2.6vw, 32px)', margin: '12px 0 8px' }}>Un percorso semplice,<br /><em>dal messaggio al sito.</em></strong>
+          <p style={{ fontSize: '13px', maxWidth: '260px' }}>WhatsApp, scelta rapida, pubblicazione. Senza tecnicismi.</p>
         </div>
       </section>
 
@@ -56,19 +56,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CHI SIAMO teaser */}
-      <section className="section" style={{ background: 'var(--paper)', borderBottom: '1px solid var(--line)', padding: '36px 7vw' }}>
+      {/* CHI SIAMO teaser — orizzontale */}
+      <section className="section" style={{ background: 'var(--paper)', borderBottom: '1px solid var(--line)', padding: '32px 7vw' }}>
         <p className="section-label">Chi siamo</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '32px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '16px', alignItems: 'flex-end' }}>
           <div>
-            <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', margin: 0, letterSpacing: '-0.05em', lineHeight: 0.95 }}>Due persone,<br /><em>un metodo chiaro.</em></h2>
-            <p style={{ color: 'var(--muted)', fontSize: '17px', marginTop: '14px', maxWidth: '520px' }}>Siamo Albert e Gabriel, di Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo qualcosa che ti somiglia davvero.</p>
-            <Link href="/chi-siamo" style={{ display: 'inline-block', marginTop: '14px', fontWeight: 800, color: 'var(--blue)', fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '4px' }}>Conosci Trebla →</Link>
+            <h2 style={{ fontSize: 'clamp(28px, 3.8vw, 44px)', margin: 0, letterSpacing: '-0.05em', lineHeight: 0.95 }}>Due persone,<br /><em>un metodo chiaro.</em></h2>
+            <p style={{ color: 'var(--muted)', fontSize: '16px', marginTop: '10px', maxWidth: '520px' }}>Siamo Albert e Gabriel, di Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo qualcosa che ti somiglia davvero.</p>
           </div>
-          <div style={{ background: 'var(--blue-soft)', border: '1px solid var(--line)', padding: '18px', fontSize: '14px', lineHeight: 1.6 }}>
-            <strong style={{ display: 'block', fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: '8px' }}>Perché Asti</strong>
-            Conosciamo le attività di qui. Niente call impersonali: ci vediamo, scattiamo le foto, restiamo raggiungibili su WhatsApp.
-          </div>
+          <Link href="/chi-siamo" style={{ fontWeight: 800, color: 'var(--blue)', fontSize: '13px', textDecoration: 'underline', textUnderlineOffset: '4px', whiteSpace: 'nowrap' }}>Conosci Trebla →</Link>
+        </div>
+        <div style={{ marginTop: '18px', background: 'var(--blue-soft)', border: '1px solid var(--line)', borderLeft: '3px solid var(--blue)', padding: '12px 16px', display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <strong style={{ fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--blue)', whiteSpace: 'nowrap' }}>Perché Asti</strong>
+          <span style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--ink)' }}>Conosciamo le attività di qui. Niente call impersonali: ci vediamo, scattiamo le foto, restiamo su WhatsApp.</span>
         </div>
       </section>
 

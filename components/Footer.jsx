@@ -19,7 +19,6 @@ export default function Footer() {
             <Link href="/" style={{ color: '#d8e3e7', fontSize: '14px' }}>Home</Link>
             <Link href="/servizi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Servizi</Link>
             <Link href="/portfolio" style={{ color: '#d8e3e7', fontSize: '14px' }}>Lavori</Link>
-            <Link href="/come-lavoriamo" style={{ color: '#d8e3e7', fontSize: '14px' }}>Metodo</Link>
             <Link href="/prezzi" style={{ color: '#d8e3e7', fontSize: '14px' }}>Prezzi</Link>
             <Link href="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
           </div>

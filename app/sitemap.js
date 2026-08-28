@@ -11,7 +11,6 @@ export default function sitemap() {
     { url: `${base}/servizi/design`, lastModified },
     { url: `${base}/portfolio`, lastModified },
     { url: `${base}/chi-siamo`, lastModified },
-    { url: `${base}/come-lavoriamo`, lastModified },
     { url: `${base}/prezzi`, lastModified },
     { url: `${base}/faq`, lastModified },
     { url: `${base}/contatti`, lastModified },
