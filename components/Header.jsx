@@ -140,9 +140,9 @@ export default function Header({ onOpenQuick }) {
 
   return (
     <>
-      <header className="header">
+      <header className="header" style={open ? { zIndex: 1100 } : undefined}>
         <a href="#main" className="skip-link" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>Salta al contenuto</a>
-        <Link href="/" aria-label="Trebla Studio" onClick={() => setOpen(false)} style={{ zIndex: 1101, position: 'relative' }}>
+        <Link href="/" aria-label="Trebla Studio" onClick={() => setOpen(false)} className="logo">
           <Image src="/trebla-logo.webp" alt="Trebla Studio" width={123} height={70} priority style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
         </Link>
         <nav className="nav" aria-label="Navigazione principale">
