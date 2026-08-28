@@ -86,8 +86,6 @@ a {
   background: rgba(246, 245, 239, 0.96);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 .logo {
