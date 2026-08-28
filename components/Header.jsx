@@ -52,7 +52,9 @@ export default function Header({ onOpenQuick }) {
         inset: 0,
         minHeight: '100dvh',
         zIndex: 1000,
-        background: '#0a0f14',
+        background: 'rgba(246,245,239,0.97)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -62,6 +64,7 @@ export default function Header({ onOpenQuick }) {
         paddingLeft: '24px',
         paddingRight: '24px',
         overflowY: 'auto',
+        borderTop: '1px solid var(--line)',
       }}
     >
       <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', width: '100%', maxWidth: '360px' }}>
@@ -76,9 +79,9 @@ export default function Header({ onOpenQuick }) {
               letterSpacing: '-0.04em',
               lineHeight: 1,
               padding: '10px 0',
-              color: active(item.href) ? '#fff' : 'rgba(255,255,255,0.38)',
+              color: active(item.href) ? 'var(--blue)' : 'var(--ink)',
+              opacity: active(item.href) ? 1 : 0.55,
               transform: 'translateY(0)',
-              opacity: 1,
               transition: `transform 0.28s ease ${idx * 45}ms, opacity 0.28s ease ${idx * 45}ms, color 0.15s ease`,
               textAlign: 'center',
               width: '100%',
@@ -105,6 +108,7 @@ export default function Header({ onOpenQuick }) {
         >
           Configura il preventivo
         </Link>
+        <p style={{ marginTop: '14px', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted)' }}>Trebla Studio — Asti</p>
       </div>
     </div>,
     document.body

@@ -1279,7 +1279,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
   .menu.menu-active span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
-    background: #fff;
   }
 
   .menu.menu-active span:nth-child(2) {
@@ -1288,7 +1287,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
   .menu.menu-active span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
-    background: #fff;
   }
 
   .nav {
