@@ -52,7 +52,7 @@ export default function Header({ onOpenQuick }) {
   return (
     <header className="header">
       <a href="#main" className="skip-link" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>Salta al contenuto</a>
-      <Link className="logo" href="/" aria-label="Trebla Studio - torna alla homepage" onClick={() => setMenuOpen(false)}>
+      <Link className="logo" href="/" aria-label="Trebla Studio - torna alla homepage" onClick={() => setMenuOpen(false)} style={{ zIndex: 210, position: 'relative' }}>
         <Image src="/trebla-logo.webp" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width={123} height={70} priority style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </Link>
 
