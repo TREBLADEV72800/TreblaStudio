@@ -20,10 +20,14 @@ export default function HomePage() {
             <a className="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </div>
-        <div className="hero-card" style={{ height: '300px', padding: '24px', justifyContent: 'center' }}>
-          <span className="card-kicker">Trebla Studio — Asti</span>
-          <strong style={{ fontSize: 'clamp(22px, 2.6vw, 32px)', margin: '12px 0 8px' }}>Un percorso semplice,<br /><em>dal messaggio al sito.</em></strong>
-          <p style={{ fontSize: '13px', maxWidth: '260px' }}>WhatsApp, scelta rapida, pubblicazione. Senza tecnicismi.</p>
+        <div style={{ height: 'auto', minHeight: '280px', padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#fff', color: 'var(--ink)', border: '1px solid var(--line)', borderRadius: '12px' }}>
+          <span className="card-kicker" style={{ color: 'var(--muted)' }}>Trebla Studio — Asti · 2 persone</span>
+          <div style={{ marginTop: '14px', display: 'grid', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--blue-soft)', borderRadius: '8px', fontSize: '13px' }}><span style={{ fontWeight: 700 }}>Prezzo chiaro</span><span style={{ fontWeight: 800, color: 'var(--blue)' }}>350 €</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', fontSize: '13px' }}><span style={{ fontWeight: 700 }}>Consegna</span><span style={{ fontWeight: 800 }}>~10 giorni</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', fontSize: '13px' }}><span style={{ fontWeight: 700 }}>Revisioni</span><span style={{ fontWeight: 800 }}>2 incluse</span></div>
+          </div>
+          <p style={{ fontSize: '12px', color: 'var(--muted)', marginTop: '12px', marginBottom: 0 }}>Senza tecnicismi. Parliamo su WhatsApp e partiamo.</p>
         </div>
       </section>
 
