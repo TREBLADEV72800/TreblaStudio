@@ -26,7 +26,7 @@ export default function Footer() {
         </nav>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Contatti</strong>
-          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} aria-label="Scrivici su WhatsApp — preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
+          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp — preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
           <Link href="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti</Link>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginTop: '2px', fontSize: '13px', lineHeight: '1' }}>
             <Link href="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Privacy</Link>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Trebla Studio — Siti Web per Piccole Imprese in Piemonte | Asti',
   description: 'Siti web chiari e curati per piccole attività di Asti e Piemonte: ristoranti, negozi, artigiani e professionisti. Prezzo chiaro da 350 €, tempi concordati, nessun canone obbligatorio.',
-  alternates: { canonical: 'https://treblastudio.vercel.app/' },
+  alternates: { canonical: '/' },
 };
 
 export default function HomePage() {

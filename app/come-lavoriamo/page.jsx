@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "Come lavoriamo — Trebla Studio | Asti",
-  "description": "Dall’idea alla presenza online: brief, materiali, design, revisioni, approvazione, pubblicazione.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/come-lavoriamo"
-  }
+  title: 'Come lavoriamo — Trebla Studio | Asti',
+  description: 'Dall’idea alla presenza online: brief su WhatsApp, materiali, design, revisioni, approvazione e pubblicazione.',
+  alternates: { canonical: '/come-lavoriamo' },
+  openGraph: {
+    title: 'Come lavoriamo — Trebla Studio | Asti',
+    description: 'Dall’idea alla presenza online: brief su WhatsApp, materiali, design, revisioni, approvazione e pubblicazione.',
+    url: '/come-lavoriamo',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Come lavoriamo — Trebla Studio | Asti',
+    description: 'Dall’idea alla presenza online: brief su WhatsApp, materiali, design, revisioni, approvazione e pubblicazione.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

@@ -1,4 +1,24 @@
-export const metadata = { title: 'Eventi — Trebla Studio | Asti', description: 'Musica dal vivo per la tua attività.', alternates: { canonical: 'https://treblastudio.vercel.app/eventi' } };
+export const metadata = {
+  title: 'Eventi — Trebla Studio | Asti',
+  description: 'Musica dal vivo per inaugurazioni e promozioni con Pikete Label, 4 cantanti disponibili.',
+  alternates: { canonical: '/eventi' },
+  openGraph: {
+    title: 'Eventi — Trebla Studio | Asti',
+    description: 'Musica dal vivo per inaugurazioni e promozioni con Pikete Label, 4 cantanti disponibili.',
+    url: '/eventi',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Eventi — Trebla Studio | Asti',
+    description: 'Musica dal vivo per inaugurazioni e promozioni con Pikete Label, 4 cantanti disponibili.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
+};
 export default function Page(){
   return (
     <section className="section" style={{ background: '#fff' }}>

@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "Contatti — Trebla Studio | Asti",
-  "description": "Contatti Trebla Studio ad Asti: WhatsApp ed email, area Asti e Piemonte, su appuntamento.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/contatti"
-  }
+  title: 'Contatti — Trebla Studio | Asti',
+  description: 'Contatti diretti: WhatsApp +39 351 892 4471, email trebla.dev.simoni@gmail.com. Area Asti e Piemonte, su appuntamento.',
+  alternates: { canonical: '/contatti' },
+  openGraph: {
+    title: 'Contatti — Trebla Studio | Asti',
+    description: 'Contatti diretti: WhatsApp +39 351 892 4471, email trebla.dev.simoni@gmail.com. Area Asti e Piemonte, su appuntamento.',
+    url: '/contatti',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contatti — Trebla Studio | Asti',
+    description: 'Contatti diretti: WhatsApp +39 351 892 4471, email trebla.dev.simoni@gmail.com. Area Asti e Piemonte, su appuntamento.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

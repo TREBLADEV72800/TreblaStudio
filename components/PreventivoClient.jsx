@@ -1,7 +1,6 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import WhatsAppIcon from './WhatsAppIcon';
 
 const whatsapp = '393518924471';
@@ -377,27 +376,13 @@ const INITIAL_FORM = {
   privacy: false,
 };
 
-function PreventivoPage() {
+function PreventivoPage({ initialServices = [] }) {
   const [typeSearch, setTypeSearch] = useState('');
   const [openCategory, setOpenCategory] = useState(null);
   const [estimateRevealed, setEstimateRevealed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const revealTime = useRef(0);
-  const [form, setForm] = useState(INITIAL_FORM);
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const svc = searchParams.get('services') || searchParams.get('service');
-    if (svc) {
-      const list = svc.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
-      const mapped = list.map(s => {
-        if (s === 'site' || s === 'sito' || s === 'siti-web' || s === 'sito-web' || s === 'siti') return 'site';
-        if (s === 'social' || s === 'social-media' || s === 'sm') return 'social';
-        if (s === 'design' || s === 'grafiche' || s === 'grafica') return 'design';
-        return s;
-      }).filter(s => ['site','social','design'].includes(s));
-      if (mapped.length) setForm(c => ({ ...c, services: mapped }));
-    }
-  }, [searchParams]);
+  const [form, setForm] = useState(() => ({ ...INITIAL_FORM, services: initialServices }));
   const update = (key, value) => setForm((c) => ({ ...c, [key]: value }));
   const toggle = (key, value) => setForm((c) => ({ ...c, [key]: c[key].includes(value) ? c[key].filter((i) => i !== value) : [...c[key], value] }));
   const handleTypeChange = (type) => setForm((c) => ({ ...c, type, features: [], pages: [] }));
@@ -486,7 +471,9 @@ function PreventivoPage() {
     messageLines.push(`• *Tempi desiderati:* ${form.timing || 'Da definire'}`,'',`*TOTALE INDICATIVO:* ${currentTotal} €`,'━━━━━━━━━━━━━━━━━━━');
     if (form.notes && form.notes.trim()) messageLines.push('','*NOTE AGGIUNTIVE:*',form.notes.trim());
     if (form.bannerDiscount) messageLines.push('','*Sconto partner richiesto*');
-    const message = messageLines.join('\n');
+    const MAX_WA_LEN = 1800;
+    let message = messageLines.join('\n');
+    if (message.length > MAX_WA_LEN) message = message.slice(0, MAX_WA_LEN - 20) + '\n... (testo troncato)';
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
@@ -495,8 +482,8 @@ function PreventivoPage() {
     <section className="section quote-section">
       <p className="section-label">La tua proposta</p>
       <div className="section-intro">
-        <h2>Costruiamo<br /><em>la tua proposta.</em></h2>
-        <p>Rispondi a poche domande per ricevere il tuo preventivo. <Link to="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline', fontSize: '13px' }}>Vedi prezzi chiari</Link></p>
+        <h1>Costruiamo<br /><em>la tua proposta.</em></h1>
+        <p>Rispondi a poche domande per ricevere il tuo preventivo. <Link href="/prezzi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline', fontSize: '13px' }}>Vedi prezzi chiari</Link></p>
       </div>
       <p style={{ marginTop: '10px', fontSize: '12px' }}><a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla Studio! Ho un dubbio sul preventivo, possiamo parlarne?')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>Hai un dubbio? Scrivici →</a></p>
       <form className="quote-form" onSubmit={sendQuote} noValidate>
@@ -506,7 +493,7 @@ function PreventivoPage() {
         </div>
         <div className={nomeOk ? 'form-block' : 'form-block pending'}>
           <label htmlFor="field-name" className="form-title" style={{ fontSize: '16px' }}>Nome della tua attività <span style={{ color: '#b35a00', fontSize: '12px', fontWeight: 400 }}>*</span> {!nomeOk && <svg className="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>}</label>
-          <input id="field-name" required value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="Es. Pasticceria Rossi" aria-required="true" aria-invalid={!nomeOk} />
+          <input id="field-name" required value={form.name} onChange={(e) => update('name', e.target.value.slice(0,80))} placeholder="Es. Pasticceria Rossi" maxLength={80} aria-required="true" aria-invalid={!nomeOk} />
           {!nomeOk && <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#b35a00' }}>Inserisci il nome, serve per intestare il preventivo.</p>}
         </div>
         <div className={tipoOk ? 'form-block' : 'form-block pending'}>
@@ -536,7 +523,7 @@ function PreventivoPage() {
             </>
           )}
           {form.type === 'Altro' && (
-            <label className="type-other">Che attività fai? Descrivici la tua attività<input required value={form.typeOther} onChange={(e) => update('typeOther', e.target.value)} placeholder="Es. venditori ambulanti, associazione..." /></label>
+            <label className="type-other">Che attività fai? Descrivici la tua attività<input required value={form.typeOther} onChange={(e) => update('typeOther', e.target.value.slice(0,80))} placeholder="Es. venditori ambulanti, associazione..." maxLength={80} /></label>
           )}
         </div>
         <div className={serviziOk ? 'form-block' : 'form-block pending'}>
@@ -656,12 +643,12 @@ function PreventivoPage() {
         <div className="form-block">
           <label htmlFor="field-notes" className="form-title" style={{ fontSize: '16px', marginBottom: '6px', display: 'block' }}>Note per il progetto</label>
           <p className="form-help" style={{ marginBottom: '10px' }}>Facoltativo: funzioni, colori, esempi o esigenze da sapere.</p>
-          <textarea id="field-notes" value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Es. vorrei un sito con prenotazioni e colori chiari..." rows="4" style={{ width: '100%', border: '1px solid var(--line)', borderRadius: '8px', padding: '12px', font: '14px var(--sans)', background: '#fff', minHeight: '96px', resize: 'vertical' }} />
+          <textarea id="field-notes" value={form.notes} onChange={(e) => update('notes', e.target.value.slice(0,800))} maxLength={800} placeholder="Es. vorrei un sito con prenotazioni e colori chiari..." rows="4" style={{ width: '100%', border: '1px solid var(--line)', borderRadius: '8px', padding: '12px', font: '14px var(--sans)', background: '#fff', minHeight: '96px', resize: 'vertical' }} />
         </div>
         <div className="form-block" style={{ borderBottom: 'none', paddingBottom: '8px' }}>
           <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontWeight: 400, fontSize: '13px', lineHeight: '1.5', cursor: 'pointer' }}>
             <input type="checkbox" checked={form.privacy} onChange={(e) => update('privacy', e.target.checked)} style={{ width: '18px', height: '18px', marginTop: '2px', accentColor: 'var(--blue)' }} required aria-required="true" />
-            <span>Ho letto l’<Link to="/privacy" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>informativa privacy</Link> e acconsento al trattamento dei dati per ricevere il preventivo. *</span>
+            <span>Ho letto l’<Link href="/privacy" style={{ color: 'var(--blue)', textDecoration: 'underline', fontWeight: 700 }}>informativa privacy</Link> e acconsento al trattamento dei dati per ricevere il preventivo. *</span>
           </label>
         </div>
         <div className="estimate">
@@ -696,7 +683,7 @@ function PreventivoPage() {
         {submitted && (
           <div style={{ marginTop: '14px', border: '1px solid var(--line)', borderRadius: '8px', padding: '14px', background: '#fff', fontSize: '13px' }}>
             <strong>Grazie, richiesta inviata su WhatsApp.</strong>
-            <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Ti interessa anche un evento di inaugurazione con musica dal vivo? <Link to="/eventi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vedi Eventi →</Link></p>
+            <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>Ti interessa anche un evento di inaugurazione con musica dal vivo? <Link href="/eventi" style={{ color: 'var(--blue)', fontWeight: 800, textDecoration: 'underline' }}>Vedi Eventi →</Link></p>
           </div>
         )}
       </form>

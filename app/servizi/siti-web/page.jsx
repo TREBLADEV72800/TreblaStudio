@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "Sito Web — Trebla Studio | Asti",
-  "description": "Sito web chiaro e curato: layout responsive, contatti diretti, mappa e visibilità. Da 350 €.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/servizi/siti-web"
-  }
+  title: 'Sito Web — Trebla Studio | Asti',
+  description: 'Sito web chiaro e curato: layout responsive, contatti diretti, mappa e visibilità. Da 350 €, testi con il cliente, proprietà tua.',
+  alternates: { canonical: '/servizi/siti-web' },
+  openGraph: {
+    title: 'Sito Web — Trebla Studio | Asti',
+    description: 'Sito web chiaro e curato: layout responsive, contatti diretti, mappa e visibilità. Da 350 €, testi con il cliente, proprietà tua.',
+    url: '/servizi/siti-web',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sito Web — Trebla Studio | Asti',
+    description: 'Sito web chiaro e curato: layout responsive, contatti diretti, mappa e visibilità. Da 350 €, testi con il cliente, proprietà tua.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "Chi siamo — Trebla Studio | Asti",
-  "description": "Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/chi-siamo"
-  }
+  title: 'Chi siamo — Trebla Studio | Asti',
+  description: 'Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione per piccole imprese.',
+  alternates: { canonical: '/chi-siamo' },
+  openGraph: {
+    title: 'Chi siamo — Trebla Studio | Asti',
+    description: 'Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione per piccole imprese.',
+    url: '/chi-siamo',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Chi siamo — Trebla Studio | Asti',
+    description: 'Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione per piccole imprese.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

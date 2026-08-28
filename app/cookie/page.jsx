@@ -1,4 +1,24 @@
-export const metadata = { title: 'Cookie — Trebla Studio', description: 'Cookie Policy.', alternates: { canonical: 'https://treblastudio.vercel.app/cookie' } };
+export const metadata = {
+  title: 'Cookie — Trebla Studio',
+  description: 'Usiamo solo cookie tecnici necessari e font Google. Nessun cookie di profilazione.',
+  alternates: { canonical: '/cookie' },
+  openGraph: {
+    title: 'Cookie — Trebla Studio',
+    description: 'Usiamo solo cookie tecnici necessari e font Google. Nessun cookie di profilazione.',
+    url: '/cookie',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cookie — Trebla Studio',
+    description: 'Usiamo solo cookie tecnici necessari e font Google. Nessun cookie di profilazione.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
+};
 export default function Page(){
   return (
     <section className="section">

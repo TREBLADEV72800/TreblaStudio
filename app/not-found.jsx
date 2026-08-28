@@ -1,4 +1,5 @@
 import Link from 'next/link';
+export const metadata = { title: 'Pagina non trovata — Trebla Studio', robots: { index: false, follow: false } };
 export default function NotFound(){
   return (
     <section className="section" style={{ textAlign: 'center', padding: '60px 7vw' }}>

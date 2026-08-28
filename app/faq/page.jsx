@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "FAQ — Trebla Studio | Asti",
-  "description": "Domande frequenti su tempi, revisioni, dominio, foto e hosting per il tuo sito.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/faq"
-  }
+  title: 'FAQ — Trebla Studio | Asti',
+  description: 'Domande frequenti su tempi, revisioni, dominio, foto, hosting e abbonamento per il tuo sito.',
+  alternates: { canonical: '/faq' },
+  openGraph: {
+    title: 'FAQ — Trebla Studio | Asti',
+    description: 'Domande frequenti su tempi, revisioni, dominio, foto, hosting e abbonamento per il tuo sito.',
+    url: '/faq',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FAQ — Trebla Studio | Asti',
+    description: 'Domande frequenti su tempi, revisioni, dominio, foto, hosting e abbonamento per il tuo sito.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

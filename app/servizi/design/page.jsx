@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "Design — Trebla Studio | Asti",
-  "description": "Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/servizi/design"
-  }
+  title: 'Design — Trebla Studio | Asti',
+  description: 'Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente e riconoscibile.',
+  alternates: { canonical: '/servizi/design' },
+  openGraph: {
+    title: 'Design — Trebla Studio | Asti',
+    description: 'Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente e riconoscibile.',
+    url: '/servizi/design',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Design — Trebla Studio | Asti',
+    description: 'Logo, biglietti, volantini e grafiche coordinate per un’immagine coerente e riconoscibile.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

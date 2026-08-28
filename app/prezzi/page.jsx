@@ -1,10 +1,24 @@
 import Link from 'next/link';
 export const metadata = {
-  "title": "Prezzi chiari — Trebla Studio | Asti",
-  "description": "Prezzi chiari Trebla Studio: parti da 350 €, dettaglio incluso, tempi concordati, nessun canone obbligatorio.",
-  "alternates": {
-    "canonical": "https://treblastudio.vercel.app/prezzi"
-  }
+  title: 'Prezzi chiari — Trebla Studio | Asti',
+  description: 'Prezzi chiari: parti da 350 €, dettaglio incluso, tempi concordati, nessun canone obbligatorio. Il sito è tuo.',
+  alternates: { canonical: '/prezzi' },
+  openGraph: {
+    title: 'Prezzi chiari — Trebla Studio | Asti',
+    description: 'Prezzi chiari: parti da 350 €, dettaglio incluso, tempi concordati, nessun canone obbligatorio. Il sito è tuo.',
+    url: '/prezzi',
+    siteName: 'Trebla Studio',
+    locale: 'it_IT',
+    type: 'website',
+    images: [{ url: '/trebla-logo-transparent.png', width: 1200, height: 630, alt: 'Trebla Studio' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Prezzi chiari — Trebla Studio | Asti',
+    description: 'Prezzi chiari: parti da 350 €, dettaglio incluso, tempi concordati, nessun canone obbligatorio. Il sito è tuo.',
+    images: ['/trebla-logo-transparent.png'],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function Page(){

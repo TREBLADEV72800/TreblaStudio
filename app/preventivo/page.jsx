@@ -1,18 +1,24 @@
-export const metadata = {
-  title: 'Configura il preventivo — Trebla Studio | Asti',
-  description: 'Rispondi a poche domande per ricevere il tuo preventivo. Sito, Social e Design combinabili, sconto partner opzionale.',
-  alternates: { canonical: 'https://treblastudio.vercel.app/preventivo' },
-};
-
-import { Suspense } from 'react';
 import PreventivoClient from '../../components/PreventivoClient';
 
-export const dynamic = 'force-dynamic';
+export const metadata = {
+  title: 'Configura il preventivo — Trebla Studio | Asti',
+};
 
-export default function Page() {
-  return (
-    <Suspense fallback={<section className="section"><p>Caricamento configuratore...</p></section>}>
-      <PreventivoClient />
-    </Suspense>
-  );
+function parseServices(svc) {
+  if (!svc) return [];
+  const list = String(svc).split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+  const mapped = list.map(s => {
+    if (['site','sito','siti-web','sito-web','siti'].includes(s)) return 'site';
+    if (['social','social-media','sm'].includes(s)) return 'social';
+    if (['design','grafiche','grafica'].includes(s)) return 'design';
+    return null;
+  }).filter(Boolean);
+  return [...new Set(mapped)];
+}
+
+export default async function Page({ searchParams }) {
+  const params = await searchParams;
+  const svc = params?.services || params?.service;
+  const initialServices = parseServices(svc);
+  return <PreventivoClient initialServices={initialServices} />;
 }
