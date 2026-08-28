@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 
 const FAQS = [
   {
@@ -37,25 +36,16 @@ const FAQS = [
 ];
 
 export default function FaqList() {
-  const [open, setOpen] = useState(null);
   return (
     <div className="faq-list" style={{ marginTop: '18px' }}>
-      {FAQS.map((f, i) => (
-        <div
-          key={f.q}
-          className="faq-card"
-          onClick={() => setOpen(open === i ? null : i)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(open === i ? null : i); } }}
-          aria-expanded={open === i}
-        >
-          <div className="faq-header">
-            <h3>{f.q}</h3>
-            <span className="faq-plus" style={{ transform: open === i ? 'rotate(45deg)' : 'none', transition: 'transform 0.12s ease' }}>{open === i ? '×' : '+'}</span>
-          </div>
-          {open === i && <p style={{ marginTop: '10px' }}>{f.a}</p>}
-        </div>
+      {FAQS.map((f) => (
+        <details key={f.q} className="faq-card" style={{ padding: '14px 0' }}>
+          <summary className="faq-header" style={{ listStyle: 'none', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+            <h3 style={{ margin: 0, fontSize: '16px' }}>{f.q}</h3>
+            <span className="faq-plus" style={{ fontSize: '22px', lineHeight: 1, color: 'var(--blue)', fontWeight: 700 }}>+</span>
+          </summary>
+          <p style={{ marginTop: '10px', color: 'var(--muted)', lineHeight: 1.6 }}>{f.a}</p>
+        </details>
       ))}
     </div>
   );

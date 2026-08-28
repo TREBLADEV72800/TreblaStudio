@@ -1,10 +1,10 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
-const navItems = [
+const NAV = [
   { label: 'Home', href: '/' },
   { label: 'Servizi', href: '/servizi' },
   { label: 'Chi siamo', href: '/chi-siamo' },
@@ -14,102 +14,94 @@ const navItems = [
 ];
 
 export default function Header({ onOpenQuick }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuBtnRef = useRef(null);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') { setMenuOpen(false); menuBtnRef.current?.focus(); } };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    const esc = (e) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-      window.scrollTo(0, 0);
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+  }, [open]);
 
   useEffect(() => {
     let t;
     const onResize = () => {
       clearTimeout(t);
-      t = setTimeout(() => { if (window.innerWidth > 760) setMenuOpen(false); }, 80);
+      t = setTimeout(() => { if (window.innerWidth > 760) setOpen(false); }, 80);
     };
     window.addEventListener('resize', onResize, { passive: true });
     return () => { clearTimeout(t); window.removeEventListener('resize', onResize); };
   }, []);
 
-  const isActive = (href) => {
-    if (href === '/') return pathname === '/';
-    return pathname === href || pathname?.startsWith(href + '/');
-  };
+  const active = (href) => href === '/' ? pathname === '/' : pathname === href || pathname?.startsWith(href + '/');
 
   return (
     <header className="header">
       <a href="#main" className="skip-link" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>Salta al contenuto</a>
-      <Link className="logo" href="/" aria-label="Trebla Studio - torna alla homepage" onClick={() => setMenuOpen(false)} style={{ zIndex: 210, position: 'relative' }}>
-        <Image src="/trebla-logo.webp" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width={123} height={70} priority style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+
+      <Link href="/" aria-label="Trebla Studio" onClick={() => setOpen(false)} style={{ zIndex: 500, position: 'relative' }}>
+        <Image src="/trebla-logo.webp" alt="Trebla Studio" width={123} height={70} priority style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
       </Link>
 
-      {/* Desktop nav */}
-      <nav id="main-nav" className="nav" aria-label="Navigazione principale">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            style={{ color: isActive(item.href) ? 'var(--blue)' : undefined, background: isActive(item.href) ? 'var(--blue-soft)' : undefined }}
-          >
-            {item.label}
-          </Link>
+      {/* Desktop */}
+      <nav className="nav" aria-label="Navigazione principale">
+        {NAV.map((i) => (
+          <Link key={i.href} href={i.href} style={active(i.href) ? { color: 'var(--blue)', background: 'var(--blue-soft)' } : undefined}>{i.label}</Link>
         ))}
-        <Link className="nav-mobile-cta" href="/preventivo" style={{ display: 'none' }}>Configura il preventivo</Link>
       </nav>
 
-      <button type="button" className="header-cta" onClick={onOpenQuick} aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
+      <button type="button" className="header-cta" onClick={onOpenQuick}>Scrivici su WhatsApp</button>
 
-      <button ref={menuBtnRef} className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu — 6 voci'} aria-expanded={menuOpen} aria-controls="mobile-nav" onClick={() => setMenuOpen(!menuOpen)} style={{ zIndex: 210 }}>
+      <button
+        aria-label={open ? 'Chiudi menu' : 'Apri menu'}
+        aria-expanded={open}
+        aria-controls="mobile-menu"
+        onClick={() => setOpen((v) => !v)}
+        className={open ? 'menu menu-active' : 'menu'}
+        style={{ zIndex: 500, position: 'relative' }}
+      >
         <span></span><span></span><span></span>
       </button>
 
-      {/* Mobile fullscreen — ispirato a Pikete Navbar.tsx:12 */}
-      {menuOpen && (
+      {open && (
         <div
-          id="mobile-nav"
+          id="mobile-menu"
+          onClick={() => setOpen(false)}
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 200,
+            zIndex: 400,
             background: '#0a0f14',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '6px',
             padding: '24px',
           }}
-          onClick={() => setMenuOpen(false)}
         >
-          <nav aria-label="Navigazione mobile" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }} onClick={(e) => e.stopPropagation()}>
-            {navItems.map((item, index) => (
+          <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', width: '100%', maxWidth: '360px' }}>
+            {NAV.map((item, idx) => (
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => { setMenuOpen(false); window.scrollTo(0, 0); }}
+                onClick={() => setOpen(false)}
                 style={{
-                  fontSize: 'clamp(32px, 8vw, 46px)',
+                  fontSize: '36px',
                   fontWeight: 800,
                   letterSpacing: '-0.04em',
                   lineHeight: 1,
-                  padding: '6px 12px',
-                  color: isActive(item.href) ? '#fff' : 'rgba(255,255,255,0.42)',
-                  opacity: menuOpen ? 1 : 0,
-                  transform: menuOpen ? 'translateY(0)' : 'translateY(18px)',
-                  transition: `opacity 0.32s ease ${index * 55}ms, transform 0.32s ease ${index * 55}ms, color 0.18s ease`,
+                  padding: '10px 0',
+                  color: active(item.href) ? '#fff' : 'rgba(255,255,255,0.38)',
+                  transform: open ? 'translateY(0)' : 'translateY(12px)',
+                  opacity: open ? 1 : 0,
+                  transition: `transform 0.28s ease ${idx * 45}ms, opacity 0.28s ease ${idx * 45}ms, color 0.15s ease`,
+                  textAlign: 'center',
+                  width: '100%',
                 }}
               >
                 {item.label}
@@ -117,24 +109,25 @@ export default function Header({ onOpenQuick }) {
             ))}
             <Link
               href="/preventivo"
-              onClick={() => { setMenuOpen(false); window.scrollTo(0, 0); }}
+              onClick={() => setOpen(false)}
               style={{
-                marginTop: '22px',
+                marginTop: '20px',
+                width: '100%',
+                textAlign: 'center',
                 background: '#25d366',
                 color: '#fff',
                 borderRadius: '12px',
-                padding: '16px 28px',
+                padding: '16px 20px',
                 fontWeight: 800,
                 fontSize: '16px',
-                opacity: menuOpen ? 1 : 0,
-                transform: menuOpen ? 'translateY(0)' : 'translateY(18px)',
-                transition: `opacity 0.32s ease ${navItems.length * 55}ms, transform 0.32s ease ${navItems.length * 55}ms`,
+                transform: open ? 'translateY(0)' : 'translateY(12px)',
+                opacity: open ? 1 : 0,
+                transition: `transform 0.28s ease ${NAV.length * 45}ms, opacity 0.28s ease ${NAV.length * 45}ms`,
               }}
             >
               Configura il preventivo
             </Link>
-            <p style={{ marginTop: '14px', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', opacity: menuOpen ? 1 : 0, transition: `opacity 0.32s ease ${(navItems.length + 1) * 55}ms` }}>Trebla Studio — Asti</p>
-          </nav>
+          </div>
         </div>
       )}
     </header>
