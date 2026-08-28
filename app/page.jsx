@@ -10,12 +10,12 @@ export default function HomePage() {
   const whatsapp = '393518924471';
   return (
     <>
-      {/* HERO minimal */}
+      {/* HERO minimal — titolo clue mantenuto */}
       <section className="hero" style={{ minHeight: '480px', padding: '48px 7vw 40px' }}>
         <div className="hero-copy">
           <p className="section-label" style={{ marginBottom: '12px' }}>Asti · Piemonte — solo per chi parte da zero</p>
-          <h1 style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}>Siti che portano<br /><em>clienti.</em></h1>
-          <p style={{ maxWidth: '420px', fontSize: '18px', marginTop: '18px' }}>Per bar, saloni, negozi e artigiani senza sito. Niente tecnicismi: un sito chiaro che si apre veloce e fa arrivare richieste.</p>
+          <h1 style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}>La tua attività<br /><em>merita di essere vista.</em></h1>
+          <p style={{ maxWidth: '420px', fontSize: '18px', marginTop: '18px' }}>Realizziamo siti web chiari e curati per piccole attività di Asti e Piemonte. Per farti ricevere richieste, prenotazioni e contatti.</p>
           <div className="hero-actions" style={{ marginTop: '28px' }}>
             <Link className="button button-main" href="/preventivo">Configura preventivo — 2 min</Link>
             <a className="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
