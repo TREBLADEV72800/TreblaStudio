@@ -4,7 +4,7 @@ import { useState } from 'react';
 const FAQS = [
   {
     q: 'E se in futuro voglio una modifica? E i bug?',
-    a: 'Sono incluse 2 revisioni (anche correzioni testo) prima della pubblicazione. Dopo, modifiche future costano 15 € cad. e verranno usate come prova nel portfolio Trebla Studio (previo consenso). I bug li sistemiamo gratis, previa nostra valutazione che si tratti effettivamente di un bug.',
+    a: 'Sono incluse 2 revisioni (anche correzioni testo) prima della pubblicazione. Dopo, modifiche future costano 15 € cad. I bug li sistemiamo gratis, previa nostra valutazione che si tratti effettivamente di un bug.',
   },
   {
     q: 'Quanto tempo ci vuole per realizzare il sito?',
