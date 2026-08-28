@@ -93,7 +93,7 @@ export default function HomePage() {
               <span style={{ fontWeight: 700, fontSize: '14px' }}>Pagina singola</span><span style={{ fontWeight: 800, fontSize: '18px' }}>350 €</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: '12px' }}>
-              <span style={{ fontWeight: 700, fontSize: '14px' }}>Multi-pagina</span><span style={{ fontWeight: 800, fontSize: '18px' }}>420 €</span>
+              <span style={{ fontWeight: 700, fontSize: '14px' }}>Multi-pagina</span><span style={{ fontWeight: 800, fontSize: '18px' }}>400 €</span>
             </div>
             <p style={{ margin: 0, fontSize: '12px', color: '#d2e1e6' }}>2 revisioni incluse · Consegna in circa 10 giorni · Foto tue o scattate da noi</p>
           </div>
