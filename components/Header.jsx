@@ -68,7 +68,6 @@ export default function Header({ onOpenQuick }) {
       }}
     >
       <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '100%', maxWidth: '380px' }}>
-        <p style={{ font: '700 10px var(--mono)', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 22px', opacity: 0.9 }}>Menu — Trebla Studio</p>
         {NAV.map((item, idx) => (
           <Link
             key={item.href}
@@ -132,16 +131,22 @@ export default function Header({ onOpenQuick }) {
           ))}
         </nav>
         <button type="button" className="header-cta" onClick={onOpenQuick}>Scrivici su WhatsApp</button>
-        <button
-          aria-label={open ? 'Chiudi menu' : 'Apri menu'}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-          className={open ? 'menu menu-active' : 'menu'}
-          style={{ zIndex: 1100, position: 'relative' }}
-        >
-          <span></span><span></span><span></span>
-        </button>
+      <button
+        aria-label={open ? 'Chiudi menu' : 'Apri menu'}
+        aria-expanded={open}
+        aria-controls="mobile-menu"
+        onClick={() => setOpen((v) => !v)}
+        className={open ? 'menu menu-active' : 'menu'}
+        style={{ zIndex: 1100, position: 'relative', display: 'grid', placeItems: 'center' }}
+      >
+        {open ? (
+          <span style={{ fontSize: '36px', lineHeight: 1, fontWeight: 300, color: 'var(--ink)', display: 'block', transform: 'translateY(-1px)' }}>×</span>
+        ) : (
+          <>
+            <span></span><span></span><span></span>
+          </>
+        )}
+      </button>
       </header>
       {overlay}
     </>
