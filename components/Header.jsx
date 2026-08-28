@@ -67,26 +67,26 @@ export default function Header({ onOpenQuick }) {
         borderTop: '1px solid var(--line)',
       }}
     >
-      <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0', width: '100%', maxWidth: '360px' }}>
-        <p style={{ font: '700 10px var(--mono)', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 18px', opacity: 0.9 }}>Menu</p>
+      <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '100%', maxWidth: '380px' }}>
+        <p style={{ font: '700 10px var(--mono)', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 22px', opacity: 0.9 }}>Menu — Trebla Studio</p>
         {NAV.map((item, idx) => (
           <Link
             key={item.href}
             href={item.href}
             onClick={() => setOpen(false)}
             style={{
-              fontSize: '38px',
-              fontWeight: active(item.href) ? 800 : 700,
+              fontSize: '40px',
+              fontWeight: active(item.href) ? 800 : 600,
               fontFamily: active(item.href) ? 'var(--serif)' : 'var(--sans)',
               fontStyle: active(item.href) ? 'italic' : 'normal',
-              letterSpacing: '-0.05em',
+              letterSpacing: '-0.055em',
               lineHeight: 1,
-              padding: '12px 0',
+              padding: '14px 0',
               color: active(item.href) ? 'var(--blue)' : 'var(--ink)',
-              opacity: active(item.href) ? 1 : 0.92,
-              borderBottom: idx < NAV.length - 1 ? '1px solid rgba(16,26,34,0.06)' : 'none',
+              opacity: active(item.href) ? 1 : 0.88,
+              borderBottom: idx < NAV.length - 1 ? '1px solid rgba(16,26,34,0.07)' : 'none',
               transform: 'translateY(0)',
-              transition: `transform 0.32s ease ${idx * 50}ms, opacity 0.32s ease ${idx * 50}ms`,
+              transition: `transform 0.34s ease ${idx * 55}ms, opacity 0.34s ease ${idx * 55}ms`,
               textAlign: 'center',
               width: '100%',
             }}
@@ -98,22 +98,41 @@ export default function Header({ onOpenQuick }) {
           href="/preventivo"
           onClick={() => setOpen(false)}
           style={{
-            marginTop: '26px',
+            marginTop: '28px',
             width: '100%',
             textAlign: 'center',
             background: 'var(--blue)',
             color: '#fff',
-            borderRadius: '10px',
-            padding: '16px 20px',
+            borderRadius: '12px',
+            padding: '18px 20px',
             fontWeight: 800,
             fontSize: '15px',
             letterSpacing: '-0.02em',
-            transition: `opacity 0.28s ease ${NAV.length * 50}ms`,
+            transition: `opacity 0.32s ease ${NAV.length * 55}ms`,
           }}
         >
           Configura il preventivo →
         </Link>
-        <p style={{ marginTop: '16px', font: '400 11px var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted)' }}>Trebla Studio — Asti · Piemonte</p>
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          style={{
+            marginTop: '14px',
+            background: 'transparent',
+            border: '1px solid var(--line)',
+            borderRadius: '999px',
+            padding: '10px 18px',
+            font: '700 12px var(--mono)',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: 'var(--muted)',
+            cursor: 'pointer',
+            transition: `opacity 0.32s ease ${(NAV.length + 1) * 55}ms`,
+          }}
+        >
+          Chiudi menu
+        </button>
+        <p style={{ marginTop: '18px', font: '400 11px var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted)', opacity: 0.7 }}>Asti · Piemonte — dal 2024</p>
       </div>
     </div>,
     document.body
