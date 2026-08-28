@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import WhatsAppIcon from './WhatsAppIcon';
 
@@ -383,21 +383,20 @@ function PreventivoPage({ initialServices = [] }) {
   const [submitted, setSubmitted] = useState(false);
   const revealTime = useRef(0);
   const [form, setForm] = useState(() => ({ ...INITIAL_FORM, services: initialServices }));
-  const update = (key, value) => setForm((c) => ({ ...c, [key]: value }));
-  const toggle = (key, value) => setForm((c) => ({ ...c, [key]: c[key].includes(value) ? c[key].filter((i) => i !== value) : [...c[key], value] }));
-  const handleTypeChange = (type) => setForm((c) => ({ ...c, type, features: [], pages: [] }));
-  const handleServiceToggle = (serviceId) => {
-    if (serviceId === 'site') {
-      if (form.services.includes('site')) setForm((c) => ({ ...c, services: [] }));
-      else setForm((c) => ({ ...c, services: ['site'] }));
-      return;
-    }
+  const update = useCallback((key, value) => setForm((c) => ({ ...c, [key]: value })), []);
+  const toggle = useCallback((key, value) => setForm((c) => ({ ...c, [key]: c[key].includes(value) ? c[key].filter((i) => i !== value) : [...c[key], value] })), []);
+  const handleTypeChange = useCallback((type) => setForm((c) => ({ ...c, type, features: [], pages: [] })), []);
+  const handleServiceToggle = useCallback((serviceId) => {
     setForm((c) => {
+      if (serviceId === 'site') {
+        if (c.services.includes('site')) return { ...c, services: [] };
+        return { ...c, services: ['site'] };
+      }
       const exists = c.services.includes(serviceId);
       const updated = exists ? c.services.filter((s) => s !== serviceId) : [...c.services, serviceId];
       return { ...c, services: updated };
     });
-  };
+  }, []);
   const hasSite = form.services.includes('site');
   const hasSocial = form.services.includes('social');
   const hasDesign = form.services.includes('design');

@@ -16,9 +16,13 @@ export default function Header({ onOpenQuick }) {
     if (menuOpen) firstLinkRef.current?.focus();
   }, [menuOpen]);
   useEffect(() => {
-    const onResize = () => { if (window.innerWidth > 760) setMenuOpen(false); };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    let t;
+    const onResize = () => {
+      clearTimeout(t);
+      t = setTimeout(() => { if (window.innerWidth > 760) setMenuOpen(false); }, 80);
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => { clearTimeout(t); window.removeEventListener('resize', onResize); };
   }, []);
   return (
     <header className="header">
