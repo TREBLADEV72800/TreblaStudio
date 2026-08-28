@@ -113,26 +113,7 @@ export default function Header({ onOpenQuick }) {
         >
           Configura il preventivo →
         </Link>
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          style={{
-            marginTop: '14px',
-            background: 'transparent',
-            border: '1px solid var(--line)',
-            borderRadius: '999px',
-            padding: '10px 18px',
-            font: '700 12px var(--mono)',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: 'var(--muted)',
-            cursor: 'pointer',
-            transition: `opacity 0.32s ease ${(NAV.length + 1) * 55}ms`,
-          }}
-        >
-          Chiudi menu
-        </button>
-        <p style={{ marginTop: '18px', font: '400 11px var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted)', opacity: 0.7 }}>Asti · Piemonte — dal 2024</p>
+
       </div>
     </div>,
     document.body
