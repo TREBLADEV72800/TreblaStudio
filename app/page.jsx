@@ -10,8 +10,8 @@ export default function HomePage() {
   const whatsapp = '393518924471';
   return (
     <>
-      {/* HERO */}
-      <section className="hero" style={{ minHeight: '480px', padding: '48px 7vw 40px' }}>
+      {/* HERO — senza riquadro */}
+      <section className="hero" style={{ minHeight: 'auto', padding: '56px 7vw 48px', display: 'block' }}>
         <div className="hero-copy">
           <h1 style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}>La tua attività<br /><em>merita di essere vista.</em></h1>
           <p style={{ maxWidth: '440px', fontSize: '18px', marginTop: '18px', lineHeight: 1.5 }}>Costruiamo siti web che si capiscono al primo sguardo. Per attività di Asti e Piemonte che vogliono ricevere più richieste, senza complicarsi la vita.</p>
@@ -20,15 +20,7 @@ export default function HomePage() {
             <a className="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </div>
-        <div style={{ height: 'auto', minHeight: '280px', padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#fff', color: 'var(--ink)', border: '1px solid var(--line)', borderRadius: '12px' }}>
-          <span className="card-kicker" style={{ color: 'var(--muted)' }}>Trebla Studio — Asti · 2 persone</span>
-          <div style={{ marginTop: '14px', display: 'grid', gap: '10px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--blue-soft)', borderRadius: '8px', fontSize: '13px' }}><span style={{ fontWeight: 700 }}>Prezzo chiaro</span><span style={{ fontWeight: 800, color: 'var(--blue)' }}>350 €</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', fontSize: '13px' }}><span style={{ fontWeight: 700 }}>Consegna</span><span style={{ fontWeight: 800 }}>~10 giorni</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: '8px', fontSize: '13px' }}><span style={{ fontWeight: 700 }}>Revisioni</span><span style={{ fontWeight: 800 }}>2 incluse</span></div>
-          </div>
-          <p style={{ fontSize: '12px', color: 'var(--muted)', marginTop: '12px', marginBottom: 0 }}>Senza tecnicismi. Parliamo su WhatsApp e partiamo.</p>
-        </div>
+
       </section>
 
       {/* SERVIZI */}
