@@ -33,7 +33,6 @@ export default function Header({ onOpenQuick }) {
       <nav id="main-nav" className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Navigazione principale">
         <Link ref={firstLinkRef} href="/" onClick={() => setMenuOpen(false)}>Home</Link>
         <Link href="/servizi" onClick={() => setMenuOpen(false)}>Servizi</Link>
-        <Link href="/portfolio" onClick={() => setMenuOpen(false)}>Lavori</Link>
         <Link href="/chi-siamo" onClick={() => setMenuOpen(false)}>Chi siamo</Link>
         <Link href="/prezzi" onClick={() => setMenuOpen(false)}>Prezzi</Link>
         <Link href="/faq" onClick={() => setMenuOpen(false)}>FAQ</Link>
@@ -41,7 +40,7 @@ export default function Header({ onOpenQuick }) {
         <Link className="nav-mobile-cta" href="/preventivo" onClick={() => setMenuOpen(false)}>Configura il preventivo</Link>
       </nav>
       <button type="button" className="header-cta" onClick={onOpenQuick} aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
-      <button ref={menuBtnRef} className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu — 6 voci'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
+      <button ref={menuBtnRef} className={menuOpen ? 'menu menu-active' : 'menu'} aria-label={menuOpen ? 'Chiudi il menu' : 'Apri il menu — 5 voci'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span><span></span><span></span>
       </button>
     </header>

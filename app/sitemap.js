@@ -9,7 +9,7 @@ export default function sitemap() {
     { url: `${base}/servizi/siti-web`, lastModified },
     { url: `${base}/servizi/social-media`, lastModified },
     { url: `${base}/servizi/design`, lastModified },
-    { url: `${base}/portfolio`, lastModified },
+
     { url: `${base}/chi-siamo`, lastModified },
     { url: `${base}/prezzi`, lastModified },
     { url: `${base}/faq`, lastModified },
