@@ -70,10 +70,7 @@ export default function HomePage() {
           </div>
           <Link href="/chi-siamo" style={{ fontWeight: 800, color: 'var(--blue)', fontSize: '13px', textDecoration: 'underline', textUnderlineOffset: '4px', whiteSpace: 'nowrap' }}>Conosci Trebla →</Link>
         </div>
-        <div style={{ marginTop: '18px', background: 'var(--blue-soft)', border: '1px solid var(--line)', borderLeft: '3px solid var(--blue)', padding: '12px 16px', display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap' }}>
-          <strong style={{ fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--blue)', whiteSpace: 'nowrap' }}>Perché Asti</strong>
-          <span style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--ink)' }}>Conosciamo le attività di qui. Niente call impersonali: ci vediamo, scattiamo le foto, restiamo su WhatsApp.</span>
-        </div>
+
       </section>
 
       {/* PREZZI */}
