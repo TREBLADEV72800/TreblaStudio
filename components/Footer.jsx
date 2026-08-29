@@ -23,18 +23,18 @@ export default function Footer() {
             <Link href="/faq" style={{ color: '#d8e3e7', fontSize: '14px' }}>FAQ</Link>
           </div>
         </nav>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div className="footer-contact" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <strong style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8ea8b3', marginBottom: '2px' }}>Contatti</strong>
-          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp — preferito" style={{ padding: '11px 16px', fontSize: '14px', justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
+          <a className="footer-whatsapp" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp — preferito" style={{ justifyContent: 'center', width: '100%' }}><WhatsAppIcon /> Scrivici su WhatsApp</a>
           <Link href="/contatti" style={{ color: '#d8e3e7', fontSize: '14px' }}>Contatti</Link>
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginTop: '2px', fontSize: '13px', lineHeight: '1' }}>
-            <Link href="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Privacy</Link>
-            <span style={{ color: '#4a6573' }}>·</span>
-            <Link href="/cookie" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Cookie</Link>
-            <span style={{ color: '#4a6573' }}>·</span>
-            <Link href="/termini" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Termini</Link>
-          </div>
         </div>
+      </div>
+      <div className="footer-legal" aria-label="Informazioni legali" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px 16px', width: '100%', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.14)', marginTop: '6px' }}>
+        <Link href="/privacy" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px', fontSize: '13px' }}>Privacy</Link>
+        <span style={{ color: '#4a6573' }}>·</span>
+        <Link href="/cookie" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px', fontSize: '13px' }}>Cookie</Link>
+        <span style={{ color: '#4a6573' }}>·</span>
+        <Link href="/termini" style={{ color: '#8ea8b3', textDecoration: 'underline', textUnderlineOffset: '3px', fontSize: '13px' }}>Termini</Link>
       </div>
       <small style={{ marginTop: '14px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px', lineHeight: '1' }}>© 2026 Trebla Studio · Asti, Piemonte</small>
     </footer>

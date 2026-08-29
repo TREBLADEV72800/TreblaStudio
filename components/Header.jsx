@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,79 +15,125 @@ const NAV = [
 ];
 
 export default function Header({ onOpenQuick }) {
-  const [open, setOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const menuBtnRef = useRef(null);
+  const firstLinkRef = useRef(null);
+  const prevOverflowRef = useRef('');
   const pathname = usePathname();
+
   useEffect(() => setMounted(true), []);
 
+  // Escape closes
   useEffect(() => {
-    const esc = (e) => e.key === 'Escape' && setOpen(false);
-    window.addEventListener('keydown', esc);
-    return () => window.removeEventListener('keydown', esc);
-  }, []);
+    const onKey = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+        menuBtnRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isMenuOpen]);
 
+  // Body scroll lock — conserva e ripristina overflow precedente
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
+    if (isMenuOpen) {
+      prevOverflowRef.current = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = prevOverflowRef.current || '';
+    }
+    return () => { document.body.style.overflow = prevOverflowRef.current || ''; };
+  }, [isMenuOpen]);
 
+  // Focus management
+  useEffect(() => {
+    if (isMenuOpen) {
+      // porta focus sul primo link
+      setTimeout(() => firstLinkRef.current?.focus(), 30);
+    } else {
+      // restituisci al hamburger se era aperto
+      if (mounted) menuBtnRef.current?.focus();
+    }
+  }, [isMenuOpen, mounted]);
+
+  // Resize >760 chiude e ripristina scroll
   useEffect(() => {
     let t;
     const onResize = () => {
       clearTimeout(t);
-      t = setTimeout(() => { if (window.innerWidth > 760) setOpen(false); }, 80);
+      t = setTimeout(() => {
+        if (window.innerWidth > 760 && isMenuOpen) setIsMenuOpen(false);
+      }, 80);
     };
     window.addEventListener('resize', onResize, { passive: true });
     return () => { clearTimeout(t); window.removeEventListener('resize', onResize); };
-  }, []);
+  }, [isMenuOpen]);
 
-  const active = (href) => href === '/' ? pathname === '/' : pathname === href || pathname?.startsWith(href + '/');
+  const isActive = (href) => href === '/' ? pathname === '/' : pathname === href || pathname?.startsWith(href + '/');
 
-  const overlay = open && mounted ? createPortal(
-    <div
-      id="mobile-menu"
-      onClick={() => setOpen(false)}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        minHeight: '100dvh',
-        zIndex: 1000,
-        background: 'rgba(246,245,239,0.97)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 'max(24px, env(safe-area-inset-top))',
-        paddingBottom: 'max(24px, env(safe-area-inset-bottom))',
-        paddingLeft: '24px',
-        paddingRight: '24px',
-        overflowY: 'auto',
-        borderTop: '1px solid var(--line)',
-      }}
-    >
-      <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '100%', maxWidth: '380px' }}>
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const overlay = isMenuOpen && mounted ? createPortal(
+    <>
+      {/* Overlay sotto il pannello — chiude al click esterno, non intercetta link */}
+      <div
+        aria-hidden="true"
+        onClick={closeMenu}
+        style={{
+          position: 'fixed',
+          inset: '72px 0 0',
+          zIndex: 1098,
+          background: 'rgba(16,26,34,0.32)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
+        }}
+      />
+      <nav
+        id="mobile-menu"
+        aria-label="Navigazione mobile"
+        style={{
+          position: 'fixed',
+          inset: '72px 0 0',
+          zIndex: 1099,
+          width: '100%',
+          maxHeight: 'calc(100dvh - 72px)',
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+          boxSizing: 'border-box',
+          background: 'rgba(246,245,239,0.98)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderTop: '1px solid var(--line)',
+          padding: '16px 20px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {NAV.map((item, idx) => (
           <Link
             key={item.href}
+            ref={idx === 0 ? firstLinkRef : null}
             href={item.href}
-            onClick={() => setOpen(false)}
+            onClick={closeMenu}
+            aria-current={isActive(item.href) ? 'page' : undefined}
             style={{
-              fontSize: '40px',
-              fontWeight: active(item.href) ? 800 : 600,
-              fontFamily: active(item.href) ? 'var(--serif)' : 'var(--sans)',
-              fontStyle: active(item.href) ? 'italic' : 'normal',
-              letterSpacing: '-0.055em',
-              lineHeight: 1,
-              padding: '14px 0',
-              color: active(item.href) ? 'var(--blue)' : 'var(--ink)',
-              opacity: active(item.href) ? 1 : 0.88,
-              borderBottom: idx < NAV.length - 1 ? '1px solid rgba(16,26,34,0.07)' : 'none',
-              transform: 'translateY(0)',
-              transition: `transform 0.34s ease ${idx * 55}ms, opacity 0.34s ease ${idx * 55}ms`,
-              textAlign: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              minHeight: '44px',
               width: '100%',
+              boxSizing: 'border-box',
+              padding: '10px 14px',
+              borderRadius: '8px',
+              fontSize: '17px',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              color: isActive(item.href) ? 'var(--blue)' : 'var(--ink)',
+              background: isActive(item.href) ? 'var(--blue-soft)' : 'transparent',
+              textDecoration: 'none',
             }}
           >
             {item.label}
@@ -95,58 +141,59 @@ export default function Header({ onOpenQuick }) {
         ))}
         <Link
           href="/preventivo"
-          onClick={() => setOpen(false)}
+          onClick={closeMenu}
           style={{
-            marginTop: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '44px',
             width: '100%',
-            textAlign: 'center',
+            boxSizing: 'border-box',
+            marginTop: '12px',
             background: 'var(--blue)',
             color: '#fff',
-            borderRadius: '12px',
-            padding: '18px 20px',
+            borderRadius: '10px',
+            padding: '14px 18px',
             fontWeight: 800,
             fontSize: '15px',
-            letterSpacing: '-0.02em',
-            transition: `opacity 0.32s ease ${NAV.length * 55}ms`,
+            textDecoration: 'none',
           }}
         >
-          Configura il preventivo →
+          Configura il preventivo
         </Link>
-
-      </div>
-    </div>,
+      </nav>
+    </>,
     document.body
   ) : null;
 
   return (
     <>
-      <header className="header" style={open ? { zIndex: 1100 } : undefined}>
+      <header className="header">
         <a href="#main" className="skip-link" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>Salta al contenuto</a>
-        <Link href="/" aria-label="Trebla Studio" onClick={() => setOpen(false)} className="logo">
+        <Link href="/" aria-label="Trebla Studio" onClick={closeMenu} className="logo">
           <Image src="/trebla-logo.webp" alt="Trebla Studio" width={123} height={70} priority style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
         </Link>
-        <nav className="nav" aria-label="Navigazione principale">
+
+        {/* Desktop nav — nascosto su mobile via CSS */}
+        <nav className="nav nav-desktop" aria-label="Navigazione principale">
           {NAV.map((i) => (
-            <Link key={i.href} href={i.href} style={active(i.href) ? { color: 'var(--blue)', background: 'var(--blue-soft)' } : undefined}>{i.label}</Link>
+            <Link key={i.href} href={i.href} style={isActive(i.href) ? { color: 'var(--blue)', background: 'var(--blue-soft)' } : undefined}>{i.label}</Link>
           ))}
         </nav>
+
         <button type="button" className="header-cta" onClick={onOpenQuick}>Scrivici su WhatsApp</button>
-      <button
-        aria-label={open ? 'Chiudi menu' : 'Apri menu'}
-        aria-expanded={open}
-        aria-controls="mobile-menu"
-        onClick={() => setOpen((v) => !v)}
-        className={open ? 'menu menu-active' : 'menu'}
-        style={{ zIndex: 1100, position: 'relative', display: 'grid', placeItems: 'center' }}
-      >
-        {open ? (
-          <span style={{ fontSize: '44px', lineHeight: 1, fontWeight: 300, color: 'var(--blue)', display: 'block', transform: 'translateY(-2px)' }}>×</span>
-        ) : (
-          <>
-            <span></span><span></span><span></span>
-          </>
-        )}
-      </button>
+
+        <button
+          ref={menuBtnRef}
+          type="button"
+          className={isMenuOpen ? 'menu menu-active' : 'menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
+          aria-label={isMenuOpen ? 'Chiudi menu' : 'Apri menu'}
+          onClick={() => setIsMenuOpen((v) => !v)}
+        >
+          <span></span><span></span><span></span>
+        </button>
       </header>
       {overlay}
     </>
