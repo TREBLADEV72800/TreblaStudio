@@ -55,7 +55,7 @@ export default function Page(){
         <a className="portfolio-feature" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
           <span className="portfolio-kicker">Pikete Label, Etichetta musicale</span>
           <strong>Pikete Label</strong>
-          <span className="portfolio-sub">Asti · Sito vetrina + catalogo artisti</span>
+          <span className="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
           <p style={{ marginTop: '8px' }}>Design, sviluppo e gestione del sito vetrina responsive.</p>
           <span className="portfolio-cta"><span>Visita il sito →</span></span>
         </a>
