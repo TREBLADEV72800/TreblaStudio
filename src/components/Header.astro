@@ -1,0 +1,53 @@
+---
+---
+<header class="header">
+  <a href="#main" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Salta al contenuto</a>
+  <a class="logo" href="/" aria-label="Trebla Studio - torna alla homepage">
+    <img src="/trebla-logo.webp" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:contain" />
+  </a>
+  <nav id="main-nav" class="nav" aria-label="Navigazione principale">
+    <a href="/" data-nav>Home</a>
+    <a href="/servizi" data-nav>Servizi</a>
+    <a href="/chi-siamo" data-nav>Chi siamo</a>
+    <a href="/prezzi" data-nav>Prezzi</a>
+    <a href="/faq" data-nav>FAQ</a>
+    <a href="/contatti" data-nav>Contatti</a>
+    <a class="nav-mobile-cta" href="/preventivo" data-nav>Configura il preventivo</a>
+  </nav>
+  <button type="button" class="header-cta" id="quick-open" aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
+  <button id="menu-btn" class="menu" aria-label="Apri il menu — 5 voci" aria-expanded="false" aria-controls="main-nav">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const nav = document.getElementById('main-nav');
+  let open = false;
+  function setOpen(v) {
+    open = v;
+    if (!btn || !nav) return;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu — 5 voci');
+    btn.classList.toggle('menu-active', open);
+    nav.classList.toggle('nav-open', open);
+    if (open) {
+      const first = nav.querySelector('a');
+      first && first.focus();
+    }
+  }
+  btn?.addEventListener('click', () => setOpen(!open));
+  nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && open) {
+      setOpen(false);
+      btn?.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760 && open) setOpen(false);
+  });
+  // quick modal trigger is handled in Layout, but keep id for access
+  const quickBtn = document.getElementById('quick-open');
+  // will be handled by Layout script via custom event
+</script>

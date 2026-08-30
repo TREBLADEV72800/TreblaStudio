@@ -1,0 +1,37 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+const whatsapp = '393518924471';
+const email = 'trebla.dev.simoni@gmail.com';
+---
+<footer class="footer">
+  <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;width:100%;max-width:1200px;text-align:left">
+    <div>
+      <strong class="footer-brand">Trebla Studio</strong>
+      <p style="margin-top:8px;line-height:1.6">Studio indipendente ad Asti.</p>
+      <a href={`mailto:${email}`} style="display:inline-block;margin-top:10px;color:#fff;font-weight:800;font-size:14px;text-decoration:underline;text-underline-offset:3px">{email}</a>
+    </div>
+    <nav aria-label="Navigazione footer" style="display:flex;flex-direction:column;gap:8px">
+      <strong style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#8ea8b3;margin-bottom:2px">Esplora</strong>
+      <div style="display:flex;flex-wrap:wrap;gap:8px 14px">
+        <a href="/" style="color:#d8e3e7;font-size:14px">Home</a>
+        <a href="/servizi" style="color:#d8e3e7;font-size:14px">Servizi</a>
+        <a href="/chi-siamo" style="color:#d8e3e7;font-size:14px">Chi siamo</a>
+        <a href="/prezzi" style="color:#d8e3e7;font-size:14px">Prezzi</a>
+        <a href="/faq" style="color:#d8e3e7;font-size:14px">FAQ</a>
+      </div>
+    </nav>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <strong style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#8ea8b3;margin-bottom:2px">Contatti</strong>
+      <a class="footer-whatsapp" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp — preferito" style="padding:11px 16px;font-size:14px;justify-content:center;width:100%"><WhatsAppIcon /> Scrivici su WhatsApp</a>
+      <a href="/contatti" style="color:#d8e3e7;font-size:14px">Contatti</a>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px;font-size:13px;line-height:1">
+        <a href="/privacy" style="color:#8ea8b3;text-decoration:underline;text-underline-offset:3px">Privacy</a>
+        <span style="color:#4a6573">·</span>
+        <a href="/cookie" style="color:#8ea8b3;text-decoration:underline;text-underline-offset:3px">Cookie</a>
+        <span style="color:#4a6573">·</span>
+        <a href="/termini" style="color:#8ea8b3;text-decoration:underline;text-underline-offset:3px">Termini</a>
+      </div>
+    </div>
+  </div>
+  <small style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;line-height:1">© 2026 Trebla Studio · Asti, Piemonte</small>
+</footer>

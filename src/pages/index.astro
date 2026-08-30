@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+const whatsapp = '393518924471';
+---
+<Layout title="Trebla Studio — Siti Web per Piccole Imprese in Piemonte | Asti" description="Siti web chiari e curati per piccole attività di Asti e Piemonte: ristoranti, negozi, artigiani e professionisti. Prezzo chiaro da 350 €, tempi concordati, nessun canone obbligatorio." canonical="/">
+  <!-- HERO — senza riquadro -->
+  <section class="hero" style="min-height:auto;padding:56px 7vw 48px;display:block">
+    <div class="hero-copy">
+      <h1 style="font-size:clamp(48px, 6.5vw, 88px)">La tua attività<br /><em>merita di essere vista.</em></h1>
+      <p style="max-width:440px;font-size:18px;margin-top:18px;line-height:1.5">Costruiamo siti web che si capiscono al primo sguardo. Per attività di Asti e Piemonte che vogliono ricevere più richieste, senza complicarsi la vita.</p>
+      <div class="hero-actions" style="margin-top:28px">
+        <a class="button button-main" href="/preventivo">Configura preventivo in 2 min</a>
+        <a class="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIZI -->
+  <section class="section" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <p class="section-label">Cosa facciamo</p>
+    <div class="section-intro">
+      <h2>Tre servizi,<br /><em>combinabili.</em></h2>
+      <p>Non devi prenderli tutti. Parti da quello che ti serve ora e aggiungi il resto quando vuoi.</p>
+    </div>
+    <div class="service-grid" style="margin-top:28px">
+      <a href="/servizi/siti-web" class="service-card service-main" style="text-decoration:none;color:inherit">
+        <span>01</span>
+        <h3>Sito web</h3>
+        <p>Chiaro sul telefono, veloce, con prenotazioni e contatti a portata di tap.</p>
+        <span style="margin-top:18px;font-weight:800;color:var(--blue);font-size:13px">Sito web →</span>
+      </a>
+      <a href="/servizi/social-media" class="service-card" style="text-decoration:none;color:inherit">
+        <span>02</span>
+        <h3>Social</h3>
+        <p>Contenuti costanti e ordinati, senza che tu debba pensarci ogni giorno.</p>
+        <span style="margin-top:18px;font-weight:800;color:var(--blue);font-size:13px">Social →</span>
+      </a>
+      <a href="/servizi/design" class="service-card" style="text-decoration:none;color:inherit">
+        <span>03</span>
+        <h3>Design</h3>
+        <p>Un’immagine pulita e coerente, dalla vetrina al biglietto da visita.</p>
+        <span style="margin-top:18px;font-weight:800;color:var(--blue);font-size:13px">Design →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CHI SIAMO teaser — orizzontale -->
+  <section class="section" style="background:var(--paper);border-bottom:1px solid var(--line);padding:32px 7vw">
+    <p class="section-label">Chi siamo</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-end">
+      <div>
+        <h2 style="font-size:clamp(28px, 3.8vw, 44px);margin:0;letter-spacing:-0.05em;line-height:0.95">Due persone,<br /><em>un metodo chiaro.</em></h2>
+        <p style="color:var(--muted);font-size:16px;margin-top:10px;max-width:520px">Siamo Albert e Gabriel, di Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo qualcosa che ti somiglia davvero.</p>
+      </div>
+      <a href="/chi-siamo" style="font-weight:800;color:var(--blue);font-size:13px;text-decoration:underline;text-underline-offset:4px;white-space:nowrap">Conosci Trebla →</a>
+    </div>
+  </section>
+
+  <!-- PREZZI -->
+  <section class="section price-section" style="padding:40px 7vw">
+    <p class="section-label" style="color:#b7d6e2">Prezzi</p>
+    <div class="price-grid" style="align-items:center">
+      <div>
+        <h2 style="font-size:clamp(36px, 4.5vw, 56px)">Sai già<br /><em>quanto spendi.</em></h2>
+        <p style="margin:16px 0 20px">Niente voci nascoste. Concordiamo prezzo e tempi prima di iniziare, e il sito resta tuo.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="button button-light" href="/preventivo">Vai al preventivo</a>
+          <a href="/prezzi" style="font-size:13px;font-weight:700;color:#fff;text-decoration:underline;padding:12px 6px">Vedi dettagli</a>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);padding:18px;display:grid;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:12px">
+          <span style="font-weight:700;font-size:14px">Pagina singola</span><span style="font-weight:800;font-size:18px">350 €</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:12px">
+          <span style="font-weight:700;font-size:14px">Multi-pagina</span><span style="font-weight:800;font-size:18px">400 €</span>
+        </div>
+        <p style="margin:0;font-size:12px;color:#d2e1e6">2 revisioni incluse · Consegna in circa 10 giorni</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA finale -->
+  <section class="section" style="background:#fff;padding:40px 7vw;border-top:1px solid var(--line)">
+    <div style="max-width:720px">
+      <h2 style="font-size:clamp(34px, 4.2vw, 52px);margin:0;letter-spacing:-0.06em;line-height:0.95">Pronto a<br /><em>farti trovare?</em></h2>
+      <p style="color:var(--muted);font-size:17px;margin-top:12px">Rispondi a poche domande e ricevi la tua proposta su misura.</p>
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <a class="button button-main" href="/preventivo">Configura il preventivo</a>
+        <a class="button button-quiet" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" style="background:#fff">Scrivici su WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Layout>

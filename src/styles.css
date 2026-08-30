@@ -1,4 +1,7 @@
 :root {
+  --font-dm-mono: 'DM Mono', monospace;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
   --ink: #101a22;
   --blue: #173d56;
   --blue-soft: #e8f0f3;

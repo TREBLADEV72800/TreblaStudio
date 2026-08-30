@@ -3,5 +3,6 @@ dist
 node_modules
 .next
 out
+.astro
 SISTEMA.md
 SISTEMA.txt

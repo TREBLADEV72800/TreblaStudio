@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FaqList from '../../components/FaqList.astro';
+---
+<Layout title="FAQ — Trebla Studio | Asti" description="Domande frequenti su tempi, revisioni, dominio, foto, hosting e abbonamento per il tuo sito." canonical="/faq">
+  <section class="section faq-section">
+    <p class="section-label">Domande frequenti</p>
+    <div class="section-intro">
+      <h1>Dubbi o domande?<br /><em>Ecco le risposte.</em></h1>
+      <p>Tutto quello che c'è da sapere prima di iniziare il tuo progetto.</p>
+    </div>
+    <FaqList />
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <a class="button button-main" href="/preventivo">Configura preventivo in 2 min</a>
+      <a class="button button-quiet" href={`https://wa.me/393518924471`} target="_blank" rel="noopener noreferrer" style="background:#fff">Scrivici su WhatsApp</a>
+    </div>
+  </section>
+</Layout>

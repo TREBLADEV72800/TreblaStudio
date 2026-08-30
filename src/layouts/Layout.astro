@@ -1,0 +1,122 @@
+---
+import '../styles.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = site.name + ' — Siti Web per Piccole Imprese in Piemonte | Asti',
+  description = site.description,
+  canonical = '/',
+  image = site.image,
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = site.url.replace(/\/$/, '');
+const canonicalUrl = canonical.startsWith('http') ? canonical : `${siteUrl}${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
+const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+const titleFull = title.includes('|') || title === site.name ? title : `${title} | ${site.shortName}`;
+const orgId = `${siteUrl}/#organization`;
+const lbId = `${siteUrl}/#localbusiness`;
+const logoUrl = `${siteUrl}${site.image}`;
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titleFull}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={titleFull} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={site.name} />
+    <meta name="twitter:card" content={site.twitterCard} />
+    <meta name="twitter:title" content={titleFull} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" type="image/png" href="/trebla-logo-transparent.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet" />
+    <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"Organization","@id":orgId,"name":site.name,"url":`${siteUrl}/`,"logo":logoUrl,"description":"Trebla Studio — team di 2 giovani ad Asti: siti web, social e design. Prezzo chiaro da 350 €, tempi concordati.","email":site.email,"telephone":site.phone,"areaServed":{"@type":"AdministrativeArea","name":site.area}})} />
+    <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"LocalBusiness","@id":lbId,"name":site.name,"url":`${siteUrl}/`,"image":logoUrl,"priceRange":"€€","description":"Team di 2 ad Asti: Albert Simoni (dev) + Gabriel Santospirito (design/SMM). Siti web, social, design per piccole imprese in Piemonte — Asti. Su appuntamento, lingue IT/EN.","email":site.email,"telephone":site.phone,"address":{"@type":"PostalAddress","addressRegion":site.address.region,"addressLocality":site.address.locality,"addressCountry":site.address.country},"areaServed":[{"@type":"City","name":site.city},{"@type":"AdministrativeArea","name":site.area}],"currenciesAccepted":"EUR","paymentAccepted":"Cash, Bank Transfer"})} />
+    <slot name="head" />
+  </head>
+  <body>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+
+    <!-- Quick contact modal (vanilla JS island) -->
+    <div id="quick-overlay" class="modal-overlay" style="display:none">
+      <form id="quick-modal" class="quick-modal" role="dialog" aria-modal="true" aria-labelledby="quick-title">
+        <p class="modal-kicker">Parliamone subito</p>
+        <h3 id="quick-title">Come si chiama<br />la tua attività?</h3>
+        <label for="quick-name" style="position:absolute;left:-9999px">Nome attività</label>
+        <input id="quick-name" required placeholder="Es. Trattoria da Mario" maxlength="80" aria-required="true" />
+        <button class="wa-cta modal-wa" type="submit"><WhatsAppIcon /> Scrivici su WhatsApp</button>
+        <button type="button" class="modal-close" id="quick-close">Annulla</button>
+      </form>
+    </div>
+
+    <script>
+      const overlay = document.getElementById('quick-overlay');
+      const modal = document.getElementById('quick-modal');
+      const input = document.getElementById('quick-name');
+      const openBtn = document.getElementById('quick-open');
+      const closeBtn = document.getElementById('quick-close');
+      let trigger = null;
+      const whatsapp = '393518924471';
+      function openQuick() {
+        trigger = document.activeElement;
+        if (overlay) overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => input && input.focus(), 0);
+      }
+      function closeQuick() {
+        if (overlay) overlay.style.display = 'none';
+        document.body.style.overflow = '';
+        const el = document.getElementById('quick-name');
+        if (el) el.value = '';
+        trigger && trigger.focus();
+      }
+      openBtn?.addEventListener('click', openQuick);
+      closeBtn?.addEventListener('click', closeQuick);
+      overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeQuick(); });
+      modal?.addEventListener('click', (e) => e.stopPropagation());
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay && overlay.style.display !== 'none') closeQuick(); });
+      modal?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const el = document.getElementById('quick-name');
+        const val = el ? el.value.trim().slice(0,80) : '';
+        if (!val || val.length < 2) return;
+        const msg = `Ciao Trebla Studio! La mia attività si chiama: ${val}. Vorrei farla conoscere, parliamone!`;
+        if (msg.length > 1800) return;
+        window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+        closeQuick();
+      });
+    </script>
+    <style is:global>
+      .skip-link:focus { left: 12px !important; top: 12px !important; width: auto !important; height: auto !important; overflow: visible !important; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 6px; z-index: 9999; }
+    </style>
+  </body>
+</html>
