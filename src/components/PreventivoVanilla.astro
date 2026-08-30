@@ -1,0 +1,669 @@
+---
+---
+<section class="section quote-section" id="preventivo-root">
+  <p class="section-label">La tua proposta</p>
+  <div class="section-intro">
+    <h1>Costruiamo<br /><em>la tua proposta.</em></h1>
+    <p>Rispondi a poche domande per ricevere il tuo preventivo. <a href="/prezzi" style="color:var(--blue);font-weight:800;text-decoration:underline;font-size:13px">Vedi prezzi chiari</a></p>
+  </div>
+  <p style="margin-top:10px;font-size:12px"><a href="https://wa.me/393518924471?text=Ciao%20Trebla%20Studio!%20Ho%20un%20dubbio%20sul%20preventivo%2C%20possiamo%20parlarne%3F" target="_blank" rel="noopener noreferrer" style="color:var(--blue);text-decoration:underline;font-weight:700">Hai un dubbio? Scrivici →</a></p>
+  <form class="quote-form" id="quote-form" novalidate>
+    <div style="border:1px solid var(--line);border-radius:8px;padding:12px 16px;background:#fbfbf9;display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:16px;gap:12px">
+      <span id="step-label" style="font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--blue)">Passo 1 di 4, attività</span>
+      <span id="missing-label" aria-live="polite" style="color:#b35a00;font-weight:700;white-space:nowrap">5 da completare</span>
+    </div>
+
+    <div class="form-block pending" id="block-name">
+      <label for="field-name" class="form-title" style="font-size:16px">Nome della tua attività <span style="color:#b35a00;font-size:12px;font-weight:400">*</span> <svg class="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"></path></svg></label>
+      <input id="field-name" required placeholder="Es. Pasticceria Rossi" maxlength="80" aria-required="true" aria-invalid="true" />
+      <p id="name-error" role="alert" style="margin-top:8px;font-size:12px;color:#b35a00">Inserisci il nome, serve per intestare il preventivo.</p>
+    </div>
+
+    <div class="form-block pending" id="block-type">
+      <p class="form-title">Che tipo di attività è? <svg class="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"></path></svg></p>
+      <input id="type-search" placeholder="Cerca la tua attività... (es. pizzeria, barbiere)" style="margin-bottom:14px" aria-label="Cerca tipo attività" />
+      <div id="type-results" class="choice-grid" style="display:none"></div>
+      <div id="type-categories"></div>
+      <button type="button" class="choice" id="type-altro" style="margin-top:12px">Altro</button>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted)">Non trovi la tua attività? Scegli Altro.</p>
+      <label class="type-other" id="type-other-wrap" style="display:none">Che attività fai? Descrivici la tua attività<input id="type-other" placeholder="Es. venditori ambulanti, associazione..." maxlength="80" /></label>
+    </div>
+
+    <div class="form-block pending" id="block-services">
+      <p class="form-title">Di cosa hai bisogno? <svg class="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"></path></svg></p>
+      <p class="form-help">Seleziona il servizio che ti serve ora. Puoi combinarne più di uno.</p>
+      <div class="service-choice-grid">
+        <button type="button" class="service-choice" data-service="site" aria-pressed="false"><span>+</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small></button>
+        <button type="button" class="service-choice" data-service="social" aria-pressed="false"><span>+</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small></button>
+        <button type="button" class="service-choice" data-service="design" aria-pressed="false"><span>+</span><b>Design e Grafiche</b><small>Logo, locandine, volantini e materiali coordinati.</small></button>
+      </div>
+      <div style="margin-top:12px">
+        <a href="https://wa.me/393518924471?text=Ciao%20Trebla!%20Non%20so%20cosa%20fare%20per%20il%20sito%2C%20mi%20aiutate%20a%20scegliere%3F" target="_blank" rel="noopener noreferrer" class="button button-quiet" style="width:100%;justify-content:center;border-style:dashed;background:#fbfbf9;font-size:13px">Non so cosa fare per il sito, scrivici su WhatsApp →</a>
+      </div>
+    </div>
+
+    <div id="site-details" style="display:none">
+      <div class="form-block" id="block-structure" style="display:none">
+        <p class="form-title">Struttura del sito web</p>
+        <p class="form-help">Scegli tra una pagina singola fluida o un sito completo a più pagine.</p>
+        <div class="choice-grid" id="structure-grid">
+          <button type="button" class="choice" data-structure="Pagina singola">Pagina singola (350 €)</button>
+          <button type="button" class="choice" data-structure="Sito completo a più pagine">Sito completo a più pagine (400 €)</button>
+        </div>
+      </div>
+      <div class="form-block" id="block-features">
+        <p class="form-title">Cosa serve per il tuo sito (<span id="feature-type-label"></span>)?</p>
+        <p class="form-help">Seleziona le funzioni utili per la tua attività.</p>
+        <div class="choice-grid" id="features-grid"></div>
+      </div>
+      <div class="form-block" id="block-pages" style="display:none">
+        <p class="form-title">Pagine e sezioni desiderate</p>
+        <div class="choice-grid" id="pages-grid"></div>
+      </div>
+      <div class="form-block pending" id="block-photos" style="display:none">
+        <p class="form-title">Foto e immagini <svg class="pending-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"></path></svg></p>
+        <p class="form-help">Se non ne hai, possiamo venire a scattarle sul posto.</p>
+        <div class="choice-grid" id="photos-grid">
+          <button type="button" class="choice" data-photo="Ho già le foto">Ho già le foto (le invio io)</button>
+          <button type="button" class="choice" data-photo="Servono le foto (le scattate voi)">Scattate voi sul posto</button>
+          <button type="button" class="choice" data-photo="Parto da zero">Non ho niente, usiamo immagini di archivio</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="social-details" style="display:none">
+      <div class="form-block">
+        <p class="form-title">Social Media: su quali canali vuoi puntare?</p>
+        <div class="choice-grid" id="social-platforms-grid"></div>
+      </div>
+      <div class="form-block">
+        <p class="form-title">Di cosa hai bisogno per i tuoi Social?</p>
+        <p class="form-help">Contenuti su misura per <span id="social-type-label"></span>.</p>
+        <div class="choice-grid" id="social-needs-grid"></div>
+      </div>
+    </div>
+
+    <div id="design-details" style="display:none">
+      <div class="form-block">
+        <p class="form-title">Design e Materiali Grafici</p>
+        <p class="form-help">Materiali su misura per <span id="design-type-label"></span>.</p>
+        <div class="choice-grid" id="design-grid"></div>
+      </div>
+    </div>
+
+    <div class="form-block" id="block-goals">
+      <p class="form-title">Cosa vuoi ottenere principalmente?</p>
+      <p class="form-help">Puoi scegliere più di un obiettivo.</p>
+      <div class="choice-grid goals" id="goals-grid"></div>
+    </div>
+
+    <div class="form-block">
+      <label for="field-timing" class="form-title" style="font-size:16px;margin-bottom:12px;display:block">Quando vorresti iniziare?</label>
+      <div class="choice-grid compact" id="timing-grid">
+        <button type="button" class="choice" data-timing="Appena possibile" id="field-timing" aria-pressed="false">Appena possibile</button>
+        <button type="button" class="choice" data-timing="Entro un mese" aria-pressed="false">Entro un mese</button>
+        <button type="button" class="choice" data-timing="Sto valutando" aria-pressed="false">Sto valutando</button>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <label for="field-notes" class="form-title" style="font-size:16px;margin-bottom:6px;display:block">Note per il progetto</label>
+      <p class="form-help" style="margin-bottom:10px">Facoltativo: funzioni, colori, esempi o esigenze da sapere.</p>
+      <textarea id="field-notes" maxlength="800" placeholder="Es. vorrei un sito con prenotazioni e colori chiari..." rows="4" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:12px;font:14px var(--sans);background:#fff;min-height:96px;resize:vertical"></textarea>
+    </div>
+
+    <div class="form-block" style="border-bottom:none;padding-bottom:8px">
+      <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:13px;line-height:1.5;cursor:pointer">
+        <input type="checkbox" id="privacy-check" style="width:18px;height:18px;margin-top:2px;accent-color:var(--blue)" required aria-required="true" />
+        <span>Ho letto l’<a href="/privacy" style="color:var(--blue);text-decoration:underline;font-weight:700">informativa privacy</a> e acconsento al trattamento dei dati per ricevere il preventivo. *</span>
+      </label>
+    </div>
+
+    <div class="estimate" id="estimate-box">
+      <div>
+        <span id="estimate-kicker">Preventivo</span><strong id="estimate-value">Completa i campi</strong>
+        <p id="estimate-desc">Manca il consenso privacy.</p>
+      </div>
+      <button class="wa-cta" id="estimate-cta" type="button">Mostra il totale</button>
+      <a class="wa-cta" id="estimate-wa" href="https://wa.me/393518924471?text=Ciao%20Trebla!%20Non%20so%20cosa%20scegliere%20per%20il%20preventivo%2C%20mi%20aiutate%20su%20WhatsApp%3F" target="_blank" rel="noopener noreferrer" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg> Scrivici su WhatsApp</a>
+    </div>
+
+    <div style="margin-top:14px">
+      <button type="button" class="choice" id="banner-discount" style="width:100%;justify-content:center;padding:14px 18px;font-size:14px;min-height:44px">Applica sconto partner −20 €</button>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted);text-align:center">Banner discreto “Realizzato da Trebla Studio”</p>
+      <p id="banner-total" style="display:none;margin-top:6px;font-size:12px;color:#0a7a2e;font-weight:700;text-align:center"></p>
+    </div>
+
+    <div id="submitted-box" style="display:none;margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff;font-size:13px">
+      <strong>Grazie, richiesta inviata su WhatsApp.</strong>
+      <p style="color:var(--muted);margin:8px 0 0">Ti interessa anche un evento di inaugurazione con musica dal vivo? <a href="/eventi" style="color:var(--blue);font-weight:800;text-decoration:underline">Vedi Eventi →</a></p>
+    </div>
+  </form>
+</section>
+
+<script>
+const businessTypes = ['Ristorante o bar','Rosticceria o asporto','Pizzeria / Paninoteca','Gelateria / Pasticceria','Macelleria / Gastronomia','Enoteca / Vini sfusi','Hotel o B&B','Struttura ricettiva','Agriturismo / Cantina','Palestra / Centro fitness','Salone di bellezza o parrucchiere','Barbiere','Centro estetico','Negozio o bottega','Abbigliamento / Boutique','Fioraio / Vivaio','Ferramenta / Colorificio','Erboristeria / Agricola','Cartoleria / Copisteria','Falegnameria','Artigiano o impresa','Impresa edile / Idraulico / Elettricista','Autofficina / Carrozzeria','Gommista / Autolavaggio','Noleggio bici / Escursioni','Lavanderia / Stireria','Professionista','Associazione / Pro Loco','Fotografo / Videomaker','Altro'];
+const businessCategories = {'Ristorazione': ['Ristorante o bar','Rosticceria o asporto','Pizzeria / Paninoteca','Gelateria / Pasticceria','Macelleria / Gastronomia','Enoteca / Vini sfusi'],'Ospitalità': ['Hotel o B&B','Struttura ricettiva','Agriturismo / Cantina'],'Bellezza e benessere': ['Salone di bellezza o parrucchiere','Barbiere','Centro estetico','Palestra / Centro fitness'],'Commercio': ['Negozio o bottega','Abbigliamento / Boutique','Fioraio / Vivaio','Ferramenta / Colorificio','Erboristeria / Agricola','Cartoleria / Copisteria'],'Artigiani e officine': ['Falegnameria','Artigiano o impresa','Impresa edile / Idraulico / Elettricista','Autofficina / Carrozzeria','Gommista / Autolavaggio','Lavanderia / Stireria'],'Servizi e professioni': ['Noleggio bici / Escursioni','Professionista','Associazione / Pro Loco','Fotografo / Videomaker']};
+const extendedFeatures = {'Pizzeria / Paninoteca': [{name:'Menu pizze e panini con prezzi',price:0},{name:'Ordini da asporto su WhatsApp',price:15},{name:'Galleria forno e locale',price:10},{name:'Promo serata pizza',price:10}],'Gelateria / Pasticceria': [{name:'Vetrina gusti e torte',price:10},{name:'Ordini e prenotazioni torte su WhatsApp',price:15},{name:'Orari e stagione, incluso',price:0}],'Macelleria / Gastronomia': [{name:'Vetrina tagli e specialità',price:15},{name:'Ordini e prenotazioni su WhatsApp',price:15},{name:'Offerte del giorno',price:10}],'Enoteca / Vini sfusi': [{name:'Catalogo vini e degustazioni',price:15},{name:'Prenotazione visita in cantina',price:15},{name:'Storia della cantina e vigneti',price:10}],'Struttura ricettiva': [{name:'Schede camere con foto',price:15},{name:'Richiesta disponibilità su WhatsApp',price:15},{name:'Servizi e colazione inclusa',price:10}],'Agriturismo / Cantina': [{name:'Camere e disponibilità su richiesta',price:20},{name:'Menu agriturismo e prodotti tipici',price:10},{name:'Degustazioni ed eventi vendemmia',price:15}],'Palestra / Centro fitness': [{name:'Corsi e orari settimanali',price:10},{name:'Iscrizione e contatto su WhatsApp',price:15},{name:'Galleria sala e attrezzature',price:10}],'Barbiere': [{name:'Listino tagli e barba',price:10},{name:'Prenotazione appuntamento rapida',price:15},{name:'Galleria tagli',price:10}],'Centro estetico': [{name:'Listino trattamenti',price:10},{name:'Prenotazione trattamenti',price:15},{name:'Galleria risultati',price:10}],'Abbigliamento / Boutique': [{name:'Catalogo collezione',price:15},{name:'Novità e promozioni',price:10},{name:'Contatti e orari, incluso',price:0}],'Fioraio / Vivaio': [{name:'Catalogo composizioni',price:15},{name:'Ordini e consegne su WhatsApp',price:15},{name:'Occasioni speciali (matrimoni, eventi)',price:10}],'Ferramenta / Colorificio': [{name:'Catalogo reparti e marchi',price:15},{name:'Richiesta disponibilità su WhatsApp',price:15},{name:'Consigli e guide fai-da-te',price:10}],'Erboristeria / Agricola': [{name:'Catalogo prodotti naturali',price:15},{name:'Consigli e rimedi su WhatsApp',price:10},{name:'Eventi e degustazioni',price:10}],'Cartoleria / Copisteria': [{name:'Servizi stampa e copie',price:10},{name:'Catalogo articoli scuola/ufficio',price:15},{name:'Ordini su WhatsApp',price:15}],'Impresa edile / Idraulico / Elettricista': [{name:'Galleria cantieri e lavori',price:15},{name:'Richiesta intervento rapido',price:15},{name:'Servizi e certificazioni',price:10}],'Autofficina / Carrozzeria': [{name:'Servizi officina e tagliandi',price:10},{name:'Prenotazione intervento su WhatsApp',price:15},{name:'Galleria lavori',price:10}],'Gommista / Autolavaggio': [{name:'Servizi gomme e lavaggio',price:10},{name:'Prenotazione su WhatsApp',price:15},{name:'Offerte stagionali',price:10}],'Noleggio bici / Escursioni': [{name:'Catalogo bici e percorsi',price:15},{name:'Prenotazione noleggio su WhatsApp',price:15},{name:'Guida al territorio',price:10}],'Lavanderia / Stireria': [{name:'Listino lavaggio e stiratura',price:10},{name:'Ritiro e consegna su WhatsApp',price:15},{name:'Servizi speciali (tappeti, piumoni)',price:10}],'Associazione / Pro Loco': [{name:'Chi siamo e attività',price:10},{name:'Eventi e calendario',price:10},{name:'Modulo iscrizione e contatti',price:10}],'Fotografo / Videomaker': [{name:'Portfolio lavori',price:15},{name:'Richiesta preventivo su WhatsApp',price:15},{name:'Servizi e pacchetti',price:10}]};
+const featuresByType = {'Ristorante o bar': [{name:'Menu digitale (pagina sul sito, no QR)',price:0},{name:'Menu con codice QR stampabile',price:15},{name:'Prenotazione tavoli su WhatsApp',price:15},{name:'Orari di apertura e mappa, incluso',price:0},{name:'Storia del locale e filosofia in cucina',price:10},{name:'Sezione eventi e serate speciali',price:10}],'Rosticceria o asporto': [{name:'Menu del giorno sempre aggiornato',price:0},{name:'Ordini da asporto su WhatsApp',price:15},{name:'Vetrina specialità e piatti tipici',price:10},{name:'Promozioni e offerte del giorno',price:10},{name:'Orari di apertura e mappa, incluso',price:0}],'Hotel o B&B': [{name:'Modulo richiesta disponibilità camere',price:20},{name:'Schede camere con foto e servizi inclusi',price:15},{name:'Listino prezzi e offerte stagionali',price:10},{name:'Guida al territorio e cosa visitare',price:15},{name:'Orari e mappa, incluso',price:0}],'Salone di bellezza o parrucchiere': [{name:'Listino trattamenti e prezzi',price:15},{name:'Prenotazione appuntamenti rapida',price:15},{name:'Galleria lavori (prima e dopo)',price:15},{name:'Presentazione del personale e qualifiche',price:10},{name:'Offerte e pacchetti speciali',price:10},{name:'Orari e mappa, incluso',price:0}],'Negozio o bottega': [{name:'Vetrina e catalogo dei prodotti',price:20},{name:'Ordini veloci su WhatsApp e ritiro in negozio',price:15},{name:'Sezione novità del mese e promozioni',price:10},{name:'Orari di apertura e mappa, incluso',price:0},{name:'Storia del negozio e marchi trattati',price:10}],'Falegnameria': [{name:'Galleria dei lavori su misura',price:15},{name:'Modulo richiesta preventivo rapido',price:15},{name:'Materiali, lavorazioni e finiture',price:10},{name:"Storia dell'officina e recensioni",price:10}],'Artigiano o impresa': [{name:'Galleria fotografica dei lavori realizzati',price:15},{name:'Modulo richiesta preventivo rapido',price:15},{name:'Descrizione lavorazioni e materiali',price:10},{name:'Anni di esperienza, storia e certificazioni',price:10}],'Professionista': [{name:'Prenotazione prima consulenza o appuntamento',price:15},{name:'Aree di competenza e servizi offerti',price:10},{name:'Biografia, titoli di studio ed esperienza',price:10},{name:'Casi reali e testimonianze di clienti',price:10}],'Altro': [{name:"Presentazione dell'attività e dei servizi",price:10},{name:'Galleria fotografica',price:10},{name:'Modulo contatti e collegamento WhatsApp diretto',price:10},{name:'Storia e valori aziendali',price:10}],...extendedFeatures};
+const pageOptions = [{name:'Pagina Principale',price:0},{name:'Chi Siamo e la nostra storia',price:10},{name:'Servizi, Prodotti o Menu',price:10},{name:'Galleria Fotografica',price:10},{name:'Modulo Contatti e Mappa',price:10},{name:'Recensioni dei Clienti',price:10},{name:'Domande Frequenti',price:10}];
+const socialPlatforms = ['Instagram','TikTok'];
+const socialNeedsList = [{name:'Creazione profili da zero',price:20},{name:'Piano con pubblicazioni regolari',price:25},{name:'Creazione filmati e brevi video',price:25},{name:'Grafiche personalizzate per le storie',price:15},{name:'Gestione promozioni locali',price:20}];
+const designNeedsList = [{name:'Creazione o rinnovamento del Logo',price:25},{name:'Biglietti da visita pronti per la stampa',price:15},{name:'Volantini, locandine o menu cartaceo',price:20},{name:'Grafiche promozionali per il web',price:15}];
+const socialByType = {'Ristorante o bar': [{name:'Reel piatti e cucina in azione',price:25},{name:'Stories menu del giorno',price:15},{name:'Promo serate ed eventi',price:20}],'Rosticceria o asporto': [{name:'Video specialità sfornate',price:25},{name:'Stories offerte del giorno',price:15},{name:'Promo asporto',price:20}],'Pizzeria / Paninoteca': [{name:'Reel pizze sfornate',price:25},{name:'Stories promo serata',price:15},{name:'Menu in stories',price:15}],'Gelateria / Pasticceria': [{name:'Reel gusti e preparazioni',price:25},{name:'Stories novità',price:15},{name:'Promo torte',price:20}],'Macelleria / Gastronomia': [{name:'Reel tagli e preparati',price:25},{name:'Stories offerte',price:15},{name:'Ricette in video',price:20}],'Enoteca / Vini sfusi': [{name:'Reel degustazioni',price:25},{name:'Schede vini in stories',price:15},{name:'Eventi cantina',price:20}],'Hotel o B&B': [{name:'Reel camere e colazione',price:25},{name:'Stories territorio',price:15},{name:'Offerte stagionali',price:20}],'Struttura ricettiva': [{name:'Reel camere',price:25},{name:'Stories servizi',price:15},{name:'Promo weekend',price:20}],'Agriturismo / Cantina': [{name:'Reel vendemmia e cucina',price:25},{name:'Stories natura',price:15},{name:'Eventi in agriturismo',price:20}],'Palestra / Centro fitness': [{name:'Reel allenamenti',price:25},{name:'Stories corsi',price:15},{name:'Trasformazioni clienti',price:20}],'Salone di bellezza o parrucchiere': [{name:'Reel prima/dopo',price:25},{name:'Stories trattamenti',price:15},{name:'Promo pacchetti',price:20}],'Barbiere': [{name:'Reel tagli in time-lapse',price:25},{name:'Stories look del giorno',price:15},{name:'Promo barba',price:15}],'Centro estetico': [{name:'Reel trattamenti',price:25},{name:'Stories risultati',price:15},{name:'Promo estetica',price:20}],'Negozio o bottega': [{name:'Reel prodotti in vetrina',price:25},{name:'Stories novità',price:15},{name:'Promo bottega',price:20}],'Abbigliamento / Boutique': [{name:'Reel outfit del giorno',price:25},{name:'Stories collezione',price:15},{name:'Promo saldi',price:20}],'Fioraio / Vivaio': [{name:'Reel composizioni',price:25},{name:'Stories occasioni',price:15},{name:'Consigli piante',price:15}],'Ferramenta / Colorificio': [{name:'Reel fai-da-te',price:25},{name:'Stories prodotti',price:15},{name:'Consigli tecnici',price:15}],'Erboristeria / Agricola': [{name:'Reel rimedi naturali',price:25},{name:'Stories prodotti',price:15},{name:'Consigli benessere',price:15}],'Cartoleria / Copisteria': [{name:'Reel articoli scuola',price:20},{name:'Stories offerte',price:15},{name:'Servizi stampa',price:15}],'Falegnameria': [{name:'Reel lavorazioni legno',price:25},{name:'Stories prima/dopo mobili',price:15},{name:'Fasi di costruzione',price:20}],'Artigiano o impresa': [{name:'Reel cantieri',price:25},{name:'Stories lavorazioni',price:15},{name:'Prima/dopo',price:20}],'Impresa edile / Idraulico / Elettricista': [{name:'Reel interventi',price:25},{name:'Stories cantieri',price:15},{name:'Consigli manutenzione',price:15}],'Autofficina / Carrozzeria': [{name:'Reel riparazioni',price:25},{name:'Stories prima/dopo auto',price:15},{name:'Consigli manutenzione',price:15}],'Gommista / Autolavaggio': [{name:'Reel cambio gomme',price:20},{name:'Stories promo stagionale',price:15},{name:'Cura auto',price:15}],'Noleggio bici / Escursioni': [{name:'Reel percorsi',price:25},{name:'Stories noleggi',price:15},{name:'Guida territorio',price:15}],'Lavanderia / Stireria': [{name:'Reel cura capi',price:20},{name:'Stories servizi',price:15},{name:'Promo lavaggio',price:15}],'Professionista': [{name:'Reel consigli utili',price:25},{name:'Stories casi pratici',price:15},{name:'Approfondimenti',price:20}],'Associazione / Pro Loco': [{name:'Reel eventi',price:20},{name:'Stories attività',price:15},{name:'Racconti associati',price:15}],'Fotografo / Videomaker': [{name:'Reel backstage',price:25},{name:'Stories portfolio',price:15},{name:'Prima/dopo scatti',price:20}],'Altro': socialNeedsList};
+const designByType = {'Ristorante o bar': [{name:'Menu cartaceo coordinato',price:20},{name:'Tovagliette e insegna',price:15},{name:'Biglietti da visita',price:15}],'Rosticceria o asporto': [{name:'Menu asporto coordinato',price:20},{name:'Vetrofanie e insegna',price:15},{name:'Sacchetti personalizzati',price:15}],'Pizzeria / Paninoteca': [{name:'Menu pizzeria coordinato',price:20},{name:'Cartoni pizza personalizzati',price:15},{name:'Insegna luminosa',price:20}],'Gelateria / Pasticceria': [{name:'Menu gusti coordinato',price:20},{name:'Confezioni personalizzate',price:15},{name:'Vetrina e insegna',price:15}],'Macelleria / Gastronomia': [{name:'Listino tagli coordinato',price:15},{name:'Etichette e sacchetti',price:15},{name:'Insegna macelleria',price:15}],'Enoteca / Vini sfusi': [{name:'Etichetta e listino vini',price:20},{name:'Insegna cantina',price:15},{name:'Biglietti degustazione',price:15}],'Hotel o B&B': [{name:'Brochure camere',price:20},{name:'Insegna e segnaletica',price:15},{name:'Card benvenuto',price:15}],'Struttura ricettiva': [{name:'Brochure camere',price:20},{name:'Segnaletica',price:15},{name:'Card servizi',price:15}],'Agriturismo / Cantina': [{name:'Menu agriturismo coordinato',price:20},{name:'Etichetta prodotti',price:15},{name:'Insegna rustica',price:15}],'Palestra / Centro fitness': [{name:'Tessera e braccialetto',price:15},{name:'Poster corsi',price:15},{name:'Insegna palestra',price:15}],'Salone di bellezza o parrucchiere': [{name:'Listino trattamenti da banco',price:15},{name:'Card fedeltà',price:15},{name:'Vetrina',price:15}],'Barbiere': [{name:'Listino barbiere da banco',price:15},{name:'Card fedeltà barba',price:10},{name:'Insegna barbiere',price:15}],'Centro estetico': [{name:'Listino estetica',price:15},{name:'Card fedeltà',price:10},{name:'Brochure trattamenti',price:15}],'Negozio o bottega': [{name:'Sacchetti e etichette',price:15},{name:'Vetrina coordinata',price:15},{name:'Biglietti',price:15}],'Abbigliamento / Boutique': [{name:'Shopper personalizzate',price:15},{name:'Etichette e cartellini',price:15},{name:'Vetrina boutique',price:15}],'Fioraio / Vivaio': [{name:'Biglietti auguri coordinati',price:15},{name:'Etichette piante',price:15},{name:'Insegna fioraio',price:15}],'Ferramenta / Colorificio': [{name:'Catalogo reparti',price:15},{name:'Etichette scaffali',price:15},{name:'Insegna',price:15}],'Erboristeria / Agricola': [{name:'Etichette prodotti naturali',price:15},{name:'Sacchetti e confezioni',price:15},{name:'Insegna naturale',price:15}],'Cartoleria / Copisteria': [{name:'Listino servizi stampa',price:15},{name:'Biglietti e buste',price:15},{name:'Insegna',price:15}],'Falegnameria': [{name:'Catalogo finiture',price:15},{name:'Biglietti artigiano',price:15},{name:'Insegna legno',price:15}],'Artigiano o impresa': [{name:'Catalogo lavorazioni',price:15},{name:'Mezzo brandizzato',price:20},{name:'Biglietti',price:15}],'Impresa edile / Idraulico / Elettricista': [{name:'Divisa e mezzo brandizzato',price:20},{name:'Preventivo cartaceo coordinato',price:15},{name:'Biglietti',price:15}],'Autofficina / Carrozzeria': [{name:'Preventivo e fattura coordinati',price:15},{name:'Insegna officina',price:15},{name:'Adesivi auto',price:15}],'Gommista / Autolavaggio': [{name:'Listino gomme coordinato',price:15},{name:'Insegna gommista',price:15},{name:'Card lavaggio',price:10}],'Noleggio bici / Escursioni': [{name:'Mappa percorsi brandizzata',price:15},{name:'Card noleggio',price:10},{name:'Insegna noleggio',price:15}],'Lavanderia / Stireria': [{name:'Sacchettini e etichette bucato',price:15},{name:'Insegna lavanderia',price:15},{name:'Card ritiro',price:10}],'Professionista': [{name:'Carta intestata e buste',price:15},{name:'Biglietti professionali',price:15},{name:'Timbro e firma',price:10}],'Associazione / Pro Loco': [{name:'Tessera associati',price:15},{name:'Locandine eventi',price:15},{name:'Striscione',price:15}],'Fotografo / Videomaker': [{name:'Portfolio stampato',price:20},{name:'Biglietti fotografici',price:15},{name:'Watermark e preset',price:15}],'Altro': designNeedsList};
+const goals = ['Farmi trovare su internet e nella mia zona','Mostrare i miei servizi e prodotti','Ricevere più contatti e prenotazioni','Rinnovare e modernizzare la mia immagine'];
+const whatsapp='393518924471';
+
+let form={name:'',type:'',typeOther:'',services:[],structure:'',features:[],pages:[],photos:'',socialPlatforms:[],socialNeeds:[],designNeeds:[],goals:[],timing:'',notes:'',privacy:false,bannerDiscount:false};
+let estimateRevealed=false, revealTime=0;
+const els={};
+
+function parseServices(svc){
+  if(!svc) return [];
+  const list=String(svc).split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+  const mapped=list.map(s=>{
+    if(['site','sito','siti-web','sito-web','siti'].includes(s)) return 'site';
+    if(['social','social-media','sm'].includes(s)) return 'social';
+    if(['design','grafiche','grafica'].includes(s)) return 'design';
+    return null;
+  }).filter(Boolean);
+  return [...new Set(mapped)];
+}
+
+function currentTotal(){
+  let total=0;
+  const hasSite=form.services.includes('site');
+  const hasSocial=form.services.includes('social');
+  const hasDesign=form.services.includes('design');
+  if(hasSite){
+    if(!form.structure) total=350;
+    else if(form.structure==='Sito completo a più pagine') total=400;
+    else if(form.structure==='Pagina singola') total=350;
+    else total=350;
+  }
+  if(hasSocial){
+    total+=form.socialPlatforms.length*10;
+    const list=socialByType[form.type]||socialNeedsList;
+    form.socialNeeds.forEach(n=>{
+      const f=list.find(x=>x.name===n);
+      if(f) total+=f.price;
+    });
+  }
+  if(hasDesign){
+    const list=designByType[form.type]||designNeedsList;
+    form.designNeeds.forEach(n=>{
+      const f=list.find(x=>x.name===n);
+      if(f) total+=f.price;
+    });
+  }
+  if(form.bannerDiscount) total=Math.max(0,total-20);
+  return Math.max(0,Math.round(total));
+}
+
+function updateEstimate(){
+  const hasSite=form.services.includes('site');
+  const hasSocial=form.services.includes('social');
+  const hasDesign=form.services.includes('design');
+  const total=currentTotal();
+  const kicker=document.getElementById('estimate-kicker');
+  const value=document.getElementById('estimate-value');
+  const desc=document.getElementById('estimate-desc');
+  const cta=document.getElementById('estimate-cta');
+  const wa=document.getElementById('estimate-wa');
+  const bannerTotal=document.getElementById('banner-total');
+  if(estimateRevealed){
+    kicker.textContent='Totale indicativo';
+    value.textContent='€ '+total;
+    desc.textContent='Prezzo concordato insieme prima di iniziare.';
+    cta.style.display='none';
+    wa.style.display='flex';
+    wa.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg> Invia su WhatsApp';
+    wa.onclick=(e)=>{
+      e.preventDefault();
+      if(Date.now()-revealTime<1000) return;
+      sendQuote();
+    };
+    if(form.bannerDiscount){
+      bannerTotal.style.display='block';
+      bannerTotal.textContent='Nuovo totale: € '+total;
+    } else {
+      bannerTotal.style.display='none';
+    }
+  } else {
+    const missing=getMissing();
+    const canReveal=missing.length===0 && form.privacy;
+    kicker.textContent='Preventivo';
+    value.textContent=canReveal?'Pronto':'Completa i campi';
+    if(!form.privacy) desc.textContent='Manca il consenso privacy.';
+    else if(canReveal) desc.textContent='Hai risposto a tutto.';
+    else desc.textContent='Manca: '+missing.join(', ')+'.';
+    if(canReveal){
+      cta.style.display='flex';
+      cta.textContent='Mostra il totale';
+      cta.onclick=()=>{revealTime=Date.now(); estimateRevealed=true; updateEstimate(); updateUI();};
+      wa.style.display='none';
+    } else {
+      cta.style.display='none';
+      wa.style.display='flex';
+      wa.textContent='Scrivici su WhatsApp';
+      wa.href='https://wa.me/393518924471?text='+encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+      wa.onclick=null;
+    }
+    bannerTotal.style.display='none';
+  }
+}
+
+function getMissing(){
+  const hasSite=form.services.includes('site');
+  const hasSocial=form.services.includes('social');
+  const hasDesign=form.services.includes('design');
+  const isAltro=form.type==='Altro';
+  const nomeOk=form.name.trim().length>=2;
+  const tipoOk=!!form.type && (!isAltro || form.typeOther.trim().length>=2);
+  const serviziOk=hasSite||hasSocial||hasDesign;
+  const strutturaOk=!hasSite||isAltro||!!form.structure;
+  const fotoOk=!hasSite||isAltro||!!form.photos;
+  const socialOk=!hasSocial||(form.socialPlatforms.length>0 && form.socialNeeds.length>0);
+  const designOk=!hasDesign||form.designNeeds.length>0;
+  const obiettiviOk=isAltro||form.goals.length>0;
+  const timingOk=!!form.timing;
+  const missing=[];
+  if(!nomeOk) missing.push('il nome della tua attività');
+  if(!tipoOk) missing.push('il tipo di attività');
+  if(!serviziOk) missing.push('un servizio (Sito, Social o Design)');
+  if(hasSite && !isAltro && !strutturaOk) missing.push('la struttura del sito');
+  if(hasSite && !isAltro && !fotoOk) missing.push('le foto');
+  if(hasSocial && !socialOk) missing.push('le scelte Social Media');
+  if(hasDesign && !designOk) missing.push('i materiali grafici');
+  if(!isAltro && !obiettiviOk) missing.push('un obiettivo');
+  if(!timingOk) missing.push('i tempi desiderati');
+  return missing;
+}
+
+function updateUI(){
+  const hasSite=form.services.includes('site');
+  const hasSocial=form.services.includes('social');
+  const hasDesign=form.services.includes('design');
+  const isAltro=form.type==='Altro';
+  const nomeOk=form.name.trim().length>=2;
+  const tipoOk=!!form.type && (!isAltro || form.typeOther.trim().length>=2);
+  const serviziOk=hasSite||hasSocial||hasDesign;
+  // blocks pending
+  document.getElementById('block-name').classList.toggle('pending', !nomeOk);
+  document.getElementById('name-error').style.display=nomeOk?'none':'block';
+  document.getElementById('block-type').classList.toggle('pending', !tipoOk);
+  document.getElementById('block-services').classList.toggle('pending', !serviziOk);
+  // type other
+  document.getElementById('type-other-wrap').style.display=form.type==='Altro'?'block':'none';
+  // site details
+  document.getElementById('site-details').style.display=hasSite && form.type ? 'block' : 'none';
+  if(hasSite && form.type){
+    const showStructure=!isAltro;
+    document.getElementById('block-structure').style.display=showStructure?'block':'none';
+    document.getElementById('block-features').style.display='block';
+    document.getElementById('feature-type-label').textContent=form.type;
+    document.getElementById('block-pages').style.display=showStructure?'block':'none';
+    document.getElementById('block-photos').style.display=showStructure?'block':'none';
+    const fotoOk=!isAltro && !!form.photos;
+    document.getElementById('block-photos').classList.toggle('pending', !fotoOk && !isAltro);
+  }
+  document.getElementById('social-details').style.display=hasSocial?'block':'none';
+  if(hasSocial) document.getElementById('social-type-label').textContent=form.type||'';
+  document.getElementById('design-details').style.display=hasDesign?'block':'none';
+  if(hasDesign) document.getElementById('design-type-label').textContent=form.type||'';
+  // goals block hidden for Altro
+  document.getElementById('block-goals').style.display=isAltro?'none':'block';
+  // step label
+  const step=document.getElementById('step-label');
+  const missingEl=document.getElementById('missing-label');
+  let stepLabel='';
+  if(!nomeOk || !tipoOk) stepLabel='Passo 1 di 4, attività';
+  else if(!serviziOk) stepLabel='Passo 2 di 4, servizi';
+  else if((!isAltro && form.goals.length===0) || !form.timing) stepLabel='Passo 3 di 4, obiettivi e tempi';
+  else if(!form.privacy) stepLabel='Passo 4 di 4, privacy';
+  else stepLabel='Pronto per la stima';
+  step.textContent=stepLabel;
+  const missing=getMissing();
+  if(missing.length===0 && form.privacy) missingEl.textContent='Pronto';
+  else missingEl.textContent=missing.length+' da completare';
+  missingEl.style.color=missing.length? '#b35a00':'#0a7a2e';
+  // banner
+  const bannerBtn=document.getElementById('banner-discount');
+  if(form.bannerDiscount){
+    bannerBtn.classList.add('selected');
+    bannerBtn.textContent='Sconto partner applicato −20 €';
+  } else {
+    bannerBtn.classList.remove('selected');
+    bannerBtn.textContent='Applica sconto partner −20 €';
+  }
+  updateEstimate();
+}
+
+function renderTypeCategories(){
+  const container=document.getElementById('type-categories');
+  container.innerHTML='';
+  Object.entries(businessCategories).forEach(([cat,types])=>{
+    const details=document.createElement('details');
+    details.style.borderBottom='1px solid var(--line)';
+    details.style.padding='10px 0';
+    const summary=document.createElement('summary');
+    summary.style.cursor='pointer';
+    summary.style.font='700 13px var(--mono)';
+    summary.style.letterSpacing='0.04em';
+    summary.style.textTransform='uppercase';
+    summary.style.color='var(--ink)';
+    summary.textContent=cat+', '+types.length;
+    details.appendChild(summary);
+    const grid=document.createElement('div');
+    grid.className='choice-grid';
+    grid.style.marginTop='10px';
+    types.forEach(type=>{
+      const btn=document.createElement('button');
+      btn.type='button';
+      btn.className='choice'+(form.type===type?' selected':'');
+      btn.textContent=type;
+      if(type==='Professionista'){
+        btn.innerHTML='<span style="font-weight:700">Professionista</span><span style="font-weight:400;margin-left:6px;color:var(--muted)">, geometra, commercialista...</span>';
+      }
+      btn.addEventListener('click',()=>{
+        form.type=type; form.features=[]; form.pages=[];
+        renderTypeCategories(); renderFeatures(); updateUI();
+      });
+      grid.appendChild(btn);
+    });
+    details.appendChild(grid);
+    container.appendChild(details);
+  });
+}
+
+function renderFeatures(){
+  const grid=document.getElementById('features-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  const list=featuresByType[form.type]||[];
+  list.forEach(feat=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='choice'+(form.features.includes(feat.name)?' selected':'');
+    btn.textContent=feat.name;
+    btn.addEventListener('click',()=>{
+      if(form.features.includes(feat.name)) form.features=form.features.filter(x=>x!==feat.name);
+      else form.features.push(feat.name);
+      renderFeatures(); updateUI();
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function renderPages(){
+  const grid=document.getElementById('pages-grid');
+  grid.innerHTML='';
+  pageOptions.forEach(p=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='choice'+(form.pages.includes(p.name)?' selected':'');
+    btn.textContent=p.name;
+    btn.addEventListener('click',()=>{
+      if(form.pages.includes(p.name)) form.pages=form.pages.filter(x=>x!==p.name);
+      else form.pages.push(p.name);
+      renderPages(); updateUI();
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function renderGoals(){
+  const grid=document.getElementById('goals-grid');
+  grid.innerHTML='';
+  goals.forEach(g=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='choice'+(form.goals.includes(g)?' selected':'');
+    btn.textContent=g;
+    btn.setAttribute('aria-pressed', form.goals.includes(g));
+    btn.addEventListener('click',()=>{
+      if(form.goals.includes(g)) form.goals=form.goals.filter(x=>x!==g);
+      else form.goals.push(g);
+      renderGoals(); updateUI();
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function renderSocial(){
+  const platGrid=document.getElementById('social-platforms-grid');
+  platGrid.innerHTML='';
+  socialPlatforms.forEach(p=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='choice'+(form.socialPlatforms.includes(p)?' selected':'');
+    btn.textContent=p+' (+10 €)';
+    btn.addEventListener('click',()=>{
+      if(form.socialPlatforms.includes(p)) form.socialPlatforms=form.socialPlatforms.filter(x=>x!==p);
+      else form.socialPlatforms.push(p);
+      renderSocial(); updateUI();
+    });
+    platGrid.appendChild(btn);
+  });
+  const needsGrid=document.getElementById('social-needs-grid');
+  needsGrid.innerHTML='';
+  const list=socialByType[form.type]||socialNeedsList;
+  list.forEach(o=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='choice'+(form.socialNeeds.includes(o.name)?' selected':'');
+    btn.textContent=o.name+' (+'+o.price+' €)';
+    btn.addEventListener('click',()=>{
+      if(form.socialNeeds.includes(o.name)) form.socialNeeds=form.socialNeeds.filter(x=>x!==o.name);
+      else form.socialNeeds.push(o.name);
+      renderSocial(); updateUI();
+    });
+    needsGrid.appendChild(btn);
+  });
+}
+
+function renderDesign(){
+  const grid=document.getElementById('design-grid');
+  grid.innerHTML='';
+  const list=designByType[form.type]||designNeedsList;
+  list.forEach(d=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='choice'+(form.designNeeds.includes(d.name)?' selected':'');
+    btn.textContent=d.name+' (+'+d.price+' €)';
+    btn.addEventListener('click',()=>{
+      if(form.designNeeds.includes(d.name)) form.designNeeds=form.designNeeds.filter(x=>x!==d.name);
+      else form.designNeeds.push(d.name);
+      renderDesign(); updateUI();
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function sendQuote(){
+  const hasSite=form.services.includes('site');
+  const hasSocial=form.services.includes('social');
+  const hasDesign=form.services.includes('design');
+  const isAltro=form.type==='Altro';
+  if(!hasSite && !hasSocial && !hasDesign){ alert('Seleziona almeno un servizio (Sito, Social o Design).'); return; }
+  const selectedServices=form.services.map(id=> id==='site'?'Sito Web':id==='social'?'Social Media':'Design e Grafiche').join(' + ');
+  const lines=['*Ciao Trebla Studio!*','Vorrei richiedere un preventivo per la mia attività.','','━━━━━━━━━━━━━━━━━━━','*DATI ATTIVITÀ*','• *Nome:* '+(form.name||'Non specificato'),'• *Settore:* '+(form.type==='Altro' && form.typeOther.trim() ? 'Altro ('+form.typeOther.trim()+')' : form.type),'• *Servizi scelti:* '+selectedServices,'━━━━━━━━━━━━━━━━━━━'];
+  if(hasSite){
+    lines.push('','*SITO WEB*','• *Struttura:* '+form.structure);
+    if(isAltro) lines.push('• *Esigenze specifiche:* da definire insieme');
+    else lines.push('• *Funzioni:* '+(form.features.length?form.features.join(', '):'Standard'),'• *Pagine:* '+(form.pages.length?form.pages.join(', '):'Standard'),'• *Foto:* '+form.photos);
+  }
+  if(hasSocial) lines.push('','*SOCIAL MEDIA*','• *Canali:* '+(form.socialPlatforms.join(', ')||'Da decidere'),'• *Opzioni:* '+(form.socialNeeds.join(', ')||'Da decidere'));
+  if(hasDesign) lines.push('','*DESIGN & GRAFICHE*','• *Materiali:* '+(form.designNeeds.join(', ')||'Da decidere'));
+  lines.push('','━━━━━━━━━━━━━━━━━━━','*PIANIFICAZIONE*');
+  if(!isAltro) lines.push('• *Obiettivi:* '+form.goals.join(', '));
+  lines.push('• *Tempi desiderati:* '+(form.timing||'Da definire'),'','*TOTALE INDICATIVO:* '+currentTotal()+' €','━━━━━━━━━━━━━━━━━━━');
+  if(form.notes && form.notes.trim()) lines.push('','*NOTE AGGIUNTIVE:*',form.notes.trim());
+  if(form.bannerDiscount) lines.push('','*Sconto partner richiesto*');
+  let message=lines.join('\n');
+  const MAX=1800;
+  if(message.length>MAX) message=message.slice(0,MAX-20)+'\n... (testo troncato)';
+  window.open('https://wa.me/'+whatsapp+'?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
+  document.getElementById('submitted-box').style.display='block';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // initial services from URL
+  const params=new URLSearchParams(window.location.search);
+  const svc=params.get('services')||params.get('service');
+  const init=parseServices(svc);
+  if(init.length) form.services=init;
+
+  renderTypeCategories();
+  renderFeatures();
+  renderPages();
+  renderGoals();
+  renderSocial();
+  renderDesign();
+
+  // events
+  document.getElementById('field-name').addEventListener('input',e=>{
+    form.name=e.target.value.slice(0,80);
+    updateUI();
+  });
+  document.getElementById('type-search').addEventListener('input',e=>{
+    const q=e.target.value.trim().toLowerCase();
+    const results=document.getElementById('type-results');
+    const cats=document.getElementById('type-categories');
+    const altro=document.getElementById('type-altro');
+    if(q){
+      results.style.display='flex';
+      cats.style.display='none';
+      altro.style.display='none';
+      results.innerHTML='';
+      const filtered=businessTypes.filter(t=>t.toLowerCase().includes(q));
+      filtered.forEach(type=>{
+        const btn=document.createElement('button');
+        btn.type='button';
+        btn.className='choice'+(form.type===type?' selected':'');
+        btn.textContent=type;
+        btn.addEventListener('click',()=>{
+          form.type=type; form.features=[]; form.pages=[];
+          document.getElementById('type-search').value='';
+          results.style.display='none';
+          cats.style.display='block';
+          altro.style.display='block';
+          renderTypeCategories(); renderFeatures(); updateUI();
+        });
+        results.appendChild(btn);
+      });
+      if(filtered.length===0){
+        const p=document.createElement('p');
+        p.className='form-help';
+        p.textContent='Nessun risultato, seleziona Altro.';
+        results.appendChild(p);
+      }
+    } else {
+      results.style.display='none';
+      cats.style.display='block';
+      altro.style.display='block';
+    }
+  });
+  document.getElementById('type-altro').addEventListener('click',()=>{
+    form.type='Altro'; form.features=[]; form.pages=[];
+    renderTypeCategories(); renderFeatures(); updateUI();
+  });
+  document.getElementById('type-other').addEventListener('input',e=>{
+    form.typeOther=e.target.value.slice(0,80);
+    updateUI();
+  });
+  document.querySelectorAll('.service-choice').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=btn.getAttribute('data-service');
+      if(id==='site'){
+        if(form.services.includes('site')) form.services=[];
+        else form.services=['site'];
+      } else {
+        if(form.services.includes(id)) form.services=form.services.filter(s=>s!==id);
+        else form.services.push(id);
+      }
+      document.querySelectorAll('.service-choice').forEach(b=>{
+        const sid=b.getAttribute('data-service');
+        const sel=form.services.includes(sid);
+        b.classList.toggle('selected', sel);
+        b.setAttribute('aria-pressed', sel);
+        b.querySelector('span').textContent=sel?'✓':'+';
+      });
+      updateUI();
+    });
+  });
+  document.querySelectorAll('[data-structure]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const v=btn.getAttribute('data-structure');
+      form.structure=v;
+      document.querySelectorAll('[data-structure]').forEach(b=>b.classList.toggle('selected', b.getAttribute('data-structure')===v));
+      updateUI();
+    });
+  });
+  document.querySelectorAll('[data-photo]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const v=btn.getAttribute('data-photo');
+      form.photos=v;
+      document.querySelectorAll('[data-photo]').forEach(b=>b.classList.toggle('selected', b.getAttribute('data-photo')===v));
+      updateUI();
+    });
+  });
+  document.querySelectorAll('[data-timing]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const v=btn.getAttribute('data-timing');
+      form.timing=v;
+      document.querySelectorAll('[data-timing]').forEach(b=>{
+        const sel=b.getAttribute('data-timing')===v;
+        b.classList.toggle('selected', sel);
+        b.setAttribute('aria-pressed', sel);
+      });
+      updateUI();
+    });
+  });
+  document.getElementById('field-notes').addEventListener('input',e=>{
+    form.notes=e.target.value.slice(0,800);
+    updateUI();
+  });
+  document.getElementById('privacy-check').addEventListener('change',e=>{
+    form.privacy=e.target.checked;
+    updateUI();
+  });
+  document.getElementById('banner-discount').addEventListener('click',()=>{
+    form.bannerDiscount=!form.bannerDiscount;
+    updateUI();
+  });
+  document.getElementById('quote-form').addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!estimateRevealed){
+      const missing=getMissing();
+      if(missing.length===0 && form.privacy){
+        revealTime=Date.now();
+        estimateRevealed=true;
+        updateUI();
+      }
+      return;
+    }
+    if(Date.now()-revealTime<1000) return;
+    sendQuote();
+  });
+  document.getElementById('estimate-cta').addEventListener('click',()=>{
+    const missing=getMissing();
+    if(missing.length===0 && form.privacy){
+      revealTime=Date.now();
+      estimateRevealed=true;
+      updateUI();
+    }
+  });
+
+  // init UI from URL services
+  document.querySelectorAll('.service-choice').forEach(b=>{
+    const sid=b.getAttribute('data-service');
+    const sel=form.services.includes(sid);
+    b.classList.toggle('selected', sel);
+    b.setAttribute('aria-pressed', sel);
+    b.querySelector('span').textContent=sel?'✓':'+';
+  });
+  updateUI();
+});
+</script>

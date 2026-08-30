@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
 
 const site = process.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.it';
 
@@ -7,7 +6,7 @@ const site = process.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblas
 export default defineConfig({
   site,
   output: 'static',
-  integrations: [react()],
+  integrations: [],
   image: {
     service: { entrypoint: 'astro/assets/services/sharp' },
   },

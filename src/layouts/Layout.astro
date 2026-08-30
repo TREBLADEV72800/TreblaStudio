@@ -1,5 +1,16 @@
 ---
 import '../styles.css';
+import '@fontsource/dm-mono/latin-400.css';
+import '@fontsource/dm-mono/latin-500.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '@fontsource/manrope/latin-800.css';
+import '@fontsource/playfair-display/latin-600.css';
+import '@fontsource/playfair-display/latin-700.css';
+import '@fontsource/playfair-display/latin-600-italic.css';
+import '@fontsource/playfair-display/latin-700-italic.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppIcon from '../components/WhatsAppIcon.astro';
@@ -46,17 +57,15 @@ const logoUrl = `${siteUrl}${site.image}`;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="1360" />
+    <meta property="og:image:height" content="768" />
     <meta property="og:image:alt" content={site.name} />
     <meta name="twitter:card" content={site.twitterCard} />
     <meta name="twitter:title" content={titleFull} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/png" href="/trebla-logo-transparent.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/trebla-logo.webp" imagesrcset="/trebla-logo.webp" fetchpriority="high" />
     <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"Organization","@id":orgId,"name":site.name,"url":`${siteUrl}/`,"logo":logoUrl,"description":"Trebla Studio — team di 2 giovani ad Asti: siti web, social e design. Prezzo chiaro da 350 €, tempi concordati.","email":site.email,"telephone":site.phone,"areaServed":{"@type":"AdministrativeArea","name":site.area}})} />
     <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"LocalBusiness","@id":lbId,"name":site.name,"url":`${siteUrl}/`,"image":logoUrl,"priceRange":"€€","description":"Team di 2 ad Asti: Albert Simoni (dev) + Gabriel Santospirito (design/SMM). Siti web, social, design per piccole imprese in Piemonte — Asti. Su appuntamento, lingue IT/EN.","email":site.email,"telephone":site.phone,"address":{"@type":"PostalAddress","addressRegion":site.address.region,"addressLocality":site.address.locality,"addressCountry":site.address.country},"areaServed":[{"@type":"City","name":site.city},{"@type":"AdministrativeArea","name":site.area}],"currenciesAccepted":"EUR","paymentAccepted":"Cash, Bank Transfer"})} />
     <slot name="head" />
