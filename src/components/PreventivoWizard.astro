@@ -1,0 +1,574 @@
+---
+---
+<section class="section" id="pz-root">
+  <p class="section-label">La tua proposta</p>
+  <div class="section-intro">
+    <h1>Costruiamo<br /><em>la tua proposta.</em></h1>
+    <p>Rispondi a poche domande per ricevere il tuo preventivo. <a href="/prezzi" class="pz-link">Vedi prezzi chiari</a></p>
+  </div>
+  <p class="pz-doubt"><a href="https://wa.me/393518924471?text=Ciao%20Trebla%20Studio!%20Ho%20un%20dubbio%20sul%20preventivo%2C%20possiamo%20parlarne%3F" target="_blank" rel="noopener noreferrer">Hai un dubbio? Scrivici →</a></p>
+
+  <form id="pz-form" novalidate>
+    <div class="pz-top">
+      <div class="pz-top-row">
+        <span id="pz-step">Passo 1 di 5 · Attività</span>
+        <span id="pz-miss" aria-live="polite">5 da completare</span>
+      </div>
+      <div class="pz-bar" aria-hidden="true"><div id="pz-fill"></div></div>
+    </div>
+
+    <div class="pz-pane" id="pz-1">
+      <div class="pz-group" id="pz-g-name">
+        <label for="pz-name" class="pz-title">Nome della tua attività <span class="pz-req">*</span></label>
+        <input id="pz-name" required placeholder="Es. Pasticceria Rossi" maxlength="80" aria-required="true" autocomplete="organization" />
+        <p id="pz-name-err" role="alert">Inserisci il nome, serve per intestare il preventivo.</p>
+      </div>
+      <div class="pz-group" id="pz-g-type">
+        <p class="pz-title">Che tipo di attività è?</p>
+        <input id="pz-search" placeholder="Cerca la tua attività... (es. pizzeria, barbiere)" aria-label="Cerca tipo attività" autocomplete="off" />
+        <div id="pz-results" style="display:none"></div>
+        <div id="pz-cats"></div>
+        <button type="button" class="pz-chip" id="pz-altro">Altro</button>
+        <p class="pz-muted">Non trovi la tua attività? Scegli Altro.</p>
+        <label id="pz-other-wrap" for="pz-other" style="display:none">Che attività fai? Descrivici la tua attività<input id="pz-other" placeholder="Es. venditori ambulanti, associazione..." maxlength="80" /></label>
+      </div>
+    </div>
+
+    <div class="pz-pane" id="pz-2" hidden>
+      <div class="pz-group" id="pz-g-svc">
+        <p class="pz-title">Di cosa hai bisogno?</p>
+        <p class="pz-muted">Seleziona il servizio che ti serve ora. Puoi combinarne più di uno.</p>
+        <div class="pz-cards" id="pz-svc">
+          <button type="button" class="pz-card" data-svc="site" aria-pressed="false"><span aria-hidden="true">+</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small></button>
+          <button type="button" class="pz-card" data-svc="social" aria-pressed="false"><span aria-hidden="true">+</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small></button>
+          <button type="button" class="pz-card" data-svc="design" aria-pressed="false"><span aria-hidden="true">+</span><b>Design e Grafiche</b><small>Logo, locandine, volantini e materiali coordinati.</small></button>
+        </div>
+        <button type="button" class="pz-all" id="pz-pack">Pacchetto completo: seleziona Sito + Social + Design</button>
+        <a href="https://wa.me/393518924471?text=Ciao%20Trebla!%20Non%20so%20cosa%20fare%20per%20il%20sito%2C%20mi%20aiutate%20a%20scegliere%3F" target="_blank" rel="noopener noreferrer" class="button button-quiet pz-wide">Non so cosa fare per il sito, scrivici su WhatsApp →</a>
+      </div>
+    </div>
+
+    <div class="pz-pane" id="pz-3" hidden>
+      <div id="pz-site" style="display:none">
+        <p class="pz-muted" id="pz-hint-type" style="display:none">Seleziona il tipo di attività sopra per sbloccare funzioni e pagine su misura.</p>
+        <div class="pz-group" id="pz-g-struct" style="display:none">
+          <p class="pz-title">Struttura del sito web</p>
+          <p class="pz-muted">Scegli tra una pagina singola fluida o un sito completo a più pagine.</p>
+          <div class="pz-chips" id="pz-struct">
+            <button type="button" class="pz-chip" data-v="Pagina singola">Pagina singola (350 €)</button>
+            <button type="button" class="pz-chip" data-v="Sito completo a più pagine">Sito completo a più pagine (400 €)</button>
+          </div>
+        </div>
+        <div class="pz-group" id="pz-g-feats" style="display:none">
+          <p class="pz-title">Cosa serve per il tuo sito (<span id="pz-feats-for"></span>)?</p>
+          <p class="pz-muted">Seleziona le funzioni utili per la tua attività.</p>
+          <div class="pz-chips" id="pz-feats"></div>
+          <button type="button" class="pz-all" data-all="feats">Seleziona tutto</button>
+        </div>
+        <div class="pz-group" id="pz-g-pages" style="display:none">
+          <p class="pz-title">Pagine e sezioni desiderate</p>
+          <div class="pz-chips" id="pz-pages"></div>
+          <button type="button" class="pz-all" data-all="pages">Seleziona tutto</button>
+        </div>
+        <div class="pz-group" id="pz-g-photos" style="display:none">
+          <p class="pz-title">Foto e immagini</p>
+          <p class="pz-muted">Se non ne hai, possiamo venire a scattarle sul posto.</p>
+          <div class="pz-chips" id="pz-photos">
+            <button type="button" class="pz-chip" data-v="Ho già le foto">Ho già le foto (le invio io)</button>
+            <button type="button" class="pz-chip" data-v="Servono le foto (le scattate voi)">Scattate voi sul posto (+40 €)</button>
+            <button type="button" class="pz-chip" data-v="Parto da zero">Non ho niente, usiamo immagini di archivio (+10 €)</button>
+          </div>
+        </div>
+      </div>
+      <div id="pz-social" style="display:none">
+        <div class="pz-group">
+          <p class="pz-title">Social Media: su quali canali vuoi puntare?</p>
+          <div class="pz-chips" id="pz-plats"></div>
+          <button type="button" class="pz-all" data-all="plats">Seleziona tutto</button>
+        </div>
+        <div class="pz-group">
+          <p class="pz-title">Di cosa hai bisogno per i tuoi Social?</p>
+          <p class="pz-muted">Contenuti su misura per <span id="pz-needs-for"></span>.</p>
+          <div class="pz-chips" id="pz-needs"></div>
+          <button type="button" class="pz-all" data-all="needs">Seleziona tutto</button>
+        </div>
+      </div>
+      <div id="pz-design" style="display:none">
+        <div class="pz-group">
+          <p class="pz-title">Design e Materiali Grafici</p>
+          <p class="pz-muted">Materiali su misura per <span id="pz-mats-for"></span>.</p>
+          <div class="pz-chips" id="pz-mats"></div>
+          <button type="button" class="pz-all" data-all="mats">Seleziona tutto</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pz-pane" id="pz-4" hidden>
+      <div class="pz-group" id="pz-g-goals">
+        <p class="pz-title">Cosa vuoi ottenere principalmente?</p>
+        <p class="pz-muted">Puoi scegliere più di un obiettivo.</p>
+        <div class="pz-chips" id="pz-goals"></div>
+        <button type="button" class="pz-all" data-all="goals">Seleziona tutto</button>
+      </div>
+      <div class="pz-group">
+        <label for="pz-timing" class="pz-title">Quando vorresti iniziare?</label>
+        <div class="pz-chips" id="pz-timing-g">
+          <button type="button" class="pz-chip" data-v="Appena possibile" id="pz-timing" aria-pressed="false">Appena possibile</button>
+          <button type="button" class="pz-chip" data-v="Entro un mese" aria-pressed="false">Entro un mese</button>
+          <button type="button" class="pz-chip" data-v="Sto valutando" aria-pressed="false">Sto valutando</button>
+        </div>
+      </div>
+      <div class="pz-group">
+        <label for="pz-notes" class="pz-title">Note per il progetto</label>
+        <p class="pz-muted">Facoltativo: funzioni, colori, esempi o esigenze da sapere.</p>
+        <textarea id="pz-notes" maxlength="800" placeholder="Es. vorrei un sito con prenotazioni e colori chiari..." rows="4"></textarea>
+      </div>
+    </div>
+
+    <div class="pz-pane" id="pz-5" hidden>
+      <div class="pz-group">
+        <p class="pz-title">Il tuo riepilogo</p>
+        <p class="pz-muted">Controlla le scelte prima di inviare.</p>
+        <div id="pz-sum"></div>
+      </div>
+      <div class="pz-group pz-privacy">
+        <label for="pz-privacy"><input type="checkbox" id="pz-privacy" required aria-required="true" /><span>Ho letto l’<a href="/privacy">informativa privacy</a> e acconsento al trattamento dei dati per ricevere il preventivo. *</span></label>
+      </div>
+      <div class="pz-total" id="pz-totalbox">
+        <div>
+          <span id="pz-total-k">Preventivo</span><strong id="pz-total-v">Completa i campi</strong>
+          <p id="pz-total-d">Manca il consenso privacy.</p>
+        </div>
+        <button class="wa-cta" id="pz-show" type="button">Mostra il totale</button>
+        <a class="wa-cta" id="pz-send" href="https://wa.me/393518924471?text=Ciao%20Trebla!%20Non%20so%20cosa%20scegliere%20per%20il%20preventivo%2C%20mi%20aiutate%20su%20WhatsApp%3F" target="_blank" rel="noopener noreferrer" style="display:none">Scrivici su WhatsApp</a>
+      </div>
+      <div id="pz-sent" style="display:none">
+        <strong>Grazie, richiesta inviata su WhatsApp.</strong>
+        <p>Ti interessa anche un evento di inaugurazione con musica dal vivo? <a href="/eventi">Vedi Eventi →</a></p>
+      </div>
+    </div>
+
+    <div class="pz-nav">
+      <button type="button" class="button button-quiet" id="pz-prev" hidden>← Indietro</button>
+      <p class="pz-muted" id="pz-hint" aria-live="polite"></p>
+      <button type="button" class="button button-main" id="pz-next">Avanti →</button>
+    </div>
+  </form>
+</section>
+
+<script type="module">
+import { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } from '../data/configuratore.js';
+
+/* Stato unico */
+const S = { name:'', type:'', typeOther:'', services:[], structure:'', features:[], pages:[], photos:'', plats:[], needs:[], mats:[], goals:[], timing:'', notes:'', privacy:false };
+const STEPS = 5;
+const TITLES = { 1:'Attività', 2:'Servizi', 3:'Dettagli', 4:'Obiettivi e tempi', 5:'Riepilogo e invio' };
+let step = 1, revealed = false, revealAt = 0;
+
+const $ = (id) => document.getElementById(id);
+const names = (list) => (list || []).map((x) => (typeof x === 'string' ? x : x.name));
+const siteFeats = () => [...(featuresByType[S.type] || []), ...siteExtrasAll];
+const socialNeeds = () => [...(socialByType[S.type] || socialNeedsList), ...socialExtrasAll];
+const designNeeds = () => [...(designByType[S.type] || designNeedsList), ...designExtrasAll];
+const isAltro = () => S.type === 'Altro';
+const has = (s) => S.services.includes(s);
+
+/* Totale deterministico */
+function total() {
+  let t = 0;
+  if (has('site')) {
+    t = S.structure === 'Sito completo a più pagine' ? 400 : 350;
+    const fl = siteFeats();
+    S.features.forEach((n) => { const f = fl.find((x) => x.name === n); if (f) t += f.price; });
+    S.pages.forEach((n) => { const p = pageOptions.find((x) => x.name === n); if (p) t += p.price; });
+    if (!isAltro() && S.photos && photoPrices[S.photos]) t += photoPrices[S.photos];
+  }
+  if (has('social')) {
+    const nl = socialNeeds();
+    S.needs.forEach((n) => { const f = nl.find((x) => x.name === n); if (f) t += f.price; });
+  }
+  if (has('design')) {
+    const dl = designNeeds();
+    S.mats.forEach((n) => { const f = dl.find((x) => x.name === n); if (f) t += f.price; });
+  }
+  return Math.max(0, Math.round(t));
+}
+
+/* Validazione */
+function missing() {
+  const m = [], altro = isAltro();
+  const okName = S.name.trim().length >= 2, okType = !!S.type && (!altro || S.typeOther.trim().length >= 2);
+  if (!okName) m.push("il nome della tua attività");
+  if (!okType) m.push('il tipo di attività');
+  if (!has('site') && !has('social') && !has('design')) m.push('un servizio (Sito, Social o Design)');
+  if (has('site') && !altro && !S.structure) m.push('la struttura del sito');
+  if (has('site') && !altro && !S.photos) m.push('le foto');
+  if (has('social') && !(S.plats.length > 0 && S.needs.length > 0)) m.push('le scelte Social Media');
+  if (has('design') && !S.mats.length) m.push('i materiali grafici');
+  if (!altro && !S.goals.length) m.push('un obiettivo');
+  if (!S.timing) m.push('i tempi desiderati');
+  return m;
+}
+function stepMiss(n) {
+  const m = missing(), altro = isAltro();
+  const want = n === 1 ? ["il nome della tua attività", 'il tipo di attività']
+    : n === 2 ? ['un servizio (Sito, Social o Design)']
+    : n === 3 ? ['la struttura del sito', 'le foto', 'le scelte Social Media', 'i materiali grafici']
+    : n === 4 ? ['un obiettivo', 'i tempi desiderati']
+    : ['il consenso privacy'];
+  if (n === 5) return S.privacy ? [] : want;
+  return m.filter((x) => want.includes(x));
+}
+const stepOk = (n) => stepMiss(n).length === 0;
+
+/* Chip factory + delegation: un listener per contenitore, mai rebuild al tap */
+function paint(btn, on) { btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on)); }
+function flip(arr, key) { const i = arr.indexOf(key); if (i >= 0) arr.splice(i, 1); else arr.push(key); return i < 0; }
+function mkChip(key, label, on) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'pz-chip' + (on ? ' on' : ''); b.textContent = label;
+  b.setAttribute('data-k', key); b.setAttribute('aria-pressed', String(!!on));
+  return b;
+}
+function wireChips(id, pick) {
+  const g = $(id);
+  if (!g || g._w) return; g._w = true;
+  g.addEventListener('click', (e) => {
+    const t = e.target, b = t && t.closest ? t.closest('button') : null;
+    if (!b || b.getAttribute('data-k') === null) return;
+    pick(b.getAttribute('data-k'), b);
+  });
+}
+function wireType(id, pick) {
+  const c = $(id);
+  if (!c || c._w) return; c._w = true;
+  c.addEventListener('click', (e) => {
+    const t = e.target, b = t && t.closest ? t.closest('button') : null;
+    if (!b) return;
+    const v = b.getAttribute('data-t');
+    if (v) pick(v);
+  });
+}
+function fill(id, items) {
+  const g = $(id);
+  if (!g) return;
+  g.innerHTML = '';
+  items.forEach((it) => g.appendChild(mkChip(it.key, it.label, it.on)));
+}
+const euro = (p) => (p ? ' (+' + p + ' €)' : '');
+
+/* Render liste (solo quando cambia la composizione) */
+function renderCats() {
+  const c = $('pz-cats');
+  const open = new Set();
+  c.querySelectorAll('details').forEach((d) => { if (d.open) open.add(d.getAttribute('data-c')); });
+  c.innerHTML = '';
+  Object.entries(businessCategories).forEach(([cat, types]) => {
+    const d = document.createElement('details');
+    d.setAttribute('data-c', cat);
+    if (open.has(cat) || types.includes(S.type)) d.open = true;
+    const s = document.createElement('summary'); s.textContent = cat + ', ' + types.length;
+    d.appendChild(s);
+    const g = document.createElement('div'); g.className = 'pz-chips';
+    types.forEach((t) => {
+      const b = mkChip(t, t, S.type === t);
+      b.classList.add('pz-t'); b.setAttribute('data-t', t);
+      if (t === 'Professionista') b.innerHTML = '<span style="font-weight:700">Professionista</span><span style="font-weight:400;margin-left:6px;color:var(--muted)">, geometra, commercialista...</span>';
+      g.appendChild(b);
+    });
+    d.appendChild(g); c.appendChild(d);
+  });
+}
+function renderTypeBtn(t) {
+  const b = mkChip(t, t, S.type === t);
+  b.classList.add('pz-t'); b.setAttribute('data-t', t);
+  return b;
+}
+function renderFeats() { fill('pz-feats', siteFeats().map((f) => ({ key: f.name, label: f.name + euro(f.price), on: S.features.includes(f.name) }))); }
+function renderPages() { fill('pz-pages', pageOptions.map((p) => ({ key: p.name, label: p.name + euro(p.price), on: S.pages.includes(p.name) }))); }
+function renderGoals() { fill('pz-goals', goals.map((g) => ({ key: g, label: g, on: S.goals.includes(g) }))); }
+function renderPlats() { fill('pz-plats', socialPlatforms.map((p) => ({ key: p, label: p, on: S.plats.includes(p) }))); }
+function renderNeeds() { fill('pz-needs', socialNeeds().map((o) => ({ key: o.name, label: o.name + euro(o.price), on: S.needs.includes(o.name) }))); }
+function renderMats() { fill('pz-mats', designNeeds().map((d) => ({ key: d.name, label: d.name + euro(d.price), on: S.mats.includes(d.name) }))); }
+
+function setType(t) {
+  S.type = t; S.features = []; S.pages = [];
+  const sv = new Set(names(socialNeeds())), dv = new Set(names(designNeeds()));
+  S.needs = S.needs.filter((n) => sv.has(n));
+  S.mats = S.mats.filter((n) => dv.has(n));
+  syncTypeHi(); renderFeats(); renderNeeds(); renderMats(); update();
+}
+function syncTypeHi() {
+  $('pz-cats').querySelectorAll('.pz-t').forEach((b) => paint(b, b.getAttribute('data-t') === S.type));
+  paint($('pz-altro'), false);
+}
+function syncSvc() {
+  document.querySelectorAll('#pz-svc .pz-card').forEach((b) => {
+    const on = S.services.includes(b.getAttribute('data-svc'));
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+    const s = b.querySelector('span'); if (s) s.textContent = on ? '✓' : '+';
+  });
+  const all = ['site', 'social', 'design'], full = all.every((x) => S.services.includes(x));
+  $('pz-pack').textContent = full ? '✓ Pacchetto completo selezionato (clicca per deselezionare)' : 'Pacchetto completo: seleziona Sito + Social + Design';
+}
+function allDef(k) {
+  if (k === 'feats') return { n: names(siteFeats()), a: S.features, r: renderFeats };
+  if (k === 'pages') return { n: names(pageOptions), a: S.pages, r: renderPages };
+  if (k === 'plats') return { n: [...socialPlatforms], a: S.plats, r: renderPlats };
+  if (k === 'needs') return { n: names(socialNeeds()), a: S.needs, r: renderNeeds };
+  if (k === 'mats') return { n: names(designNeeds()), a: S.mats, r: renderMats };
+  return { n: [...goals], a: S.goals, r: renderGoals };
+}
+function toggleAll(k) {
+  const d = allDef(k);
+  if (!d.n.length) return;
+  const full = d.a.length >= d.n.length;
+  d.a.length = 0;
+  if (!full) d.n.forEach((x) => d.a.push(x));
+  d.r(); update();
+}
+function refreshAll() {
+  document.querySelectorAll('[data-all]').forEach((b) => {
+    const d = allDef(b.getAttribute('data-all'));
+    b.textContent = d.n.length > 0 && d.a.length >= d.n.length ? 'Deseleziona tutto' : 'Seleziona tutto';
+  });
+}
+
+/* Riepilogo */
+function row(box, k, v) {
+  if (!v) return;
+  const r = document.createElement('div'); r.className = 'pz-row';
+  const a = document.createElement('strong'); a.textContent = k;
+  const b = document.createElement('span'); b.textContent = v;
+  r.appendChild(a); r.appendChild(b); box.appendChild(r);
+}
+function renderSum() {
+  const box = $('pz-sum');
+  if (!box) return;
+  box.innerHTML = '';
+  const tl = !S.type ? '' : (S.type === 'Altro' && S.typeOther.trim() ? 'Altro (' + S.typeOther.trim() + ')' : S.type);
+  const svc = (id) => (id === 'site' ? 'Sito Web' : id === 'social' ? 'Social Media' : 'Design e Grafiche');
+  row(box, 'Attività', S.name + (tl ? ' · ' + tl : ''));
+  row(box, 'Servizi', S.services.map(svc).join(' + '));
+  if (has('site') && !isAltro()) {
+    row(box, 'Sito', S.structure || 'Da definire');
+    if (S.features.length) row(box, 'Funzioni', S.features.length + ' selezionate');
+    if (S.pages.length) row(box, 'Pagine', S.pages.length + ' selezionate');
+    if (S.photos) row(box, 'Foto', S.photos);
+  }
+  if (has('social')) row(box, 'Social', (S.plats.join(', ') || 'Canali da decidere') + ' · ' + S.needs.length + ' contenuti');
+  if (has('design') && S.mats.length) row(box, 'Design', S.mats.length + ' materiali');
+  if (!isAltro() && S.goals.length) row(box, 'Obiettivi', S.goals.join(', '));
+  row(box, 'Tempi', S.timing || 'Da definire');
+}
+
+/* Wizard */
+function refreshWiz() {
+  for (let i = 1; i <= STEPS; i++) { const p = $('pz-' + i); if (p) p.hidden = i !== step; }
+  $('pz-fill').style.width = (step / STEPS * 100) + '%';
+  $('pz-prev').hidden = step <= 1;
+  const nx = $('pz-next');
+  nx.hidden = step >= STEPS;
+  nx.disabled = !stepOk(step);
+  nx.textContent = step === STEPS - 1 ? 'Vai al riepilogo →' : 'Avanti →';
+  const miss = step < STEPS ? stepMiss(step) : [];
+  $('pz-hint').textContent = miss.length ? 'Per continuare manca: ' + miss.join(', ') + '.' : '';
+  if (step === STEPS) renderSum();
+}
+function go(n) {
+  step = Math.min(STEPS, Math.max(1, n));
+  refreshWiz();
+  const r = $('pz-root');
+  if (r && r.scrollIntoView) r.scrollIntoView({ block: 'start' });
+}
+
+/* Messaggio WhatsApp */
+function buildMsg() {
+  const svc = S.services.map((id) => (id === 'site' ? 'Sito Web' : id === 'social' ? 'Social Media' : 'Design e Grafiche')).join(' + ');
+  const L = ['*Ciao Trebla Studio!*', 'Vorrei richiedere un preventivo per la mia attività.', '', '━━━━━━━━━━━━━━━━━━━', '*DATI ATTIVITÀ*', '• *Nome:* ' + (S.name || 'Non specificato'), '• *Settore:* ' + (S.type === 'Altro' && S.typeOther.trim() ? 'Altro (' + S.typeOther.trim() + ')' : S.type), '• *Servizi scelti:* ' + svc, '━━━━━━━━━━━━━━━━━━━'];
+  if (has('site')) {
+    L.push('', '*SITO WEB*', '• *Struttura:* ' + (S.structure || 'Da definire insieme'));
+    if (isAltro()) L.push('• *Esigenze specifiche:* da definire insieme');
+    else L.push('• *Funzioni:* ' + (S.features.length ? S.features.join(', ') : 'Standard'), '• *Pagine:* ' + (S.pages.length ? S.pages.join(', ') : 'Standard'), '• *Foto:* ' + S.photos);
+  }
+  if (has('social')) L.push('', '*SOCIAL MEDIA*', '• *Canali:* ' + (S.plats.join(', ') || 'Da decidere'), '• *Opzioni:* ' + (S.needs.join(', ') || 'Da decidere'));
+  if (has('design')) L.push('', '*DESIGN & GRAFICHE*', '• *Materiali:* ' + (S.mats.join(', ') || 'Da decidere'));
+  L.push('', '━━━━━━━━━━━━━━━━━━━', '*PIANIFICAZIONE*');
+  if (!isAltro()) L.push('• *Obiettivi:* ' + S.goals.join(', '));
+  L.push('• *Tempi desiderati:* ' + (S.timing || 'Da definire'), '', '*TOTALE INDICATIVO:* ' + total() + ' €', '━━━━━━━━━━━━━━━━━━━');
+  if (S.notes && S.notes.trim()) L.push('', '*NOTE AGGIUNTIVE:*', S.notes.trim());
+  let msg = L.join('\n');
+  if (msg.length > 1800) msg = msg.slice(0, 1780) + '\n... (testo troncato)';
+  return msg;
+}
+function send() {
+  if (!has('site') && !has('social') && !has('design')) { alert('Seleziona almeno un servizio (Sito, Social o Design).'); return; }
+  window.open('https://wa.me/' + whatsapp + '?text=' + encodeURIComponent(buildMsg()), '_blank', 'noopener,noreferrer');
+  $('pz-sent').style.display = 'block';
+}
+
+/* Update centrale */
+function update() {
+  const altro = isAltro();
+  const okName = S.name.trim().length >= 2, okType = !!S.type && (!altro || S.typeOther.trim().length >= 2);
+  $('pz-g-name').classList.toggle('bad', !okName);
+  $('pz-name-err').style.display = okName ? 'none' : 'block';
+  $('pz-g-type').classList.toggle('bad', !okType);
+  $('pz-g-svc').classList.toggle('bad', !has('site') && !has('social') && !has('design'));
+  $('pz-other-wrap').style.display = S.type === 'Altro' ? 'block' : 'none';
+  $('pz-site').style.display = has('site') ? 'block' : 'none';
+  $('pz-hint-type').style.display = has('site') && !S.type ? 'block' : 'none';
+  if (has('site')) {
+    const showStruct = !altro;
+    $('pz-g-struct').style.display = showStruct ? 'block' : 'none';
+    $('pz-g-feats').style.display = S.type ? 'block' : 'none';
+    if (S.type) $('pz-feats-for').textContent = S.type;
+    $('pz-g-pages').style.display = showStruct && S.type ? 'block' : 'none';
+    $('pz-g-photos').style.display = showStruct && S.type ? 'block' : 'none';
+  }
+  $('pz-social').style.display = has('social') ? 'block' : 'none';
+  if (has('social')) $('pz-needs-for').textContent = S.type || '';
+  $('pz-design').style.display = has('design') ? 'block' : 'none';
+  if (has('design')) $('pz-mats-for').textContent = S.type || '';
+  $('pz-g-goals').style.display = altro ? 'none' : 'block';
+  $('pz-step').textContent = 'Passo ' + step + ' di ' + STEPS + ' · ' + TITLES[step];
+  const m = missing();
+  $('pz-miss').textContent = m.length === 0 && S.privacy ? 'Pronto' : m.length + ' da completare';
+  $('pz-miss').style.color = m.length ? '#b35a00' : '#0a7a2e';
+  syncSvc(); refreshAll(); estimate(); refreshWiz();
+}
+
+/* Totale box */
+function estimate() {
+  const t = total(), k = $('pz-total-k'), v = $('pz-total-v'), d = $('pz-total-d'), c = $('pz-show'), w = $('pz-send');
+  if (revealed) {
+    k.textContent = 'Totale indicativo'; v.textContent = '€ ' + t; d.textContent = 'Prezzo concordato insieme prima di iniziare.';
+    c.style.display = 'none'; w.style.display = 'flex';
+    w.onclick = (e) => { e.preventDefault(); if (Date.now() - revealAt < 1000) return; send(); };
+  } else {
+    const m = missing(), ok = m.length === 0 && S.privacy;
+    k.textContent = 'Preventivo'; v.textContent = ok ? 'Pronto' : 'Completa i campi';
+    d.textContent = !S.privacy ? 'Manca il consenso privacy.' : ok ? 'Hai risposto a tutto.' : 'Manca: ' + m.join(', ') + '.';
+    if (ok) {
+      c.style.display = 'flex'; c.textContent = 'Mostra il totale';
+      c.onclick = () => { revealAt = Date.now(); revealed = true; estimate(); update(); };
+      w.style.display = 'none';
+    } else {
+      c.style.display = 'none'; w.style.display = 'flex'; w.textContent = 'Scrivici su WhatsApp';
+      w.href = 'https://wa.me/393518924471?text=' + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+      w.onclick = null;
+    }
+  }
+}
+
+function parseSvc(v) {
+  if (!v) return [];
+  return [...new Set(String(v).split(',').map((s) => s.trim().toLowerCase()).map((s) => {
+    if (['site', 'sito', 'siti-web', 'sito-web', 'siti'].includes(s)) return 'site';
+    if (['social', 'social-media', 'sm'].includes(s)) return 'social';
+    if (['design', 'grafiche', 'grafica'].includes(s)) return 'design';
+    return null;
+  }).filter(Boolean))];
+}
+
+function init() {
+  const q = new URLSearchParams(window.location.search);
+  const pre = parseSvc(q.get('services') || q.get('service'));
+  if (pre.length) S.services = pre;
+
+  wireChips('pz-feats', (k, b) => { paint(b, flip(S.features, k)); update(); });
+  wireChips('pz-pages', (k, b) => { paint(b, flip(S.pages, k)); update(); });
+  wireChips('pz-goals', (k, b) => { paint(b, flip(S.goals, k)); update(); });
+  wireChips('pz-plats', (k, b) => { paint(b, flip(S.plats, k)); update(); });
+  wireChips('pz-needs', (k, b) => { paint(b, flip(S.needs, k)); update(); });
+  wireChips('pz-mats', (k, b) => { paint(b, flip(S.mats, k)); update(); });
+  wireType('pz-cats', (t) => setType(t));
+  wireType('pz-results', (t) => {
+    setType(t);
+    $('pz-search').value = ''; $('pz-results').style.display = 'none';
+    $('pz-cats').style.display = 'block'; $('pz-altro').style.display = 'block';
+  });
+
+  renderCats(); renderFeats(); renderPages(); renderGoals(); renderPlats(); renderNeeds(); renderMats();
+
+  $('pz-name').addEventListener('input', (e) => {
+    const v = e.target.value.slice(0, 80);
+    if (e.target.value !== v) e.target.value = v;
+    S.name = v; update();
+  });
+  $('pz-search').addEventListener('input', (e) => {
+    const q2 = e.target.value.trim().toLowerCase();
+    const r = $('pz-results'), c = $('pz-cats'), a = $('pz-altro');
+    if (!q2) { r.style.display = 'none'; c.style.display = 'block'; a.style.display = 'block'; return; }
+    r.style.display = 'flex'; c.style.display = 'none'; a.style.display = 'none';
+    r.innerHTML = '';
+    businessTypes.filter((t) => t.toLowerCase().includes(q2)).forEach((t) => r.appendChild(renderTypeBtn(t)));
+    if (!r.children.length) {
+      const p = document.createElement('p'); p.className = 'pz-muted'; p.textContent = 'Nessun risultato per questa ricerca.';
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pz-all'; b.textContent = 'Usa “Altro” e descrivi la tua attività';
+      b.addEventListener('click', () => {
+        setType('Altro');
+        $('pz-search').value = ''; r.style.display = 'none'; c.style.display = 'block'; a.style.display = 'block';
+      });
+      r.appendChild(p); r.appendChild(b);
+    }
+  });
+  $('pz-altro').addEventListener('click', () => setType('Altro'));
+  $('pz-other').addEventListener('input', (e) => {
+    const v = e.target.value.slice(0, 80);
+    if (e.target.value !== v) e.target.value = v;
+    S.typeOther = v; update();
+  });
+  document.querySelectorAll('#pz-svc .pz-card').forEach((b) => b.addEventListener('click', () => {
+    flip(S.services, b.getAttribute('data-svc')); syncSvc(); update();
+  }));
+  $('pz-pack').addEventListener('click', () => {
+    const all = ['site', 'social', 'design'];
+    S.services = all.every((x) => S.services.includes(x)) ? [] : [...all];
+    syncSvc(); update();
+  });
+  document.querySelectorAll('[data-all]').forEach((b) => b.addEventListener('click', () => toggleAll(b.getAttribute('data-all'))));
+  document.querySelectorAll('#pz-struct .pz-chip').forEach((b) => b.addEventListener('click', () => {
+    S.structure = b.getAttribute('data-v');
+    if (S.structure === 'Pagina singola' && S.pages.length) { S.pages = []; renderPages(); }
+    document.querySelectorAll('#pz-struct .pz-chip').forEach((x) => paint(x, x === b));
+    update();
+  }));
+  document.querySelectorAll('#pz-photos .pz-chip').forEach((b) => b.addEventListener('click', () => {
+    S.photos = b.getAttribute('data-v');
+    document.querySelectorAll('#pz-photos .pz-chip').forEach((x) => paint(x, x === b));
+    update();
+  }));
+  document.querySelectorAll('#pz-timing-g .pz-chip').forEach((b) => b.addEventListener('click', () => {
+    S.timing = b.getAttribute('data-v');
+    document.querySelectorAll('#pz-timing-g .pz-chip').forEach((x) => paint(x, x === b));
+    update();
+  }));
+  $('pz-notes').addEventListener('input', (e) => {
+    const v = e.target.value.slice(0, 800);
+    if (e.target.value !== v) e.target.value = v;
+    S.notes = v; update();
+  });
+  $('pz-privacy').addEventListener('change', (e) => { S.privacy = e.target.checked; update(); });
+  $('pz-next').addEventListener('click', () => { if (step < STEPS && stepOk(step)) go(step + 1); });
+  $('pz-prev').addEventListener('click', () => { if (step > 1) go(step - 1); });
+  $('pz-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (step < STEPS) { if (stepOk(step)) go(step + 1); return; }
+    if (!revealed) {
+      if (!missing().length && S.privacy) { revealAt = Date.now(); revealed = true; update(); }
+      return;
+    }
+    if (Date.now() - revealAt < 1000) return;
+    send();
+  });
+  $('pz-show').addEventListener('click', () => {
+    if (!missing().length && S.privacy) { revealAt = Date.now(); revealed = true; update(); }
+  });
+
+  syncSvc(); update();
+  window.__treblaPreventivo = { state: S, currentTotal: total, getMissing: missing, goStep: go, stepValid: stepOk, step: () => step };
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+</script>
