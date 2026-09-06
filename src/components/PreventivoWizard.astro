@@ -2,7 +2,7 @@
 import { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } from '../data/configuratore.js';
 const CFG = { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp };
 ---
-<section id="cx-root" aria-label="Chat preventivo">
+<section id="cx-root" aria-label="Domande preventivo">
   <div class="cx-appbar">
     <span class="cx-ava" aria-hidden="true">T</span>
     <span class="cx-who"><b>Trebla Studio</b><i id="cx-step">Domanda 1</i></span>
@@ -89,20 +89,20 @@ function missing() {
 }
 
 const NODES = {
-  name: { q: 'Come si chiama la tua attività?', a: () => S.name, ok: okName },
-  type: { q: 'Che tipo di attività è?', a: typeLabel, ok: okType },
-  services: { q: 'Di cosa hai bisogno? Puoi scegliere più cose.', a: () => S.services.map(svcName).join(' + '), ok: () => S.services.length > 0 },
-  struct: { q: 'Meglio una pagina singola (350 €) o un sito completo a più pagine (400 €)?', a: () => S.structure, ok: () => !!S.structure },
-  feats: { q: 'Quali funzioni servono sul sito? Solo se utili, altrimenti vai avanti.', a: () => (S.features.length ? S.features.length + ' funzioni' : 'Nessuna extra'), ok: () => true },
-  pages: { q: 'Quali pagine vuoi nel sito? Solo se utili.', a: () => (S.pages.length ? S.pages.length + ' pagine' : 'Solo la principale'), ok: () => true },
-  photos: { q: 'E le foto da mettere sul sito?', a: () => S.photos, ok: () => !!S.photos },
-  plats: { q: 'Su quali canali pubblichiamo?', a: () => S.plats.join(', '), ok: () => S.plats.length > 0 },
-  needs: { q: () => 'Cosa prepariamo per i tuoi social' + (S.type ? ' (' + S.type + ')' : '') + '?', a: () => S.needs.length + ' contenuti', ok: () => S.needs.length > 0 },
-  mats: { q: () => 'Quali materiali grafici ti servono' + (S.type ? ' (' + S.type + ')' : '') + '?', a: () => S.mats.length + ' materiali', ok: () => S.mats.length > 0 },
-  goals: { q: 'Cosa vuoi ottenere soprattutto?', a: () => S.goals.join(', '), ok: () => S.goals.length > 0 },
-  timing: { q: 'Quando vorresti iniziare?', a: () => S.timing, ok: () => !!S.timing },
-  notes: { q: 'Vuoi aggiungere note? Colori, esempi, esigenze particolari.', a: () => (S.notes.trim() ? '“' + S.notes.trim().slice(0, 60) + (S.notes.trim().length > 60 ? '…' : '') + '”' : 'Nessuna nota'), ok: () => true },
-  review: { q: 'Ecco il riepilogo! Controlla e invia.', a: () => '', ok: () => true },
+  name: { q: 'Come si chiama la tua attività?', ok: okName },
+  type: { q: 'Che tipo di attività è?', ok: okType },
+  services: { q: 'Di cosa hai bisogno? Puoi scegliere più cose.', ok: () => S.services.length > 0 },
+  struct: { q: 'Meglio una pagina singola (350 €) o un sito completo a più pagine (400 €)?', ok: () => !!S.structure },
+  feats: { q: 'Quali funzioni servono sul sito? Solo se utili, altrimenti vai avanti.', ok: () => true },
+  pages: { q: 'Quali pagine vuoi nel sito? Solo se utili.', ok: () => true },
+  photos: { q: 'E le foto da mettere sul sito?', ok: () => !!S.photos },
+  plats: { q: 'Su quali canali pubblichiamo?', ok: () => S.plats.length > 0 },
+  needs: { q: () => 'Cosa prepariamo per i tuoi social' + (S.type ? ' (' + S.type + ')' : '') + '?', ok: () => S.needs.length > 0 },
+  mats: { q: () => 'Quali materiali grafici ti servono' + (S.type ? ' (' + S.type + ')' : '') + '?', ok: () => S.mats.length > 0 },
+  goals: { q: 'Cosa vuoi ottenere soprattutto?', ok: () => S.goals.length > 0 },
+  timing: { q: 'Quando vorresti iniziare?', ok: () => !!S.timing },
+  notes: { q: 'Vuoi aggiungere note? Colori, esempi, esigenze particolari.', ok: () => true },
+  review: { q: 'Ecco il riepilogo! Controlla e invia.', ok: () => true },
 };
 const ask = (id) => (typeof NODES[id].q === 'function' ? NODES[id].q() : NODES[id].q);
 
@@ -143,17 +143,11 @@ function packLabel() {
   return ['site', 'social', 'design'].every((x) => S.services.includes(x)) ? '✓ Pacchetto completo selezionato' : 'Pacchetto completo: Sito + Social + Design';
 }
 
-/* Render cronologia + domanda corrente (ricostruzione totale: niente stati fantasma) */
+/* Una domanda per pagina: solo la domanda corrente, niente cronologia */
 function renderChat(f) {
   const chat = $('cx-chat');
   chat.innerHTML = '';
-  f.slice(0, idx + 1).forEach((id) => {
-    const qb = el('div', 'cx-msg cx-bot'); qb.textContent = ask(id); chat.appendChild(qb);
-    if (id !== f[idx]) {
-      const a = NODES[id].a();
-      if (a) { const ub = el('div', 'cx-msg cx-me'); ub.textContent = a; chat.appendChild(ub); }
-    }
-  });
+  chat.appendChild(el('p', 'cx-q', ask(f[idx])));
 }
 
 function catsInto(box) {
