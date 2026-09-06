@@ -1,4 +1,6 @@
 ---
+import { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } from '../data/configuratore.js';
+const CFG = { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp };
 ---
 <section id="cx-root" aria-label="Chat preventivo">
   <div class="cx-appbar">
@@ -15,8 +17,8 @@
   </div>
 </section>
 
-<script type="module">
-import { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } from '../data/configuratore.js';
+<script define:vars={{ CFG }}>
+const { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } = CFG;
 
 /* Stato unico della conversazione */
 const S = { name:'', type:'', typeOther:'', services:[], structure:'', features:[], pages:[], photos:'', plats:[], needs:[], mats:[], goals:[], timing:'', notes:'', privacy:false };
@@ -120,11 +122,6 @@ function chip(key, label, on, extra) {
   if (extra) Object.entries(extra).forEach(([a, v]) => b.setAttribute(a, v));
   b.setAttribute('aria-pressed', String(!!on));
   return b;
-}
-function chips(items) {
-  const g = el('div', 'cx-chips');
-  items.forEach((it) => g.appendChild(chip(it.key, it.label, it.on, it.attrs)));
-  return g;
 }
 function goBtn(label) {
   const b = el('button', 'button button-main cx-go', label || 'Continua →');
