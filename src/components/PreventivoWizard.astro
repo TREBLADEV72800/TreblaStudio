@@ -1,18 +1,12 @@
 ---
 ---
-<section class="section" id="cx-root">
-  <p class="section-label">La tua proposta</p>
-  <div class="section-intro">
-    <h1>Parliamone<br /><em>un passo alla volta.</em></h1>
-    <p>Rispondi come in una chiacchierata: una domanda alla volta, senza moduli infiniti. <a href="/prezzi" class="cx-link">Vedi prezzi chiari</a></p>
+<section id="cx-root" aria-label="Chat preventivo">
+  <div class="cx-appbar">
+    <span class="cx-ava" aria-hidden="true">T</span>
+    <span class="cx-who"><b>Trebla Studio</b><i id="cx-step">Domanda 1</i></span>
+    <span id="cx-pill" aria-live="polite">€ 0</span>
   </div>
-  <div class="cx-top">
-    <div class="cx-top-row">
-      <span id="cx-step">Domanda 1</span>
-      <span id="cx-pill" aria-live="polite">€ 0</span>
-    </div>
-    <div class="cx-bar" aria-hidden="true"><div id="cx-fill"></div></div>
-  </div>
+  <div class="cx-bar" aria-hidden="true"><div id="cx-fill"></div></div>
   <div id="cx-chat"></div>
   <div id="cx-dock"></div>
   <div class="cx-nav">
@@ -494,7 +488,7 @@ function send() {
 function update(full) {
   const f = flow();
   if (idx >= f.length) idx = f.length - 1;
-  if (full !== false) { renderChat(f); renderDock(f[idx]); }
+  if (full !== false) { renderChat(f); renderDock(f[idx]); const ch = $('cx-chat'); ch.scrollTop = ch.scrollHeight; }
   $('cx-step').textContent = 'Domanda ' + (idx + 1) + ' di ' + f.length;
   $('cx-fill').style.width = ((idx + 1) / f.length * 100) + '%';
   $('cx-pill').textContent = '€ ' + total();
