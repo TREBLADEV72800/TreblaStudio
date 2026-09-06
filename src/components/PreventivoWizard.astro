@@ -1,179 +1,63 @@
 ---
 ---
-<section class="section" id="pz-root">
+<section class="section" id="cx-root">
   <p class="section-label">La tua proposta</p>
   <div class="section-intro">
-    <h1>Costruiamo<br /><em>la tua proposta.</em></h1>
-    <p>Rispondi a poche domande per ricevere il tuo preventivo. <a href="/prezzi" class="pz-link">Vedi prezzi chiari</a></p>
+    <h1>Parliamone<br /><em>un passo alla volta.</em></h1>
+    <p>Rispondi come in una chiacchierata: una domanda alla volta, senza moduli infiniti. <a href="/prezzi" class="cx-link">Vedi prezzi chiari</a></p>
   </div>
-  <p class="pz-doubt"><a href="https://wa.me/393518924471?text=Ciao%20Trebla%20Studio!%20Ho%20un%20dubbio%20sul%20preventivo%2C%20possiamo%20parlarne%3F" target="_blank" rel="noopener noreferrer">Hai un dubbio? Scrivici →</a></p>
-
-  <form id="pz-form" novalidate>
-    <div class="pz-top">
-      <div class="pz-top-row">
-        <span id="pz-step">Passo 1 di 5 · Attività</span>
-        <span id="pz-miss" aria-live="polite">5 da completare</span>
-      </div>
-      <div class="pz-bar" aria-hidden="true"><div id="pz-fill"></div></div>
+  <div class="cx-top">
+    <div class="cx-top-row">
+      <span id="cx-step">Domanda 1</span>
+      <span id="cx-pill" aria-live="polite">€ 0</span>
     </div>
-
-    <div class="pz-pane" id="pz-1">
-      <div class="pz-group" id="pz-g-name">
-        <label for="pz-name" class="pz-title">Nome della tua attività <span class="pz-req">*</span></label>
-        <input id="pz-name" required placeholder="Es. Pasticceria Rossi" maxlength="80" aria-required="true" autocomplete="organization" />
-        <p id="pz-name-err" role="alert">Inserisci il nome, serve per intestare il preventivo.</p>
-      </div>
-      <div class="pz-group" id="pz-g-type">
-        <p class="pz-title">Che tipo di attività è?</p>
-        <input id="pz-search" placeholder="Cerca la tua attività... (es. pizzeria, barbiere)" aria-label="Cerca tipo attività" autocomplete="off" />
-        <div id="pz-results" style="display:none"></div>
-        <div id="pz-cats"></div>
-        <button type="button" class="pz-chip" id="pz-altro">Altro</button>
-        <p class="pz-muted">Non trovi la tua attività? Scegli Altro.</p>
-        <label id="pz-other-wrap" for="pz-other" style="display:none">Che attività fai? Descrivici la tua attività<input id="pz-other" placeholder="Es. venditori ambulanti, associazione..." maxlength="80" /></label>
-      </div>
-    </div>
-
-    <div class="pz-pane" id="pz-2" hidden>
-      <div class="pz-group" id="pz-g-svc">
-        <p class="pz-title">Di cosa hai bisogno?</p>
-        <p class="pz-muted">Seleziona il servizio che ti serve ora. Puoi combinarne più di uno.</p>
-        <div class="pz-cards" id="pz-svc">
-          <button type="button" class="pz-card" data-svc="site" aria-pressed="false"><span aria-hidden="true">+</span><b>Sito Web</b><small>Presenza online completa e veloce su tutti i dispositivi.</small></button>
-          <button type="button" class="pz-card" data-svc="social" aria-pressed="false"><span aria-hidden="true">+</span><b>Social Media</b><small>Gestione profili, pubblicazioni e grafiche su misura.</small></button>
-          <button type="button" class="pz-card" data-svc="design" aria-pressed="false"><span aria-hidden="true">+</span><b>Design e Grafiche</b><small>Logo, locandine, volantini e materiali coordinati.</small></button>
-        </div>
-        <button type="button" class="pz-all" id="pz-pack">Pacchetto completo: seleziona Sito + Social + Design</button>
-        <a href="https://wa.me/393518924471?text=Ciao%20Trebla!%20Non%20so%20cosa%20fare%20per%20il%20sito%2C%20mi%20aiutate%20a%20scegliere%3F" target="_blank" rel="noopener noreferrer" class="button button-quiet pz-wide">Non so cosa fare per il sito, scrivici su WhatsApp →</a>
-      </div>
-    </div>
-
-    <div class="pz-pane" id="pz-3" hidden>
-      <div id="pz-site" style="display:none">
-        <p class="pz-muted" id="pz-hint-type" style="display:none">Seleziona il tipo di attività sopra per sbloccare funzioni e pagine su misura.</p>
-        <div class="pz-group" id="pz-g-struct" style="display:none">
-          <p class="pz-title">Struttura del sito web</p>
-          <p class="pz-muted">Scegli tra una pagina singola fluida o un sito completo a più pagine.</p>
-          <div class="pz-chips" id="pz-struct">
-            <button type="button" class="pz-chip" data-v="Pagina singola">Pagina singola (350 €)</button>
-            <button type="button" class="pz-chip" data-v="Sito completo a più pagine">Sito completo a più pagine (400 €)</button>
-          </div>
-        </div>
-        <div class="pz-group" id="pz-g-feats" style="display:none">
-          <p class="pz-title">Cosa serve per il tuo sito (<span id="pz-feats-for"></span>)?</p>
-          <p class="pz-muted">Seleziona le funzioni utili per la tua attività.</p>
-          <div class="pz-chips" id="pz-feats"></div>
-          <button type="button" class="pz-all" data-all="feats">Seleziona tutto</button>
-        </div>
-        <div class="pz-group" id="pz-g-pages" style="display:none">
-          <p class="pz-title">Pagine e sezioni desiderate</p>
-          <div class="pz-chips" id="pz-pages"></div>
-          <button type="button" class="pz-all" data-all="pages">Seleziona tutto</button>
-        </div>
-        <div class="pz-group" id="pz-g-photos" style="display:none">
-          <p class="pz-title">Foto e immagini</p>
-          <p class="pz-muted">Se non ne hai, possiamo venire a scattarle sul posto.</p>
-          <div class="pz-chips" id="pz-photos">
-            <button type="button" class="pz-chip" data-v="Ho già le foto">Ho già le foto (le invio io)</button>
-            <button type="button" class="pz-chip" data-v="Servono le foto (le scattate voi)">Scattate voi sul posto (+40 €)</button>
-            <button type="button" class="pz-chip" data-v="Parto da zero">Non ho niente, usiamo immagini di archivio (+10 €)</button>
-          </div>
-        </div>
-      </div>
-      <div id="pz-social" style="display:none">
-        <div class="pz-group">
-          <p class="pz-title">Social Media: su quali canali vuoi puntare?</p>
-          <div class="pz-chips" id="pz-plats"></div>
-          <button type="button" class="pz-all" data-all="plats">Seleziona tutto</button>
-        </div>
-        <div class="pz-group">
-          <p class="pz-title">Di cosa hai bisogno per i tuoi Social?</p>
-          <p class="pz-muted">Contenuti su misura per <span id="pz-needs-for"></span>.</p>
-          <div class="pz-chips" id="pz-needs"></div>
-          <button type="button" class="pz-all" data-all="needs">Seleziona tutto</button>
-        </div>
-      </div>
-      <div id="pz-design" style="display:none">
-        <div class="pz-group">
-          <p class="pz-title">Design e Materiali Grafici</p>
-          <p class="pz-muted">Materiali su misura per <span id="pz-mats-for"></span>.</p>
-          <div class="pz-chips" id="pz-mats"></div>
-          <button type="button" class="pz-all" data-all="mats">Seleziona tutto</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="pz-pane" id="pz-4" hidden>
-      <div class="pz-group" id="pz-g-goals">
-        <p class="pz-title">Cosa vuoi ottenere principalmente?</p>
-        <p class="pz-muted">Puoi scegliere più di un obiettivo.</p>
-        <div class="pz-chips" id="pz-goals"></div>
-        <button type="button" class="pz-all" data-all="goals">Seleziona tutto</button>
-      </div>
-      <div class="pz-group">
-        <label for="pz-timing" class="pz-title">Quando vorresti iniziare?</label>
-        <div class="pz-chips" id="pz-timing-g">
-          <button type="button" class="pz-chip" data-v="Appena possibile" id="pz-timing" aria-pressed="false">Appena possibile</button>
-          <button type="button" class="pz-chip" data-v="Entro un mese" aria-pressed="false">Entro un mese</button>
-          <button type="button" class="pz-chip" data-v="Sto valutando" aria-pressed="false">Sto valutando</button>
-        </div>
-      </div>
-      <div class="pz-group">
-        <label for="pz-notes" class="pz-title">Note per il progetto</label>
-        <p class="pz-muted">Facoltativo: funzioni, colori, esempi o esigenze da sapere.</p>
-        <textarea id="pz-notes" maxlength="800" placeholder="Es. vorrei un sito con prenotazioni e colori chiari..." rows="4"></textarea>
-      </div>
-    </div>
-
-    <div class="pz-pane" id="pz-5" hidden>
-      <div class="pz-group">
-        <p class="pz-title">Il tuo riepilogo</p>
-        <p class="pz-muted">Controlla le scelte prima di inviare.</p>
-        <div id="pz-sum"></div>
-      </div>
-      <div class="pz-group pz-privacy">
-        <label for="pz-privacy"><input type="checkbox" id="pz-privacy" required aria-required="true" /><span>Ho letto l’<a href="/privacy">informativa privacy</a> e acconsento al trattamento dei dati per ricevere il preventivo. *</span></label>
-      </div>
-      <div class="pz-total" id="pz-totalbox">
-        <div>
-          <span id="pz-total-k">Preventivo</span><strong id="pz-total-v">Completa i campi</strong>
-          <p id="pz-total-d">Manca il consenso privacy.</p>
-        </div>
-        <button class="wa-cta" id="pz-show" type="button">Mostra il totale</button>
-        <a class="wa-cta" id="pz-send" href="https://wa.me/393518924471?text=Ciao%20Trebla!%20Non%20so%20cosa%20scegliere%20per%20il%20preventivo%2C%20mi%20aiutate%20su%20WhatsApp%3F" target="_blank" rel="noopener noreferrer" style="display:none">Scrivici su WhatsApp</a>
-      </div>
-      <div id="pz-sent" style="display:none">
-        <strong>Grazie, richiesta inviata su WhatsApp.</strong>
-        <p>Ti interessa anche un evento di inaugurazione con musica dal vivo? <a href="/eventi">Vedi Eventi →</a></p>
-      </div>
-    </div>
-
-    <div class="pz-nav">
-      <button type="button" class="button button-quiet" id="pz-prev" hidden>← Indietro</button>
-      <p class="pz-muted" id="pz-hint" aria-live="polite"></p>
-      <button type="button" class="button button-main" id="pz-next">Avanti →</button>
-    </div>
-  </form>
+    <div class="cx-bar" aria-hidden="true"><div id="cx-fill"></div></div>
+  </div>
+  <div id="cx-chat"></div>
+  <div id="cx-dock"></div>
+  <div class="cx-nav">
+    <button type="button" class="button button-quiet" id="cx-back" style="display:none">← Torna indietro</button>
+    <p class="cx-muted" id="cx-hint" aria-live="polite"></p>
+  </div>
 </section>
 
 <script type="module">
 import { businessTypes, businessCategories, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } from '../data/configuratore.js';
 
-/* Stato unico */
+/* Stato unico della conversazione */
 const S = { name:'', type:'', typeOther:'', services:[], structure:'', features:[], pages:[], photos:'', plats:[], needs:[], mats:[], goals:[], timing:'', notes:'', privacy:false };
-const STEPS = 5;
-const TITLES = { 1:'Attività', 2:'Servizi', 3:'Dettagli', 4:'Obiettivi e tempi', 5:'Riepilogo e invio' };
-let step = 1, revealed = false, revealAt = 0;
+let idx = 0, revealed = false, revealAt = 0, sent = false;
 
 const $ = (id) => document.getElementById(id);
-const names = (list) => (list || []).map((x) => (typeof x === 'string' ? x : x.name));
+const has = (s) => S.services.includes(s);
+const altro = () => S.type === 'Altro';
+const names = (l) => (l || []).map((x) => (typeof x === 'string' ? x : x.name));
 const siteFeats = () => [...(featuresByType[S.type] || []), ...siteExtrasAll];
 const socialNeeds = () => [...(socialByType[S.type] || socialNeedsList), ...socialExtrasAll];
 const designNeeds = () => [...(designByType[S.type] || designNeedsList), ...designExtrasAll];
-const isAltro = () => S.type === 'Altro';
-const has = (s) => S.services.includes(s);
+const euro = (p) => (p ? ' (+' + p + ' €)' : '');
+const okName = () => S.name.trim().length >= 2;
+const okType = () => !!S.type && (!altro() || S.typeOther.trim().length >= 2);
+const typeLabel = () => (!S.type ? '' : (S.type === 'Altro' && S.typeOther.trim() ? 'Altro (' + S.typeOther.trim() + ')' : S.type));
+const svcName = (id) => (id === 'site' ? 'Sito Web' : id === 'social' ? 'Social Media' : 'Design e Grafiche');
+const focusIt = (e2) => { if (e2 && e2.focus) { try { e2.focus({ preventScroll: true }); } catch (err) { try { e2.focus(); } catch (e3) {} } } };
 
-/* Totale deterministico */
+/* Percorso: solo le domande utili in base alle risposte */
+function flow() {
+  const f = ['name', 'type', 'services'];
+  if (has('site')) {
+    if (!altro()) f.push('struct');
+    f.push('feats');
+    if (S.structure === 'Sito completo a più pagine') f.push('pages');
+    if (!altro()) f.push('photos');
+  }
+  if (has('social')) f.push('plats', 'needs');
+  if (has('design')) f.push('mats');
+  if (!altro()) f.push('goals');
+  f.push('timing', 'notes', 'review');
+  return f;
+}
+
 function total() {
   let t = 0;
   if (has('site')) {
@@ -181,7 +65,7 @@ function total() {
     const fl = siteFeats();
     S.features.forEach((n) => { const f = fl.find((x) => x.name === n); if (f) t += f.price; });
     S.pages.forEach((n) => { const p = pageOptions.find((x) => x.name === n); if (p) t += p.price; });
-    if (!isAltro() && S.photos && photoPrices[S.photos]) t += photoPrices[S.photos];
+    if (!altro() && S.photos && photoPrices[S.photos]) t += photoPrices[S.photos];
   }
   if (has('social')) {
     const nl = socialNeeds();
@@ -194,207 +78,405 @@ function total() {
   return Math.max(0, Math.round(t));
 }
 
-/* Validazione */
 function missing() {
-  const m = [], altro = isAltro();
-  const okName = S.name.trim().length >= 2, okType = !!S.type && (!altro || S.typeOther.trim().length >= 2);
-  if (!okName) m.push("il nome della tua attività");
-  if (!okType) m.push('il tipo di attività');
-  if (!has('site') && !has('social') && !has('design')) m.push('un servizio (Sito, Social o Design)');
-  if (has('site') && !altro && !S.structure) m.push('la struttura del sito');
-  if (has('site') && !altro && !S.photos) m.push('le foto');
-  if (has('social') && !(S.plats.length > 0 && S.needs.length > 0)) m.push('le scelte Social Media');
+  const m = [];
+  if (!okName()) m.push("il nome della tua attività");
+  if (!okType()) m.push('il tipo di attività');
+  if (!S.services.length) m.push('un servizio (Sito, Social o Design)');
+  if (has('site') && !altro() && !S.structure) m.push('la struttura del sito');
+  if (has('site') && !altro() && !S.photos) m.push('le foto');
+  if (has('social') && !(S.plats.length && S.needs.length)) m.push('le scelte Social Media');
   if (has('design') && !S.mats.length) m.push('i materiali grafici');
-  if (!altro && !S.goals.length) m.push('un obiettivo');
+  if (!altro() && !S.goals.length) m.push('un obiettivo');
   if (!S.timing) m.push('i tempi desiderati');
   return m;
 }
-function stepMiss(n) {
-  const m = missing(), altro = isAltro();
-  const want = n === 1 ? ["il nome della tua attività", 'il tipo di attività']
-    : n === 2 ? ['un servizio (Sito, Social o Design)']
-    : n === 3 ? ['la struttura del sito', 'le foto', 'le scelte Social Media', 'i materiali grafici']
-    : n === 4 ? ['un obiettivo', 'i tempi desiderati']
-    : ['il consenso privacy'];
-  if (n === 5) return S.privacy ? [] : want;
-  return m.filter((x) => want.includes(x));
-}
-const stepOk = (n) => stepMiss(n).length === 0;
 
-/* Chip factory + delegation: un listener per contenitore, mai rebuild al tap */
-function paint(btn, on) { btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on)); }
-function flip(arr, key) { const i = arr.indexOf(key); if (i >= 0) arr.splice(i, 1); else arr.push(key); return i < 0; }
-function mkChip(key, label, on) {
-  const b = document.createElement('button');
-  b.type = 'button'; b.className = 'pz-chip' + (on ? ' on' : ''); b.textContent = label;
-  b.setAttribute('data-k', key); b.setAttribute('aria-pressed', String(!!on));
+const NODES = {
+  name: { q: 'Come si chiama la tua attività?', a: () => S.name, ok: okName },
+  type: { q: 'Che tipo di attività è?', a: typeLabel, ok: okType },
+  services: { q: 'Di cosa hai bisogno? Puoi scegliere più cose.', a: () => S.services.map(svcName).join(' + '), ok: () => S.services.length > 0 },
+  struct: { q: 'Meglio una pagina singola (350 €) o un sito completo a più pagine (400 €)?', a: () => S.structure, ok: () => !!S.structure },
+  feats: { q: 'Quali funzioni servono sul sito? Solo se utili, altrimenti vai avanti.', a: () => (S.features.length ? S.features.length + ' funzioni' : 'Nessuna extra'), ok: () => true },
+  pages: { q: 'Quali pagine vuoi nel sito? Solo se utili.', a: () => (S.pages.length ? S.pages.length + ' pagine' : 'Solo la principale'), ok: () => true },
+  photos: { q: 'E le foto da mettere sul sito?', a: () => S.photos, ok: () => !!S.photos },
+  plats: { q: 'Su quali canali pubblichiamo?', a: () => S.plats.join(', '), ok: () => S.plats.length > 0 },
+  needs: { q: () => 'Cosa prepariamo per i tuoi social' + (S.type ? ' (' + S.type + ')' : '') + '?', a: () => S.needs.length + ' contenuti', ok: () => S.needs.length > 0 },
+  mats: { q: () => 'Quali materiali grafici ti servono' + (S.type ? ' (' + S.type + ')' : '') + '?', a: () => S.mats.length + ' materiali', ok: () => S.mats.length > 0 },
+  goals: { q: 'Cosa vuoi ottenere soprattutto?', a: () => S.goals.join(', '), ok: () => S.goals.length > 0 },
+  timing: { q: 'Quando vorresti iniziare?', a: () => S.timing, ok: () => !!S.timing },
+  notes: { q: 'Vuoi aggiungere note? Colori, esempi, esigenze particolari.', a: () => (S.notes.trim() ? '“' + S.notes.trim().slice(0, 60) + (S.notes.trim().length > 60 ? '…' : '') + '”' : 'Nessuna nota'), ok: () => true },
+  review: { q: 'Ecco il riepilogo! Controlla e invia.', a: () => '', ok: () => true },
+};
+const ask = (id) => (typeof NODES[id].q === 'function' ? NODES[id].q() : NODES[id].q);
+
+/* Costruttori */
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function paint(b, on) { b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); }
+function flip(arr, k) { const i = arr.indexOf(k); if (i >= 0) arr.splice(i, 1); else arr.push(k); return i < 0; }
+function chip(key, label, on, extra) {
+  const b = el('button', 'cx-chip' + (on ? ' on' : ''));
+  b.type = 'button'; b.textContent = label;
+  b.setAttribute('data-k', key);
+  if (extra) Object.entries(extra).forEach(([a, v]) => b.setAttribute(a, v));
+  b.setAttribute('aria-pressed', String(!!on));
   return b;
 }
-function wireChips(id, pick) {
-  const g = $(id);
-  if (!g || g._w) return; g._w = true;
-  g.addEventListener('click', (e) => {
-    const t = e.target, b = t && t.closest ? t.closest('button') : null;
-    if (!b || b.getAttribute('data-k') === null) return;
-    pick(b.getAttribute('data-k'), b);
-  });
+function chips(items) {
+  const g = el('div', 'cx-chips');
+  items.forEach((it) => g.appendChild(chip(it.key, it.label, it.on, it.attrs)));
+  return g;
 }
-function wireType(id, pick) {
-  const c = $(id);
-  if (!c || c._w) return; c._w = true;
-  c.addEventListener('click', (e) => {
-    const t = e.target, b = t && t.closest ? t.closest('button') : null;
-    if (!b) return;
-    const v = b.getAttribute('data-t');
-    if (v) pick(v);
-  });
-}
-function fill(id, items) {
-  const g = $(id);
-  if (!g) return;
-  g.innerHTML = '';
-  items.forEach((it) => g.appendChild(mkChip(it.key, it.label, it.on)));
-}
-const euro = (p) => (p ? ' (+' + p + ' €)' : '');
-
-/* Render liste (solo quando cambia la composizione) */
-function renderCats() {
-  const c = $('pz-cats');
-  const open = new Set();
-  c.querySelectorAll('details').forEach((d) => { if (d.open) open.add(d.getAttribute('data-c')); });
-  c.innerHTML = '';
-  Object.entries(businessCategories).forEach(([cat, types]) => {
-    const d = document.createElement('details');
-    d.setAttribute('data-c', cat);
-    if (open.has(cat) || types.includes(S.type)) d.open = true;
-    const s = document.createElement('summary'); s.textContent = cat + ', ' + types.length;
-    d.appendChild(s);
-    const g = document.createElement('div'); g.className = 'pz-chips';
-    types.forEach((t) => {
-      const b = mkChip(t, t, S.type === t);
-      b.classList.add('pz-t'); b.setAttribute('data-t', t);
-      if (t === 'Professionista') b.innerHTML = '<span style="font-weight:700">Professionista</span><span style="font-weight:400;margin-left:6px;color:var(--muted)">, geometra, commercialista...</span>';
-      g.appendChild(b);
-    });
-    d.appendChild(g); c.appendChild(d);
-  });
-}
-function renderTypeBtn(t) {
-  const b = mkChip(t, t, S.type === t);
-  b.classList.add('pz-t'); b.setAttribute('data-t', t);
+function goBtn(label) {
+  const b = el('button', 'button button-main cx-go', label || 'Continua →');
+  b.type = 'button'; b.setAttribute('data-act', 'go');
   return b;
 }
-function renderFeats() { fill('pz-feats', siteFeats().map((f) => ({ key: f.name, label: f.name + euro(f.price), on: S.features.includes(f.name) }))); }
-function renderPages() { fill('pz-pages', pageOptions.map((p) => ({ key: p.name, label: p.name + euro(p.price), on: S.pages.includes(p.name) }))); }
-function renderGoals() { fill('pz-goals', goals.map((g) => ({ key: g, label: g, on: S.goals.includes(g) }))); }
-function renderPlats() { fill('pz-plats', socialPlatforms.map((p) => ({ key: p, label: p, on: S.plats.includes(p) }))); }
-function renderNeeds() { fill('pz-needs', socialNeeds().map((o) => ({ key: o.name, label: o.name + euro(o.price), on: S.needs.includes(o.name) }))); }
-function renderMats() { fill('pz-mats', designNeeds().map((d) => ({ key: d.name, label: d.name + euro(d.price), on: S.mats.includes(d.name) }))); }
-
+function allBtn() {
+  const b = el('button', 'cx-all', 'Seleziona tutto');
+  b.type = 'button'; b.setAttribute('data-act', 'all');
+  return b;
+}
 function setType(t) {
   S.type = t; S.features = []; S.pages = [];
   const sv = new Set(names(socialNeeds())), dv = new Set(names(designNeeds()));
   S.needs = S.needs.filter((n) => sv.has(n));
   S.mats = S.mats.filter((n) => dv.has(n));
-  syncTypeHi(); renderFeats(); renderNeeds(); renderMats(); update();
 }
-function syncTypeHi() {
-  $('pz-cats').querySelectorAll('.pz-t').forEach((b) => paint(b, b.getAttribute('data-t') === S.type));
-  paint($('pz-altro'), false);
+function packLabel() {
+  return ['site', 'social', 'design'].every((x) => S.services.includes(x)) ? '✓ Pacchetto completo selezionato' : 'Pacchetto completo: Sito + Social + Design';
 }
-function syncSvc() {
-  document.querySelectorAll('#pz-svc .pz-card').forEach((b) => {
-    const on = S.services.includes(b.getAttribute('data-svc'));
-    b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
-    const s = b.querySelector('span'); if (s) s.textContent = on ? '✓' : '+';
-  });
-  const all = ['site', 'social', 'design'], full = all.every((x) => S.services.includes(x));
-  $('pz-pack').textContent = full ? '✓ Pacchetto completo selezionato (clicca per deselezionare)' : 'Pacchetto completo: seleziona Sito + Social + Design';
-}
-function allDef(k) {
-  if (k === 'feats') return { n: names(siteFeats()), a: S.features, r: renderFeats };
-  if (k === 'pages') return { n: names(pageOptions), a: S.pages, r: renderPages };
-  if (k === 'plats') return { n: [...socialPlatforms], a: S.plats, r: renderPlats };
-  if (k === 'needs') return { n: names(socialNeeds()), a: S.needs, r: renderNeeds };
-  if (k === 'mats') return { n: names(designNeeds()), a: S.mats, r: renderMats };
-  return { n: [...goals], a: S.goals, r: renderGoals };
-}
-function toggleAll(k) {
-  const d = allDef(k);
-  if (!d.n.length) return;
-  const full = d.a.length >= d.n.length;
-  d.a.length = 0;
-  if (!full) d.n.forEach((x) => d.a.push(x));
-  d.r(); update();
-}
-function refreshAll() {
-  document.querySelectorAll('[data-all]').forEach((b) => {
-    const d = allDef(b.getAttribute('data-all'));
-    b.textContent = d.n.length > 0 && d.a.length >= d.n.length ? 'Deseleziona tutto' : 'Seleziona tutto';
+
+/* Render cronologia + domanda corrente (ricostruzione totale: niente stati fantasma) */
+function renderChat(f) {
+  const chat = $('cx-chat');
+  chat.innerHTML = '';
+  f.slice(0, idx + 1).forEach((id) => {
+    const qb = el('div', 'cx-msg cx-bot'); qb.textContent = ask(id); chat.appendChild(qb);
+    if (id !== f[idx]) {
+      const a = NODES[id].a();
+      if (a) { const ub = el('div', 'cx-msg cx-me'); ub.textContent = a; chat.appendChild(ub); }
+    }
   });
 }
 
-/* Riepilogo */
-function row(box, k, v) {
-  if (!v) return;
-  const r = document.createElement('div'); r.className = 'pz-row';
-  const a = document.createElement('strong'); a.textContent = k;
-  const b = document.createElement('span'); b.textContent = v;
-  r.appendChild(a); r.appendChild(b); box.appendChild(r);
-}
-function renderSum() {
-  const box = $('pz-sum');
-  if (!box) return;
+function catsInto(box) {
   box.innerHTML = '';
-  const tl = !S.type ? '' : (S.type === 'Altro' && S.typeOther.trim() ? 'Altro (' + S.typeOther.trim() + ')' : S.type);
-  const svc = (id) => (id === 'site' ? 'Sito Web' : id === 'social' ? 'Social Media' : 'Design e Grafiche');
-  row(box, 'Attività', S.name + (tl ? ' · ' + tl : ''));
-  row(box, 'Servizi', S.services.map(svc).join(' + '));
-  if (has('site') && !isAltro()) {
-    row(box, 'Sito', S.structure || 'Da definire');
-    if (S.features.length) row(box, 'Funzioni', S.features.length + ' selezionate');
-    if (S.pages.length) row(box, 'Pagine', S.pages.length + ' selezionate');
-    if (S.photos) row(box, 'Foto', S.photos);
-  }
-  if (has('social')) row(box, 'Social', (S.plats.join(', ') || 'Canali da decidere') + ' · ' + S.needs.length + ' contenuti');
-  if (has('design') && S.mats.length) row(box, 'Design', S.mats.length + ' materiali');
-  if (!isAltro() && S.goals.length) row(box, 'Obiettivi', S.goals.join(', '));
-  row(box, 'Tempi', S.timing || 'Da definire');
+  Object.entries(businessCategories).forEach(([cat, types]) => {
+    const d = document.createElement('details');
+    if (types.includes(S.type)) d.open = true;
+    const sm = document.createElement('summary'); sm.textContent = cat + ', ' + types.length;
+    d.appendChild(sm);
+    const g = el('div', 'cx-chips');
+    types.forEach((t) => {
+      const b = chip(t, t, S.type === t, { 'data-t': t });
+      if (t === 'Professionista') b.innerHTML = '<span style="font-weight:700">Professionista</span><span style="font-weight:400;margin-left:6px;color:var(--muted)">, geometra, commercialista...</span>';
+      g.appendChild(b);
+    });
+    d.appendChild(g); box.appendChild(d);
+  });
 }
 
-/* Wizard */
-function refreshWiz() {
-  for (let i = 1; i <= STEPS; i++) { const p = $('pz-' + i); if (p) p.hidden = i !== step; }
-  $('pz-fill').style.width = (step / STEPS * 100) + '%';
-  $('pz-prev').hidden = step <= 1;
-  const nx = $('pz-next');
-  nx.hidden = step >= STEPS;
-  nx.disabled = !stepOk(step);
-  nx.textContent = step === STEPS - 1 ? 'Vai al riepilogo →' : 'Avanti →';
-  const miss = step < STEPS ? stepMiss(step) : [];
-  $('pz-hint').textContent = miss.length ? 'Per continuare manca: ' + miss.join(', ') + '.' : '';
-  if (step === STEPS) renderSum();
+function renderDock(id) {
+  const dock = $('cx-dock');
+  dock.innerHTML = '';
+  if (id === 'name') {
+    const w = el('div', 'cx-line');
+    const inp = document.createElement('input');
+    inp.id = 'cx-name'; inp.placeholder = 'Es. Pasticceria Rossi'; inp.maxLength = 80;
+    inp.setAttribute('aria-label', 'Nome della tua attività'); inp.autocomplete = 'organization';
+    inp.value = S.name;
+    inp.addEventListener('input', () => {
+      const v = inp.value.slice(0, 80);
+      if (inp.value !== v) inp.value = v;
+      S.name = v; update(false);
+    });
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); goNext(); } });
+    w.appendChild(inp); w.appendChild(goBtn('Avanti →')); dock.appendChild(w);
+    setTimeout(() => focusIt(inp), 60);
+  } else if (id === 'type') {
+    const s = document.createElement('input');
+    s.id = 'cx-search'; s.placeholder = 'Cerca... (es. pizzeria, barbiere)'; s.autocomplete = 'off';
+    s.setAttribute('aria-label', 'Cerca tipo attività');
+    s.addEventListener('input', () => {
+      const q = s.value.trim().toLowerCase();
+      const res = $('cx-results'), cats = $('cx-cats'), a = $('cx-altro');
+      if (!q) { res.style.display = 'none'; res.innerHTML = ''; cats.style.display = 'block'; a.style.display = ''; catsInto(cats); return; }
+      res.style.display = 'flex'; cats.style.display = 'none'; a.style.display = 'none';
+      res.innerHTML = '';
+      businessTypes.filter((t) => t.toLowerCase().includes(q)).forEach((t) => {
+        const b = chip(t, t, S.type === t, { 'data-t': t });
+        res.appendChild(b);
+      });
+      if (!res.children.length) {
+        const p = el('p', 'cx-muted', 'Nessun risultato per questa ricerca.');
+        const b = el('button', 'cx-all', 'Usa “Altro” e descrivi la tua attività');
+        b.type = 'button'; b.setAttribute('data-act', 'altro');
+        res.appendChild(p); res.appendChild(b);
+      }
+    });
+    const res = el('div', 'cx-chips'); res.id = 'cx-results'; res.style.display = 'none';
+    const cats = el('div'); cats.id = 'cx-cats';
+    catsInto(cats);
+    const a = el('button', 'cx-chip', 'Altro');
+    a.type = 'button'; a.id = 'cx-altro'; a.setAttribute('data-act', 'altro');
+    paint(a, false);
+    const ow = el('label', 'cx-other');
+    ow.id = 'cx-other-wrap'; ow.setAttribute('for', 'cx-other');
+    ow.style.display = S.type === 'Altro' ? 'block' : 'none';
+    ow.appendChild(el('span', '', 'Che attività fai? Descrivici la tua attività'));
+    const oi = document.createElement('input');
+    oi.id = 'cx-other'; oi.placeholder = 'Es. venditori ambulanti, associazione...'; oi.maxLength = 80; oi.value = S.typeOther;
+    oi.addEventListener('input', () => {
+      const v = oi.value.slice(0, 80);
+      if (oi.value !== v) oi.value = v;
+      S.typeOther = v; update(false);
+    });
+    oi.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); goNext(); } });
+    ow.appendChild(oi);
+    const c = goBtn('Continua →');
+    dock.appendChild(s); dock.appendChild(res); dock.appendChild(cats); dock.appendChild(a); dock.appendChild(ow); dock.appendChild(c);
+  } else if (id === 'services') {
+    const g = el('div', 'cx-cards');
+    [['site', 'Sito Web', 'Presenza online completa e veloce su tutti i dispositivi.'], ['social', 'Social Media', 'Profili, pubblicazioni e grafiche su misura.'], ['design', 'Design e Grafiche', 'Logo, locandine, volantini e materiali coordinati.']].forEach(([v, t, d]) => {
+      const b = el('button', 'cx-card' + (S.services.includes(v) ? ' on' : ''));
+      b.type = 'button'; b.setAttribute('data-s', v); b.setAttribute('aria-pressed', String(S.services.includes(v)));
+      const ic = el('span', '', S.services.includes(v) ? '✓' : '+'); ic.setAttribute('aria-hidden', 'true');
+      b.appendChild(ic); b.appendChild(el('b', '', t)); b.appendChild(el('small', '', d));
+      g.appendChild(b);
+    });
+    const pk = el('button', 'cx-all', packLabel());
+    pk.type = 'button'; pk.id = 'cx-pack'; pk.setAttribute('data-act', 'pack');
+    dock.appendChild(g); dock.appendChild(pk); dock.appendChild(goBtn('Continua →'));
+  } else if (id === 'struct' || id === 'photos' || id === 'timing') {
+    const opts = id === 'struct'
+      ? [['Pagina singola', 'Pagina singola (350 €)'], ['Sito completo a più pagine', 'Sito completo a più pagine (400 €)']]
+      : id === 'photos'
+      ? [['Ho già le foto', 'Ho già le foto (le invio io)'], ['Servono le foto (le scattate voi)', 'Scattate voi sul posto (+40 €)'], ['Parto da zero', 'Archivio immagini (+10 €)']]
+      : [['Appena possibile', 'Appena possibile'], ['Entro un mese', 'Entro un mese'], ['Sto valutando', 'Sto valutando']];
+    const cur = id === 'struct' ? S.structure : id === 'photos' ? S.photos : S.timing;
+    const g = el('div', 'cx-chips');
+    opts.forEach(([v, l]) => {
+      const b = chip(v, l, cur === v, { 'data-g': id });
+      g.appendChild(b);
+    });
+    dock.appendChild(g);
+  } else if (id === 'feats' || id === 'pages' || id === 'plats' || id === 'needs' || id === 'mats' || id === 'goals') {
+    const conf = id === 'feats' ? { list: siteFeats(), arr: S.features, g: 'feats', priced: true }
+      : id === 'pages' ? { list: pageOptions, arr: S.pages, g: 'pages', priced: true }
+      : id === 'plats' ? { list: socialPlatforms.map((p) => ({ name: p, price: 0 })), arr: S.plats, g: 'plats', priced: false }
+      : id === 'needs' ? { list: socialNeeds(), arr: S.needs, g: 'needs', priced: true }
+      : id === 'mats' ? { list: designNeeds(), arr: S.mats, g: 'mats', priced: true }
+      : { list: goals.map((x) => ({ name: x, price: 0 })), arr: S.goals, g: 'goals', priced: false };
+    const g = el('div', 'cx-chips');
+    conf.list.forEach((f) => {
+      const b = chip(f.name, f.name + (conf.priced ? euro(f.price) : ''), conf.arr.includes(f.name), { 'data-g': conf.g });
+      g.appendChild(b);
+    });
+    dock.appendChild(g);
+    const al = allBtn(); al.setAttribute('data-g', conf.g);
+    dock.appendChild(al);     dock.appendChild(goBtn());
+  } else if (id === 'notes') {
+    const t = document.createElement('textarea');
+    t.id = 'cx-notes'; t.rows = 3; t.maxLength = 800;
+    t.placeholder = 'Es. vorrei prenotazioni online e colori chiari... (facoltativo)';
+    t.setAttribute('aria-label', 'Note per il progetto'); t.value = S.notes;
+    t.addEventListener('input', () => {
+      const v = t.value.slice(0, 800);
+      if (t.value !== v) t.value = v;
+      S.notes = v;
+    });
+    const row = el('div', 'cx-line');
+    const skip = el('button', 'button button-quiet', 'Salta');
+    skip.type = 'button'; skip.setAttribute('data-act', 'skip');
+    row.appendChild(t); dock.appendChild(row);
+    const btns = el('div', 'cx-line');
+    btns.appendChild(skip); btns.appendChild(goBtn());
+    dock.appendChild(btns);
+  } else if (id === 'review') {
+    const sum = el('div', 'cx-sum');
+    const r2 = (k, v) => {
+      if (!v) return;
+      const r = el('div', 'cx-row');
+      r.appendChild(el('strong', '', k)); r.appendChild(el('span', '', v));
+      sum.appendChild(r);
+    };
+    r2('Attività', S.name + (typeLabel() ? ' · ' + typeLabel() : ''));
+    r2('Servizi', S.services.map(svcName).join(' + '));
+    if (has('site') && !altro()) {
+      r2('Sito', S.structure || 'Da definire');
+      if (S.features.length) r2('Funzioni', S.features.length + ' selezionate');
+      if (S.pages.length) r2('Pagine', S.pages.length + ' selezionate');
+      if (S.photos) r2('Foto', S.photos);
+    }
+    if (has('social')) r2('Social', (S.plats.join(', ') || 'Canali da decidere') + ' · ' + S.needs.length + ' contenuti');
+    if (has('design') && S.mats.length) r2('Design', S.mats.length + ' materiali');
+    if (!altro() && S.goals.length) r2('Obiettivi', S.goals.join(', '));
+    r2('Tempi', S.timing || 'Da definire');
+    dock.appendChild(sum);
+    const pv = el('label', 'cx-priv');
+    pv.setAttribute('for', 'cx-privacy');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.id = 'cx-privacy'; cb.checked = S.privacy;
+    cb.addEventListener('change', () => { S.privacy = cb.checked; update(true); });
+    pv.appendChild(cb); pv.appendChild(el('span', '', 'Ho letto l’informativa privacy e acconsento al trattamento dei dati per ricevere il preventivo. *'));
+    dock.appendChild(pv);
+    const box = el('div', 'cx-total');
+    const left = el('div', '');
+    const k = el('span', '', 'Preventivo'), v = el('strong', '', 'Completa i campi'), d = el('p', '', 'Manca il consenso privacy.');
+    k.id = 'cx-total-k'; v.id = 'cx-total-v'; d.id = 'cx-total-d';
+    left.appendChild(k); left.appendChild(v); left.appendChild(d);
+    box.appendChild(left);
+    const show = el('button', 'wa-cta', 'Mostra il totale');
+    show.type = 'button'; show.id = 'cx-show'; show.style.display = 'none'; show.setAttribute('data-act', 'show');
+    const sendA = el('a', 'wa-cta', 'Scrivici su WhatsApp');
+    sendA.id = 'cx-send'; sendA.target = '_blank'; sendA.rel = 'noopener noreferrer';
+    sendA.href = 'https://wa.me/393518924471?text=' + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+    box.appendChild(show); box.appendChild(sendA);
+    dock.appendChild(box);
+    const done = el('div', 'cx-sent'); done.id = 'cx-sent'; done.style.display = sent ? 'block' : 'none';
+    if (sent) done.innerHTML = '<strong>Grazie, richiesta inviata su WhatsApp.</strong><p>Ti interessa anche un evento di inaugurazione con musica dal vivo? <a href="/eventi">Vedi Eventi →</a></p>';
+    dock.appendChild(done);
+    estimate();
+  }
+  refreshAllLink();
 }
-function go(n) {
-  step = Math.min(STEPS, Math.max(1, n));
-  refreshWiz();
-  const r = $('pz-root');
-  if (r && r.scrollIntoView) r.scrollIntoView({ block: 'start' });
+
+/* Router centrale: UN solo listener, registrato una volta */
+function onDock(e) {
+  const t = e.target, b = t && t.closest ? t.closest('button') : null;
+  if (!b || !$('cx-dock').contains(b)) return;
+  const id = flow()[idx];
+  const tv = b.getAttribute('data-t');
+  if (tv) {
+    setType(tv);
+    if (tv === 'Altro') {
+      const s = $('cx-search');
+      if (s) s.value = '';
+      update(true);
+      focusIt($('cx-other'));
+    } else {
+      update(true); goNext();
+    }
+    return;
+  }
+  if (b.getAttribute('data-act') === 'altro') {
+    setType('Altro');
+    const s = $('cx-search');
+    if (s) s.value = '';
+    update(true); focusIt($('cx-other'));
+    return;
+  }
+  if (b.hasAttribute('data-s')) {
+    const v = b.getAttribute('data-s');
+    flip(S.services, v);
+    const on = S.services.includes(v);
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+    const ic = b.querySelector('span'); if (ic) ic.textContent = on ? '✓' : '+';
+    const pk = $('cx-pack'); if (pk) pk.textContent = packLabel();
+    update(false);
+    return;
+  }
+  if (b.getAttribute('data-act') === 'pack') {
+    S.services = ['site', 'social', 'design'].every((x) => S.services.includes(x)) ? [] : ['site', 'social', 'design'];
+    update(true);
+    return;
+  }
+  if (b.getAttribute('data-act') === 'all') {
+    const g = b.getAttribute('data-g');
+    const arr = g === 'feats' ? S.features : g === 'pages' ? S.pages : g === 'plats' ? S.plats : g === 'needs' ? S.needs : g === 'mats' ? S.mats : S.goals;
+    const list = g === 'feats' ? siteFeats() : g === 'pages' ? pageOptions : g === 'plats' ? socialPlatforms.map((p) => ({ name: p })) : g === 'needs' ? socialNeeds() : g === 'mats' ? designNeeds() : goals.map((x) => ({ name: x }));
+    if (!list.length) return;
+    const full = arr.length >= list.length;
+    arr.length = 0;
+    if (!full) names(list).forEach((x) => arr.push(x));
+    update(true);
+    return;
+  }
+  if (b.getAttribute('data-act') === 'go') { goNext(); return; }
+  if (b.getAttribute('data-act') === 'skip') { idx++; update(true); return; }
+  if (b.getAttribute('data-act') === 'show') {
+    if (!missing().length && S.privacy) { revealAt = Date.now(); revealed = true; update(true); }
+    return;
+  }
+  if (b.id === 'cx-send' && revealed) {
+    e.preventDefault();
+    if (Date.now() - revealAt < 1000) return;
+    send();
+    return;
+  }
+  if (b.hasAttribute('data-k')) {
+    const g = b.getAttribute('data-g'), k = b.getAttribute('data-k');
+    if (g === 'struct') {
+      S.structure = k;
+      if (k === 'Pagina singola') S.pages = [];
+      update(true); goNext(); return;
+    }
+    if (g === 'photos') { S.photos = k; update(true); goNext(); return; }
+    if (g === 'timing') { S.timing = k; update(true); goNext(); return; }
+    const arr = g === 'feats' ? S.features : g === 'pages' ? S.pages : g === 'plats' ? S.plats : g === 'needs' ? S.needs : g === 'mats' ? S.mats : S.goals;
+    paint(b, flip(arr, k));
+    refreshAllInDock(g);
+    update(false);
+  }
+}
+function refreshAllInDock(g) {
+  const map = { feats: () => ({ n: names(siteFeats()), a: S.features }), pages: () => ({ n: names(pageOptions), a: S.pages }), needs: () => ({ n: names(socialNeeds()), a: S.needs }), mats: () => ({ n: names(designNeeds()), a: S.mats }), goals: () => ({ n: [...goals], a: S.goals }) };
+  if (!map[g]) return;
+  const d = map[g]();
+  document.querySelectorAll('#cx-dock [data-act="all"]').forEach((x) => {
+    x.textContent = d.n.length > 0 && d.a.length >= d.n.length ? 'Deseleziona tutto' : 'Seleziona tutto';
+  });
+}
+function refreshAllLink() {
+  document.querySelectorAll('#cx-dock [data-all]').forEach(() => {});
+  refreshAllInDock('feats'); refreshAllInDock('pages'); refreshAllInDock('needs'); refreshAllInDock('mats'); refreshAllInDock('goals');
+}
+
+/* Navigazione */
+function goNext() {
+  const f = flow();
+  if (NODES[f[idx]].ok()) { idx = Math.min(f.length - 1, idx + 1); update(true); }
+  else hint('Rispondi alla domanda per continuare.');
+}
+function hint(t) { $('cx-hint').textContent = t || ''; }
+
+/* Box totale */
+function estimate() {
+  const v = $('cx-total-v');
+  if (!v) return;
+  const k = $('cx-total-k'), d = $('cx-total-d'), show = $('cx-show'), sendA = $('cx-send');
+  if (revealed) {
+    k.textContent = 'Totale indicativo'; v.textContent = '€ ' + total(); d.textContent = 'Prezzo concordato insieme prima di iniziare.';
+    show.style.display = 'none'; sendA.style.display = 'flex'; sendA.textContent = 'Invia su WhatsApp';
+    sendA.href = 'https://wa.me/' + whatsapp + '?text=' + encodeURIComponent(buildMsg());
+  } else {
+    const m = missing(), ok = !m.length && S.privacy;
+    k.textContent = 'Preventivo'; v.textContent = ok ? 'Pronto' : 'Completa i campi';
+    d.textContent = !S.privacy ? 'Manca il consenso privacy.' : ok ? 'Hai risposto a tutto.' : 'Manca: ' + m.join(', ') + '.';
+    show.style.display = ok ? 'flex' : 'none';
+    sendA.style.display = ok ? 'none' : 'flex'; sendA.textContent = 'Scrivici su WhatsApp';
+    sendA.href = 'https://wa.me/393518924471?text=' + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+  }
 }
 
 /* Messaggio WhatsApp */
 function buildMsg() {
-  const svc = S.services.map((id) => (id === 'site' ? 'Sito Web' : id === 'social' ? 'Social Media' : 'Design e Grafiche')).join(' + ');
-  const L = ['*Ciao Trebla Studio!*', 'Vorrei richiedere un preventivo per la mia attività.', '', '━━━━━━━━━━━━━━━━━━━', '*DATI ATTIVITÀ*', '• *Nome:* ' + (S.name || 'Non specificato'), '• *Settore:* ' + (S.type === 'Altro' && S.typeOther.trim() ? 'Altro (' + S.typeOther.trim() + ')' : S.type), '• *Servizi scelti:* ' + svc, '━━━━━━━━━━━━━━━━━━━'];
+  const L = ['*Ciao Trebla Studio!*', 'Vorrei richiedere un preventivo per la mia attività.', '', '━━━━━━━━━━━━━━━━━━━', '*DATI ATTIVITÀ*', '• *Nome:* ' + (S.name || 'Non specificato'), '• *Settore:* ' + (S.type === 'Altro' && S.typeOther.trim() ? 'Altro (' + S.typeOther.trim() + ')' : S.type), '• *Servizi scelti:* ' + S.services.map(svcName).join(' + '), '━━━━━━━━━━━━━━━━━━━'];
   if (has('site')) {
     L.push('', '*SITO WEB*', '• *Struttura:* ' + (S.structure || 'Da definire insieme'));
-    if (isAltro()) L.push('• *Esigenze specifiche:* da definire insieme');
+    if (altro()) L.push('• *Esigenze specifiche:* da definire insieme');
     else L.push('• *Funzioni:* ' + (S.features.length ? S.features.join(', ') : 'Standard'), '• *Pagine:* ' + (S.pages.length ? S.pages.join(', ') : 'Standard'), '• *Foto:* ' + S.photos);
   }
   if (has('social')) L.push('', '*SOCIAL MEDIA*', '• *Canali:* ' + (S.plats.join(', ') || 'Da decidere'), '• *Opzioni:* ' + (S.needs.join(', ') || 'Da decidere'));
   if (has('design')) L.push('', '*DESIGN & GRAFICHE*', '• *Materiali:* ' + (S.mats.join(', ') || 'Da decidere'));
   L.push('', '━━━━━━━━━━━━━━━━━━━', '*PIANIFICAZIONE*');
-  if (!isAltro()) L.push('• *Obiettivi:* ' + S.goals.join(', '));
+  if (!altro()) L.push('• *Obiettivi:* ' + S.goals.join(', '));
   L.push('• *Tempi desiderati:* ' + (S.timing || 'Da definire'), '', '*TOTALE INDICATIVO:* ' + total() + ' €', '━━━━━━━━━━━━━━━━━━━');
   if (S.notes && S.notes.trim()) L.push('', '*NOTE AGGIUNTIVE:*', S.notes.trim());
   let msg = L.join('\n');
@@ -402,172 +484,40 @@ function buildMsg() {
   return msg;
 }
 function send() {
-  if (!has('site') && !has('social') && !has('design')) { alert('Seleziona almeno un servizio (Sito, Social o Design).'); return; }
+  if (!S.services.length) { alert('Seleziona almeno un servizio (Sito, Social o Design).'); return; }
   window.open('https://wa.me/' + whatsapp + '?text=' + encodeURIComponent(buildMsg()), '_blank', 'noopener,noreferrer');
-  $('pz-sent').style.display = 'block';
+  sent = true;
+  update(true);
 }
 
-/* Update centrale */
-function update() {
-  const altro = isAltro();
-  const okName = S.name.trim().length >= 2, okType = !!S.type && (!altro || S.typeOther.trim().length >= 2);
-  $('pz-g-name').classList.toggle('bad', !okName);
-  $('pz-name-err').style.display = okName ? 'none' : 'block';
-  $('pz-g-type').classList.toggle('bad', !okType);
-  $('pz-g-svc').classList.toggle('bad', !has('site') && !has('social') && !has('design'));
-  $('pz-other-wrap').style.display = S.type === 'Altro' ? 'block' : 'none';
-  $('pz-site').style.display = has('site') ? 'block' : 'none';
-  $('pz-hint-type').style.display = has('site') && !S.type ? 'block' : 'none';
-  if (has('site')) {
-    const showStruct = !altro;
-    $('pz-g-struct').style.display = showStruct ? 'block' : 'none';
-    $('pz-g-feats').style.display = S.type ? 'block' : 'none';
-    if (S.type) $('pz-feats-for').textContent = S.type;
-    $('pz-g-pages').style.display = showStruct && S.type ? 'block' : 'none';
-    $('pz-g-photos').style.display = showStruct && S.type ? 'block' : 'none';
-  }
-  $('pz-social').style.display = has('social') ? 'block' : 'none';
-  if (has('social')) $('pz-needs-for').textContent = S.type || '';
-  $('pz-design').style.display = has('design') ? 'block' : 'none';
-  if (has('design')) $('pz-mats-for').textContent = S.type || '';
-  $('pz-g-goals').style.display = altro ? 'none' : 'block';
-  $('pz-step').textContent = 'Passo ' + step + ' di ' + STEPS + ' · ' + TITLES[step];
-  const m = missing();
-  $('pz-miss').textContent = m.length === 0 && S.privacy ? 'Pronto' : m.length + ' da completare';
-  $('pz-miss').style.color = m.length ? '#b35a00' : '#0a7a2e';
-  syncSvc(); refreshAll(); estimate(); refreshWiz();
+/* Update: full = ricostruisce chat+dock; chrome sempre */
+function update(full) {
+  const f = flow();
+  if (idx >= f.length) idx = f.length - 1;
+  if (full !== false) { renderChat(f); renderDock(f[idx]); }
+  $('cx-step').textContent = 'Domanda ' + (idx + 1) + ' di ' + f.length;
+  $('cx-fill').style.width = ((idx + 1) / f.length * 100) + '%';
+  $('cx-pill').textContent = '€ ' + total();
+  $('cx-back').style.display = idx > 0 ? '' : 'none';
+  const ok = NODES[f[idx]].ok();
+  document.querySelectorAll('#cx-dock [data-act="go"]').forEach((b) => { b.disabled = !ok; });
+  hint(ok || f[idx] === 'review' ? '' : 'Rispondi alla domanda per continuare.');
+  refreshAllLink();
 }
 
-/* Totale box */
-function estimate() {
-  const t = total(), k = $('pz-total-k'), v = $('pz-total-v'), d = $('pz-total-d'), c = $('pz-show'), w = $('pz-send');
-  if (revealed) {
-    k.textContent = 'Totale indicativo'; v.textContent = '€ ' + t; d.textContent = 'Prezzo concordato insieme prima di iniziare.';
-    c.style.display = 'none'; w.style.display = 'flex';
-    w.onclick = (e) => { e.preventDefault(); if (Date.now() - revealAt < 1000) return; send(); };
-  } else {
-    const m = missing(), ok = m.length === 0 && S.privacy;
-    k.textContent = 'Preventivo'; v.textContent = ok ? 'Pronto' : 'Completa i campi';
-    d.textContent = !S.privacy ? 'Manca il consenso privacy.' : ok ? 'Hai risposto a tutto.' : 'Manca: ' + m.join(', ') + '.';
-    if (ok) {
-      c.style.display = 'flex'; c.textContent = 'Mostra il totale';
-      c.onclick = () => { revealAt = Date.now(); revealed = true; estimate(); update(); };
-      w.style.display = 'none';
-    } else {
-      c.style.display = 'none'; w.style.display = 'flex'; w.textContent = 'Scrivici su WhatsApp';
-      w.href = 'https://wa.me/393518924471?text=' + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
-      w.onclick = null;
-    }
-  }
-}
-
-function parseSvc(v) {
-  if (!v) return [];
-  return [...new Set(String(v).split(',').map((s) => s.trim().toLowerCase()).map((s) => {
+function init() {
+  const q = new URLSearchParams(window.location.search);
+  const pre = [...new Set(String(q.get('services') || q.get('service') || '').split(',').map((s) => s.trim().toLowerCase()).map((s) => {
     if (['site', 'sito', 'siti-web', 'sito-web', 'siti'].includes(s)) return 'site';
     if (['social', 'social-media', 'sm'].includes(s)) return 'social';
     if (['design', 'grafiche', 'grafica'].includes(s)) return 'design';
     return null;
   }).filter(Boolean))];
-}
-
-function init() {
-  const q = new URLSearchParams(window.location.search);
-  const pre = parseSvc(q.get('services') || q.get('service'));
   if (pre.length) S.services = pre;
-
-  wireChips('pz-feats', (k, b) => { paint(b, flip(S.features, k)); update(); });
-  wireChips('pz-pages', (k, b) => { paint(b, flip(S.pages, k)); update(); });
-  wireChips('pz-goals', (k, b) => { paint(b, flip(S.goals, k)); update(); });
-  wireChips('pz-plats', (k, b) => { paint(b, flip(S.plats, k)); update(); });
-  wireChips('pz-needs', (k, b) => { paint(b, flip(S.needs, k)); update(); });
-  wireChips('pz-mats', (k, b) => { paint(b, flip(S.mats, k)); update(); });
-  wireType('pz-cats', (t) => setType(t));
-  wireType('pz-results', (t) => {
-    setType(t);
-    $('pz-search').value = ''; $('pz-results').style.display = 'none';
-    $('pz-cats').style.display = 'block'; $('pz-altro').style.display = 'block';
-  });
-
-  renderCats(); renderFeats(); renderPages(); renderGoals(); renderPlats(); renderNeeds(); renderMats();
-
-  $('pz-name').addEventListener('input', (e) => {
-    const v = e.target.value.slice(0, 80);
-    if (e.target.value !== v) e.target.value = v;
-    S.name = v; update();
-  });
-  $('pz-search').addEventListener('input', (e) => {
-    const q2 = e.target.value.trim().toLowerCase();
-    const r = $('pz-results'), c = $('pz-cats'), a = $('pz-altro');
-    if (!q2) { r.style.display = 'none'; c.style.display = 'block'; a.style.display = 'block'; return; }
-    r.style.display = 'flex'; c.style.display = 'none'; a.style.display = 'none';
-    r.innerHTML = '';
-    businessTypes.filter((t) => t.toLowerCase().includes(q2)).forEach((t) => r.appendChild(renderTypeBtn(t)));
-    if (!r.children.length) {
-      const p = document.createElement('p'); p.className = 'pz-muted'; p.textContent = 'Nessun risultato per questa ricerca.';
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'pz-all'; b.textContent = 'Usa “Altro” e descrivi la tua attività';
-      b.addEventListener('click', () => {
-        setType('Altro');
-        $('pz-search').value = ''; r.style.display = 'none'; c.style.display = 'block'; a.style.display = 'block';
-      });
-      r.appendChild(p); r.appendChild(b);
-    }
-  });
-  $('pz-altro').addEventListener('click', () => setType('Altro'));
-  $('pz-other').addEventListener('input', (e) => {
-    const v = e.target.value.slice(0, 80);
-    if (e.target.value !== v) e.target.value = v;
-    S.typeOther = v; update();
-  });
-  document.querySelectorAll('#pz-svc .pz-card').forEach((b) => b.addEventListener('click', () => {
-    flip(S.services, b.getAttribute('data-svc')); syncSvc(); update();
-  }));
-  $('pz-pack').addEventListener('click', () => {
-    const all = ['site', 'social', 'design'];
-    S.services = all.every((x) => S.services.includes(x)) ? [] : [...all];
-    syncSvc(); update();
-  });
-  document.querySelectorAll('[data-all]').forEach((b) => b.addEventListener('click', () => toggleAll(b.getAttribute('data-all'))));
-  document.querySelectorAll('#pz-struct .pz-chip').forEach((b) => b.addEventListener('click', () => {
-    S.structure = b.getAttribute('data-v');
-    if (S.structure === 'Pagina singola' && S.pages.length) { S.pages = []; renderPages(); }
-    document.querySelectorAll('#pz-struct .pz-chip').forEach((x) => paint(x, x === b));
-    update();
-  }));
-  document.querySelectorAll('#pz-photos .pz-chip').forEach((b) => b.addEventListener('click', () => {
-    S.photos = b.getAttribute('data-v');
-    document.querySelectorAll('#pz-photos .pz-chip').forEach((x) => paint(x, x === b));
-    update();
-  }));
-  document.querySelectorAll('#pz-timing-g .pz-chip').forEach((b) => b.addEventListener('click', () => {
-    S.timing = b.getAttribute('data-v');
-    document.querySelectorAll('#pz-timing-g .pz-chip').forEach((x) => paint(x, x === b));
-    update();
-  }));
-  $('pz-notes').addEventListener('input', (e) => {
-    const v = e.target.value.slice(0, 800);
-    if (e.target.value !== v) e.target.value = v;
-    S.notes = v; update();
-  });
-  $('pz-privacy').addEventListener('change', (e) => { S.privacy = e.target.checked; update(); });
-  $('pz-next').addEventListener('click', () => { if (step < STEPS && stepOk(step)) go(step + 1); });
-  $('pz-prev').addEventListener('click', () => { if (step > 1) go(step - 1); });
-  $('pz-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (step < STEPS) { if (stepOk(step)) go(step + 1); return; }
-    if (!revealed) {
-      if (!missing().length && S.privacy) { revealAt = Date.now(); revealed = true; update(); }
-      return;
-    }
-    if (Date.now() - revealAt < 1000) return;
-    send();
-  });
-  $('pz-show').addEventListener('click', () => {
-    if (!missing().length && S.privacy) { revealAt = Date.now(); revealed = true; update(); }
-  });
-
-  syncSvc(); update();
-  window.__treblaPreventivo = { state: S, currentTotal: total, getMissing: missing, goStep: go, stepValid: stepOk, step: () => step };
+  $('cx-dock').addEventListener('click', onDock);
+  $('cx-back').addEventListener('click', () => { if (idx > 0) { idx--; update(true); } });
+  update(true);
+  window.__treblaPreventivo = { state: S, currentTotal: total, getMissing: missing, flow, go: (n) => { idx = n; update(true); }, step: () => idx };
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
