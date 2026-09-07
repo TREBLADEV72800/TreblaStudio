@@ -1,0 +1,260 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { businessTypes, businessCategories, extendedFeatures, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp } from '../../data/configuratore.js';
+const CFG = { businessTypes, businessCategories, extendedFeatures, featuresByType, pageOptions, socialPlatforms, siteExtrasAll, socialExtrasAll, designExtrasAll, photoPrices, socialNeedsList, designNeedsList, socialByType, designByType, goals, whatsapp };
+const ORDER = ['businessTypes', 'businessCategories', 'extendedFeatures', 'featuresByType', 'pageOptions', 'socialPlatforms', 'siteExtrasAll', 'socialExtrasAll', 'designExtrasAll', 'photoPrices', 'socialNeedsList', 'designNeedsList', 'socialByType', 'designByType', 'goals', 'whatsapp'];
+---
+<Layout title="Admin prezzi — Trebla Studio" description="Strumento interno per aggiornare il listino." canonical="/prezzi-admin" noindex={true}>
+  <section id="pa-root">
+    <h1>Admin prezzi</h1>
+    <p class="pa-sub">Strumento interno: modifica i prezzi, togli voci, salva su GitHub. Il sito si aggiorna da solo dopo il deploy.</p>
+    <details class="pa-help">
+      <summary>Come collegare salvataggio e deploy (una volta sola)</summary>
+      <ol>
+        <li><b>Token GitHub:</b> github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token → seleziona solo il repo <b>TreblaStudio</b> → permessi <b>Contents: Read and write</b> → copia il token e incollalo qui sotto.</li>
+        <li><b>Deploy Hook Vercel:</b> dashboard Vercel → progetto treblastudio → Settings → Git → Deploy Hooks → Create Hook (branch main) → copia l'URL e incollalo qui sotto.</li>
+        <li>Token e hook restano salvati <b>solo nel tuo browser</b> (localStorage), non nel codice.</li>
+      </ol>
+    </details>
+    <div class="pa-bar">
+      <label>Token GitHub <input id="pa-token" type="password" placeholder="github_pat_..." autocomplete="off"></label>
+      <label>Deploy Hook <input id="pa-hook" type="password" placeholder="https://api.vercel.com/..." autocomplete="off"></label>
+      <button type="button" class="button button-main" id="pa-forget">Dimentica chiavi</button>
+    </div>
+    <div class="pa-bar">
+      <input id="pa-search" placeholder="Cerca voce... (es. reel, menu, insegna)" aria-label="Cerca voce">
+      <span id="pa-count" aria-live="polite">0 modifiche</span>
+      <button type="button" class="button button-main" id="pa-save">Salva su GitHub</button>
+      <button type="button" class="button button-quiet" id="pa-dl">Scarica file</button>
+      <button type="button" class="button button-quiet" id="pa-reset">Annulla tutto</button>
+    </div>
+    <p class="pa-note">Struttura sito (350 / 400 €) e testi delle domande stanno nel codice: per quelli dimmelo e li cambio io.</p>
+    <p id="pa-status" role="status"></p>
+    <div id="pa-groups"></div>
+  </section>
+  <style>
+    #pa-root { max-width: 900px; margin: 0 auto; padding: 24px 20px 64px; }
+    #pa-root h1 { font-size: 34px; letter-spacing: -0.03em; margin: 0 0 6px; }
+    .pa-sub { color: var(--muted); margin: 0 0 12px; }
+    .pa-help { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 14px; }
+    .pa-help summary { cursor: pointer; font-weight: 800; }
+    .pa-help li { margin: 6px 0; }
+    .pa-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+    .pa-bar label { display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 700; }
+    .pa-bar input { border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font: 14px var(--sans); background: #fff; min-width: 200px; }
+    #pa-search { flex: 1; min-width: 200px; }
+    #pa-count { font: 700 13px var(--mono); color: var(--blue); }
+    #pa-status { font-size: 14px; font-weight: 700; min-height: 22px; }
+    .pa-note { font-size: 13px; color: var(--muted); }
+    #pa-groups details { border-bottom: 1px solid var(--line); }
+    #pa-groups summary { cursor: pointer; padding: 10px 0; font-weight: 800; }
+    .pa-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 14px; }
+    .pa-row.dirty { background: #fff8e6; }
+    .pa-row.removed { display: none; }
+    .pa-name { overflow-wrap: anywhere; }
+    .pa-cur { font: 700 13px var(--mono); white-space: nowrap; }
+    .pa-new { width: 110px; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font: 14px var(--sans); background: #fff; }
+    .pa-del { border: 1px solid #c0392b; color: #c0392b; background: #fff; border-radius: 8px; padding: 7px 12px; font: 700 13px var(--sans); cursor: pointer; }
+    .pa-del:hover { background: #c0392b; color: #fff; }
+    .pa-type { font: 700 12px var(--mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 10px 0 2px; }
+    @media (max-width: 760px) { .pa-row { grid-template-columns: 1fr auto; } .pa-cur { display: none; } }
+  </style>
+  <script define:vars={{ CFG, ORDER }}>
+    const W = structuredClone(CFG);
+    const $ = (id) => document.getElementById(id);
+    const GROUPS = [
+      ['Funzioni sito per tipo', 'featuresByType', 'map'],
+      ['Extra sito (tutti)', 'siteExtrasAll', 'list'],
+      ['Pagine', 'pageOptions', 'list'],
+      ['Foto', 'photoPrices', 'dict'],
+      ['Contenuti social base', 'socialNeedsList', 'list'],
+      ['Contenuti social per tipo', 'socialByType', 'map'],
+      ['Extra social (tutti)', 'socialExtrasAll', 'list'],
+      ['Materiali design base', 'designNeedsList', 'list'],
+      ['Materiali design per tipo', 'designByType', 'map'],
+      ['Extra design (tutti)', 'designExtrasAll', 'list'],
+      ['WhatsApp', 'whatsapp', 'text'],
+    ];
+    const euro = (p) => p + ' €';
+    function status(t, bad) { const s = $('pa-status'); s.textContent = t; s.style.color = bad ? '#c0392b' : 'var(--blue)'; }
+
+    function rowEl(c, k, i, name, price) {
+      const d = document.createElement('div');
+      d.className = 'pa-row';
+      d.dataset.c = c; d.dataset.k = k; d.dataset.i = i;
+      const nm = document.createElement('span'); nm.className = 'pa-name'; nm.textContent = name;
+      const cur = document.createElement('b'); cur.className = 'pa-cur'; cur.textContent = euro(price);
+      const inp = document.createElement('input');
+      inp.className = 'pa-new'; inp.type = 'number'; inp.min = '0'; inp.step = '1';
+      inp.placeholder = 'nuovo prezzo'; inp.setAttribute('aria-label', 'Nuovo prezzo per ' + name);
+      inp.addEventListener('change', () => {
+        const v = Math.max(0, Math.round(Number(inp.value)));
+        if (!Number.isFinite(v)) return;
+        setPrice(c, k, i, v); d.classList.add('dirty'); refreshCount();
+      });
+      const del = document.createElement('button');
+      del.className = 'pa-del'; del.type = 'button'; del.textContent = 'Togli';
+      del.addEventListener('click', () => {
+        if (!confirm('Togliere "' + name + '" dal listino?')) return;
+        if (c === 'photoPrices') alert('Nota: il bottone resta visibile nel configuratore ma costerà 0. Per nasconderlo del tutto dimmelo.');
+        removeItem(c, k, i); render();
+      });
+      d.appendChild(nm); d.appendChild(cur); d.appendChild(inp); d.appendChild(del);
+      return d;
+    }
+    function getArr(c, k) { return k ? W[c][k] : W[c]; }
+    function setPrice(c, k, i, v) {
+      if (c === 'photoPrices') W[c][k] = v;
+      else getArr(c, k)[Number(i)].price = v;
+    }
+    function removeItem(c, k, i) {
+      if (c === 'photoPrices') delete W[c][k];
+      else getArr(c, k).splice(Number(i), 1);
+    }
+    function render() {
+      const box = $('pa-groups');
+      box.innerHTML = '';
+      const q = $('pa-search').value.trim().toLowerCase();
+      GROUPS.forEach(([label, c, kind]) => {
+        const det = document.createElement('details');
+        const sum = document.createElement('summary');
+        sum.textContent = label;
+        det.appendChild(sum);
+        if (kind === 'text') {
+          const w = document.createElement('div'); w.className = 'pa-row';
+          const nm = document.createElement('span'); nm.className = 'pa-name'; nm.textContent = 'Numero WhatsApp';
+          const cur = document.createElement('b'); cur.className = 'pa-cur'; cur.textContent = W.whatsapp;
+          const inp = document.createElement('input');
+          inp.className = 'pa-new'; inp.style.width = '180px'; inp.value = W.whatsapp;
+          inp.setAttribute('aria-label', 'Nuovo numero WhatsApp');
+          inp.addEventListener('change', () => { W.whatsapp = inp.value.replace(/\D/g, '') || W.whatsapp; inp.value = W.whatsapp; refreshCount(); });
+          w.appendChild(nm); w.appendChild(cur); w.appendChild(inp);
+          det.appendChild(w);
+        } else if (kind === 'dict') {
+          Object.entries(W[c]).forEach(([k, v]) => {
+            if (q && !(k.toLowerCase().includes(q))) return;
+            det.appendChild(rowEl(c, k, k, k, v));
+          });
+        } else {
+          const each = (arr, k) => arr.forEach((it, i) => {
+            if (q && !it.name.toLowerCase().includes(q)) return;
+            det.appendChild(rowEl(c, k || '', i, it.name, it.price));
+          });
+          if (kind === 'list') { each(W[c], ''); }
+          else {
+            Object.entries(W[c]).forEach(([k, arr]) => {
+              const t = document.createElement('p'); t.className = 'pa-type'; t.textContent = k;
+              det.appendChild(t); each(arr, k);
+            });
+          }
+        }
+        det.open = !!q;
+        box.appendChild(det);
+      });
+      refreshCount();
+    }
+    function countDiff() {
+      let ch = 0, rm = 0;
+      const priceLists = ['siteExtrasAll', 'socialExtrasAll', 'designExtrasAll', 'pageOptions', 'socialNeedsList', 'designNeedsList'];
+      priceLists.forEach((c) => {
+        const a = CFG[c], b = W[c];
+        const m = new Map(a.map((x) => [x.name, x.price]));
+        b.forEach((x) => { if (!m.has(x.name)) return; if (m.get(x.name) !== x.price) ch++; });
+        if (b.length < a.length) rm += a.length - b.length;
+      });
+      ['featuresByType', 'socialByType', 'designByType'].forEach((c) => {
+        Object.keys(CFG[c]).forEach((k) => {
+          const a = CFG[c][k] || [], b = (W[c][k] || []);
+          const m = new Map(a.map((x) => [x.name, x.price]));
+          b.forEach((x) => { if (m.has(x.name) && m.get(x.name) !== x.price) ch++; });
+          if (b.length < a.length) rm += a.length - b.length;
+        });
+      });
+      const pa = CFG.photoPrices, pb = W.photoPrices;
+      Object.keys(pa).forEach((k) => {
+        if (!(k in pb)) rm++;
+        else if (pa[k] !== pb[k]) ch++;
+      });
+      if (W.whatsapp !== CFG.whatsapp) ch++;
+      return { ch, rm };
+    }
+    function refreshCount() {
+      const d = countDiff();
+      $('pa-count').textContent = d.ch + ' modifiche, ' + d.rm + ' rimosse';
+    }
+    function ser(v) {
+      if (typeof v === 'number') return String(v);
+      if (typeof v === 'string') return "'" + v.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
+      if (Array.isArray(v)) return '[' + v.map(ser).join(',') + ']';
+      return '{' + Object.entries(v).map(([k, x]) => ser(k) + ':' + ser(x)).join(',') + '}';
+    }
+    function buildSource() {
+      return ORDER.map((k) => 'export const ' + k + ' = ' + ser(W[k]) + ';').join('\n') + '\n';
+    }
+    function b64(s) {
+      const b = new TextEncoder().encode(s);
+      let r = '';
+      for (let i = 0; i < b.length; i += 0x8000) r += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+      return btoa(r);
+    }
+    const API = 'https://api.github.com/repos/TREBLADEV72800/TreblaStudio/contents/src/data/configuratore.ts?ref=main';
+    async function save() {
+      const token = $('pa-token').value.trim();
+      if (!token) { status('Incolla prima il token GitHub.', true); return; }
+      const d = countDiff();
+      if (!d.ch && !d.rm) { status('Nessuna modifica da salvare.', true); return; }
+      if (!confirm('Salvare ' + d.ch + ' modifiche e ' + d.rm + ' rimozioni su GitHub?')) return;
+      try {
+        status('Lettura file su GitHub...');
+        const get = await fetch(API, { headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json' } });
+        if (!get.ok) throw new Error('Lettura fallita: ' + get.status);
+        const cur = await get.json();
+        status('Invio nuovo listino...');
+        const put = await fetch(API, {
+          method: 'PUT',
+          headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: 'chore(prezzi): aggiornamento listino da admin', content: b64(buildSource()), sha: cur.sha, branch: 'main' }),
+        });
+        if (!put.ok) throw new Error('Salvataggio fallito: ' + put.status);
+        status('Salvato su GitHub.');
+        const hook = $('pa-hook').value.trim();
+        if (hook) {
+          status('Salvato. Avvio deploy...');
+          await fetch(hook, { method: 'POST' });
+          status('Deploy avviato: il sito si aggiorna in circa 1 minuto.');
+        } else {
+          status('Salvato. Senza Deploy Hook devi deployare a mano (o dirmelo).');
+        }
+      } catch (e) { status('Errore: ' + e.message, true); }
+    }
+    function init() {
+      try {
+        $('pa-token').value = localStorage.getItem('pa-token') || '';
+        $('pa-hook').value = localStorage.getItem('pa-hook') || '';
+      } catch (e) {}
+      $('pa-token').addEventListener('change', (e) => { try { localStorage.setItem('pa-token', e.target.value.trim()); } catch (err) {} });
+      $('pa-hook').addEventListener('change', (e) => { try { localStorage.setItem('pa-hook', e.target.value.trim()); } catch (err) {} });
+      $('pa-forget').addEventListener('click', () => {
+        try { localStorage.removeItem('pa-token'); localStorage.removeItem('pa-hook'); } catch (e) {}
+        $('pa-token').value = ''; $('pa-hook').value = ''; status('Chiavi dimenticate.');
+      });
+      $('pa-search').addEventListener('input', render);
+      $('pa-save').addEventListener('click', save);
+      $('pa-reset').addEventListener('click', () => {
+        const fresh = structuredClone(CFG);
+        Object.keys(fresh).forEach((k) => { W[k] = fresh[k]; });
+        render(); status('Modifiche annullate.');
+      });
+      $('pa-dl').addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([buildSource()], { type: 'text/plain;charset=utf-8' }));
+        a.download = 'configuratore.ts';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      });
+      render();
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  </script>
+</Layout>
