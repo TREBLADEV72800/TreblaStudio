@@ -117,7 +117,12 @@ function paint(b, on) { b.classList.toggle('on', on); b.setAttribute('aria-press
 function flip(arr, k) { const i = arr.indexOf(k); if (i >= 0) arr.splice(i, 1); else arr.push(k); return i < 0; }
 function chip(key, label, on, extra) {
   const b = el('button', 'cx-chip' + (on ? ' on' : ''));
-  b.type = 'button'; b.textContent = label;
+  b.type = 'button';
+  const m = /^(.*) \(\+(\d+) \u20ac\)$/.exec(label);
+  if (m) {
+    b.appendChild(el('span', 'cx-t', m[1]));
+    b.appendChild(el('b', 'cx-p', '+' + m[2] + ' \u20ac'));
+  } else b.appendChild(el('span', 'cx-t', label));
   b.setAttribute('data-k', key);
   if (extra) Object.entries(extra).forEach(([a, v]) => b.setAttribute(a, v));
   b.setAttribute('aria-pressed', String(!!on));
