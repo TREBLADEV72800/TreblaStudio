@@ -431,7 +431,7 @@ function refreshAllLink() {
 /* Navigazione */
 function goNext() {
   const f = flow();
-  if (NODES[f[idx]].ok()) { idx = Math.min(f.length - 1, idx + 1); update(true); window.scrollTo(0, 0); }
+  if (NODES[f[idx]].ok()) { idx = Math.min(f.length - 1, idx + 1); update(true); }
   else hint('Rispondi alla domanda per continuare.');
 }
 function hint(t) { $('cx-hint').textContent = t || ''; }
@@ -484,7 +484,7 @@ function send() {
 function update(full) {
   const f = flow();
   if (idx >= f.length) idx = f.length - 1;
-  if (full !== false) { renderChat(f); renderDock(f[idx]); }
+  if (full !== false) { renderChat(f); renderDock(f[idx]); const ch = $('cx-chat'); ch.scrollTop = ch.scrollHeight; }
   $('cx-step').textContent = 'Domanda ' + (idx + 1) + ' di ' + f.length;
   $('cx-fill').style.width = ((idx + 1) / f.length * 100) + '%';
   $('cx-pill').textContent = '€ ' + total();
@@ -505,7 +505,7 @@ function init() {
   }).filter(Boolean))];
   if (pre.length) S.services = pre;
   $('cx-dock').addEventListener('click', onDock);
-  $('cx-back').addEventListener('click', () => { if (idx > 0) { idx--; update(true); window.scrollTo(0, 0); } });
+  $('cx-back').addEventListener('click', () => { if (idx > 0) { idx--; update(true); } });
   update(true);
   window.__treblaPreventivo = { state: S, currentTotal: total, getMissing: missing, flow, go: (n) => { idx = n; update(true); }, step: () => idx };
 }
