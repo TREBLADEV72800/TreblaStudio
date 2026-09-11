@@ -57,7 +57,7 @@ function flow() {
 function total() {
   let t = 0;
   if (has('site')) {
-    t = S.structure === 'Sito completo a più pagine' ? 400 : 350;
+    t = S.structure === 'Sito completo a più pagine' ? 400 : 300;
     const fl = siteFeats();
     S.features.forEach((n) => { const f = fl.find((x) => x.name === n); if (f) t += f.price; });
     S.pages.forEach((n) => { const p = pageOptions.find((x) => x.name === n); if (p) t += p.price; });
@@ -92,7 +92,7 @@ const NODES = {
   name: { q: 'Come si chiama la tua attività?', ok: okName },
   type: { q: 'Che tipo di attività è?', ok: okType },
   services: { q: 'Di cosa hai bisogno? Puoi scegliere più cose.', ok: () => S.services.length > 0 },
-  struct: { q: 'Meglio una pagina singola (350 €) o un sito completo a più pagine (400 €)?', ok: () => !!S.structure },
+  struct: { q: 'Meglio una pagina singola (300 €) o un sito completo a più pagine (400 €)?', ok: () => !!S.structure },
   feats: { q: 'Quali funzioni servono sul sito? Solo se utili, altrimenti vai avanti.', ok: () => true },
   pages: { q: 'Quali pagine vuoi nel sito? Solo se utili.', ok: () => true },
   photos: { q: 'E le foto da mettere sul sito?', ok: () => !!S.photos },
@@ -245,9 +245,9 @@ function renderDock(id) {
     dock.appendChild(g); dock.appendChild(pk); dock.appendChild(goBtn('Continua →'));
   } else if (id === 'struct' || id === 'photos' || id === 'timing') {
     const opts = id === 'struct'
-      ? [['Pagina singola', 'Pagina singola (350 €)'], ['Sito completo a più pagine', 'Sito completo a più pagine (400 €)']]
+      ? [['Pagina singola', 'Pagina singola (300 €)'], ['Sito completo a più pagine', 'Sito completo a più pagine (400 €)']]
       : id === 'photos'
-      ? [['Ho già le foto', 'Ho già le foto (le invio io)'], ['Servono le foto (le scattate voi)', 'Scattate voi sul posto (+40 €)'], ['Parto da zero', 'Archivio immagini (+10 €)']]
+      ? [['Ho già le foto', 'Ho già le foto (le invio io)'], ['Servono le foto (le scattate voi)', 'Scattate voi sul posto (+20 €)'], ['Parto da zero', 'Archivio immagini (+10 €)']]
       : [['Appena possibile', 'Appena possibile'], ['Entro un mese', 'Entro un mese'], ['Sto valutando', 'Sto valutando']];
     const cur = id === 'struct' ? S.structure : id === 'photos' ? S.photos : S.timing;
     const g = el('div', 'cx-chips');

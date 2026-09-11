@@ -2,7 +2,7 @@ export const site = {
   name: 'Trebla Studio',
   shortName: 'Trebla',
   url: (import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.it'),
-  description: 'Siti web chiari e curati per piccole attività di Asti e Piemonte: ristoranti, negozi, artigiani e professionisti. Prezzo chiaro da 350 €, tempi concordati, nessun canone obbligatorio.',
+  description: 'Siti web chiari e curati per piccole attività di Asti e Piemonte: ristoranti, negozi, artigiani e professionisti. Prezzo chiaro da 300 €, tempi concordati, nessun canone obbligatorio.',
   locale: 'it_IT',
   lang: 'it',
   email: 'trebla.dev.simoni@gmail.com',
