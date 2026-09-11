@@ -13,6 +13,7 @@
     <a href="/faq" data-nav>FAQ</a>
     <a href="/contatti" data-nav>Contatti</a>
     <a class="nav-mobile-cta" href="/preventivo" data-nav>Configura il preventivo</a>
+    <button type="button" class="nav-close" id="menu-close">Chiudi il menu</button>
   </nav>
   <button type="button" class="header-cta" id="quick-open" aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
   <button id="menu-btn" class="menu" aria-label="Apri il menu — 5 voci" aria-expanded="false" aria-controls="main-nav">
@@ -31,13 +32,15 @@
     btn.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu — 5 voci');
     btn.classList.toggle('menu-active', open);
     nav.classList.toggle('nav-open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
+    const head = btn?.closest('.header');
+    head && head.classList.toggle('header-open', open);
     if (open) {
       const first = nav.querySelector('a');
       first && first.focus();
     }
   }
   btn?.addEventListener('click', () => setOpen(!open));
+  document.getElementById('menu-close')?.addEventListener('click', () => setOpen(false));
   nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && open) {
