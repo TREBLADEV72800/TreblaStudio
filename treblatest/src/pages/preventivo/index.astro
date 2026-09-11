@@ -1,0 +1,560 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { BASE_PRICES, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, BUSINESS_TYPES, GOALS, TIMINGS } from '../../data/prezzi';
+import { site } from '../../data/site';
+
+const CFG = {
+  base: BASE_PRICES,
+  siteExtras: SITE_EXTRAS,
+  socialOptions: SOCIAL_OPTIONS,
+  designOptions: DESIGN_OPTIONS,
+  channels: [...CHANNELS],
+  types: [...BUSINESS_TYPES],
+  goals: [...GOALS],
+  timings: [...TIMINGS],
+  whatsapp: site.whatsapp,
+};
+---
+
+<Layout
+  title="Preventivo in 2 minuti | Trebla"
+  description="Rispondi a poche domande e scopri subito quanto costa il sito per la tua attività. Stima immediata, senza impegno, poi la proposta su WhatsApp."
+  canonical="/preventivo"
+>
+  <div class="involucro wizard" aria-labelledby="w-domanda">
+    <div class="wizard-testa">
+      <p class="capitolo-numero" style="margin:0">Il tuo preventivo</p>
+      <span class="wizard-passo" id="w-passo">Passo 1</span>
+      <span class="wizard-totale" aria-live="polite" id="w-totale">Stima · 0 €</span>
+    </div>
+    <div class="wizard-barra" aria-hidden="true"><div class="wizard-riempimento" id="w-riempimento"></div></div>
+
+    <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
+    <p class="wizard-sotto" id="w-sotto"></p>
+    <p class="wizard-errore" id="w-errore" role="alert" hidden></p>
+
+    <div class="wizard-corpo" id="w-corpo"></div>
+  </div>
+
+  <div class="wizard-barra-fissa">
+    <div class="wizard-barra-interna">
+      <button type="button" class="wizard-indietro" id="w-indietro" hidden>← Indietro</button>
+      <button type="button" class="btn btn-mattone wizard-avanti" id="w-avanti">Avanti →</button>
+    </div>
+  </div>
+
+  <script define:vars={{ CFG }}>
+    const C = CFG;
+    const S = {
+      nome: '', tipo: '', servizi: [],
+      struttura: '', siteExtra: [],
+      canali: [], socialExtra: [],
+      graficheExtra: [],
+      obiettivi: [], tempi: '', note: '',
+      privacy: false,
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const corpo = $('w-corpo'), domanda = $('w-domanda'), sotto = $('w-sotto'),
+      errore = $('w-errore'), passo = $('w-passo'), riemp = $('w-riempimento'),
+      totale = $('w-totale'), avanti = $('w-avanti'), indietro = $('w-indietro');
+
+    const ha = (s) => S.servizi.includes(s);
+    const euro = (p) => (p ? `+${p} €` : 'incluso');
+
+    function flusso() {
+      const f = ['nome', 'tipo', 'servizi'];
+      if (ha('sito')) f.push('sito');
+      if (ha('social')) f.push('social');
+      if (ha('grafiche')) f.push('grafiche');
+      f.push('obiettivi', 'riepilogo');
+      return f;
+    }
+    let idx = 0;
+
+    function stima() {
+      let t = 0;
+      if (ha('sito')) {
+        t += S.struttura === 'multi' ? C.base.multi : C.base.singola;
+        for (const n of S.siteExtra) {
+          const e = C.siteExtras.find((x) => x.name === n);
+          if (e) t += e.price;
+        }
+      }
+      for (const n of S.socialExtra) {
+        const e = C.socialOptions.find((x) => x.name === n);
+        if (e) t += e.price;
+      }
+      for (const n of S.graficheExtra) {
+        const e = C.designOptions.find((x) => x.name === n);
+        if (e) t += e.price;
+      }
+      return Math.max(0, Math.round(t));
+    }
+
+    function el(tag, cls, text) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text !== undefined) e.textContent = text;
+      return e;
+    }
+
+    function opzione({ tipo, nome, valore, titolo, nota, prezzo, checked }) {
+      const lab = el('label', 'opzione');
+      const inp = document.createElement('input');
+      inp.type = tipo;
+      inp.name = nome;
+      inp.value = valore;
+      inp.checked = !!checked;
+      inp.className = 'sr-solo';
+      inp.setAttribute('aria-label', titolo + (prezzo ? `, ${euro(prezzo)}` : ''));
+      const segno = el('span', 'segno', tipo === 'checkbox' ? (checked ? '✓' : '+') : '○');
+      segno.setAttribute('aria-hidden', 'true');
+      const txt = el('span', 'opzione-testo', titolo);
+      if (nota) txt.appendChild(el('small', '', nota));
+      lab.appendChild(inp);
+      lab.appendChild(segno);
+      lab.appendChild(txt);
+      if (prezzo) lab.appendChild(el('span', 'opzione-prezzo', euro(prezzo)));
+      inp.addEventListener('change', () => {
+        segno.textContent = tipo === 'checkbox' ? (inp.checked ? '✓' : '+') : '●';
+        sincronizza(nome, tipo);
+        aggiornaCromo(false);
+        nascondiErrore();
+      });
+      return lab;
+    }
+
+    function sincronizza(nome, tipo) {
+      const vals = [...corpo.querySelectorAll(`input[name="${nome}"]:checked`)].map((i) => i.value);
+      if (tipo === 'radio') {
+        if (nome === 'struttura') S.struttura = vals[0] || '';
+        if (nome === 'tempi') S.tempi = vals[0] || '';
+      } else {
+        if (nome === 'servizi') {
+          S.servizi = vals;
+          if (!ha('sito')) { S.struttura = ''; S.siteExtra = []; }
+          if (!ha('social')) { S.canali = []; S.socialExtra = []; }
+          if (!ha('grafiche')) S.graficheExtra = [];
+        }
+        if (nome === 'siteExtra') S.siteExtra = vals;
+        if (nome === 'canali') S.canali = vals;
+        if (nome === 'socialExtra') S.socialExtra = vals;
+        if (nome === 'graficheExtra') S.graficheExtra = vals;
+        if (nome === 'obiettivi') S.obiettivi = vals;
+      }
+    }
+
+    const SERVIZI_INFO = {
+      sito: ['Sito web', 'La base: ti trovano e ti contattano'],
+      social: ['Social', 'Profili in ordine, contenuti regolari'],
+      grafiche: ['Grafiche', 'Logo, biglietti, volantini'],
+    };
+
+    function renderizza() {
+      const f = flusso();
+      if (idx >= f.length) idx = f.length - 1;
+      const id = f[idx];
+      corpo.innerHTML = '';
+      nascondiErrore();
+
+      if (id === 'nome') {
+        domanda.textContent = 'Come si chiama la tua attività?';
+        sotto.textContent = 'Il nome con cui ti conoscono i clienti.';
+        const inp = document.createElement('input');
+        inp.className = 'wizard-campo';
+        inp.id = 'f-nome';
+        inp.value = S.nome;
+        inp.maxLength = 80;
+        inp.autocomplete = 'organization';
+        inp.placeholder = 'Es. Trattoria Rossi';
+        inp.setAttribute('aria-label', 'Nome della tua attività');
+        inp.addEventListener('input', () => { S.nome = inp.value.slice(0, 80); aggiornaCromo(false); nascondiErrore(); });
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); vaiAvanti(); } });
+        corpo.appendChild(inp);
+        setTimeout(() => inp.focus({ preventScroll: true }), 60);
+      }
+
+      if (id === 'tipo') {
+        domanda.textContent = 'Che tipo di attività è?';
+        sotto.textContent = 'Scegli dall’elenco o scrivi la tua.';
+        const inp = document.createElement('input');
+        inp.className = 'wizard-campo';
+        inp.setAttribute('list', 'f-tipi');
+        inp.value = S.tipo;
+        inp.maxLength = 80;
+        inp.placeholder = 'Es. pizzeria, barbiere, B&B…';
+        inp.setAttribute('aria-label', 'Tipo di attività');
+        const dl = document.createElement('datalist');
+        dl.id = 'f-tipi';
+        C.types.forEach((t) => {
+          const o = document.createElement('option');
+          o.value = t;
+          dl.appendChild(o);
+        });
+        inp.addEventListener('input', () => { S.tipo = inp.value.slice(0, 80); nascondiErrore(); });
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); vaiAvanti(); } });
+        corpo.appendChild(inp);
+        corpo.appendChild(dl);
+        setTimeout(() => inp.focus({ preventScroll: true }), 60);
+      }
+
+      if (id === 'servizi') {
+        domanda.textContent = 'Di cosa hai bisogno?';
+        sotto.textContent = 'Puoi scegliere più cose. Il sito è il punto di partenza che consigliamo.';
+        const ul = el('ul', 'wizard-opzioni');
+        ul.setAttribute('role', 'group');
+        ul.setAttribute('aria-label', 'Servizi desiderati');
+        Object.entries(SERVIZI_INFO).forEach(([v, [t, n]]) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'checkbox', nome: 'servizi', valore: v, titolo: t, nota: n, checked: S.servizi.includes(v) }));
+          ul.appendChild(li);
+        });
+        corpo.appendChild(ul);
+      }
+
+      if (id === 'sito') {
+        domanda.textContent = 'Com’è fatto il sito?';
+        sotto.textContent = 'Scegli la struttura, poi aggiungi solo le funzioni che ti servono davvero.';
+        const fs = el('fieldset', '');
+        fs.style.border = '0';
+        fs.style.padding = '0';
+        fs.style.margin = '0';
+        fs.appendChild(el('legend', 'sr-solo', 'Struttura del sito'));
+        const ul = el('ul', 'wizard-opzioni');
+        [
+          { v: 'singola', t: 'Pagina singola', n: 'Tutto l’essenziale in una pagina', p: C.base.singola },
+          { v: 'multi', t: 'Sito a più pagine', n: 'Storia, servizi, galleria, contatti', p: C.base.multi },
+        ].forEach((o) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'radio', nome: 'struttura', valore: o.v, titolo: o.t, nota: o.n, prezzo: o.p, checked: S.struttura === o.v }));
+          ul.appendChild(li);
+        });
+        fs.appendChild(ul);
+        corpo.appendChild(fs);
+        const h = el('h2', '', 'Funzioni extra');
+        h.style.cssText = 'font:600 1.2rem var(--serif);margin:28px 0 0';
+        corpo.appendChild(h);
+        const ul2 = el('ul', 'wizard-opzioni');
+        ul2.setAttribute('role', 'group');
+        ul2.setAttribute('aria-label', 'Funzioni extra del sito');
+        C.siteExtras.forEach((e) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'checkbox', nome: 'siteExtra', valore: e.name, titolo: e.name, nota: e.hint, prezzo: e.price, checked: S.siteExtra.includes(e.name) }));
+          ul2.appendChild(li);
+        });
+        corpo.appendChild(ul2);
+      }
+
+      if (id === 'social') {
+        domanda.textContent = 'Cosa facciamo sui social?';
+        sotto.textContent = 'Canali e contenuti: solo quello che ha senso per la tua attività.';
+        const h1 = el('h2', '', 'Canali');
+        h1.style.cssText = 'font:600 1.2rem var(--serif);margin:4px 0 0';
+        corpo.appendChild(h1);
+        const ul = el('ul', 'wizard-opzioni');
+        ul.setAttribute('role', 'group');
+        ul.setAttribute('aria-label', 'Canali social');
+        C.channels.forEach((c) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'checkbox', nome: 'canali', valore: c, titolo: c, checked: S.canali.includes(c) }));
+          ul.appendChild(li);
+        });
+        corpo.appendChild(ul);
+        const h2 = el('h2', '', 'Contenuti');
+        h2.style.cssText = 'font:600 1.2rem var(--serif);margin:28px 0 0';
+        corpo.appendChild(h2);
+        const ul2 = el('ul', 'wizard-opzioni');
+        ul2.setAttribute('role', 'group');
+        ul2.setAttribute('aria-label', 'Contenuti social');
+        C.socialOptions.forEach((e) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'checkbox', nome: 'socialExtra', valore: e.name, titolo: e.name, prezzo: e.price, checked: S.socialExtra.includes(e.name) }));
+          ul2.appendChild(li);
+        });
+        corpo.appendChild(ul2);
+      }
+
+      if (id === 'grafiche') {
+        domanda.textContent = 'Quali grafiche ti servono?';
+        sotto.textContent = 'Solo quelle che userai davvero: meglio poche e giuste.';
+        const ul = el('ul', 'wizard-opzioni');
+        ul.setAttribute('role', 'group');
+        ul.setAttribute('aria-label', 'Materiali grafici');
+        C.designOptions.forEach((e) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'checkbox', nome: 'graficheExtra', valore: e.name, titolo: e.name, prezzo: e.price, checked: S.graficheExtra.includes(e.name) }));
+          ul.appendChild(li);
+        });
+        corpo.appendChild(ul);
+      }
+
+      if (id === 'obiettivi') {
+        domanda.textContent = 'Ultimo passo: cosa vuoi ottenere?';
+        sotto.textContent = 'Ci aiuta a proporti le cose giuste. Le note sono facoltative.';
+        const h1 = el('h2', '', 'Obiettivi');
+        h1.style.cssText = 'font:600 1.2rem var(--serif);margin:4px 0 0';
+        corpo.appendChild(h1);
+        const ul = el('ul', 'wizard-opzioni');
+        ul.setAttribute('role', 'group');
+        ul.setAttribute('aria-label', 'Obiettivi');
+        C.goals.forEach((g) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'checkbox', nome: 'obiettivi', valore: g, titolo: g, checked: S.obiettivi.includes(g) }));
+          ul.appendChild(li);
+        });
+        corpo.appendChild(ul);
+        const h2 = el('h2', '', 'Quando vorresti iniziare?');
+        h2.style.cssText = 'font:600 1.2rem var(--serif);margin:28px 0 0';
+        corpo.appendChild(h2);
+        const ul2 = el('ul', 'wizard-opzioni');
+        ul2.setAttribute('role', 'group');
+        ul2.setAttribute('aria-label', 'Tempi desiderati');
+        C.timings.forEach((t) => {
+          const li = document.createElement('li');
+          li.appendChild(opzione({ tipo: 'radio', nome: 'tempi', valore: t, titolo: t, checked: S.tempi === t }));
+          ul2.appendChild(li);
+        });
+        corpo.appendChild(ul2);
+        const h3 = el('h2', '', 'Note (facoltativo)');
+        h3.style.cssText = 'font:600 1.2rem var(--serif);margin:28px 0 0';
+        corpo.appendChild(h3);
+        const ta = document.createElement('textarea');
+        ta.className = 'wizard-campo';
+        ta.rows = 3;
+        ta.maxLength = 800;
+        ta.value = S.note;
+        ta.placeholder = 'Es. ho già il menu, vorrei i colori del locale…';
+        ta.setAttribute('aria-label', 'Note per il progetto');
+        ta.addEventListener('input', () => { S.note = ta.value.slice(0, 800); });
+        corpo.appendChild(ta);
+      }
+
+      if (id === 'riepilogo') {
+        domanda.textContent = 'Ecco la tua stima. Controlla e invia.';
+        sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Nessun impegno.';
+        const dl = el('dl', 'wizard-riepilogo');
+        const riga = (k, v) => {
+          if (!v) return;
+          const d = el('div', 'wizard-riga');
+          d.appendChild(el('dt', '', k));
+          d.appendChild(el('dd', '', v));
+          dl.appendChild(d);
+        };
+        const nomiServizi = S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ');
+        riga('Attività', `${S.nome} · ${S.tipo}`);
+        riga('Servizi', nomiServizi);
+        if (ha('sito')) {
+          riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi} €` : `Pagina singola · ${C.base.singola} €`);
+          if (S.siteExtra.length) riga('Funzioni', S.siteExtra.join(', '));
+        }
+        if (ha('social')) {
+          riga('Social', `${S.canali.join(', ') || 'Canali da decidere'}${S.socialExtra.length ? ' · ' + S.socialExtra.join(', ') : ''}`);
+        }
+        if (ha('grafiche') && S.graficheExtra.length) riga('Grafiche', S.graficheExtra.join(', '));
+        if (S.obiettivi.length) riga('Obiettivi', S.obiettivi.join(', '));
+        riga('Tempi', S.tempi);
+        if (S.note.trim()) riga('Note', S.note.trim());
+        corpo.appendChild(dl);
+
+        const box = el('div', 'wizard-totale-finale');
+        box.appendChild(el('p', 'k', 'Stima indicativa'));
+        const cifra = el('p', 'v', `€ ${stima()}`);
+        cifra.setAttribute('aria-live', 'polite');
+        box.appendChild(cifra);
+        box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
+        const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
+        invia.id = 'w-invia';
+        invia.target = '_blank';
+        invia.rel = 'noopener noreferrer';
+        box.appendChild(invia);
+        corpo.appendChild(box);
+
+        const priv = el('label', 'privacy-riga');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = 'f-privacy';
+        cb.checked = S.privacy;
+        cb.addEventListener('change', () => { S.privacy = cb.checked; aggiornaInvia(); nascondiErrore(); });
+        priv.appendChild(cb);
+        const span = el('span', '', 'Ho letto l’informativa privacy e acconsento al trattamento dei dati per ricevere il preventivo. ');
+        const link = el('a', 'link-freccia', 'Privacy');
+        link.href = '/privacy';
+        span.appendChild(link);
+        span.appendChild(document.createTextNode('. *'));
+        priv.appendChild(span);
+        corpo.appendChild(priv);
+        aggiornaInvia();
+      }
+
+      aggiornaCromo(true);
+    }
+
+    function messaggio() {
+      const L = [
+        '*Ciao Trebla!*',
+        'Vorrei un preventivo per la mia attività.',
+        '',
+        `• *Attività:* ${S.nome}`,
+        `• *Tipo:* ${S.tipo}`,
+        `• *Servizi:* ${S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ')}`,
+      ];
+      if (ha('sito')) {
+        L.push(
+          '',
+          '*SITO*',
+          `• *Struttura:* ${S.struttura === 'multi' ? 'Più pagine' : 'Pagina singola'}`,
+          `• *Funzioni:* ${S.siteExtra.length ? S.siteExtra.join(', ') : 'Standard'}`
+        );
+      }
+      if (ha('social')) {
+        L.push('', '*SOCIAL*', `• *Canali:* ${S.canali.join(', ') || 'Da decidere'}`, `• *Contenuti:* ${S.socialExtra.join(', ') || 'Da decidere'}`);
+      }
+      if (ha('grafiche')) {
+        L.push('', '*GRAFICHE*', `• *Materiali:* ${S.graficheExtra.join(', ') || 'Da decidere'}`);
+      }
+      L.push(
+        '',
+        `• *Obiettivi:* ${S.obiettivi.join(', ') || '—'}`,
+        `• *Tempi:* ${S.tempi || '—'}`,
+        '',
+        `*STIMA INDICATIVA:* ${stima()} €`
+      );
+      if (S.note.trim()) L.push('', '*NOTE:*', S.note.trim());
+      let msg = L.join('\n');
+      if (msg.length > 1800) msg = msg.slice(0, 1780) + '\n…(continua a voce)';
+      return msg;
+    }
+
+    function aggiornaInvia() {
+      const a = $('w-invia');
+      if (!a) return;
+      const mancanti = mancantiRiepilogo();
+      if (!S.privacy || mancanti.length) {
+        a.setAttribute('aria-disabled', 'true');
+        a.style.opacity = '0.55';
+        a.href = `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+        a.textContent = mancanti.length && S.privacy ? `Manca: ${mancanti.join(', ')}` : S.privacy ? 'Invia su WhatsApp' : 'Spunta la privacy per inviare';
+      } else {
+        a.removeAttribute('aria-disabled');
+        a.style.opacity = '';
+        a.textContent = `Invia su WhatsApp · € ${stima()}`;
+        a.href = `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent(messaggio());
+      }
+    }
+
+    function mancantiRiepilogo() {
+      const m = [];
+      if (S.nome.trim().length < 2) m.push('il nome');
+      if (S.tipo.trim().length < 2) m.push('il tipo');
+      if (!S.servizi.length) m.push('un servizio');
+      if (ha('sito') && !S.struttura) m.push('la struttura del sito');
+      if (!S.tempi) m.push('i tempi');
+      return m;
+    }
+
+    function mostraErrore(t) {
+      errore.textContent = t;
+      errore.hidden = false;
+    }
+    function nascondiErrore() {
+      errore.hidden = true;
+      errore.textContent = '';
+    }
+
+    function valido(id) {
+      if (id === 'nome') return S.nome.trim().length >= 2 ? '' : 'Scrivi il nome della tua attività per continuare.';
+      if (id === 'tipo') return S.tipo.trim().length >= 2 ? '' : 'Scegli o scrivi il tipo di attività per continuare.';
+      if (id === 'servizi') return S.servizi.length ? '' : 'Scegli almeno un servizio: sito, social o grafiche.';
+      if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola o più pagine.';
+      if (id === 'social') return S.canali.length && S.socialExtra.length ? '' : 'Scegli almeno un canale e un contenuto.';
+      if (id === 'grafiche') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale grafico.';
+      if (id === 'obiettivi') return S.obiettivi.length && S.tempi ? '' : 'Scegli almeno un obiettivo e quando vorresti iniziare.';
+      return '';
+    }
+
+    function aggiornaCromo(scroll) {
+      const f = flusso();
+      passo.textContent = `Passo ${idx + 1} di ${f.length}`;
+      riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
+      totale.textContent = ha('sito') || S.servizi.length ? `Stima · ${stima()} €` : 'Stima · 0 €';
+      indietro.hidden = idx === 0;
+      const id = f[idx];
+      avanti.textContent = id === 'riepilogo' ? 'Ricontrolla e invia sopra ↑' : id === 'obiettivi' ? 'Vedi la stima →' : 'Avanti →';
+      if (id === 'riepilogo') aggiornaInvia();
+      if (scroll) {
+        domanda.focus({ preventScroll: true });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function vaiAvanti() {
+      const f = flusso();
+      const id = f[idx];
+      if (id === 'riepilogo') {
+        if (!S.privacy) {
+          mostraErrore('Spunta il consenso privacy per inviare la richiesta.');
+          $('f-privacy')?.focus();
+          return;
+        }
+        const m = mancantiRiepilogo();
+        if (m.length) {
+          mostraErrore(`Per inviare manca ancora: ${m.join(', ')}. Torna indietro e completa.`);
+          return;
+        }
+        $('w-invia')?.focus();
+        return;
+      }
+      const err = valido(id);
+      if (err) {
+        mostraErrore(err);
+        return;
+      }
+      idx = Math.min(f.length - 1, idx + 1);
+      renderizza();
+    }
+
+    avanti.addEventListener('click', vaiAvanti);
+    indietro.addEventListener('click', () => {
+      if (idx > 0) { idx--; renderizza(); }
+    });
+
+    // Preselezione da ?servizi=sito,social,grafiche
+    (function init() {
+      try {
+        const q = new URLSearchParams(window.location.search);
+        const pre = [...new Set(
+          String(q.get('servizi') || q.get('services') || '')
+            .split(',')
+            .map((s) => s.trim().toLowerCase())
+            .map((s) => {
+              if (['sito', 'site', 'siti-web', 'sito-web', 'siti'].includes(s)) return 'sito';
+              if (['social', 'social-media'].includes(s)) return 'social';
+              if (['grafiche', 'design', 'grafica'].includes(s)) return 'grafiche';
+              return null;
+            })
+            .filter(Boolean)
+        )];
+        if (pre.length) S.servizi = pre;
+      } catch (e) { /* query non valida: si parte da zero */ }
+      renderizza();
+    })();
+  </script>
+
+  <style>
+    .sr-solo {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    .opzione input { position: absolute; opacity: 0; pointer-events: none; }
+    .opzione { position: relative; border-radius: 6px; }
+    .opzione:has(input:checked) { background: var(--carta-2); color: var(--mattone-fondo); }
+    .opzione:has(input:checked) .segno { background: var(--mattone); border-color: var(--mattone); color: #fff; }
+    .opzione:has(input:focus-visible) { outline: 2px solid var(--mattone); outline-offset: 2px; }
+    fieldset { min-inline-size: 0; }
+  </style>
+</Layout>

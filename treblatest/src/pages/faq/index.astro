@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Faq from '../../components/Faq.astro';
+import { FAQS } from '../../data/faq';
+---
+
+<Layout
+  title="Domande frequenti | Trebla"
+  description="Quanto costa, in quanto tempo, serve un canone, cosa serve per iniziare: le risposte oneste alle domande che ci fanno sempre."
+  canonical="/faq"
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQS.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }}
+>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Domande frequenti</p>
+      <h1 id="titolo">Quelle che ci fanno <em>sempre.</em></h1>
+      <p class="lead">Prezzi, tempi, foto, modifiche: le risposte prima ancora di sentirci.</p>
+    </section>
+
+    <section class="sezione" style="padding-block-start:0" aria-label="Tutte le domande">
+      <Faq faqs={FAQS} />
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/preventivo">Fai il preventivo · 2 min</a>
+        <a class="btn btn-fantasma" href="/contatti">Oppure parliamone</a>
+      </div>
+    </section>
+  </div>
+</Layout>

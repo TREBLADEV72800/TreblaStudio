@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Pagina non trovata | Trebla"
+  description="Questa pagina non esiste. Torna alla homepage o fai il preventivo in 2 minuti."
+  canonical="/404"
+  noindex={true}
+>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Errore 404</p>
+      <h1 id="titolo">Qui non c’è <em>niente.</em></h1>
+      <p class="lead">La pagina che cercavi non esiste o è stata spostata. Succede — torniamo dove serve.</p>
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/">Torna alla homepage</a>
+        <a class="btn btn-fantasma" href="/preventivo">Fai il preventivo</a>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  numero: string;
+  titolo: string;
+  nota?: string;
+}
+
+const { numero, titolo, nota } = Astro.props;
+---
+
+<div class="capitolo" data-reveal>
+  <div>
+    <p class="capitolo-numero">{numero}</p>
+    <h2 set:html={titolo} />
+  </div>
+  {nota && <p class="capitolo-nota">{nota}</p>}
+</div>

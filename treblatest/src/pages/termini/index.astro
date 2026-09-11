@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { site } from '../../data/site';
+---
+
+<Layout title="Termini | Trebla" description="Come lavoriamo: proposta chiara prima di iniziare, due revisioni incluse, il sito resta tuo." canonical="/termini" noindex={true}>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Note legali</p>
+      <h1 id="titolo">Termini, <em>semplici.</em></h1>
+    </section>
+    <section class="sezione prosa" style="padding-block-start:0" aria-label="Termini di servizio">
+      <h2>La proposta</h2>
+      <p>Prima di iniziare ricevi prezzo e tempi scritti. Il preventivo online dà una stima indicativa; la proposta definitiva arriva dopo aver parlato dell’attività.</p>
+      <h2>Le revisioni</h2>
+      <p>Due giri di correzioni sono inclusi prima della pubblicazione. Revisioni ulteriori o modifiche dopo la pubblicazione si concordano a parte.</p>
+      <h2>Proprietà</h2>
+      <p>A lavoro pagato, il sito è tuo. Non applichiamo canoni obbligatori: dominio e hosting restano contratti tuoi con i fornitori.</p>
+      <h2>Materiali</h2>
+      <p>Testi, foto e marchi che ci fornisci restano tuoi e dichiari di poterceli dare. Quello che creiamo noi per il sito te lo consegniamo in formati usabili.</p>
+      <h2>Contatti</h2>
+      <p>Per qualsiasi questione: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </section>
+  </div>
+</Layout>

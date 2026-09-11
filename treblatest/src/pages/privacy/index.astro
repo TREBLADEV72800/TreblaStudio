@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { site } from '../../data/site';
+---
+
+<Layout title="Privacy | Trebla" description="Come trattiamo i tuoi dati: solo quelli che ci mandi per il preventivo, niente tracking, niente rivendita." canonical="/privacy" noindex={true}>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Note legali</p>
+      <h1 id="titolo">Privacy, <em>in chiaro.</em></h1>
+    </section>
+    <section class="sezione prosa" style="padding-block-start:0" aria-label="Informativa privacy">
+      <p>Ultimo aggiornamento: settembre 2026.</p>
+      <h2>Quali dati raccogliamo</h2>
+      <p>Solo quelli che ci mandi tu: nome dell’attività, tipo di attività, scelte del preventivo ed eventuali note, quando ci contatti via WhatsApp o email. Questo sito non usa cookie di profilazione né strumenti di tracciamento pubblicitario.</p>
+      <h2>Perché li usiamo</h2>
+      <p>Per prepararti la proposta e risponderti. Nient’altro: non li vendiamo, non li cediamo, non li usiamo per newsletter che non hai chiesto.</p>
+      <h2>Quanto li teniamo</h2>
+      <p>Il tempo necessario a gestire la richiesta e gli obblighi di legge. Puoi chiederci in qualsiasi momento di cancellarli scrivendo a <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <h2>I tuoi diritti</h2>
+      <p>Accesso, rettifica, cancellazione, limitazione e opposizione, come previsto dal Regolamento (UE) 2016/679. Per esercitarli basta un’email a <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <h2>Titolare</h2>
+      <p>Trebla — Studio indipendente, Asti ({site.email}).</p>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Capitolo from '../../components/Capitolo.astro';
+import { site } from '../../data/site';
+---
+
+<Layout
+  title="Servizi — Sito web, social, grafiche | Trebla"
+  description="Tre servizi, combinabili: sito web da 300 €, gestione social e grafiche coordinate. Parti da quello che ti serve, il resto quando vuoi."
+  canonical="/servizi"
+>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Servizi</p>
+      <h1 id="titolo">Tre cose, <em>fatte bene.</em></h1>
+      <p class="lead">Non un catalogo infinito. Il sito al centro, il resto solo se ti serve davvero.</p>
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/preventivo">Fai il preventivo · 2 min</a>
+      </div>
+    </section>
+
+    <section class="sezione" style="padding-block-start:0" aria-label="Dettaglio servizi">
+      <article class="servizio" id="sito">
+        <span class="servizio-num">01</span>
+        <div>
+          <h2 style="font:600 clamp(1.7rem,3.4vw,2.5rem)/1.05 var(--serif);margin:0">Sito web</h2>
+          <span class="servizio-prezzo">da <b>300 €</b> · pagina singola — <b>400 €</b> · più pagine</span>
+        </div>
+        <div class="servizio-testo">
+          <p>Il tuo indirizzo su internet. <strong>Chi ti cerca trova orari giusti, menu leggibile e un modo per contattarti</strong> — dal telefono, in pochi secondi.</p>
+          <div class="due-colonne">
+            <div><h4>Cosa c’è dentro</h4><ul><li>Impostazione e testi fatti insieme</li><li>Telefono, WhatsApp, mappa, orari</li><li>Menu, galleria, prenotazioni se servono</li><li>Veloce su ogni telefono</li></ul></div>
+            <div><h4>Extra tipici</h4><ul><li>Menu con QR · +10 €</li><li>Prenotazioni WhatsApp · +10 €</li><li>Testi scritti con te · +30 €</li><li>Google Business + mappe · +30 €</li></ul></div>
+          </div>
+          <a class="link-freccia" href="/preventivo">Configura il tuo sito →</a>
+        </div>
+      </article>
+
+      <article class="servizio" id="social">
+        <span class="servizio-num">02</span>
+        <div>
+          <h2 style="font:600 clamp(1.7rem,3.4vw,2.5rem)/1.05 var(--serif);margin:0">Social</h2>
+          <span class="servizio-prezzo">solo se ti serve · <b>su preventivo</b></span>
+        </div>
+        <div class="servizio-testo">
+          <p>Ha senso <strong>dopo</strong> avere un sito a posto: i social portano gente, il sito la accoglie. Profili in ordine e contenuti regolari, senza rubarti le serate.</p>
+          <div class="due-colonne">
+            <div><h4>Cosa c’è dentro</h4><ul><li>Profili sistemati da zero</li><li>Foto, brevi video, grafiche</li><li>Pubblicazioni regolari concordate</li></ul></div>
+            <div class="col-no"><h4>Cosa non promettiamo</h4><ul><li>Follower comprati</li><li>Viralità garantita</li></ul></div>
+          </div>
+          <a class="link-freccia" href="/preventivo">Valuta i social →</a>
+        </div>
+      </article>
+
+      <article class="servizio" id="grafiche">
+        <span class="servizio-num">03</span>
+        <div>
+          <h2 style="font:600 clamp(1.7rem,3.4vw,2.5rem)/1.05 var(--serif);margin:0">Grafiche</h2>
+          <span class="servizio-prezzo">solo se ti serve · <b>su preventivo</b></span>
+        </div>
+        <div class="servizio-testo">
+          <p>La stessa faccia ovunque: <strong>sito, vetrina, biglietti, menu cartaceo</strong>. Così chi ti ha visto online ti riconosce quando passa davanti.</p>
+          <div class="due-colonne">
+            <div><h4>Cosa c’è dentro</h4><ul><li>Logo creato o rinnovato · +20 €</li><li>Biglietti pronti per la stampa · +10 €</li><li>Volantini, locandine, menu · +20 €</li></ul></div>
+            <div class="col-no"><h4>Cosa evitiamo</h4><ul><li>Effetti alla moda che invecchiano</li><li>File che solo noi possiamo aprire</li></ul></div>
+          </div>
+          <a class="link-freccia" href="/preventivo">Valuta le grafiche →</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="sezione" aria-label="Come si combinano">
+      <Capitolo
+        numero="Come si combinano"
+        titolo="Da soli o <em>insieme.</em>"
+        nota="Ogni servizio funziona da solo. Insieme costano meno sbatti, non di più."
+      />
+      <ol class="righe">
+        <li><span class="righe-num">A</span><h3>Solo il sito</h3><p>Il punto di partenza per farti trovare e contattare. Il resto più avanti, se serve.</p></li>
+        <li><span class="righe-num">B</span><h3>Sito + social</h3><p>I social portano gente, il sito la trasforma in clienti. Li pensiamo insieme.</p></li>
+        <li><span class="righe-num">C</span><h3>Tutto coordinato</h3><p>Sito, social e grafiche con la stessa faccia. Per chi riparte da zero e vuole farlo una volta sola.</p></li>
+      </ol>
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/preventivo">Fai il preventivo · 2 min</a>
+        <a class="btn btn-fantasma" href={`/contatti`}>Parlane con noi</a>
+      </div>
+      <p class="hero-firma">Preferisci parlare? WhatsApp · {site.phoneDisplay}</p>
+    </section>
+  </div>
+</Layout>
