@@ -31,6 +31,7 @@
     btn.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu — 5 voci');
     btn.classList.toggle('menu-active', open);
     nav.classList.toggle('nav-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
     if (open) {
       const first = nav.querySelector('a');
       first && first.focus();
