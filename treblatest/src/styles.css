@@ -150,16 +150,16 @@ a { color: inherit; }
 }
 .marchio {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
   margin-inline-end: auto;
 }
-.marchio-nome {
-  font: 600 1.7rem/1 var(--serif);
-  letter-spacing: -0.02em;
+.marchio img {
+  display: block;
+  height: 46px;
+  width: auto;
 }
-.marchio-nome i { font-style: normal; color: var(--mattone); }
 .marchio-luogo {
   font: 500 0.68rem/1 var(--mono);
   letter-spacing: 0.14em;
@@ -204,21 +204,34 @@ a { color: inherit; }
 
 .nav-mobile {
   display: none;
-  border-block-start: 1px solid var(--linea);
-  padding: 12px var(--margine) 20px;
-  background: var(--carta);
 }
-.nav-mobile.aperto { display: block; }
+.nav-mobile.aperto {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 73px 0 0 0;
+  z-index: 99;
+  background: var(--carta);
+  padding: 10px var(--margine) calc(28px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+}
 @media (min-width: 960px) { .nav-mobile.aperto { display: none; } }
 .nav-mobile a {
   display: block;
   text-decoration: none;
-  font: 600 1.35rem/1.2 var(--serif);
-  letter-spacing: -0.01em;
-  padding: 12px 0;
+  font: 600 clamp(2rem, 9vw, 2.6rem)/1.15 var(--serif);
+  letter-spacing: -0.015em;
+  padding: 13px 0;
   border-block-end: 1px solid var(--linea);
 }
-.nav-mobile a:last-of-type { border-block-end: 0; }
+.nav-mobile a.btn {
+  font: 700 1rem/1.2 var(--sans);
+  letter-spacing: 0;
+  text-align: center;
+  border: 1px solid transparent;
+  margin-block-start: 22px;
+  padding: 15px 26px;
+}
 
 /* ---------- 5. Bottoni ---------- */
 .btn {
@@ -649,23 +662,27 @@ a { color: inherit; }
 .faq .risposta { padding: 0 4px 24px; color: var(--morbido); max-inline-size: 68ch; }
 .faq .risposta p { margin: 0; }
 
-/* ---------- 15. Footer ---------- */
+/* ---------- 15. Footer compatto ---------- */
 .piede {
   background: var(--notte);
   color: var(--notte-carta);
-  padding: clamp(56px, 7vw, 96px) 0 28px;
+  padding: 38px 0 16px;
 }
-.piede-marchio {
-  font: 600 clamp(3rem, 10vw, 7rem)/0.95 var(--serif);
-  letter-spacing: -0.03em;
-  margin: 0;
+.piede-logo {
+  display: inline-block;
+  text-decoration: none;
 }
-.piede-marchio i { font-style: normal; color: var(--mattone-chiaro); }
+.piede-logo img {
+  display: block;
+  height: 42px;
+  width: auto;
+  filter: invert(1);
+}
 .piede-riga {
   display: grid;
-  gap: 32px;
-  margin-block-start: 40px;
-  padding-block-start: 32px;
+  gap: 24px;
+  margin-block-start: 26px;
+  padding-block-start: 22px;
   border-block-start: 1px solid var(--linea-scura);
 }
 @media (min-width: 860px) { .piede-riga { grid-template-columns: 1.2fr 1fr 1fr; } }
@@ -687,10 +704,10 @@ a { color: inherit; }
 .piede-fondo {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 24px;
+  gap: 8px 24px;
   justify-content: space-between;
-  margin-block-start: 40px;
-  padding-block-start: 20px;
+  margin-block-start: 22px;
+  padding-block-start: 14px;
   border-block-start: 1px solid var(--linea-scura);
   font: 500 0.78rem/1.6 var(--mono);
   color: var(--notte-morbido);
@@ -735,8 +752,15 @@ a { color: inherit; }
   overflow-wrap: anywhere;
 }
 
-/* ---------- 17. Preventivo wizard ---------- */
-.wizard { padding-block: clamp(32px, 5vw, 72px) var(--sezione); }
+/* ---------- 17. Preventivo wizard (full page) ---------- */
+.wizard {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-block: clamp(24px, 4vw, 48px) var(--sezione);
+}
+.wizard-corpo { flex: 1 1 auto; }
 .wizard-testa {
   display: flex;
   align-items: baseline;

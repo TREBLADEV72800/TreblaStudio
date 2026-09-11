@@ -95,6 +95,7 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="twitter:description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />
     <meta name="theme-color" content="#1d1712" />
     <script type="application/ld+json" set:html={JSON.stringify([...baseLd, ...extraLd])} />
     <slot name="head" />
