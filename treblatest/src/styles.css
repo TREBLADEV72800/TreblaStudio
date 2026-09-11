@@ -214,6 +214,7 @@ a { color: inherit; }
   background: var(--carta);
   padding: 10px var(--margine) calc(28px + env(safe-area-inset-bottom));
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 @media (min-width: 960px) { .nav-mobile.aperto { display: none; } }
 .nav-mobile a {

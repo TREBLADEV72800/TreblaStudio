@@ -45,12 +45,18 @@ const active = (href: string) =>
   const menu = document.getElementById('menu-mobile');
   let aperto = false;
 
+  function bloccaScroll(v: boolean) {
+    // Il blocco va messo anche su <html>: su mobile è lui a scorrere, non il body.
+    document.body.style.overflow = v ? 'hidden' : '';
+    document.documentElement.style.overflow = v ? 'hidden' : '';
+  }
+
   function imposta(v: boolean) {
     aperto = v;
     btn?.setAttribute('aria-expanded', String(v));
     btn?.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
     menu?.classList.toggle('aperto', v);
-    document.body.style.overflow = v ? 'hidden' : '';
+    bloccaScroll(v);
     if (v) menu?.querySelector('a')?.focus();
   }
 
