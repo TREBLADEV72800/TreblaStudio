@@ -1,44 +1,73 @@
 ---
 import '../styles.css';
-import '@fontsource/dm-mono/latin-400.css';
-import '@fontsource/dm-mono/latin-500.css';
-import '@fontsource/manrope/latin-400.css';
-import '@fontsource/manrope/latin-500.css';
-import '@fontsource/manrope/latin-600.css';
-import '@fontsource/manrope/latin-700.css';
-import '@fontsource/manrope/latin-800.css';
-import '@fontsource/playfair-display/latin-600.css';
-import '@fontsource/playfair-display/latin-700.css';
-import '@fontsource/playfair-display/latin-600-italic.css';
-import '@fontsource/playfair-display/latin-700-italic.css';
+import '@fontsource/fraunces/latin-600.css';
+import '@fontsource/fraunces/latin-600-italic.css';
+import '@fontsource/archivo/latin-400.css';
+import '@fontsource/archivo/latin-500.css';
+import '@fontsource/archivo/latin-700.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-700.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import WhatsAppIcon from '../components/WhatsAppIcon.astro';
-import { site } from '../data/site';
+import { site, canonicalUrl } from '../data/site';
+import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
+import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
-  image?: string;
   noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
-  title = site.name + ' — Siti Web per Piccole Imprese in Piemonte | Asti',
+  title = 'Trebla: Siti web chiari per piccole attività | Asti',
   description = site.description,
   canonical = '/',
-  image = site.image,
   noindex = false,
+  jsonLd,
 } = Astro.props;
 
-const siteUrl = site.url.replace(/\/$/, '');
-const canonicalUrl = canonical.startsWith('http') ? canonical : `${siteUrl}${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
-const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
-const titleFull = title.includes('|') || title === site.name ? title : `${title} | ${site.shortName}`;
-const orgId = `${siteUrl}/#organization`;
-const lbId = `${siteUrl}/#localbusiness`;
-const logoUrl = `${siteUrl}${site.image}`;
+const canonicalHref = canonicalUrl(canonical);
+const titleFull = title === site.name ? title : title.includes('Trebla') ? title : `${title} · Trebla`;
+const baseLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${site.url}/#studio`,
+    name: 'Trebla',
+    url: `${site.url}/`,
+    description: 'Studio indipendente ad Asti: siti web, grafiche e social media per piccole attività.',
+    email: site.email,
+    areaServed: { '@type': 'City', name: 'Asti' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${site.url}/#servizio`,
+    name: 'Trebla, Studio web ad Asti',
+    url: `${site.url}/`,
+    priceRange: '€€',
+    email: site.email,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Asti',
+      addressCountry: 'IT',
+    },
+    areaServed: { '@type': 'City', name: 'Asti' },
+    currenciesAccepted: 'EUR',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Trebla',
+    url: `${site.url}/`,
+    inLanguage: 'it',
+  },
+];
+const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
@@ -48,84 +77,61 @@ const logoUrl = `${siteUrl}${site.image}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titleFull}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
-    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
+    <link rel="canonical" href={canonicalHref} />
+    {noindex
+      ? <meta name="robots" content="noindex, nofollow" />
+      : <meta name="robots" content="index, follow" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={site.locale} />
-    <meta property="og:site_name" content={site.name} />
+    <meta property="og:site_name" content="Trebla" />
     <meta property="og:title" content={titleFull} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1360" />
-    <meta property="og:image:height" content="768" />
-    <meta property="og:image:alt" content={site.name} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:image" content={`${site.url}/og-trebla.jpg`} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Trebla, studio web ad Asti" />
     <meta name="twitter:card" content={site.twitterCard} />
+    <meta name="twitter:image" content={`${site.url}/og-trebla.jpg`} />
     <meta name="twitter:title" content={titleFull} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
-    <link rel="icon" type="image/png" href="/trebla-logo-transparent.png" />
-    <link rel="preload" as="image" href="/trebla-logo.webp" imagesrcset="/trebla-logo.webp" fetchpriority="high" />
-    <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"Organization","@id":orgId,"name":site.name,"url":`${siteUrl}/`,"logo":logoUrl,"description":"Trebla Studio — team di 2 giovani ad Asti: siti web, social e design. Prezzo chiaro da 300 €, tempi concordati.","email":site.email,"telephone":site.phone,"areaServed":{"@type":"AdministrativeArea","name":site.area}})} />
-    <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"LocalBusiness","@id":lbId,"name":site.name,"url":`${siteUrl}/`,"image":logoUrl,"priceRange":"€€","description":"Team di 2 ad Asti: Albert Simoni (dev) + Gabriel Santospirito (design/SMM). Siti web, social, design per piccole imprese in Piemonte — Asti. Su appuntamento, lingue IT/EN.","email":site.email,"telephone":site.phone,"address":{"@type":"PostalAddress","addressRegion":site.address.region,"addressLocality":site.address.locality,"addressCountry":site.address.country},"areaServed":[{"@type":"City","name":site.city},{"@type":"AdministrativeArea","name":site.area}],"currenciesAccepted":"EUR","paymentAccepted":"Cash, Bank Transfer"})} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" href={archivo400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fraunces600} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fraunces600Italic} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />
+    <meta name="theme-color" content="#1d1712" />
+    <script type="application/ld+json" set:html={JSON.stringify([...baseLd, ...extraLd])} />
+    <noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
     <slot name="head" />
   </head>
   <body>
+    <a class="salto" href="#contenuto">Salta al contenuto</a>
     <Header />
-    <main id="main"><slot /></main>
+    <main id="contenuto"><slot /></main>
     <Footer />
-
-    <!-- Quick contact modal (vanilla JS island) -->
-    <div id="quick-overlay" class="modal-overlay" style="display:none">
-      <form id="quick-modal" class="quick-modal" role="dialog" aria-modal="true" aria-labelledby="quick-title">
-        <p class="modal-kicker">Parliamone subito</p>
-        <h3 id="quick-title">Come si chiama<br />la tua attività?</h3>
-        <label for="quick-name" style="position:absolute;left:-9999px">Nome attività</label>
-        <input id="quick-name" required placeholder="Es. Trattoria da Mario" maxlength="80" aria-required="true" />
-        <button class="wa-cta modal-wa" type="submit"><WhatsAppIcon /> Scrivici su WhatsApp</button>
-        <button type="button" class="modal-close" id="quick-close">Annulla</button>
-      </form>
-    </div>
-
     <script>
-      const overlay = document.getElementById('quick-overlay');
-      const modal = document.getElementById('quick-modal');
-      const input = document.getElementById('quick-name');
-      const openBtn = document.getElementById('quick-open');
-      const closeBtn = document.getElementById('quick-close');
-      let trigger = null;
-      const whatsapp = '393518924471';
-      function openQuick() {
-        trigger = document.activeElement;
-        if (overlay) overlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => input && input.focus(), 0);
+      // Reveal sobrio: una sola IntersectionObserver per tutto il sito.
+      const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!ridotto && 'IntersectionObserver' in window) {
+        const els = document.querySelectorAll('[data-reveal]');
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('visibile');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('visibile'));
       }
-      function closeQuick() {
-        if (overlay) overlay.style.display = 'none';
-        document.body.style.overflow = '';
-        const el = document.getElementById('quick-name');
-        if (el) el.value = '';
-        trigger && trigger.focus();
-      }
-      openBtn?.addEventListener('click', openQuick);
-      closeBtn?.addEventListener('click', closeQuick);
-      overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeQuick(); });
-      modal?.addEventListener('click', (e) => e.stopPropagation());
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay && overlay.style.display !== 'none') closeQuick(); });
-      modal?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const el = document.getElementById('quick-name');
-        const val = el ? el.value.trim().slice(0,80) : '';
-        if (!val || val.length < 2) return;
-        const msg = `Ciao Trebla Studio! La mia attività si chiama: ${val}. Vorrei farla conoscere, parliamone!`;
-        if (msg.length > 1800) return;
-        window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
-        closeQuick();
-      });
     </script>
-    <style is:global>
-      .skip-link:focus { left: 12px !important; top: 12px !important; width: auto !important; height: auto !important; overflow: visible !important; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 6px; z-index: 9999; }
-    </style>
   </body>
 </html>

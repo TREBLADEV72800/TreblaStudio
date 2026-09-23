@@ -1,53 +1,96 @@
 ---
+const path = Astro.url.pathname;
+const active = (href: string) =>
+  href === '/' ? (path === '/' ? 'page' : undefined) : path.startsWith(href) ? 'page' : undefined;
 ---
-<header class="header">
-  <a href="#main" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Salta al contenuto</a>
-  <a class="logo" href="/" aria-label="Trebla Studio - torna alla homepage">
-    <img src="/trebla-logo.webp" alt="Trebla Studio — Siti web per piccole imprese in Piemonte" width="123" height="70" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:contain" />
-  </a>
-  <nav id="main-nav" class="nav" aria-label="Navigazione principale">
-    <a href="/" data-nav>Home</a>
-    <a href="/servizi" data-nav>Servizi</a>
-    <a href="/chi-siamo" data-nav>Chi siamo</a>
-    <a href="/prezzi" data-nav>Prezzi</a>
-    <a href="/faq" data-nav>FAQ</a>
-    <a href="/contatti" data-nav>Contatti</a>
-    <a class="nav-mobile-cta" href="/preventivo" data-nav>Configura il preventivo</a>
+
+<header class="sopra">
+  <div class="sopra-riga">
+    <span class="marchio">
+      <img src="/trebla-logo.webp" alt="Trebla, Studio web ad Asti" width="1360" height="768" fetchpriority="high" decoding="async" />
+      <span class="marchio-luogo">studio · Asti</span>
+    </span>
+    <nav class="nav" aria-label="Navigazione principale">
+      <a href="/" aria-current={active('/')}>Home</a>
+      <a href="/servizi" aria-current={active('/servizi')}>Servizi</a>
+      <a href="/prezzi" aria-current={active('/prezzi')}>Prezzi</a>
+      <a href="/chi-siamo" aria-current={active('/chi-siamo')}>Studio</a>
+      <a href="/faq" aria-current={active('/faq')}>Domande</a>
+      <a href="/contatti" aria-current={active('/contatti')}>Contatti</a>
+    </nav>
+    <a class="btn btn-mattone btn-piccolo" href="/preventivo">Preventivo in 2 minuti</a>
+    <button
+      type="button"
+      class="menu-bottone"
+      id="menu-bottone"
+      aria-expanded="false"
+      aria-controls="menu-mobile"
+      aria-label="Apri il menu"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="nav-mobile" id="menu-mobile" aria-label="Navigazione mobile">
+    <a href="/" aria-current={active('/')}>Home</a>
+    <a href="/servizi" aria-current={active('/servizi')}>Servizi</a>
+    <a href="/prezzi" aria-current={active('/prezzi')}>Prezzi</a>
+    <a href="/chi-siamo" aria-current={active('/chi-siamo')}>Studio</a>
+    <a href="/faq" aria-current={active('/faq')}>Domande</a>
+    <a href="/contatti" aria-current={active('/contatti')}>Contatti</a>
+    <a class="btn btn-mattone" href="/preventivo">Preventivo in 2 minuti</a>
   </nav>
-  <button type="button" class="header-cta" id="quick-open" aria-label="Scrivici su WhatsApp">Scrivici su WhatsApp</button>
-  <button id="menu-btn" class="menu" aria-label="Apri il menu — 5 voci" aria-expanded="false" aria-controls="main-nav">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
 <script>
-  const btn = document.getElementById('menu-btn');
-  const nav = document.getElementById('main-nav');
-  let open = false;
-  function setOpen(v) {
-    open = v;
-    if (!btn || !nav) return;
-    btn.setAttribute('aria-expanded', String(open));
-    btn.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu — 5 voci');
-    btn.classList.toggle('menu-active', open);
-    nav.classList.toggle('nav-open', open);
-    if (open) {
-      const first = nav.querySelector('a');
-      first && first.focus();
+  const btn = document.getElementById('menu-bottone');
+  const menu = document.getElementById('menu-mobile');
+  let aperto = false;
+  let scrollY = 0;
+
+  function bloccaScroll(v: boolean) {
+    // Blocco vero: su iOS `overflow:hidden` da solo non basta,
+    // la pagina dietro continuerebbe a scorrere e si vedrebbe sotto il menu.
+    // Fissiamo il body e ripristiniamo la posizione alla chiusura.
+    if (v) {
+      scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.classList.add('menu-aperto');
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      document.documentElement.style.overflow = 'hidden';
+      if (menu) menu.scrollTop = 0;
+    } else {
+      document.body.classList.remove('menu-aperto');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.documentElement.style.overflow = '';
+      window.scrollTo(0, scrollY);
     }
   }
-  btn?.addEventListener('click', () => setOpen(!open));
-  nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+
+  function imposta(v: boolean) {
+    aperto = v;
+    btn?.setAttribute('aria-expanded', String(v));
+    btn?.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
+    menu?.classList.toggle('aperto', v);
+    bloccaScroll(v);
+    if (v) menu?.querySelector('a')?.focus();
+  }
+
+  btn?.addEventListener('click', () => imposta(!aperto));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => imposta(false)));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && open) {
-      setOpen(false);
-      btn?.focus();
+    if (e.key === 'Escape' && aperto) {
+      imposta(false);
+      (btn as HTMLElement | null)?.focus();
     }
   });
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 760 && open) setOpen(false);
+    if (window.innerWidth >= 960 && aperto) imposta(false);
   });
-  // quick modal trigger is handled in Layout, but keep id for access
-  const quickBtn = document.getElementById('quick-open');
-  // will be handled by Layout script via custom event
 </script>

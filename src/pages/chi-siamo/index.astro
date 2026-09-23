@@ -1,41 +1,60 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Capitolo from '../../components/Capitolo.astro';
+import { site, whatsappUrl } from '../../data/site';
 ---
-<Layout title="Chi siamo e Lavori — Trebla Studio | Asti" description="Trebla Studio nasce ad Asti: Albert (sviluppo) e Gabriel (design). Un progetto pubblicato: Pikete Label, etichetta musicale." canonical="/chi-siamo">
-  <section class="section" style="background:#fff">
-    <p class="section-label">Chi siamo</p>
-    <div class="section-intro">
-      <h1>Il team dietro<br /><em>Trebla Studio.</em></h1>
-      <p>Trebla Studio nasce ad Asti dall’incontro tra sviluppo, design e comunicazione.</p>
-    </div>
-    <div class="team-grid">
-      <div style="border:1px solid var(--line);border-radius:8px;padding:18px;background:#fbfbf9">
-        <strong style="font-size:14px">Albert Simoni, Sviluppo</strong>
-        <p style="font-size:13px;color:var(--muted);margin:8px 0 0;line-height:1.5">HTML, CSS, TypeScript, React, Vercel. Gestisce progetto, codice e pubblicazione.</p>
-      </div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:18px;background:#fbfbf9">
-        <strong style="font-size:14px">Gabriel Santospirito, Design & SMM</strong>
-        <p style="font-size:13px;color:var(--muted);margin:8px 0 0;line-height:1.5">Grafiche, identità, contenuti social.</p>
-      </div>
-      <div style="border:1px solid var(--line);border-radius:8px;padding:18px;background:#fbfbf9">
-        <strong style="font-size:14px">Dove operiamo</strong>
-        <p style="font-size:13px;color:var(--muted);margin:8px 0 0;line-height:1.5">Asti, su appuntamento.<br />Area: Asti e Piemonte.</p>
-      </div>
-    </div>
-  </section>
 
-  <section id="lavori" class="section portfolio-section" style="border-top:1px solid var(--line)">
-    <p class="section-label">Lavori</p>
-    <div class="section-intro">
-      <h2>Lo abbiamo<br /><em>già fatto.</em></h2>
-      <p>Un progetto pubblicato, curato in ogni dettaglio.</p>
-    </div>
-    <a class="portfolio-feature" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
-      <span class="portfolio-kicker">Pikete Label, Etichetta musicale</span>
-      <strong>Pikete Label</strong>
-      <span class="portfolio-sub">Asti / Alessandrino · Sito vetrina + catalogo artisti</span>
-      <p style="margin-top:8px">Design, sviluppo e gestione del sito vetrina responsive.</p>
-      <span class="portfolio-cta"><span>Visita il sito →</span></span>
-    </a>
-  </section>
+<Layout
+  title="Lo studio: Albert e Gabriel, Asti | Trebla"
+  description="Trebla è uno studio indipendente ad Asti: Albert (sviluppo) e Gabriel (design e social). Un lavoro pubblicato: Pikete Label."
+  canonical="/chi-siamo"
+>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Lo studio</p>
+      <h1 id="titolo">Due persone, <em>un metodo chiaro</em></h1>
+      <p class="lead">Siamo ad Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo un sito che ti somiglia, senza farti perdere giornate.</p>
+    </section>
+
+    <section class="sezione" style="padding-block-start:0" aria-label="Il team">
+      <div class="persone">
+        <div class="persona">
+          <h2 style="font:600 1.4rem/1.2 var(--serif);margin:0">Albert</h2>
+          <p class="persona-ruolo">Sviluppo · progetto</p>
+          <p>Scrive il codice, pubblica il sito e segue il progetto dall’inizio alla fine. È lui che ti risponde quando scrivi: niente passaggi di mano.</p>
+        </div>
+        <div class="persona">
+          <h2 style="font:600 1.4rem/1.2 var(--serif);margin:0">Gabriel</h2>
+          <p class="persona-ruolo">Design · social</p>
+          <p>Disegna l’aspetto e prepara i contenuti: grafiche, foto, social. Se il sito sembra curato, è perché l’ha guardato lui prima di te.</p>
+        </div>
+      </div>
+
+      <div class="prosa" style="margin-block-start:24px">
+        <h2>Come la pensiamo</h2>
+        <p>Una piccola attività non ha bisogno di un “ecosistema digitale”. Ha bisogno che <strong>chi la cerca la trovi, capisca subito di cosa si tratta e possa contattarla senza impazzire</strong>. Tutto quello che facciamo serve a questo. Il resto lo tagliamo.</p>
+        <h2>Dove operiamo</h2>
+        <p>Base ad Asti, su appuntamento. Operiamo solo qui: veniamo sul posto, in città.</p>
+      </div>
+    </section>
+
+    <section class="sezione" aria-label="Lavori">
+      <Capitolo
+        numero="Lavori"
+        titolo="Quello che abbiamo <em>pubblicato</em>"
+        nota="Niente numeri inventati: ti mostriamo il lavoro vero, così giudichi tu."
+      />
+      <a class="lavoro" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer">
+        <p class="lavoro-kicker">Etichetta musicale astigiana</p>
+        <h3 style="font:600 clamp(1.6rem,3.4vw,2.4rem)/1.05 var(--serif);margin:0">Pikete Label</h3>
+        <p>Sito vetrina con catalogo artisti: design, sviluppo e gestione. Responsive, veloce, aggiornato da noi insieme all’etichetta.</p>
+        <span class="link-freccia">Visita il sito →</span>
+      </a>
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/preventivo">Il prossimo può essere il tuo in 2 minuti</a>
+        <a class="btn btn-fantasma" href={whatsappUrl('Ciao Trebla! Ho visto il sito di Pikete Label, vorrei qualcosa per la mia attività.')} target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp</a>
+      </div>
+      <p class="hero-firma">{site.email}</p>
+    </section>
+  </div>
 </Layout>

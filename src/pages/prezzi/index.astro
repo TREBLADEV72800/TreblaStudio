@@ -1,34 +1,105 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Capitolo from '../../components/Capitolo.astro';
+import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS } from '../../data/prezzi';
 ---
-<Layout title="Prezzi chiari — Trebla Studio | Asti" description="Prezzi chiari: parti da 300 €, dettaglio incluso, tempi concordati, nessun canone obbligatorio. Il sito è tuo." canonical="/prezzi">
-  <section class="section price-section">
-    <p class="section-label">Prezzi chiari</p>
-    <div class="price-grid">
-      <div>
-        <h1>Una proposta<br /><em>alla tua portata.</em></h1>
-        <p>Parli direttamente con chi costruisce il tuo sito. Prezzo indicato prima di iniziare.</p>
-        <a class="button button-light" href="/preventivo">Configura il preventivo</a>
+
+<Layout
+  title="Prezzi chiari da 300 € | Trebla"
+  description="Prezzi chiari Trebla: pagina singola da 300 €, sito a più pagine da 400 €. Due revisioni incluse, nessun canone obbligatorio, il sito è tuo."
+  canonical="/prezzi"
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Realizzazione siti web per piccole attività, Trebla',
+    provider: { '@id': 'https://treblastudio.vercel.app/#studio' },
+    areaServed: 'Asti, IT',
+    offers: [
+      { '@type': 'Offer', name: 'Pagina singola', price: '300', priceCurrency: 'EUR' },
+      { '@type': 'Offer', name: 'Sito a più pagine', price: '400', priceCurrency: 'EUR' },
+    ],
+  }}
+>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Prezzi</p>
+      <h1 id="titolo">Due prezzi di partenza<br /><em>Niente sorprese</em></h1>
+      <p class="lead">Tutto per andare online. Gli extra li vedi prima nel preventivo.</p>
+    </section>
+
+    <section class="sezione" style="padding-block-start:0" aria-label="Prezzi base">
+      <div class="prezzi-griglia">
+        <div class="prezzo">
+          <p class="prezzo-kicker">Per iniziare</p>
+          <h2 style="font:600 clamp(1.5rem,2.6vw,2rem)/1.1 var(--serif);margin:0">Pagina singola</h2>
+          <p class="prezzo-cifra">300 €</p>
+          <ul>
+            <li>Tutto l’essenziale in una pagina che scorre</li>
+            <li>Chi sei, cosa fai, dove sei, come contattarti</li>
+            <li>Telefono, WhatsApp e mappa in vista</li>
+          </ul>
+          <p class="prezzo-nota">Perfetta per: artigiani, professionisti, piccole botteghe che devono farsi trovare e contattare.</p>
+        </div>
+        <div class="prezzo prezzo-evidenza">
+          <p class="prezzo-kicker">Il più scelto</p>
+          <h2 style="font:600 clamp(1.5rem,2.6vw,2rem)/1.1 var(--serif);margin:0">Sito a più pagine</h2>
+          <p class="prezzo-cifra">400 €</p>
+          <ul>
+            <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
+            <li>Menu, prenotazioni, eventi se ti servono</li>
+            <li>Telefono, WhatsApp e mappa in vista</li>
+          </ul>
+            <p class="prezzo-nota">Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</p>
+        </div>
       </div>
-      <ul>
-        <li><b>Prezzo chiaro</b><span>Con dettaglio di cosa è incluso.</span></li>
-        <li><b>Tempi concordati</b><span>Definiti dopo i materiali.</span></li>
-        <li><b>Nessun canone Trebla obbligatorio</b><span>Il sito è tuo.</span></li>
+      <p class="prezzo-nota" data-reveal style="margin:14px 0 0">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis e due revisioni. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+20 €) o partire da zero.</p>
+      <div class="hero-azioni" data-reveal style="margin-block-start:16px">
+        <a class="btn btn-mattone" href="/preventivo">Configura il tuo prezzo</a>
+      </div>
+    </section>
+
+    <section class="sezione" aria-label="Extra">
+      <Capitolo
+        numero="Extra"
+        titolo="Solo quello <em>che ti serve</em>"
+        nota="Ogni extra ha il suo prezzo, visibile nel preventivo prima che tu decida."
+      />
+      <h3 style="font:600 1.3rem var(--serif);margin:0 0 4px">Per il sito</h3>
+      <ul class="extra-lista">
+        {SITE_EXTRAS.map((e) => (
+          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">+{e.price} €</span></li>
+        ))}
       </ul>
-    </div>
-    <div class="prezzi-detail-grid" style="margin-top:32px;border-top:1px solid rgba(255,255,255,0.18);padding-top:24px;gap:24px;font-size:13px;line-height:1.6">
-      <div>
-        <strong style="display:block;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#b7d6e2;margin-bottom:8px">Cosa include “da 300 €”</strong>
-        <span style="color:#d5e4e9">• 1 pagina singola fluida (o multi,pagina da 400 €)<br />• Design responsive, testi con il cliente<br />• Contatti diretti, mappa<br />• Proprietà del sito</span>
+      <h3 style="font:600 1.3rem var(--serif);margin:24px 0 4px">Per le grafiche</h3>
+      <p class="prezzo-nota" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
+      <ul class="extra-lista">
+        {DESIGN_OPTIONS.map((e) => (
+          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price} €</span></li>
+        ))}
+      </ul>
+      <h3 style="font:600 1.3rem var(--serif);margin:24px 0 4px">Per i social media</h3>
+      <ul class="extra-lista">
+        {SOCIAL_OPTIONS.map((e) => (
+          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price} €</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="sezione" aria-label="Condizioni">
+      <Capitolo
+        numero="Condizioni"
+        titolo="Le regole, <em>in chiaro</em>"
+      />
+      <ol class="righe">
+        <li><span class="righe-num">01</span><h3>Il sito è tuo</h3><p>Nessun canone obbligatorio verso di noi. Dominio e hosting li paghi ai fornitori, al prezzo loro.</p></li>
+        <li><span class="righe-num">02</span><h3>Due revisioni incluse</h3><p>Guardi, correggi, riguardate: due giri completi prima della pubblicazione.</p></li>
+        <li><span class="righe-num">03</span><h3>Tempi concordati</h3><p>Dopo aver visto i materiali ti diciamo una data. In genere una decina di giorni.</p></li>
+        <li><span class="righe-num">04</span><h3>Modifiche dopo</h3><p>Le piccole correzioni te le facciamo noi su richiesta. Prima ti diciamo se e quanto costano.</p></li>
+      </ol>
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/preventivo">Calcola il tuo prezzo in 2 minuti</a>
+        <a class="btn btn-fantasma" href="/faq">Dubbi? Leggi le domande</a>
       </div>
-      <div>
-        <strong style="display:block;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#b7d6e2;margin-bottom:8px">Extra a scelta</strong>
-        <span style="color:#d5e4e9">• Pagine aggiuntive<br />• Funzioni per settore<br />• Social e design su richiesta<br />• Foto sul posto su richiesta</span>
-      </div>
-      <div>
-        <strong style="display:block;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#b7d6e2;margin-bottom:8px">Condizioni principali</strong>
-        <span style="color:#d5e4e9">• Due revisioni incluse<br />• Sito pubblicato su Vercel<br />• Dettagli su dominio e assistenza su richiesta</span>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </Layout>

@@ -1,0 +1,69 @@
+---
+import { site } from '../../data/site';
+
+const stile = `body{margin:0;background:#f7f2e8;color:#1d1712;font:16px/1.65 system-ui,sans-serif;padding:24px 18px 64px}main{max-width:65ch;margin:auto}h1{font-size:1.8rem;line-height:1.15;margin:.4em 0 .6em}h2{font-size:1.4rem;margin:2em 0 .4em}h3{font-size:1.1rem;margin:1.4em 0 .3em}p,li{color:#3a3129}a{color:#b23a12}section{scroll-margin-top:20px}nav{margin:1em 0 2em}nav a{margin-right:16px}`;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Note legali | Trebla</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style set:html={stile} />
+  </head>
+  <body>
+    <main>
+      <p><a href="/">← Trebla</a></p>
+      <h1>Note legali</h1>
+      <nav aria-label="Sezioni legali">
+        <a href="#privacy">Privacy</a>
+        <a href="#cookie">Cookie</a>
+        <a href="#termini">Termini</a>
+      </nav>
+
+      <section id="privacy" aria-label="Privacy">
+        <h2>Privacy, in chiaro</h2>
+        <p>Ultimo aggiornamento: settembre 2026.</p>
+        <h3>Quali dati raccogliamo</h3>
+        <p>Solo quelli che ci mandi tu: nome dell’attività, tipo di attività, scelte del preventivo ed eventuali note, quando ci contatti via WhatsApp o email. Questo sito non usa cookie di profilazione né strumenti di tracciamento pubblicitario.</p>
+        <h3>Perché li usiamo</h3>
+        <p>Per prepararti la proposta e risponderti. Nient’altro: non li vendiamo, non li cediamo, non li usiamo per newsletter che non hai chiesto.</p>
+        <h3>Quanto li teniamo</h3>
+        <p>Il tempo necessario a gestire la richiesta e gli obblighi di legge. Puoi chiederci in qualsiasi momento di cancellarli scrivendo a <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+        <h3>I tuoi diritti</h3>
+        <p>Accesso, rettifica, cancellazione, limitazione e opposizione, come previsto dal Regolamento (UE) 2016/679. Per esercitarli basta un’email a <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+        <h3>Titolare</h3>
+        <p>Trebla, studio indipendente ad Asti ({site.email}).</p>
+      </section>
+
+      <section id="cookie" aria-label="Cookie">
+        <h2>Cookie: quasi niente</h2>
+        <p>Questo sito è statico e non usa cookie di profilazione, pixel pubblicitari o strumenti di analytics comportamentale.</p>
+        <h3>Cosa potrebbe restare sul tuo dispositivo</h3>
+        <ul>
+          <li>Eventuali preferenze tecniche del browser (non nostre).</li>
+          <li>Se clicchi un link verso WhatsApp o altri siti, valgono le loro informative.</li>
+        </ul>
+        <h3>Nessun banner</h3>
+        <p>Non vedrai banner di consenso perché non c’è nulla a cui acconsentire. Se in futuro aggiungeremo strumenti di misura, lo scriveremo qui prima.</p>
+      </section>
+
+      <section id="termini" aria-label="Termini">
+        <h2>Termini, semplici</h2>
+        <h3>La proposta</h3>
+        <p>Prima di iniziare ricevi prezzo e tempi scritti. Il preventivo online dà una stima indicativa; la proposta definitiva arriva dopo aver parlato dell’attività.</p>
+        <h3>Le revisioni</h3>
+        <p>Due giri di correzioni sono inclusi prima della pubblicazione. Revisioni ulteriori o modifiche dopo la pubblicazione si concordano a parte.</p>
+        <h3>Proprietà</h3>
+        <p>A lavoro pagato, il sito è tuo. Non applichiamo canoni obbligatori: dominio e hosting restano contratti tuoi con i fornitori.</p>
+        <h3>Materiali</h3>
+        <p>Testi, foto e marchi che ci fornisci restano tuoi e dichiari di poterceli dare. Quello che creiamo noi per il sito te lo consegniamo in formati usabili.</p>
+        <h3>Contatti</h3>
+        <p>Per qualsiasi questione: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      </section>
+    </main>
+  </body>
+</html>

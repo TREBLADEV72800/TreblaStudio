@@ -1,0 +1,25 @@
+# Trebla
+
+Trebla è uno studio web indipendente ad Asti, Italia. Realizza siti web chiari e veloci per ristoranti, negozi, artigiani e professionisti.
+
+## Servizi e prezzi
+
+- Sito web pagina singola: da €300
+- Sito web a più pagine: €400
+- Grafiche e social: solo se servono, su preventivo
+- 2 revisioni incluse, nessun canone obbligatorio
+
+## Pagine
+
+- [Home](https://treblastudio.vercel.app/)
+- [Servizi](https://treblastudio.vercel.app/servizi)
+- [Prezzi](https://treblastudio.vercel.app/prezzi)
+- [Preventivo in 2 minuti](https://treblastudio.vercel.app/preventivo)
+- [Lo studio](https://treblastudio.vercel.app/chi-siamo)
+- [Contatti](https://treblastudio.vercel.app/contatti)
+- [Domande frequenti](https://treblastudio.vercel.app/faq)
+- [Note legali](https://treblastudio.vercel.app/note-legali)
+
+## Contatti
+
+Tramite [pagina contatti](https://treblastudio.vercel.app/contatti) o WhatsApp dal sito. Sede: Asti, su appuntamento.

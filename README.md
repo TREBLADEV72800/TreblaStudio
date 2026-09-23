@@ -1,6 +1,6 @@
-# Trebla Studio — Vite
+# Trebla Studio — Astro
 
-Prima versione realizzata con Vite + React, in italiano, responsive e pronta per Vercel.
+Sito statico in italiano (Astro, `output: static`), responsive e live su https://treblastudio.vercel.app.
 
 ## Avvio
 
@@ -9,4 +9,11 @@ npm install
 npm run dev
 ```
 
-Il questionario preventivo apre WhatsApp con un messaggio già compilato al numero configurato in `src/main.jsx`. Prima del lancio va verificato il numero e vanno aggiunte privacy policy/consensi se il modulo viene usato pubblicamente.
+## Build / Deploy
+
+```bash
+npm run build
+vercel --prod --yes
+```
+
+Struttura: `src/pages` (route), `src/components`, `src/layouts`, `src/data` (site, prezzi, faq, configuratore), `public` (asset). Dati reali solo in `src/data`.

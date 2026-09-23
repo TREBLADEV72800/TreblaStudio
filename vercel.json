@@ -1,4 +1,9 @@
 {
+  "redirects": [
+    { "source": "/privacy", "destination": "/note-legali#privacy", "permanent": true },
+    { "source": "/cookie", "destination": "/note-legali#cookie", "permanent": true },
+    { "source": "/termini", "destination": "/note-legali#termini", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -18,9 +23,5 @@
       "source": "/:all*(svg|jpg|jpeg|png|webp|avif|woff|woff2)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
-  ],
-  "redirects": [
-    { "source": "/come-lavoriamo", "destination": "/servizi#metodo", "permanent": true },
-    { "source": "/portfolio", "destination": "/chi-siamo#lavori", "permanent": true }
   ]
 }

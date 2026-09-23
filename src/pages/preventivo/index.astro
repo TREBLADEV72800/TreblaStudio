@@ -1,10 +1,952 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PreventivoWizard from '../../components/PreventivoWizard.astro';
+import '../../styles.css';
+import '@fontsource/fraunces/latin-600.css';
+import '@fontsource/fraunces/latin-600-italic.css';
+import '@fontsource/archivo/latin-400.css';
+import '@fontsource/archivo/latin-500.css';
+import '@fontsource/archivo/latin-700.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-700.css';
+import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
+import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
+import { BASE_PRICES, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS } from '../../data/prezzi';
+import {
+  businessTypes,
+  businessCategories,
+  featuresByType,
+  extendedFeatures,
+  pageOptions,
+  siteExtrasAll,
+  socialExtrasAll,
+  designExtrasAll,
+  photoPrices,
+  socialByType,
+  designByType,
+} from '../../data/configuratore';
+import { site, canonicalUrl } from '../../data/site';
+
+const CFG = {
+  base: BASE_PRICES,
+  siteExtras: SITE_EXTRAS,
+  siteExtrasAll,
+  socialNeeds: SOCIAL_OPTIONS,
+  socialExtrasAll,
+  designNeeds: DESIGN_OPTIONS,
+  designExtrasAll,
+  channels: [...CHANNELS],
+  businessTypes,
+  businessCategories,
+  featuresByType,
+  extendedFeatures,
+  pageOptions,
+  photoPrices,
+  socialByType,
+  designByType,
+  goals: [...GOALS],
+  timings: [...TIMINGS],
+  whatsapp: site.whatsapp,
+  email: site.email,
+};
+
+const title = 'Preventivo su misura | Trebla';
+const description =
+  'Configura il preventivo in base alla tua attività: scegli il tipo, le funzioni su misura per te, pagine, foto, grafiche e social media. Stima immediata, senza impegno.';
+const canonicalHref = canonicalUrl('/preventivo');
 ---
-<Layout title="Configura il preventivo — Trebla Studio | Asti" description="Configura il tuo preventivo in 2 minuti: scegli servizi, funzioni e ricevi il totale indicativo via WhatsApp. Prezzo chiaro da 300 €." canonical="/preventivo">
-  <style slot="head" is:global>
-    .footer { display: none; }
-  </style>
-  <PreventivoWizard />
-</Layout>
+
+<!doctype html>
+<html lang="it" class="cfg-lock">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalHref} />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trebla" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:image" content={`${site.url}/og-trebla.jpg`} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Trebla, studio web ad Asti" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={`${site.url}/og-trebla.jpg`} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={archivo400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fraunces600} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fraunces600Italic} as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#1d1712" />
+  </head>
+  <body>
+    <div class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
+      <div class="wizard-barra" aria-hidden="true"><div class="wizard-riempimento" id="w-riempimento"></div></div>
+
+      <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
+      <p class="wizard-sotto" id="w-sotto"></p>
+      <p class="wizard-errore" id="w-errore" role="alert" hidden></p>
+
+      <div class="wizard-corpo" id="w-corpo"></div>
+    </div>
+
+    <div class="wizard-barra-fissa">
+      <div class="wizard-barra-interna">
+        <a class="wizard-casa" href="/" aria-label="Torna alla homepage"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11.5 12 4.5l8.5 7"/><path d="M6 10.5V19.5h12v-9"/></svg><span>Home</span></a>
+        <button type="button" class="wizard-indietro" id="w-indietro" hidden>← Indietro</button>
+        <button type="button" class="btn btn-mattone wizard-avanti" id="w-avanti">Avanti →</button>
+      </div>
+    </div>
+
+    <script define:vars={{ CFG }}>
+      const C = CFG;
+      const S = {
+        nome: '', categoria: '', tipo: '', tipoAltro: '', altroMsg: '', servizi: [],
+        struttura: '', funzioni: [], pagine: [], foto: '',
+        canali: [], socialExtra: [], graficheExtra: [],
+        obiettivi: [], tempi: '', note: '',
+        privacy: false,
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const corpo = $('w-corpo'), domanda = $('w-domanda'), sotto = $('w-sotto'),
+        errore = $('w-errore'), riemp = $('w-riempimento'),
+        avanti = $('w-avanti'), indietro = $('w-indietro');
+
+      const ha = (s) => S.servizi.includes(s);
+      const ordina = (arr) => [...arr].sort((a, b) => a.localeCompare(b, 'it'));
+      const altro = () => S.tipo === 'Altro';
+      const euro = (p) => (p ? `+${p} €` : 'incluso');
+      const tipoLabel = () => (!S.tipo ? '' : (altro() && S.tipoAltro.trim() ? `Altro (${S.tipoAltro.trim()})` : S.tipo));
+      const categoriaDi = (t) => (Object.entries(C.businessCategories).find(([, tipi]) => tipi.includes(t)) || [])[0] || '';
+
+      const funzioniPerTipo = () => [...(C.featuresByType[S.tipo] || []), ...(C.extendedFeatures[S.tipo] || [])];
+      const extraGenerali = () => {
+        const visti = new Set();
+        const out = [];
+        for (const e of [...C.siteExtras, ...C.siteExtrasAll]) {
+          const k = e.name.toLowerCase();
+          if (!visti.has(k)) { visti.add(k); out.push(e); }
+        }
+        // Doppioni concettuali: se il tipo ha già la sua versione su misura,
+        // la voce generica non deve riapparire (deve vedersi una volta sola).
+        // Es. Barbiere ha "Prenotazione appuntamento rapida" -> nascondi "Prenotazioni e ordini su WhatsApp".
+        const specifiche = funzioniPerTipo().map((f) => f.name.toLowerCase()).join(' | ');
+        return out.filter((e) => {
+          const n = e.name.toLowerCase();
+          if (n.includes('prenotazioni e ordini') && /(\bprenot|\bordin)/.test(specifiche)) return false;
+          if (n.includes('menu digitale con qr') && /\bmenu/.test(specifiche) && /(\bqr|\bdigitale|\bcodice)/.test(specifiche)) return false;
+          return true;
+        });
+      };
+      const socialPerTipo = () => [...(C.socialByType[S.tipo] || C.socialNeeds)];
+      const designPerTipo = () => [...(C.designByType[S.tipo] || C.designNeeds)];
+      const trova = (lista, n) => lista.find((x) => x.name === n);
+
+      function flusso() {
+        const f = ['nome', 'categoria', 'tipo'];
+        if (altro()) {
+          f.push('altro-descrivi', 'servizi', 'altro-invia');
+          return f;
+        }
+        f.push('servizi');
+        if (ha('sito')) {
+          f.push('sito');
+          if (funzioniPerTipo().length) f.push('funzioni');
+          f.push('funzioni-extra');
+          f.push('funzioni-extra-2');
+          if (S.struttura === 'multi') { f.push('pagine'); f.push('pagine-2'); }
+          f.push('foto');
+        }
+        if (ha('grafiche')) f.push('grafiche-materiali', 'grafiche-extra');
+        if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-extra');
+        f.push('obiettivi', 'tempi', 'riepilogo', 'invia');
+        return f;
+      }
+      let idx = 0;
+
+      function stima() {
+        let t = 0;
+        if (ha('sito')) {
+          t += S.struttura === 'multi' ? C.base.multi : C.base.singola;
+          const lf = [...funzioniPerTipo(), ...extraGenerali()];
+          for (const n of S.funzioni) {
+            const e = trova(lf, n);
+            if (e) t += e.price;
+          }
+          for (const n of S.pagine) {
+            const p = trova(C.pageOptions, n);
+            if (p) t += p.price;
+          }
+          if (S.foto && C.photoPrices[S.foto]) t += C.photoPrices[S.foto];
+        }
+        const ls = [...socialPerTipo(), ...C.socialExtrasAll];
+        for (const n of S.socialExtra) {
+          const e = trova(ls, n);
+          if (e) t += e.price;
+        }
+        const ld = [...designPerTipo(), ...C.designExtrasAll];
+        for (const n of S.graficheExtra) {
+          const e = trova(ld, n);
+          if (e) t += e.price;
+        }
+        return Math.max(0, Math.round(t));
+      }
+
+      function el(tag, cls, text) {
+        const e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text !== undefined) e.textContent = text;
+        return e;
+      }
+
+      function opzione({ tipo, nome, valore, titolo, nota, prezzo, checked }) {
+        const lab = el('label', 'opzione');
+        const inp = document.createElement('input');
+        inp.type = tipo;
+        inp.name = nome;
+        inp.value = valore;
+        inp.checked = !!checked;
+        inp.className = 'sr-solo';
+        inp.setAttribute('aria-label', titolo + (prezzo ? `, ${euro(prezzo)}` : ''));
+        const segno = el('span', 'segno', tipo === 'checkbox' ? (checked ? '✓' : '+') : '○');
+        segno.setAttribute('aria-hidden', 'true');
+        const txt = el('span', 'opzione-testo', titolo);
+        if (nota) txt.appendChild(el('small', '', nota));
+        lab.appendChild(inp);
+        lab.appendChild(segno);
+        lab.appendChild(txt);
+        if (prezzo) lab.appendChild(el('span', 'opzione-prezzo', euro(prezzo)));
+        inp.addEventListener('change', () => {
+          segno.textContent = tipo === 'checkbox' ? (inp.checked ? '✓' : '+') : '●';
+          sincronizza(nome, tipo);
+          aggiornaCromo(false);
+          nascondiErrore();
+        });
+        return lab;
+      }
+
+      function pulsanteOpzione(titolo, nota, checked, onClick) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opzione';
+        b.setAttribute('aria-pressed', String(!!checked));
+        const segno = el('span', 'segno', checked ? '✓' : '+');
+        segno.setAttribute('aria-hidden', 'true');
+        b.appendChild(segno);
+        const txt = el('span', 'opzione-testo', titolo);
+        if (nota) txt.appendChild(el('small', '', nota));
+        b.appendChild(txt);
+        b.addEventListener('click', onClick);
+        return b;
+      }
+
+      // Paginazione liste: max 6 voci per schermata, mai scroll
+      const pagineOpzioni = {};
+      const PER_PAGINA = 6;
+
+      function listaOpzioni(contenitore, { nome, voci, selezionati, conPrezzo, chiave }) {
+        const key = chiave || `${nome}:${voci.length}`;
+        const totPagine = Math.max(1, Math.ceil(voci.length / PER_PAGINA));
+        let pag = pagineOpzioni[key] || 0;
+        if (pag > totPagine - 1) pag = totPagine - 1;
+        const wrap = el('div', '');
+        const disegnaPagina = () => {
+          pagineOpzioni[key] = pag;
+          wrap.innerHTML = '';
+          const ul = el('ul', 'wizard-opzioni');
+          voci.slice(pag * PER_PAGINA, pag * PER_PAGINA + PER_PAGINA).forEach((v) => {
+            const nomeVoce = typeof v === 'string' ? v : v.name;
+            const li = document.createElement('li');
+            li.appendChild(opzione({
+              tipo: 'checkbox', nome, valore: nomeVoce, titolo: nomeVoce,
+              nota: typeof v === 'string' ? undefined : v.hint,
+              prezzo: conPrezzo && typeof v !== 'string' ? v.price : 0,
+              checked: selezionati.includes(nomeVoce),
+            }));
+            ul.appendChild(li);
+          });
+          wrap.appendChild(ul);
+          if (totPagine > 1) {
+            const nav = el('div', 'opz-nav');
+            const prev = document.createElement('button');
+            prev.type = 'button';
+            prev.textContent = '←';
+            prev.setAttribute('aria-label', 'Voci precedenti');
+            prev.disabled = pag === 0;
+            prev.addEventListener('click', () => { if (pag > 0) { pag--; disegnaPagina(); } });
+            const num = el('span', 'opz-num', `${pag + 1} di ${totPagine}`);
+            num.setAttribute('aria-live', 'polite');
+            const next = document.createElement('button');
+            next.type = 'button';
+            next.textContent = '→';
+            next.setAttribute('aria-label', 'Altre voci');
+            next.disabled = pag >= totPagine - 1;
+            next.addEventListener('click', () => { if (pag < totPagine - 1) { pag++; disegnaPagina(); } });
+            nav.appendChild(prev);
+            nav.appendChild(num);
+            nav.appendChild(next);
+            wrap.appendChild(nav);
+          }
+        };
+        disegnaPagina();
+        contenitore.appendChild(wrap);
+      }
+
+      function titoloGruppo(testo, primo) {
+        const h = el('h2', '', testo);
+        h.style.cssText = `font:600 1.2rem var(--serif);margin:${primo ? '4px' : '28px'} 0 0`;
+        corpo.appendChild(h);
+      }
+
+      function sincronizza(nome, tipo) {
+        const campi = [...corpo.querySelectorAll(`input[name="${nome}"]`)];
+        const visibili = new Set(campi.map((i) => i.value));
+        const vals = campi.filter((i) => i.checked).map((i) => i.value);
+        const unisci = (vecchi) => [...vals, ...vecchi.filter((v) => !visibili.has(v))];
+        if (tipo === 'radio') {
+          if (nome === 'struttura') {
+            S.struttura = vals[0] || '';
+            if (S.struttura !== 'multi') S.pagine = [];
+          }
+          if (nome === 'foto') S.foto = vals[0] || '';
+          if (nome === 'tempi') S.tempi = vals[0] || '';
+        } else {
+          if (nome === 'servizi') {
+            S.servizi = vals;
+            if (!ha('sito')) { S.struttura = ''; S.funzioni = []; S.pagine = []; S.foto = ''; }
+            if (!ha('social')) { S.canali = []; S.socialExtra = []; }
+            if (!ha('grafiche')) S.graficheExtra = [];
+          }
+          if (nome === 'funzioni') S.funzioni = unisci(S.funzioni);
+          if (nome === 'pagine') S.pagine = unisci(S.pagine);
+          if (nome === 'canali') S.canali = unisci(S.canali);
+          if (nome === 'socialExtra') S.socialExtra = unisci(S.socialExtra);
+          if (nome === 'graficheExtra') S.graficheExtra = unisci(S.graficheExtra);
+          if (nome === 'obiettivi') S.obiettivi = unisci(S.obiettivi);
+        }
+      }
+
+      function setTipo(t) {
+        S.tipo = t;
+        S.funzioni = []; S.pagine = []; S.foto = '';
+        S.canali = []; S.socialExtra = []; S.graficheExtra = [];
+        for (const k of Object.keys(pagineOpzioni)) delete pagineOpzioni[k];
+      }
+
+      const SERVIZI_INFO = {
+        sito: ['Sito web', 'La base: ti trovano e ti contattano'],
+        grafiche: ['Grafiche', 'Logo, biglietti, volantini'],
+        social: ['Social media', 'Profili in ordine, contenuti regolari'],
+      };
+      const SERVIZI_INFO_GENERICA = {
+        sito: ['Sito web', 'Per farti trovare e contattare'],
+        grafiche: ['Grafiche', 'Per presentarti al meglio'],
+        social: ['Social media', 'Per farti conoscere'],
+      };
+
+      function renderizza() {
+        const f = flusso();
+        if (idx >= f.length) idx = f.length - 1;
+        const id = f[idx];
+        corpo.innerHTML = '';
+        nascondiErrore();
+        sotto.style.display = '';
+
+        if (id === 'nome') {
+          domanda.textContent = 'Come si chiama la tua attività?';
+          sotto.textContent = 'Il nome con cui ti conoscono i clienti.';
+          const inp = document.createElement('input');
+          inp.className = 'wizard-campo';
+          inp.id = 'f-nome';
+          inp.value = S.nome;
+          inp.maxLength = 80;
+          inp.autocomplete = 'organization';
+          inp.placeholder = 'Es. Trattoria Rossi';
+          inp.setAttribute('aria-label', 'Nome della tua attività');
+          inp.addEventListener('input', () => { S.nome = inp.value.slice(0, 80); aggiornaCromo(false); nascondiErrore(); });
+          inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); vaiAvanti(); } });
+          corpo.appendChild(inp);
+          setTimeout(() => inp.focus({ preventScroll: true }), 60);
+        }
+
+        if (id === 'categoria') {
+          domanda.textContent = 'In quale settore sei?';
+          sotto.textContent = 'Una sola scelta: poi vedrai solo le attività del settore.';
+          const ul = el('ul', 'wizard-opzioni');
+          ul.setAttribute('role', 'group');
+          ul.setAttribute('aria-label', 'Settore di attività');
+          Object.keys(C.businessCategories).forEach((cat) => {
+            const li = document.createElement('li');
+            li.appendChild(pulsanteOpzione(cat, `${C.businessCategories[cat].length} attività`, S.categoria === cat, () => {
+              if (S.categoria !== cat) {
+                S.categoria = cat;
+                if (!C.businessCategories[cat].includes(S.tipo)) setTipo('');
+              }
+              vaiAvanti();
+            }));
+            ul.appendChild(li);
+          });
+          corpo.appendChild(ul);
+        }
+
+        if (id === 'tipo') {
+          domanda.textContent = 'Che tipo di attività è?';
+          sotto.textContent = S.categoria ? `Settore ${S.categoria}: scegli qui sotto.` : 'Scegli qui sotto.';
+          const tipi = S.categoria && C.businessCategories[S.categoria] ? C.businessCategories[S.categoria] : C.businessTypes;
+          const scegli = (t) => {
+            const cat = categoriaDi(t);
+            if (cat) S.categoria = cat;
+            setTipo(t);
+            vaiAvanti();
+          };
+          const ul = el('ul', 'wizard-opzioni');
+          ul.setAttribute('role', 'group');
+          ul.setAttribute('aria-label', 'Tipi di attività');
+          tipi.forEach((t) => {
+            const li = document.createElement('li');
+            li.appendChild(pulsanteOpzione(t, undefined, S.tipo === t, () => scegli(t)));
+            ul.appendChild(li);
+          });
+          corpo.appendChild(ul);
+
+          const ulAltro = el('ul', 'wizard-opzioni');
+          ulAltro.setAttribute('role', 'group');
+          ulAltro.setAttribute('aria-label', 'Altro tipo');
+          const liAltro = document.createElement('li');
+          liAltro.appendChild(pulsanteOpzione('Altro', 'Non trovi la tua? Descrivila qui', altro(), () => {
+            setTipo('Altro');
+            const f2 = flusso();
+            idx = Math.min(f2.length - 1, idx + 1);
+            renderizza();
+          }));
+          ulAltro.appendChild(liAltro);
+          corpo.appendChild(ulAltro);
+
+          if (altro()) {
+            const inp = document.createElement('input');
+            inp.className = 'wizard-campo';
+            inp.id = 'f-tipo-altro';
+            inp.value = S.tipoAltro;
+            inp.maxLength = 80;
+            inp.placeholder = 'Es. venditori ambulanti, associazione...';
+            inp.setAttribute('aria-label', 'Descrivi la tua attività');
+            inp.addEventListener('input', () => { S.tipoAltro = inp.value.slice(0, 80); nascondiErrore(); });
+            inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); vaiAvanti(); } });
+            corpo.appendChild(inp);
+          }
+        }
+
+        if (id === 'altro-descrivi') {
+          domanda.textContent = 'Descrivi la tua azienda';
+          sotto.textContent = 'Due righe bastano: cosa fai e dove.';
+          const inp = document.createElement('input');
+          inp.className = 'wizard-campo';
+          inp.id = 'f-altro-testo';
+          inp.value = S.tipoAltro;
+          inp.maxLength = 80;
+          inp.autocomplete = 'off';
+          inp.placeholder = 'Es. venditori ambulanti, associazione...';
+          inp.setAttribute('aria-label', 'Descrivi la tua azienda');
+          inp.addEventListener('input', () => { S.tipoAltro = inp.value.slice(0, 80); nascondiErrore(); });
+          inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); vaiAvanti(); } });
+          corpo.appendChild(inp);
+          setTimeout(() => inp.focus({ preventScroll: true }), 60);
+        }
+
+        if (id === 'altro-invia') {
+          domanda.textContent = 'Cosa ti serve?';
+          sotto.textContent = 'Scrivi il messaggio e invialo su WhatsApp. Ti rispondiamo noi.';
+          const area = document.createElement('textarea');
+          area.className = 'wizard-campo';
+          area.id = 'f-altro-msg';
+          area.rows = 6;
+          area.maxLength = 300;
+          area.value = S.altroMsg;
+          area.placeholder = 'Es. vorrei un sito semplice per farmi trovare...';
+          area.setAttribute('aria-label', 'Il tuo messaggio');
+          const daComputer = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
+          const wa = el('a', daComputer ? 'btn btn-mattone' : 'btn btn-wa', daComputer ? 'Invia via email' : 'Invia su WhatsApp');
+          wa.id = 'w-altro-invia';
+          if (!daComputer) {
+            wa.target = '_blank';
+            wa.rel = 'noopener noreferrer';
+          }
+          wa.style.display = 'flex';
+          wa.style.width = '100%';
+          wa.style.marginBlockStart = '16px';
+          const aggiornaWa = () => {
+            const righe = [
+              `Ciao Trebla! Sono ${S.nome}.`,
+              `La mia attività: ${S.tipoAltro.trim()}.`,
+              `Mi interessa: ${S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ')}.`,
+            ];
+            if (S.altroMsg.trim()) righe.push(S.altroMsg.trim());
+            righe.push('Parliamone.');
+            const testo = righe.join(' ');
+            wa.href = daComputer
+              ? `mailto:${C.email}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo)
+              : `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent(testo);
+          };
+          area.addEventListener('input', () => { S.altroMsg = area.value.slice(0, 300); aggiornaWa(); nascondiErrore(); });
+          corpo.appendChild(area);
+          corpo.appendChild(wa);
+          aggiornaWa();
+          setTimeout(() => area.focus({ preventScroll: true }), 60);
+        }
+
+        if (id === 'servizi') {
+          domanda.textContent = 'Di cosa hai bisogno?';
+          sotto.textContent = 'Puoi scegliere più cose. Il sito è il punto di partenza che consigliamo.';
+          const ul = el('ul', 'wizard-opzioni');
+          ul.setAttribute('role', 'group');
+          ul.setAttribute('aria-label', 'Servizi desiderati');
+          const INFO = altro() ? SERVIZI_INFO_GENERICA : SERVIZI_INFO;
+          Object.entries(INFO).forEach(([v, [t, n]]) => {
+            const li = document.createElement('li');
+            li.appendChild(opzione({ tipo: 'checkbox', nome: 'servizi', valore: v, titolo: t, nota: n, checked: S.servizi.includes(v) }));
+            ul.appendChild(li);
+          });
+          corpo.appendChild(ul);
+        }
+
+        if (id === 'sito') {
+          domanda.textContent = 'Com’è fatto il sito?';
+          sotto.textContent = 'Scegli la struttura, poi aggiungi solo le funzioni che ti servono davvero.';
+          const fs = el('fieldset', '');
+          fs.style.border = '0';
+          fs.style.padding = '0';
+          fs.style.margin = '0';
+          fs.appendChild(el('legend', 'sr-solo', 'Struttura del sito'));
+          const ul = el('ul', 'wizard-opzioni');
+          [
+            { v: 'singola', t: 'Pagina singola', n: 'Tutto l’essenziale in una pagina', p: C.base.singola },
+            { v: 'multi', t: 'Sito a più pagine', n: 'Storia, servizi, galleria, contatti', p: C.base.multi },
+          ].forEach((o) => {
+            const li = document.createElement('li');
+            li.appendChild(opzione({ tipo: 'radio', nome: 'struttura', valore: o.v, titolo: o.t, nota: o.n, prezzo: o.p, checked: S.struttura === o.v }));
+            ul.appendChild(li);
+          });
+          fs.appendChild(ul);
+          corpo.appendChild(fs);
+        }
+
+        if (id === 'funzioni') {
+          domanda.textContent = altro() ? 'Funzioni consigliate:' : `Funzioni per ${S.tipo}:`;
+          sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
+          listaOpzioni(corpo, { nome: 'funzioni', chiave: 'fz-tipo', voci: funzioniPerTipo(), selezionati: S.funzioni, conPrezzo: true });
+        }
+
+        if (id === 'funzioni-extra' || id === 'funzioni-extra-2') {
+          const tutte = extraGenerali();
+          const meta = Math.ceil(tutte.length / 2);
+          const seconda = id === 'funzioni-extra-2';
+          domanda.textContent = seconda ? 'Altre funzioni extra?' : 'Funzioni extra per il sito?';
+          sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
+          listaOpzioni(corpo, { nome: 'funzioni', chiave: seconda ? 'fz-extra2' : 'fz-extra', voci: seconda ? tutte.slice(meta) : tutte.slice(0, meta), selezionati: S.funzioni, conPrezzo: true });
+        }
+
+        if (id === 'pagine' || id === 'pagine-2') {
+          const tuttePg = C.pageOptions;
+          const metaPg = Math.ceil(tuttePg.length / 2);
+          const secondaPg = id === 'pagine-2';
+          domanda.textContent = secondaPg ? 'Altre pagine?' : 'Quali pagine vuoi nel sito?';
+          sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
+          listaOpzioni(corpo, { nome: 'pagine', chiave: secondaPg ? 'pg2' : 'pg', voci: secondaPg ? tuttePg.slice(metaPg) : tuttePg.slice(0, metaPg), selezionati: S.pagine, conPrezzo: true });
+        }
+
+        if (id === 'foto') {
+          domanda.textContent = 'E le foto da mettere sul sito?';
+          sotto.textContent = 'Scegli come procurarle.';
+          const ul = el('ul', 'wizard-opzioni');
+          ul.setAttribute('role', 'group');
+          ul.setAttribute('aria-label', 'Foto per il sito');
+          Object.entries(C.photoPrices).forEach(([nomeVoce, prezzo]) => {
+            const li = document.createElement('li');
+            li.appendChild(opzione({ tipo: 'radio', nome: 'foto', valore: nomeVoce, titolo: nomeVoce, prezzo, checked: S.foto === nomeVoce }));
+            ul.appendChild(li);
+          });
+          corpo.appendChild(ul);
+        }
+
+        if (id === 'social-canali') {
+          domanda.textContent = 'Su quali canali pubblichiamo?';
+          sotto.textContent = 'Scegli dove farti vedere.';
+          listaOpzioni(corpo, { nome: 'canali', chiave: 'cn', voci: C.channels, selezionati: S.canali, conPrezzo: false });
+        }
+
+        if (id === 'social-contenuti') {
+          domanda.textContent = `Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
+          sotto.textContent = 'Solo quello che ha senso per te, altrimenti vai avanti.';
+          listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialPerTipo(), selezionati: S.socialExtra, conPrezzo: true });
+        }
+
+        if (id === 'social-extra') {
+          domanda.textContent = 'Extra social?';
+          sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
+          listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-ex', voci: C.socialExtrasAll, selezionati: S.socialExtra, conPrezzo: true });
+        }
+
+        if (id === 'grafiche-materiali') {
+          domanda.textContent = `Quali materiali${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
+          sotto.textContent = 'Solo quelli che userai davvero, altrimenti vai avanti. Solo design, stampa esclusa.';
+          listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: designPerTipo(), selezionati: S.graficheExtra, conPrezzo: true });
+        }
+
+        if (id === 'grafiche-extra') {
+          domanda.textContent = 'Extra design?';
+          sotto.textContent = 'Solo se utili, altrimenti vai avanti. Solo design, stampa esclusa.';
+          listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
+        }
+
+        if (id === 'obiettivi') {
+          domanda.textContent = 'Cosa vuoi ottenere?';
+          sotto.textContent = 'Scegline almeno uno: ci aiuta a proporti le cose giuste.';
+          listaOpzioni(corpo, { nome: 'obiettivi', chiave: 'ob', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
+        }
+
+        if (id === 'tempi') {
+          domanda.textContent = 'Quando vorresti iniziare?';
+          sotto.textContent = 'Le note sono facoltative.';
+          const ul2 = el('ul', 'wizard-opzioni');
+          ul2.setAttribute('role', 'group');
+          ul2.setAttribute('aria-label', 'Tempi desiderati');
+          C.timings.forEach((t) => {
+            const li = document.createElement('li');
+            li.appendChild(opzione({ tipo: 'radio', nome: 'tempi', valore: t, titolo: t, checked: S.tempi === t }));
+            ul2.appendChild(li);
+          });
+          corpo.appendChild(ul2);
+          titoloGruppo('Note (facoltativo)', false);
+          const ta = document.createElement('textarea');
+          ta.className = 'wizard-campo';
+          ta.rows = 3;
+          ta.maxLength = 800;
+          ta.value = S.note;
+          ta.placeholder = 'Es. ho già il menu, vorrei i colori del locale...';
+          ta.setAttribute('aria-label', 'Note per il progetto');
+          ta.addEventListener('input', () => { S.note = ta.value.slice(0, 800); });
+          corpo.appendChild(ta);
+        }
+
+        if (id === 'riepilogo') {
+          domanda.textContent = 'Controlla i dati';
+          sotto.textContent = '';
+          sotto.style.display = 'none';
+          const dl = el('dl', 'wizard-riepilogo');
+          const riga = (k, v, impilata) => {
+            if (!v) return;
+            const d = el('div', 'wizard-riga' + (impilata ? ' wizard-riga-sotto' : ''));
+            d.appendChild(el('dt', '', k));
+            d.appendChild(el('dd', '', v));
+            dl.appendChild(d);
+          };
+          const nomiServizi = S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ');
+          riga('Attività', `${S.nome} · ${tipoLabel()}`);
+          riga('Servizi', nomiServizi);
+          if (ha('sito')) {
+            riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi} €` : `Pagina singola · ${C.base.singola} €`);
+            if (S.funzioni.length) riga('Funzioni', ordina(S.funzioni).join(', '), true);
+            if (S.pagine.length) riga('Pagine', ordina(S.pagine).join(', '), true);
+            if (S.foto) riga('Foto', S.foto);
+          }
+          if (ha('grafiche')) {
+            riga('Grafiche', S.graficheExtra.join(', ') || 'Da decidere insieme');
+          }
+          if (ha('social')) {
+            const vociSocial = [S.canali.join(', '), S.socialExtra.join(', ')].filter(Boolean).join(' · ');
+            riga('Social media', vociSocial || 'Da decidere insieme');
+          }
+          if (S.obiettivi.length) riga('Obiettivi', S.obiettivi.join(', '));
+          riga('Tempi', S.tempi);
+          if (S.note.trim()) riga('Note', S.note.trim());
+          corpo.appendChild(dl);
+        }
+
+        if (id === 'invia') {
+          domanda.textContent = 'Ecco la tua stima. Invia';
+          sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Nessun impegno.';
+          const box = el('div', 'wizard-totale-finale');
+          box.appendChild(el('p', 'k', 'Stima indicativa'));
+          const cifra = el('p', 'v', `€ ${stima()}`);
+          cifra.setAttribute('aria-live', 'polite');
+          box.appendChild(cifra);
+          box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
+          box.appendChild(el('p', 'd', 'Anticipo di 30 €, escluso dalla stima: si versa per iniziare, il resto alla consegna.'));
+          const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
+          invia.id = 'w-invia';
+          invia.target = '_blank';
+          invia.rel = 'noopener noreferrer';
+          box.appendChild(invia);
+          corpo.appendChild(box);
+
+          const priv = el('label', 'privacy-riga');
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.id = 'f-privacy';
+          cb.checked = S.privacy;
+          cb.addEventListener('change', () => { S.privacy = cb.checked; aggiornaInvia(); nascondiErrore(); });
+          priv.appendChild(cb);
+          const span = el('span', '', 'Ho letto l’informativa privacy e acconsento al trattamento dei dati per ricevere il preventivo. ');
+          const link = el('a', 'link-freccia', 'Privacy');
+          link.href = '/note-legali#privacy';
+          span.appendChild(link);
+          span.appendChild(document.createTextNode('. *'));
+          priv.appendChild(span);
+          corpo.appendChild(priv);
+          aggiornaInvia();
+        }
+
+        aggiornaCromo(true);
+      }
+
+      function messaggio() {
+        const L = [
+          '*Ciao Trebla!*',
+          'Vorrei un preventivo per la mia attività.',
+          '',
+          `• *Attività:* ${S.nome}`,
+          `• *Tipo:* ${tipoLabel()}`,
+          `• *Servizi:* ${S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ')}`,
+        ];
+        if (ha('sito')) {
+          L.push(
+            '',
+            '*SITO*',
+            `• *Struttura:* ${S.struttura === 'multi' ? 'Più pagine' : 'Pagina singola'}`,
+            `• *Funzioni:* ${S.funzioni.length ? ordina(S.funzioni).join(', ') : 'Standard'}`,
+            `• *Pagine:* ${S.pagine.length ? ordina(S.pagine).join(', ') : 'Standard'}`,
+            `• *Foto:* ${S.foto || 'Da decidere'}`
+          );
+        }
+        if (ha('grafiche')) {
+          L.push(
+            '',
+            '*GRAFICHE*',
+            `• *Materiali:* ${S.graficheExtra.join(', ') || 'Da decidere'}`
+          );
+        }
+        if (ha('social')) {
+          L.push(
+            '',
+            '*SOCIAL MEDIA*',
+            `• *Canali:* ${S.canali.join(', ') || 'Da decidere'}`,
+            `• *Contenuti:* ${S.socialExtra.join(', ') || 'Da decidere'}`
+          );
+        }
+        L.push(
+          '',
+          `• *Obiettivi:* ${S.obiettivi.join(', ') || 'Da decidere'}`,
+          `• *Tempi:* ${S.tempi || 'Da decidere'}`,
+          `• *Anticipo:* 30 € escluso`,
+          '',
+          `*STIMA INDICATIVA:* ${stima()} €`
+        );
+        if (S.note.trim()) L.push('', '*NOTE:*', S.note.trim());
+        let msg = L.join('\n');
+        if (msg.length > 1800) msg = msg.slice(0, 1780) + '\n…(continua a voce)';
+        return msg;
+      }
+
+      function aggiornaInvia() {
+        const a = $('w-invia');
+        if (!a) return;
+        const mancanti = mancantiRiepilogo();
+        if (!S.privacy || mancanti.length) {
+          a.setAttribute('aria-disabled', 'true');
+          a.style.opacity = '0.55';
+          a.href = `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+          a.textContent = mancanti.length && S.privacy ? `Manca: ${mancanti.join(', ')}` : S.privacy ? 'Invia su WhatsApp' : 'Spunta la privacy per inviare';
+        } else {
+          a.removeAttribute('aria-disabled');
+          a.style.opacity = '';
+          a.textContent = `Invia su WhatsApp · € ${stima()}`;
+          a.href = `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent(messaggio());
+        }
+      }
+
+      function mancantiRiepilogo() {
+        const m = [];
+        if (S.nome.trim().length < 2) m.push('il nome');
+        if (!S.categoria) m.push('il settore');
+        if (!S.tipo || (altro() && S.tipoAltro.trim().length < 2)) m.push('il tipo');
+        if (!S.servizi.length) m.push('un servizio');
+        if (ha('sito') && !S.struttura) m.push('la struttura del sito');
+        if (ha('sito') && !S.foto) m.push('le foto');
+        if (!S.tempi) m.push('i tempi');
+        return m;
+      }
+
+      function mostraErrore(t) {
+        errore.textContent = t;
+        errore.hidden = false;
+      }
+      function nascondiErrore() {
+        errore.hidden = true;
+        errore.textContent = '';
+      }
+
+      function valido(id) {
+        if (id === 'nome') return S.nome.trim().length >= 2 ? '' : 'Scrivi il nome della tua attività per continuare.';
+        if (id === 'categoria') return S.categoria ? '' : 'Scegli il settore della tua attività.';
+        if (id === 'tipo') return (S.tipo && (!altro() || S.tipoAltro.trim().length >= 2)) ? '' : 'Scegli il tipo di attività, oppure usa Altro e descrivila.';
+        if (id === 'altro-descrivi') return S.tipoAltro.trim().length >= 2 ? '' : 'Descrivi in due parole la tua azienda per continuare.';
+        if (id === 'altro-invia') return '';
+        if (id === 'servizi') return S.servizi.length ? '' : 'Scegli almeno un servizio: sito, grafiche o social media.';
+        if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola o più pagine.';
+        if (id === 'funzioni' || id === 'funzioni-extra' || id === 'funzioni-extra-2' || id === 'pagine' || id === 'pagine-2') return '';
+        if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
+        if (id === 'social-canali' || id === 'social-contenuti') return '';
+        if (id === 'social-extra') return (S.canali.length || S.socialExtra.length) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media dai servizi.';
+        if (id === 'grafiche-materiali') return '';
+        if (id === 'grafiche-extra') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
+        if (id === 'obiettivi') return S.obiettivi.length ? '' : 'Scegli almeno un obiettivo.';
+        if (id === 'tempi') return S.tempi ? '' : 'Scegli quando vorresti iniziare.';
+        if (id === 'riepilogo' || id === 'invia') return '';
+        return '';
+      }
+
+      function aggiornaCromo(scroll) {
+        const f = flusso();
+        riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
+        indietro.hidden = idx === 0;
+        const id = f[idx];
+        avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
+        avanti.hidden = id === 'altro-invia';
+        if (id === 'invia') aggiornaInvia();
+        if (scroll) {
+          domanda.focus({ preventScroll: true });
+          document.querySelector('.wizard-corpo')?.scrollTo({ top: 0 });
+        }
+      }
+
+      function vaiAvanti() {
+        const f = flusso();
+        const id = f[idx];
+        if (id === 'invia') {
+          if (!S.privacy) {
+            mostraErrore('Spunta il consenso privacy per inviare la richiesta.');
+            $('f-privacy')?.focus();
+            return;
+          }
+          const m = mancantiRiepilogo();
+          if (m.length) {
+            mostraErrore(`Per inviare manca ancora: ${m.join(', ')}. Torna indietro e completa.`);
+            return;
+          }
+          $('w-invia')?.focus();
+          return;
+        }
+        const err = valido(id);
+        if (err) {
+          mostraErrore(err);
+          return;
+        }
+        idx = Math.min(f.length - 1, idx + 1);
+        renderizza();
+      }
+
+      avanti.addEventListener('click', vaiAvanti);
+      indietro.addEventListener('click', () => {
+        if (idx > 0) { idx--; renderizza(); }
+      });
+
+      // Preselezione da ?servizi=sito,grafiche,social
+      (function init() {
+        try {
+          const q = new URLSearchParams(window.location.search);
+          const pre = [...new Set(
+            String(q.get('servizi') || q.get('services') || '')
+              .split(',')
+              .map((s) => s.trim().toLowerCase())
+              .map((s) => {
+                if (['sito', 'site', 'siti-web', 'sito-web', 'siti'].includes(s)) return 'sito';
+                if (['social', 'social-media'].includes(s)) return 'social';
+                if (['grafiche', 'design', 'grafica'].includes(s)) return 'grafiche';
+                return null;
+              })
+              .filter(Boolean)
+          )];
+          if (pre.length) S.servizi = pre;
+        } catch (e) { /* query non valida: si parte da zero */ }
+        renderizza();
+      })();
+    </script>
+
+    <style>
+      /* Pagina indipendente: nessuno scroll al footer, tutto resta nello schermo */
+      html.cfg-lock, html.cfg-lock body { height: 100%; }
+      html.cfg-lock body { overflow: hidden; }
+      .cfg-schermo {
+        min-height: 100vh;
+        min-height: 100svh;
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-block-start: clamp(14px, 3vw, 26px);
+        padding-block-end: 0;
+      }
+      .cfg-schermo .wizard-corpo {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      /* Righe compatte: tutto deve stare nello schermo, senza scorrere */
+      .cfg-schermo .opzione { min-block-size: 52px; padding: 11px 6px; }
+      .cfg-schermo .wizard-riga { padding: 8px 0; }
+      .cfg-schermo .wizard-totale-finale { padding: clamp(20px, 3vh, 32px); margin-block-start: 16px; }
+      .cfg-schermo .wizard-totale-finale .v { margin: 6px 0 4px; }
+      .cfg-schermo .wizard-totale-finale .d { margin: 0 0 14px; }
+      .opz-nav { display: flex; align-items: center; gap: 14px; margin-block-start: 12px; }
+      .opz-nav button {
+        flex: none;
+        min-block-size: 44px;
+        padding: 10px 18px;
+        background: transparent;
+        border: 1px solid var(--linea);
+        border-radius: var(--raggio);
+        font: 700 0.9rem var(--sans);
+        color: var(--inchiostro);
+        cursor: pointer;
+      }
+      .opz-nav button:hover:not(:disabled) { border-color: var(--inchiostro); }
+      .opz-nav button:disabled { opacity: 0.35; cursor: default; }
+      .opz-num { font: 500 0.8rem var(--mono); color: var(--morbido); }
+      @media (max-height: 740px) {
+        .cfg-schermo .wizard-domanda { font-size: clamp(1.4rem, 4vh, 1.9rem); margin-block: 18px 4px; }
+        .cfg-schermo .wizard-sotto { margin: 0 0 6px; font-size: 0.95rem; }
+        .cfg-schermo .opzione { min-block-size: 48px; padding: 9px 6px; font-size: 0.95rem; }
+        .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.6rem); }
+        .opz-nav { margin-block-start: 8px; }
+      }
+      .cfg-schermo .wizard-barra { margin-block-start: 2px; }
+      .wizard-casa {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-block-size: 52px;
+        padding: 12px 18px;
+        border: 1px solid var(--linea);
+        border-radius: var(--raggio);
+        font: 700 0.9rem/1 var(--sans);
+        text-decoration: none;
+        color: var(--inchiostro);
+        background: transparent;
+      }
+      .wizard-casa svg { flex: none; display: block; }
+      .wizard-casa:hover { border-color: var(--inchiostro); }
+      :global(.wizard-riga.wizard-riga-sotto) { flex-direction: column; align-items: stretch; gap: 4px; }
+      :global(.wizard-riga.wizard-riga-sotto dd) { text-align: left; }
+    </style>
+  </body>
+</html>

@@ -1,94 +1,265 @@
 ---
 import Layout from '../layouts/Layout.astro';
-const whatsapp = '393518924471';
+import Capitolo from '../components/Capitolo.astro';
+import Faq from '../components/Faq.astro';
+import { FAQS } from '../data/faq';
+import { whatsappUrl } from '../data/site';
+
+const settori = [
+  'Ristoranti', 'Bar', 'Pizzerie', 'B&B', 'Barbieri', 'Saloni', 'Centri estetici',
+  'Negozi', 'Artigiani', 'Officine', 'Professionisti', 'Associazioni',
+];
+
+const problemi = [
+  { t: 'Non hai un sito', d: 'Su Google non esisti. Chi ti cerca trova il concorrente e prenota lì. Ogni settimana.' },
+  { t: 'Su Google ci sono dati sbagliati', d: 'Orari vecchi, numero errato, foto di altri: il cliente crede prima a Google che a te.' },
+  { t: 'Il menu è un PDF illeggibile', d: 'Dal telefono nessuno lo apre. E un menu che non si legge non fa venire fame.' },
+  { t: 'Sembri meno bravo di quanto sei', d: 'Lavori bene ma online sembri improvvisato. E il cliente decide online se fidarsi.' },
+  { t: 'Per farti contattare bisogna impazzire', d: 'Se il numero è nascosto e la mappa manca, la prenotazione non arriva.' },
+];
+
+const risultati = [
+  { t: 'Si capisce in cinque secondi', d: 'Chi sei, dove sei, come prenotare. Se non si capisce subito, il cliente scappa altrove.' },
+  { t: 'Menu leggibile sul telefono', d: 'Prezzi chiari, senza scaricare nulla. Anche con poco campo.' },
+  { t: 'Orari e mappa sempre giusti', d: 'Collegati a Google, così nessuno arriva a saracinesca abbassata.' },
+  { t: 'Un tasto per chiamarti', d: 'Chiama, WhatsApp, prenota: a un tocco, sempre in vista.' },
+  { t: 'Veloce e senza fronzoli', d: 'Si apre subito e funziona su ogni telefono, anche non nuovo.' },
+];
 ---
-<Layout title="Trebla Studio — Siti Web per Piccole Imprese in Piemonte | Asti" description="Siti web chiari e curati per piccole attività di Asti e Piemonte: ristoranti, negozi, artigiani e professionisti. Prezzo chiaro da 300 €, tempi concordati, nessun canone obbligatorio." canonical="/">
-  <!-- HERO — senza riquadro -->
-  <section class="hero" style="min-height:auto;padding:56px 7vw 48px;display:block">
-    <div class="hero-copy">
-      <h1 style="font-size:clamp(48px, 6.5vw, 88px)">La tua attività<br /><em>merita di essere vista.</em></h1>
-      <p style="max-width:440px;font-size:18px;margin-top:18px;line-height:1.5">Costruiamo siti web che si capiscono al primo sguardo. Per attività di Asti e Piemonte che vogliono ricevere più richieste, senza complicarsi la vita.</p>
-      <div class="hero-actions" style="margin-top:28px">
-        <a class="button button-main" href="/preventivo">Configura preventivo in 2 min</a>
-        <a class="button button-quiet" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Ciao Trebla! Vorrei un sito, parliamone')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+
+<Layout
+  title="Trebla: Siti web che portano clienti | Asti"
+  description="Trebla, studio indipendente ad Asti. Siti web per ristoranti, negozi, artigiani e professionisti che fanno chiamare e prenotare: menu leggibili, orari giusti, contatti in un tocco. Da 300 €."
+  canonical="/"
+>
+  <!-- HERO -->
+  <div class="involucro">
+    <section class="hero" aria-labelledby="titolo">
+      <div class="hero-griglia">
+        <div>
+          <h1 id="titolo">La tua attività<br />lavora bene.<br /><em>Online in dieci giorni</em></h1>
+          <p class="hero-lead">
+            Siamo Trebla: costruiamo il sito di <strong>ristoranti, negozi, artigiani e professionisti</strong>
+            che fa chiamare, prenotare, venire. Menu che si legge dal telefono, orari giusti, un tasto per contattarti.
+            Tu fai il tuo lavoro, a farti trovare pensiamo noi.
+          </p>
+          <div class="hero-azioni">
+            <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
+            <a class="btn btn-fantasma" href="#problema">Vedi se ti serve</a>
+          </div>
+        </div>
+
+        <aside class="scheda" aria-label="Esempio: come ti vede un cliente con un sito Trebla">
+          <div class="scheda-barra" aria-hidden="true"><i></i><i></i><i></i><span>trattoria-rossi.it</span></div>
+          <div class="scheda-corpo">
+            <p class="scheda-tipo">Trattoria · Asti</p>
+            <h2 class="scheda-nome">Trattoria Rossi</h2>
+            <ul class="scheda-righe">
+              <li><span class="ok" aria-hidden="true">✓</span><span>Menù del giorno leggibile<small>Prezzi chiari, niente PDF da scaricare</small></span></li>
+              <li><span class="ok" aria-hidden="true">✓</span><span>Aperto ora · fino alle 22:30<small>Via Cavour 12 · 3 min dal centro</small></span></li>
+              <li><span class="ok" aria-hidden="true">✓</span><span>Prenota in un tocco<small>WhatsApp o telefono, a scelta tua</small></span></li>
+            </ul>
+            <div class="scheda-tasti" aria-hidden="true"><span class="solid">Prenota</span><span>Menù</span><span>Come arrivare</span></div>
+            <p class="scheda-didascalia">Così ti vede un cliente, dal telefono, in cinque secondi.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <div class="ticker" aria-label="Per chi lavoriamo">
+    <div class="ticker-pista">
+      {settori.map((s) => <span>{s}</span>)}
+      {settori.map((s) => <span aria-hidden="true">{s}</span>)}
+    </div>
+  </div>
+
+  <!-- 01 PROBLEMA -->
+  <section class="sezione" id="problema" aria-labelledby="h-problema">
+    <div class="involucro">
+      <Capitolo
+        numero="01 · Il problema"
+        titolo="Ti suona <em>familiare?</em>"
+        nota="Non sono opinioni: sono le cose che vediamo ogni volta che un’attività ci chiede un sito."
+      />
+      <ol class="righe" id="h-problema">
+        {problemi.map((p, i) => (
+          <li data-reveal>
+            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 02 COSA OTTIENI -->
+  <section class="sezione" aria-labelledby="h-risultato">
+    <div class="involucro">
+      <Capitolo
+        numero="02 · Cosa ottieni"
+        titolo="Un sito che ti porta <em>clienti</em>"
+        nota="Niente effetti speciali. Cinque cose concrete che fanno chiamare e prenotare."
+      />
+      <ol class="righe" id="h-risultato">
+        {risultati.map((r, i) => (
+          <li data-reveal>
+            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{r.t}</h3>
+            <p>{r.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 03 SERVIZI -->
+  <section class="sezione" aria-labelledby="h-servizi">
+    <div class="involucro">
+      <Capitolo
+        numero="03 · Cosa facciamo"
+        titolo="Il sito al centro, <em>il resto intorno</em>"
+        nota="Parti da quello che ti serve ora. Il resto si aggiunge quando vuoi."
+      />
+      <div id="h-servizi">
+        <article class="indice" data-reveal>
+          <span class="indice-num" aria-hidden="true">01</span>
+          <div class="indice-corpo">
+            <h3>Sito web</h3>
+            <p class="indice-meta">da <b>300 €</b> · pagina singola · <b>400 €</b> · più pagine</p>
+            <p class="indice-testo">Il punto di partenza che ti porta clienti. <strong>Una pagina che spiega tutto</strong> o un sito completo, con chi ti contatta in un tocco.</p>
+            <p class="indice-lista"><span class="indice-k">Inclusi</span>Testi essenziali preparati insieme a te · Telefono, WhatsApp e mappa · Foto e menu sistemati · Privacy e cookie inclusi</p>
+            <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Gergo tecnico · Ore della tua giornata · Canone obbligatorio</p>
+            <a class="link-freccia" href="/servizi#sito">Il sito nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+          </div>
+          <span class="indice-freccia" aria-hidden="true">→</span>
+        </article>
+        <article class="indice" data-reveal>
+          <span class="indice-num" aria-hidden="true">02</span>
+          <div class="indice-corpo">
+            <h3>Grafiche</h3>
+            <p class="indice-meta">solo se ti serve · <b>su preventivo</b></p>
+            <p class="indice-testo"><strong>La stessa faccia ovunque</strong>: dal sito al biglietto da visita, dal menu cartaceo alla vetrina.</p>
+            <p class="indice-lista"><span class="indice-k">Inclusi</span>Logo creato o rinnovato · Biglietti da visita, volantini, menu · File pronti per la stampa</p>
+            <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Restyling ogni sei mesi · Stampa di qualsiasi materiale</p>
+            <p class="indice-nota">Solo design: non stampiamo niente, ti consegniamo i file da portare dove vuoi.</p>
+            <a class="link-freccia" href="/servizi#grafiche">Le grafiche nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+          </div>
+          <span class="indice-freccia" aria-hidden="true">→</span>
+        </article>
+        <article class="indice" data-reveal>
+          <span class="indice-num" aria-hidden="true">03</span>
+          <div class="indice-corpo">
+            <h3>Social media</h3>
+            <p class="indice-meta">solo se ti serve · <b>su preventivo</b></p>
+            <p class="indice-testo"><strong>Profili in ordine e contenuti regolari</strong>, senza che tu debba pensarci ogni sera dopo la chiusura.</p>
+            <p class="indice-lista"><span class="indice-k">Inclusi</span>Profili sistemati da zero · Foto, video e grafiche · Pubblicazioni regolari</p>
+            <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Follower comprati · Promesse di viralità</p>
+            <a class="link-freccia" href="/servizi#social">I social nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+          </div>
+          <span class="indice-freccia" aria-hidden="true">→</span>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- SERVIZI -->
-  <section class="section" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-    <p class="section-label">Cosa facciamo</p>
-    <div class="section-intro">
-      <h2>Tre servizi,<br /><em>combinabili.</em></h2>
-      <p>Non devi prenderli tutti. Parti da quello che ti serve ora e aggiungi il resto quando vuoi.</p>
-    </div>
-    <div class="service-grid" style="margin-top:28px">
-      <a href="/servizi/siti-web" class="service-card service-main" style="text-decoration:none;color:inherit">
-        <span>01</span>
-        <h3>Sito web</h3>
-        <p>Chiaro sul telefono, veloce, con prenotazioni e contatti a portata di tap.</p>
-        <span style="margin-top:18px;font-weight:800;color:var(--blue);font-size:13px">Sito web →</span>
-      </a>
-      <a href="/servizi/social-media" class="service-card" style="text-decoration:none;color:inherit">
-        <span>02</span>
-        <h3>Social</h3>
-        <p>Contenuti costanti e ordinati, senza che tu debba pensarci ogni giorno.</p>
-        <span style="margin-top:18px;font-weight:800;color:var(--blue);font-size:13px">Social →</span>
-      </a>
-      <a href="/servizi/design" class="service-card" style="text-decoration:none;color:inherit">
-        <span>03</span>
-        <h3>Design</h3>
-        <p>Un’immagine pulita e coerente, dalla vetrina al biglietto da visita.</p>
-        <span style="margin-top:18px;font-weight:800;color:var(--blue);font-size:13px">Design →</span>
-      </a>
+  <!-- 04 METODO -->
+  <section class="sezione" aria-labelledby="h-metodo">
+    <div class="involucro">
+      <Capitolo
+        numero="04 · Come funziona"
+        titolo="Tu lavori, <em>noi al resto</em>"
+        nota="Cinque passi, un solo referente, zero tempo perso."
+      />
+      <ol class="metodo" id="h-metodo">
+        <li data-reveal><h3>Raccontaci</h3><p>Due minuti col preventivo online o un messaggio su WhatsApp. Niente moduli infiniti.</p></li>
+        <li data-reveal><h3>Proposta chiara</h3><p>Prezzo e tempi scritti nero su bianco, prima di iniziare. Se non ti torna, nessun problema.</p></li>
+        <li data-reveal><h3>Costruiamo</h3><p>Testi insieme a te, foto tue o scattate da noi, impaginazione curata.</p></li>
+        <li data-reveal><h3>Rivedi due volte</h3><p>Due giri di correzioni inclusi. Decidi tu quando è pronto.</p></li>
+        <li data-reveal><h3>Online, ed è tuo</h3><p>Pubblichiamo e ti spieghiamo l’essenziale. Nessun canone obbligatorio verso di noi.</p></li>
+      </ol>
     </div>
   </section>
 
-  <!-- CHI SIAMO teaser — orizzontale -->
-  <section class="section" style="background:var(--paper);border-bottom:1px solid var(--line);padding:32px 7vw">
-    <p class="section-label">Chi siamo</p>
-    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-end">
-      <div>
-        <h2 style="font-size:clamp(28px, 3.8vw, 44px);margin:0;letter-spacing:-0.05em;line-height:0.95">Due persone,<br /><em>un metodo chiaro.</em></h2>
-        <p style="color:var(--muted);font-size:16px;margin-top:10px;max-width:520px">Siamo Albert e Gabriel, di Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo qualcosa che ti somiglia davvero.</p>
-      </div>
-      <a href="/chi-siamo" style="font-weight:800;color:var(--blue);font-size:13px;text-decoration:underline;text-underline-offset:4px;white-space:nowrap">Conosci Trebla →</a>
-    </div>
-  </section>
-
-  <!-- PREZZI -->
-  <section class="section price-section" style="padding:40px 7vw">
-    <p class="section-label" style="color:#b7d6e2">Prezzi</p>
-    <div class="price-grid" style="align-items:center">
-      <div>
-        <h2 style="font-size:clamp(36px, 4.5vw, 56px)">Sai già<br /><em>quanto spendi.</em></h2>
-        <p style="margin:16px 0 20px">Niente voci nascoste. Concordiamo prezzo e tempi prima di iniziare, e il sito resta tuo.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a class="button button-light" href="/preventivo">Vai al preventivo</a>
-          <a href="/prezzi" style="font-size:13px;font-weight:700;color:#fff;text-decoration:underline;padding:12px 6px">Vedi dettagli</a>
+  <!-- 05 PREZZI -->
+  <section class="sezione" aria-labelledby="h-prezzi">
+    <div class="involucro">
+      <Capitolo
+        numero="05 · Prezzi"
+        titolo="Sai già <em>quanto spendi</em>"
+        nota="Prezzo e tempi chiari prima di iniziare, con poche domande. Il sito resta tuo."
+      />
+      <div class="prezzi-griglia" id="h-prezzi" data-reveal>
+        <div class="prezzo">
+          <p class="prezzo-kicker">Per iniziare</p>
+          <h3>Pagina singola</h3>
+          <p class="prezzo-cifra">300 €</p>
+          <ul>
+            <li>Tutto l’essenziale in una pagina che scorre</li>
+            <li>Chi sei, cosa fai, dove sei, come contattarti</li>
+            <li>Telefono, WhatsApp e mappa in vista</li>
+          </ul>
+        </div>
+        <div class="prezzo prezzo-evidenza">
+          <p class="prezzo-kicker">Il più scelto</p>
+          <h3>Sito a più pagine</h3>
+          <p class="prezzo-cifra">400 €</p>
+          <ul>
+            <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
+            <li>Menu, prenotazioni, eventi se ti servono</li>
+            <li>Telefono, WhatsApp e mappa in vista</li>
+          </ul>
         </div>
       </div>
-      <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);padding:18px;display:grid;gap:12px">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:12px">
-          <span style="font-weight:700;font-size:14px">Pagina singola</span><span style="font-weight:800;font-size:18px">300 €</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:12px">
-          <span style="font-weight:700;font-size:14px">Multi-pagina</span><span style="font-weight:800;font-size:18px">400 €</span>
-        </div>
-        <p style="margin:0;font-size:12px;color:#d2e1e6">2 revisioni incluse · Consegna in circa 10 giorni</p>
-      </div>
+      <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/prezzi">Tutti i dettagli e gli extra →</a></p>
     </div>
   </section>
 
-  <!-- CTA finale -->
-  <section class="section" style="background:#fff;padding:40px 7vw;border-top:1px solid var(--line)">
-    <div style="max-width:720px">
-      <h2 style="font-size:clamp(34px, 4.2vw, 52px);margin:0;letter-spacing:-0.06em;line-height:0.95">Pronto a<br /><em>farti trovare?</em></h2>
-      <p style="color:var(--muted);font-size:17px;margin-top:12px">Rispondi a poche domande e ricevi la tua proposta su misura.</p>
-      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-        <a class="button button-main" href="/preventivo">Configura il preventivo</a>
-        <a class="button button-quiet" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" style="background:#fff">Scrivici su WhatsApp</a>
+  <!-- 06 STUDIO -->
+  <section class="sezione" aria-labelledby="h-studio">
+    <div class="involucro">
+      <Capitolo
+        numero="06 · Lo studio"
+        titolo="Due persone, <em>niente call center</em>"
+        nota="Parli sempre con chi costruisce il tuo sito."
+      />
+      <div class="persone" id="h-studio">
+        <div class="persona" data-reveal>
+          <h3>Albert</h3>
+          <p class="persona-ruolo">Sviluppo · progetto</p>
+          <p>Segue ogni progetto dall’inizio alla fine: costruisce il sito, lo pubblica e resta il tuo referente.</p>
+        </div>
+        <div class="persona" data-reveal>
+          <h3>Gabriel</h3>
+          <p class="persona-ruolo">Design · social</p>
+          <p>Cura l’aspetto e i contenuti: grafiche, foto e social. Quello che si vede, lo ha visto lui prima di te.</p>
+        </div>
       </div>
+      <a class="lavoro" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" data-reveal>
+        <p class="lavoro-kicker">Un lavoro pubblicato · etichetta musicale</p>
+        <h3>Pikete Label</h3>
+        <p>Sito vetrina con catalogo artisti per un’etichetta astigiana. Design, sviluppo e gestione, tutto nostro.</p>
+        <span class="link-freccia">Visita il sito →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 07 DOMANDE -->
+  <section class="sezione" aria-labelledby="h-domande">
+    <div class="involucro">
+      <Capitolo
+        numero="07 · Domande"
+        titolo="Quelle che ci fanno <em>sempre</em>"
+        nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
+      />
+      <div id="h-domande"><Faq faqs={FAQS.slice(0, 5)} /></div>
+      <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
+      <div class="cta-azioni" data-reveal>
+        <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
+        <a class="btn btn-wa" href={whatsappUrl('Ciao Trebla! Vorrei un sito per la mia attività, parliamone.')} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+      <p class="capitolo-nota" style="margin-top:12px" data-reveal>Senza impegno, senza telefonate a sorpresa.</p>
     </div>
   </section>
 </Layout>
