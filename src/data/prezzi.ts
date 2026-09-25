@@ -31,7 +31,7 @@ export const DESIGN_OPTIONS: Extra[] = [
   { name: 'Biglietti da visita pronti per la stampa', price: 10 },
   { name: 'Volantini, locandine o menu cartaceo', price: 20 },
   { name: 'Grafiche promozionali per il web', price: 10 },
-  { name: 'Identità completa: colori + font + regole', price: 30 },
+  { name: 'Identità completa: colori + font + regole', price: 20 },
   { name: 'Modelli post social coordinati (10)', price: 20 },
   { name: 'Design adesivi / packaging (solo grafica)', price: 20 },
   { name: 'Design maglietta / divisa (solo grafica)', price: 20 },
