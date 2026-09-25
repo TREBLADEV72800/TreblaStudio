@@ -12,7 +12,6 @@ export interface Extra {
 }
 
 export const SITE_EXTRAS: Extra[] = [
-  { name: 'Menu digitale con QR stampabile', price: 10, hint: 'Per ristoranti, bar, pizzerie' },
   { name: 'Prenotazioni e ordini su WhatsApp', price: 10 },
   { name: 'Copywriting completo (testi professionali per tutte le pagine)', price: 30 },
   { name: 'Versione inglese essenziale', price: 30 },

@@ -6,7 +6,7 @@ export interface Faq {
 export const FAQS: Faq[] = [
   {
     q: 'Quanto costa un sito?',
-    a: 'Pagina singola da 300 €, sito a più pagine da 400 €. Le funzioni extra, come menu con QR, prenotazioni su WhatsApp e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare. Lo vedi da solo nel preventivo in 2 minuti.',
+    a: 'Pagina singola da 300 €, sito a più pagine da 400 €. Le funzioni extra, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare. Lo vedi da solo nel preventivo in 2 minuti.',
   },
   {
     q: 'In quanto tempo è online?',
