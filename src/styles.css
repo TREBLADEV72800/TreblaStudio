@@ -994,6 +994,8 @@ textarea.wizard-campo:focus { border-color: var(--mattone); }
 }
 .wizard-indietro:hover { border-color: var(--inchiostro); }
 .wizard-avanti { flex: 1 1 auto; }
+/* Niente zoom da doppio tocco sui tasti del configuratore */
+.wizard-indietro, .wizard-avanti, .opzione { touch-action: manipulation; }
 .wizard-riepilogo { border-block-start: 1px solid var(--inchiostro); margin-block-start: 18px; }
 .wizard-riga {
   display: flex;
