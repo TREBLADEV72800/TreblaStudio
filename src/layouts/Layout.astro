@@ -133,7 +133,7 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     </script>
 <script>
       // Anti-scraping: numero ed email mai in chiaro nell'HTML, assemblati qui all'apertura.
-      const WA_P = ['39', '351', '892', '471'].join('');
+      const WA_P = ['39', '351', '892', '4471'].join('');
       const MAIL_P = ['trebla', '.dev', '.simoni'].join('') + '@' + ['gmail', '.com'].join('');
       document.querySelectorAll('a[data-wa]').forEach((a) => {
         a.href = 'https://wa.me/' + WA_P + '?text=' + encodeURIComponent(a.getAttribute('data-wa') || 'Ciao Trebla!');
