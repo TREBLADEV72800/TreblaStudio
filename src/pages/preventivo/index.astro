@@ -176,7 +176,6 @@ const canonicalHref = canonicalUrl('/preventivo');
           f.push('sito');
           if (funzioniPerTipo().length) f.push('funzioni');
           f.push('funzioni-extra');
-          f.push('funzioni-extra-2');
           if (S.struttura === 'multi') { f.push('pagine'); f.push('pagine-2'); }
           f.push('foto');
         }
@@ -559,13 +558,11 @@ const canonicalHref = canonicalUrl('/preventivo');
           listaOpzioni(corpo, { nome: 'funzioni', chiave: 'fz-tipo', voci: funzioniPerTipo(), selezionati: S.funzioni, conPrezzo: true });
         }
 
-        if (id === 'funzioni-extra' || id === 'funzioni-extra-2') {
+        if (id === 'funzioni-extra') {
           const tutte = extraGenerali();
-          const meta = Math.ceil(tutte.length / 2);
-          const seconda = id === 'funzioni-extra-2';
-          domanda.textContent = seconda ? 'Altre funzioni extra?' : 'Funzioni extra per il sito?';
+          domanda.textContent = 'Funzioni extra per il sito?';
           sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
-          listaOpzioni(corpo, { nome: 'funzioni', chiave: seconda ? 'fz-extra2' : 'fz-extra', voci: seconda ? tutte.slice(meta) : tutte.slice(0, meta), selezionati: S.funzioni, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'funzioni', chiave: 'fz-extra', voci: tutte, selezionati: S.funzioni, conPrezzo: true });
         }
 
         if (id === 'pagine' || id === 'pagine-2') {
@@ -817,7 +814,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (id === 'altro-invia') return '';
         if (id === 'servizi') return S.servizi.length ? '' : 'Scegli almeno un servizio: sito, grafiche o social media.';
         if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola o più pagine.';
-        if (id === 'funzioni' || id === 'funzioni-extra' || id === 'funzioni-extra-2' || id === 'pagine' || id === 'pagine-2') return '';
+        if (id === 'funzioni' || id === 'funzioni-extra' || id === 'pagine' || id === 'pagine-2') return '';
         if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
         if (id === 'social-canali' || id === 'social-contenuti') return '';
         if (id === 'social-extra') return (S.canali.length || S.socialExtra.length) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media dai servizi.';
