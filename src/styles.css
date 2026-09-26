@@ -496,7 +496,6 @@ body.menu-aperto {
   border-block-start: 1px solid var(--inchiostro);
   padding-block: clamp(28px, 5vw, 44px);
 }
-#h-servizi .indice:last-child { border-block-end: 1px solid var(--inchiostro); }
 #h-servizi .indice-corpo { min-inline-size: 0; }
 #h-servizi .indice-corpo h3 {
   font-size: clamp(2.2rem, 11vw, 3rem);
