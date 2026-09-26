@@ -862,7 +862,6 @@ const canonicalHref = canonicalUrl('/preventivo');
           domanda.focus({ preventScroll: true });
           document.querySelector('.wizard-corpo')?.scrollTo({ top: 0 });
         }
-        try { sessionStorage.setItem('trebla-preventivo', JSON.stringify({ S, idx })); } catch (e) {}
       }
 
       function vaiAvanti() {
@@ -900,16 +899,6 @@ const canonicalHref = canonicalUrl('/preventivo');
       // Preselezione da ?servizi=sito,grafiche,social
       (function init() {
         try {
-          const b = sessionStorage.getItem('trebla-preventivo');
-          if (b) {
-            const d = JSON.parse(b);
-            if (d && typeof d === 'object') {
-              Object.assign(S, d.S || {});
-              if (typeof d.idx === 'number') idx = d.idx;
-            }
-          }
-        } catch (e) {}
-        try {
           const q = new URLSearchParams(window.location.search);
           const pre = [...new Set(
             String(q.get('servizi') || q.get('services') || '')
@@ -923,9 +912,8 @@ const canonicalHref = canonicalUrl('/preventivo');
               })
               .filter(Boolean)
           )];
-          if (pre.length) { S.servizi = pre; idx = 0; }
+          if (pre.length) S.servizi = pre;
         } catch (e) { /* query non valida: si parte da zero */ }
-        idx = Math.min(Math.max(0, idx), flusso().length - 1);
         renderizza();
       })();
     </script>
