@@ -420,11 +420,6 @@ body.menu-aperto {
   padding: 10px 16px;
 }
 .scheda-tasti span.solid { background: var(--inchiostro); color: var(--carta); }
-.scheda-didascalia {
-  margin: 14px 0 0;
-  font: 500 0.78rem/1.6 var(--mono);
-  color: var(--morbido);
-}
 
 /* ---------- 7. Ticker dei settori ---------- */
 .ticker {
