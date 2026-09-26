@@ -1008,6 +1008,8 @@ textarea.wizard-campo:focus { border-color: var(--mattone); }
 .wizard-totale-finale .k { font: 700 0.72rem var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--notte-morbido); margin: 0; }
 .wizard-totale-finale .v { font: 600 clamp(2.4rem, 6vw, 3.4rem)/1 var(--serif); margin: 10px 0 6px; }
 .wizard-totale-finale .d { color: var(--notte-morbido); font-size: 0.92rem; margin: 0 0 20px; }
+.wizard-totale-finale .btn { display: flex; width: 100%; margin-top: 12px; }
+.wizard-totale-finale .btn-fantasma { border-color: var(--notte-morbido); color: var(--notte-carta); background: transparent; }
 .privacy-riga { display: flex; gap: 12px; align-items: flex-start; margin-block-start: 20px; font-size: 0.92rem; cursor: pointer; }
 .privacy-riga input { inline-size: 22px; block-size: 22px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
 

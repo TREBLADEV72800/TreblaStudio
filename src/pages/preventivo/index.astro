@@ -684,7 +684,7 @@ const canonicalHref = canonicalUrl('/preventivo');
 
         if (id === 'invia') {
           domanda.textContent = 'Ecco la tua stima. Invia';
-          sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Premi Invia: si apre WhatsApp con il riepilogo già scritto. Nessun impegno.';
+          sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Scegli come inviare: si apre WhatsApp o email con il riepilogo già scritto. Nessun impegno.';
           const box = el('div', 'wizard-totale-finale');
           box.appendChild(el('p', 'k', 'Stima indicativa'));
           const cifra = el('p', 'v', `€ ${stima()}`);
@@ -698,6 +698,17 @@ const canonicalHref = canonicalUrl('/preventivo');
           invia.target = '_blank';
           invia.rel = 'noopener noreferrer';
           box.appendChild(invia);
+          const inviaMail = el('a', 'btn btn-fantasma', 'Invia via email');
+          inviaMail.id = 'w-invia-mail';
+          inviaMail.setAttribute('data-track', 'preventivo-invia-email');
+          inviaMail.addEventListener('click', (e) => {
+            const manc = mancantiRiepilogo();
+            if (!S.privacy || manc.length) {
+              e.preventDefault();
+              mostraErrore(!S.privacy ? 'Spunta il consenso privacy per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
+            }
+          });
+          box.appendChild(inviaMail);
           corpo.appendChild(box);
 
           const priv = el('label', 'privacy-riga');
@@ -782,6 +793,18 @@ const canonicalHref = canonicalUrl('/preventivo');
           a.style.opacity = '';
           a.textContent = `Invia su WhatsApp · € ${stima()}`;
           a.href = `https://wa.me/${waNum()}?text=` + encodeURIComponent(messaggio());
+        }
+        const m = $('w-invia-mail');
+        if (m) {
+          if (!S.privacy || mancanti.length) {
+            m.setAttribute('aria-disabled', 'true');
+            m.style.opacity = '0.55';
+            m.href = '#';
+          } else {
+            m.removeAttribute('aria-disabled');
+            m.style.opacity = '';
+            m.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(messaggio());
+          }
         }
       }
 
