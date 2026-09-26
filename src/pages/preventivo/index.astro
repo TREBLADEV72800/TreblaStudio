@@ -852,7 +852,7 @@ const canonicalHref = canonicalUrl('/preventivo');
       function aggiornaCromo(scroll) {
         const f = flusso();
         riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
-        passo.textContent = 'Passo ' + (idx + 1) + ' di ' + f.length + ' · circa 2 minuti';
+        passo.textContent = 'Passo ' + (idx + 1) + ' di ' + f.length;
         indietro.hidden = idx === 0;
         const id = f[idx];
         avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
