@@ -86,9 +86,11 @@ const canonicalHref = canonicalUrl('/preventivo');
   <body>
     <div class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
       <div class="wizard-barra" aria-hidden="true"><div class="wizard-riempimento" id="w-riempimento"></div></div>
+      <p class="wizard-passo" id="w-passo"></p>
 
       <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
       <p class="wizard-sotto" id="w-sotto"></p>
+      <p class="wizard-garanzia">Nessun pagamento, nessun obbligo. Puoi tornare indietro in ogni momento.</p>
       <p class="wizard-errore" id="w-errore" role="alert" hidden></p>
 
       <div class="wizard-corpo" id="w-corpo"></div>
@@ -113,7 +115,22 @@ const canonicalHref = canonicalUrl('/preventivo');
       };
 
       const $ = (id) => document.getElementById(id);
+      const track = (n) => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'trebla_' + n });
+        window.dispatchEvent(new CustomEvent('trebla:track', { detail: n }));
+      };
+      document.addEventListener('click', (e) => {
+        const t = e.target && e.target.closest ? e.target.closest('a[data-wa], a[data-mail]') : null;
+        if (!t) return;
+        track(t.hasAttribute('data-wa') ? 'whatsapp' : 'email');
+      });
+      document.addEventListener('click', (e) => {
+        const v = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+        if (v) track(v.getAttribute('data-track'));
+      });
       const corpo = $('w-corpo'), domanda = $('w-domanda'), sotto = $('w-sotto'),
+        passo = $('w-passo'),
         errore = $('w-errore'), riemp = $('w-riempimento'),
         avanti = $('w-avanti'), indietro = $('w-indietro');
 
@@ -169,7 +186,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         f.push('obiettivi', 'tempi', 'riepilogo', 'invia');
         return f;
       }
-      let idx = 0;
+      let idx = 0, tracciatoAvvio = false;
 
       function stima() {
         let t = 0;
@@ -671,7 +688,7 @@ const canonicalHref = canonicalUrl('/preventivo');
 
         if (id === 'invia') {
           domanda.textContent = 'Ecco la tua stima. Invia';
-          sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Nessun impegno.';
+          sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Premi Invia: si apre WhatsApp con il riepilogo già scritto. Nessun impegno.';
           const box = el('div', 'wizard-totale-finale');
           box.appendChild(el('p', 'k', 'Stima indicativa'));
           const cifra = el('p', 'v', `€ ${stima()}`);
@@ -680,6 +697,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
           box.appendChild(el('p', 'd', 'Anticipo di 30 €, escluso dalla stima: si versa per iniziare, il resto alla consegna.'));
           const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
+          invia.setAttribute('data-track', 'preventivo-invia');
           invia.id = 'w-invia';
           invia.target = '_blank';
           invia.rel = 'noopener noreferrer';
@@ -815,6 +833,7 @@ const canonicalHref = canonicalUrl('/preventivo');
       function aggiornaCromo(scroll) {
         const f = flusso();
         riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
+        passo.textContent = 'Passo ' + (idx + 1) + ' di ' + f.length + ' · circa 2 minuti';
         indietro.hidden = idx === 0;
         const id = f[idx];
         avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
@@ -824,6 +843,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           domanda.focus({ preventScroll: true });
           document.querySelector('.wizard-corpo')?.scrollTo({ top: 0 });
         }
+        try { sessionStorage.setItem('trebla-preventivo', JSON.stringify({ S, idx })); } catch (e) {}
       }
 
       function vaiAvanti() {
@@ -849,6 +869,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           return;
         }
         idx = Math.min(f.length - 1, idx + 1);
+        if (!tracciatoAvvio) { tracciatoAvvio = true; track('preventivo-avvio'); }
         renderizza();
       }
 
@@ -859,6 +880,16 @@ const canonicalHref = canonicalUrl('/preventivo');
 
       // Preselezione da ?servizi=sito,grafiche,social
       (function init() {
+        try {
+          const b = sessionStorage.getItem('trebla-preventivo');
+          if (b) {
+            const d = JSON.parse(b);
+            if (d && typeof d === 'object') {
+              Object.assign(S, d.S || {});
+              if (typeof d.idx === 'number') idx = d.idx;
+            }
+          }
+        } catch (e) {}
         try {
           const q = new URLSearchParams(window.location.search);
           const pre = [...new Set(
@@ -873,8 +904,9 @@ const canonicalHref = canonicalUrl('/preventivo');
               })
               .filter(Boolean)
           )];
-          if (pre.length) S.servizi = pre;
+          if (pre.length) { S.servizi = pre; idx = 0; }
         } catch (e) { /* query non valida: si parte da zero */ }
+        idx = Math.min(Math.max(0, idx), flusso().length - 1);
         renderizza();
       })();
     </script>

@@ -143,6 +143,16 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         a.href = 'mailto:' + MAIL_P + (s ? '?subject=' + encodeURIComponent(s) : '');
         if (a.hasAttribute('data-mostra')) a.textContent = MAIL_P;
       });
+      const track = (n) => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'trebla_' + n });
+        window.dispatchEvent(new CustomEvent('trebla:track', { detail: n }));
+      };
+      document.addEventListener('click', (e) => {
+        const t = e.target && e.target.closest ? e.target.closest('a[data-wa], a[data-mail]') : null;
+        if (!t) return;
+        track(t.hasAttribute('data-wa') ? 'whatsapp' : 'email');
+      });
     </script>
   </body>
 </html>

@@ -89,6 +89,14 @@ const active = (href: string) =>
       imposta(false);
       (btn as HTMLElement | null)?.focus();
     }
+    if (e.key === 'Tab' && aperto && menu) {
+      const voci = Array.from(menu.querySelectorAll('a')) as HTMLElement[];
+      if (!voci.length) return;
+      const prima = voci[0];
+      const ultima = voci[voci.length - 1];
+      if (e.shiftKey && document.activeElement === prima) { e.preventDefault(); ultima.focus(); }
+      else if (!e.shiftKey && document.activeElement === ultima) { e.preventDefault(); prima.focus(); }
+    }
   });
   window.addEventListener('resize', () => {
     if (window.innerWidth >= 960 && aperto) imposta(false);

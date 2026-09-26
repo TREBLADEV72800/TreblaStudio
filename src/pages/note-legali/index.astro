@@ -28,7 +28,7 @@ const stile = `body{margin:0;background:#f7f2e8;color:#1d1712;font:16px/1.65 sys
         <h3>Quali dati raccogliamo</h3>
         <p>Solo quelli che ci mandi tu: nome dell’attività, tipo di attività, scelte del preventivo ed eventuali note, quando ci contatti via WhatsApp o email. Questo sito non usa cookie di profilazione né strumenti di tracciamento pubblicitario.</p>
         <h3>Perché li usiamo</h3>
-        <p>Per prepararti la proposta e risponderti. Nient’altro: non li vendiamo, non li cediamo, non li usiamo per newsletter che non hai chiesto.</p>
+        <p>Per prepararti la proposta e risponderti. Nient’altro: non li vendiamo, non li cediamo, non li usiamo per newsletter che non hai chiesto. La bozza del preventivo resta nel tuo browser finché non la invii; WhatsApp ed email sono servizi esterni con informative proprie.</p>
         <h3>Quanto li teniamo</h3>
         <p>Il tempo necessario a gestire la richiesta e gli obblighi di legge. Puoi chiederci in qualsiasi momento di cancellarli scrivendo a <a data-mail data-mostra href="#">email</a>.</p>
         <h3>I tuoi diritti</h3>
@@ -68,6 +68,12 @@ const stile = `body{margin:0;background:#f7f2e8;color:#1d1712;font:16px/1.65 sys
       document.querySelectorAll('a[data-mail]').forEach((a) => {
         a.href = 'mailto:' + MP;
         if (a.hasAttribute('data-mostra')) a.textContent = MP;
+      });
+      document.addEventListener('click', (e) => {
+        const t = e.target && e.target.closest ? e.target.closest('a[data-mail]') : null;
+        if (!t) return;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'trebla_email' });
       });
     </script>
   </body>
