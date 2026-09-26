@@ -90,8 +90,6 @@ a { color: inherit; }
 
 .sezione { padding-block: var(--sezione); }
 .sezione + .sezione { padding-block-start: 0; }
-/* Rendering differito sotto la piega: meno lavoro al caricamento, Speed Index più basso. */
-.sezione, .piede { content-visibility: auto; contain-intrinsic-size: auto 640px; }
 /* La linea tra un paragrafo e l'altro sta a metà strada: stessa aria sopra e sotto. */
 .sezione:has(+ .sezione) { padding-block-end: clamp(20px, 3vw, 36px); }
 
