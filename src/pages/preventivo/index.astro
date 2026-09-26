@@ -969,6 +969,11 @@ const canonicalHref = canonicalUrl('/preventivo');
         .opz-nav { margin-block-start: 8px; }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
+      /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
+      @media (hover: hover) and (pointer: fine) {
+        .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
+        .cfg-schermo .wizard-corpo::-webkit-scrollbar { display: none; }
+      }
       .wizard-casa {
         flex: none;
         display: inline-flex;
