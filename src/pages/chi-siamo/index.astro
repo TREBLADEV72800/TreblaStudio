@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Capitolo from '../../components/Capitolo.astro';
-import { site, whatsappUrl } from '../../data/site';
 ---
 
 <Layout
@@ -52,9 +51,9 @@ import { site, whatsappUrl } from '../../data/site';
       </a>
       <div class="hero-azioni">
         <a class="btn btn-mattone" href="/preventivo">Il prossimo può essere il tuo in 2 minuti</a>
-        <a class="btn btn-fantasma" href={whatsappUrl('Ciao Trebla! Ho visto il sito di Pikete Label, vorrei qualcosa per la mia attività.')} target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp</a>
+        <a class="btn btn-fantasma" data-wa="Ciao Trebla! Ho visto il sito di Pikete Label, vorrei qualcosa per la mia attività." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a>
       </div>
-      <p class="hero-firma">{site.email}</p>
+      <p class="hero-firma"><a data-mail data-mostra href="#">email</a></p>
     </section>
   </div>
 </Layout>

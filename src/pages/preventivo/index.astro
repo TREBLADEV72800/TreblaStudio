@@ -45,8 +45,8 @@ const CFG = {
   designByType,
   goals: [...GOALS],
   timings: [...TIMINGS],
-  whatsapp: site.whatsapp,
-  email: site.email,
+  whatsapp: ['39', '351', '892', '471'],
+  email: ['trebla.dev.simoni', 'gmail.com'],
 };
 
 const title = 'Preventivo su misura | Trebla';
@@ -118,6 +118,8 @@ const canonicalHref = canonicalUrl('/preventivo');
         avanti = $('w-avanti'), indietro = $('w-indietro');
 
       const ha = (s) => S.servizi.includes(s);
+      const waNum = () => C.whatsapp.join('');
+      const mailAddr = () => C.email.join('@');
       const ordina = (arr) => [...arr].sort((a, b) => a.localeCompare(b, 'it'));
       const altro = () => S.tipo === 'Altro';
       const euro = (p) => (p ? `+${p} €` : 'incluso');
@@ -489,8 +491,8 @@ const canonicalHref = canonicalUrl('/preventivo');
             righe.push('Parliamone.');
             const testo = righe.join(' ');
             wa.href = daComputer
-              ? `mailto:${C.email}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo)
-              : `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent(testo);
+              ? `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo)
+              : `https://wa.me/${waNum()}?text=` + encodeURIComponent(testo);
           };
           area.addEventListener('input', () => { S.altroMsg = area.value.slice(0, 300); aggiornaWa(); nascondiErrore(); });
           corpo.appendChild(area);
@@ -759,13 +761,13 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (!S.privacy || mancanti.length) {
           a.setAttribute('aria-disabled', 'true');
           a.style.opacity = '0.55';
-          a.href = `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
+          a.href = `https://wa.me/${waNum()}?text=` + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
           a.textContent = mancanti.length && S.privacy ? `Manca: ${mancanti.join(', ')}` : S.privacy ? 'Invia su WhatsApp' : 'Spunta la privacy per inviare';
         } else {
           a.removeAttribute('aria-disabled');
           a.style.opacity = '';
           a.textContent = `Invia su WhatsApp · € ${stima()}`;
-          a.href = `https://wa.me/${C.whatsapp}?text=` + encodeURIComponent(messaggio());
+          a.href = `https://wa.me/${waNum()}?text=` + encodeURIComponent(messaggio());
         }
       }
 

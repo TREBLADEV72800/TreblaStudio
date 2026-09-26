@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Capitolo from '../../components/Capitolo.astro';
-import { whatsappUrl } from '../../data/site';
 ---
 
 <Layout
@@ -82,7 +81,7 @@ import { whatsappUrl } from '../../data/site';
         <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
         <a class="btn btn-fantasma" href={`/contatti`}>Parlane con noi</a>
       </div>
-      <p class="hero-firma">Preferisci parlare? <a href={whatsappUrl('Ciao Trebla! Vorrei un sito per la mia attività, parliamone.')} target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp</a></p>
+      <p class="hero-firma">Preferisci parlare? <a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a></p>
     </section>
   </div>
 </Layout>

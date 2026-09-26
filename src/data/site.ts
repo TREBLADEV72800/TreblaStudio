@@ -20,6 +20,5 @@ export function canonicalUrl(path: string) {
   return `${base}${clean}`;
 }
 
-export function whatsappUrl(message: string) {
-  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
-}
+// Anti-spam: numero ed email non vanno mai interpolati nel markup (href o testo).
+// Per i link usare data-wa / data-mail: li assembla lo script in Layout.astro.

@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Capitolo from '../components/Capitolo.astro';
 import Faq from '../components/Faq.astro';
 import { FAQS } from '../data/faq';
-import { whatsappUrl } from '../data/site';
 
 const settori = [
   'Ristoranti', 'Bar', 'Pizzerie', 'B&B', 'Barbieri', 'Saloni', 'Centri estetici',
@@ -257,7 +256,7 @@ const risultati = [
       <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
       <div class="cta-azioni" data-reveal>
         <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-        <a class="btn btn-wa" href={whatsappUrl('Ciao Trebla! Vorrei un sito per la mia attività, parliamone.')} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="btn btn-wa" data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
       </div>
       <p class="capitolo-nota" style="margin-top:12px" data-reveal>Senza impegno, senza telefonate a sorpresa.</p>
     </div>

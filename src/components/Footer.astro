@@ -1,5 +1,4 @@
 ---
-import { site, whatsappUrl } from '../data/site';
 ---
 
 <footer class="piede">
@@ -14,8 +13,8 @@ import { site, whatsappUrl } from '../data/site';
       </div>
       <div class="piede-contatti">
         <h2>Contatti diretti</h2>
-        <p><a href={whatsappUrl('Ciao Trebla! Vorrei un sito per la mia attività, parliamone.')} target="_blank" rel="noopener noreferrer">WhatsApp</a></p>
-        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p><a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></p>
+        <p><a data-mail data-mostra href="#">email</a></p>
         <p>Asti, su appuntamento.</p>
       </div>
     </div>

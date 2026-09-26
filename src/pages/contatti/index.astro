@@ -1,8 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { site, whatsappUrl } from '../../data/site';
 
-const msg = 'Ciao Trebla! Vorrei un sito per la mia attività, parliamone.';
 ---
 
 <Layout
@@ -21,15 +19,15 @@ const msg = 'Ciao Trebla! Vorrei un sito per la mia attività, parliamone.';
       <div class="contatti-griglia">
         <div class="contatto-cella">
           <h2>Il modo più veloce</h2>
-          <a class="contatto-grande" href={whatsappUrl(msg)} target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp</a>
+          <a class="contatto-grande" data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a>
           <p style="color:var(--morbido);margin:0 0 20px">Raccontaci in due righe che attività hai. Ti rispondiamo noi, non un bot.</p>
-          <a class="btn btn-wa" href={whatsappUrl(msg)} target="_blank" rel="noopener noreferrer">Apri WhatsApp</a>
+          <a class="btn btn-wa" data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Apri WhatsApp</a>
         </div>
         <div class="contatto-cella">
           <h2>Se preferisci scrivere</h2>
-          <a class="contatto-grande" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="contatto-grande" data-mail data-mostra href="#">email</a>
           <p style="color:var(--morbido);margin:0 0 20px">Mandaci foto, menu, idee: tutto quello che hai già va benissimo.</p>
-          <a class="btn btn-fantasma" href={`mailto:${site.email}?subject=${encodeURIComponent('Vorrei un sito per la mia attività')}`}>Scrivi un’email</a>
+          <a class="btn btn-fantasma" data-mail data-soggetto="Vorrei un sito per la mia attività" href="#">Scrivi un’email</a>
         </div>
       </div>
       <div class="prosa" style="margin-block-start:24px">

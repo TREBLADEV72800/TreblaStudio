@@ -40,7 +40,6 @@ const baseLd = [
     name: 'Trebla',
     url: `${site.url}/`,
     description: 'Studio indipendente ad Asti: siti web, grafiche e social media per piccole attività.',
-    email: site.email,
     areaServed: { '@type': 'City', name: 'Asti' },
   },
   {
@@ -50,7 +49,6 @@ const baseLd = [
     name: 'Trebla, Studio web ad Asti',
     url: `${site.url}/`,
     priceRange: '€€',
-    email: site.email,
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Asti',
@@ -132,6 +130,19 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       } else {
         document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('visibile'));
       }
+    </script>
+<script>
+      // Anti-scraping: numero ed email mai in chiaro nell'HTML, assemblati qui all'apertura.
+      const WA_P = ['39', '351', '892', '471'].join('');
+      const MAIL_P = ['trebla', '.dev', '.simoni'].join('') + '@' + ['gmail', '.com'].join('');
+      document.querySelectorAll('a[data-wa]').forEach((a) => {
+        a.href = 'https://wa.me/' + WA_P + '?text=' + encodeURIComponent(a.getAttribute('data-wa') || 'Ciao Trebla!');
+      });
+      document.querySelectorAll('a[data-mail]').forEach((a) => {
+        const s = a.getAttribute('data-soggetto');
+        a.href = 'mailto:' + MAIL_P + (s ? '?subject=' + encodeURIComponent(s) : '');
+        if (a.hasAttribute('data-mostra')) a.textContent = MAIL_P;
+      });
     </script>
   </body>
 </html>
