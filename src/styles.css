@@ -879,7 +879,6 @@ body.menu-aperto {
   color: var(--morbido);
   margin: 12px 0 0;
 }
-.wizard-garanzia { margin: 10px 0 0; font-size: 0.88rem; color: var(--morbido); }
 .wizard-corpo { padding-block-end: 130px; }
 .wizard-opzioni { list-style: none; margin: 12px 0 0; padding: 0; border-block-end: 1px solid var(--inchiostro); }
 .wizard-opzioni li { border-block-start: 1px solid var(--inchiostro); }
