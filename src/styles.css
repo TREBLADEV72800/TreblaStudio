@@ -496,19 +496,13 @@ body.menu-aperto {
 #h-servizi { display: grid; }
 #h-servizi .indice {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 6px 18px;
   border-block-start: 1px solid var(--inchiostro);
   padding-block: clamp(28px, 5vw, 44px);
 }
 #h-servizi .indice:last-child { border-block-end: 1px solid var(--inchiostro); }
-#h-servizi .indice-num {
-  font: 600 clamp(1.9rem, 9vw, 2.6rem)/1 var(--serif);
-  letter-spacing: -0.02em;
-  color: var(--carta-2);
-  transition: color 0.25s ease;
-}
-#h-servizi .indice-corpo { grid-column: 2; min-inline-size: 0; }
+#h-servizi .indice-corpo { min-inline-size: 0; }
 #h-servizi .indice-corpo h3 {
   font-size: clamp(2.2rem, 11vw, 3rem);
   line-height: 0.98;
@@ -547,16 +541,14 @@ body.menu-aperto {
 #h-servizi .indice-freccia { display: none; }
 @media (min-width: 900px) {
   #h-servizi .indice {
-    grid-template-columns: clamp(72px, 9vw, 132px) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: clamp(20px, 4vw, 56px);
     align-items: start;
   }
-  #h-servizi .indice-num { font-size: clamp(3.4rem, 7vw, 6rem); grid-row: 1; }
-  #h-servizi .indice-corpo { grid-column: 2; }
   #h-servizi .indice-corpo h3 { font-size: clamp(2.6rem, 4.6vw, 4.4rem); }
   #h-servizi .indice-freccia {
     display: block;
-    grid-column: 3;
+    grid-column: 2;
     font: 500 clamp(2rem, 3.4vw, 3rem)/1 var(--serif);
     color: var(--mattone);
     transition: transform 0.25s ease;
@@ -564,7 +556,6 @@ body.menu-aperto {
   }
 }
 @media (hover: hover) {
-  #h-servizi .indice:hover .indice-num { color: var(--mattone); }
   #h-servizi .indice:hover .indice-corpo h3 { transform: translateX(4px); }
   #h-servizi .indice:hover .indice-freccia { transform: translateX(8px); }
 }
