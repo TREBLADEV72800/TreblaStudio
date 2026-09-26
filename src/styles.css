@@ -92,6 +92,8 @@ a { color: inherit; }
 .sezione + .sezione { padding-block-start: 0; }
 /* La linea tra un paragrafo e l'altro sta a metà strada: stessa aria sopra e sotto. */
 .sezione:has(+ .sezione) { padding-block-end: clamp(20px, 3vw, 36px); }
+/* Servizi: tolta la riga di chiusura, tolto anche il suo spazio. */
+.sezione:has(#h-servizi) { padding-block-end: 0; }
 
 /* Testata di capitolo: numero + titolo + nota laterale */
 .capitolo {
