@@ -66,18 +66,6 @@ const stile = `body{margin:0;background:#f7f2e8;color:#1d1712;font:16px/1.65 sys
         <p>Per qualsiasi questione: <a data-mail data-mostra href="#">email</a>.</p>
       </section>
     </main>
-<script>
-      const MP = ['trebla', '.dev', '.simoni'].join('') + '@' + ['gmail', '.com'].join('');
-      document.querySelectorAll('a[data-mail]').forEach((a) => {
-        a.href = 'mailto:' + MP;
-        if (a.hasAttribute('data-mostra')) a.textContent = MP;
-      });
-      document.addEventListener('click', (e) => {
-        const t = e.target && e.target.closest ? e.target.closest('a[data-mail]') : null;
-        if (!t) return;
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'trebla_email' });
-      });
-    </script>
+    <script>const MP=['trebla','.dev','.simoni'].join('')+'@'+['gmail','.com'].join('');document.querySelectorAll('a[data-mail]').forEach(a=>{a.href='mailto:'+MP;if(a.hasAttribute('data-mostra'))a.textContent=MP});document.addEventListener('click',e=>{const t=e.target&&e.target.closest?e.target.closest('a[data-mail]'):null;if(!t)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'trebla_email'})});</script>
   </body>
 </html>
