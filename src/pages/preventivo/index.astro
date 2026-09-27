@@ -946,9 +946,11 @@ const canonicalHref = canonicalUrl('/preventivo');
       /* Righe compatte: tutto deve stare nello schermo, senza scorrere */
       .cfg-schermo .opzione { min-block-size: 52px; padding: 11px 6px; }
       .cfg-schermo .wizard-riga { padding: 8px 0; }
-      .cfg-schermo .wizard-totale-finale { padding: clamp(20px, 3vh, 32px); margin-block-start: 8px; }
-      .cfg-schermo .wizard-totale-finale .v { margin: 6px 0 4px; }
-      .cfg-schermo .wizard-totale-finale .d { margin: 0 0 14px; }
+      .cfg-schermo .wizard-totale-finale { padding: 16px 18px; margin-block-start: 8px; }
+      .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
+      .cfg-schermo .wizard-totale-finale .d { margin: 0 0 10px; font-size: 0.88rem; }
+      .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
+      .cfg-schermo .privacy-riga { margin-block-start: 12px; font-size: 0.88rem; }
       .opz-nav { display: flex; align-items: center; gap: 14px; margin-block-start: 12px; }
       .opz-nav button {
         flex: none;
