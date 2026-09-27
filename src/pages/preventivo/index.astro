@@ -791,7 +791,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         } else {
           a.removeAttribute('aria-disabled');
           a.style.opacity = '';
-          a.textContent = `Invia su WhatsApp · € ${stima()}`;
+          a.textContent = 'Invia su WhatsApp';
           a.href = `https://wa.me/${waNum()}?text=` + encodeURIComponent(messaggio());
         }
         const m = $('w-invia-mail');
