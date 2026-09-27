@@ -718,7 +718,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           cb.checked = S.privacy;
           cb.addEventListener('change', () => { S.privacy = cb.checked; aggiornaInvia(); nascondiErrore(); });
           priv.appendChild(cb);
-          const span = el('span', '', 'Ho letto l’informativa privacy e acconsento al trattamento dei dati per ricevere il preventivo. ');
+          const span = el('span', '', 'Ho letto l’informativa privacy e acconsento al trattamento dati per il preventivo. ');
           const link = el('a', 'link-freccia', 'Privacy');
           link.href = '/note-legali#privacy';
           span.appendChild(link);
