@@ -1,0 +1,73 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const menu = [
+  { cat: 'Antipasti', voci: [['Tagliere del borgo', '12,00'], ['Vitello tonnato', '11,00'], ['Peperoni in bagna caoda', '9,00'], ['Insalata russa della casa', '7,50']] },
+  { cat: 'Pizze', voci: [['Margherita', '7,50'], ['Diavola', '9,00'], ['Quattro formaggi', '9,50'], ['Borgo (salsiccia e friarielli)', '10,00'], ['Ortolana', '8,50']] },
+  { cat: 'Primi', voci: [['Agnolotti al sugo', '13,00'], ['Tajarin ai funghi', '12,00'], ['Risotto al barbera', '13,50']] },
+  { cat: 'Secondi', voci: [['Brasato al barbera', '16,00'], ['Pollo alla cacciatora', '13,00'], ['Fritto misto alla piemontese', '15,00']] },
+  { cat: 'Dolci', voci: [['Bunet', '6,00'], ['Panna cotta ai frutti di bosco', '5,50'], ['Torta di nocciole', '6,00']] },
+  { cat: 'Bevande', voci: [['Calice di barbera', '5,00'], ['Birra artigianale 0,4', '4,50'], ['Acqua 0,75', '2,50'], ['Caffè', '1,50']] },
+];
+---
+
+<DemoLayout
+  title="Menu · Osteria del Borgo (demo)"
+  description="Demo concept: menu completo di osteria e pizzeria con prezzi. Attività fittizia."
+>
+  <style>
+    .os { background: #f6ecda; color: #2b1c10; font-family: Archivo, system-ui, sans-serif; padding-block-end: 64px; }
+    .os-involucro { inline-size: min(1080px, 100% - 40px); margin-inline: auto; }
+    .os-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; border-block-end: 1px solid #2b1c10; }
+    .os-marchio { font: 600 1.3rem/1 Fraunces, Georgia, serif; text-decoration: none; color: inherit; }
+    .os-torna { color: #b4551d; font-weight: 700; font-size: 0.92rem; }
+    .os-titolo { padding: clamp(32px, 5vw, 56px) 0 8px; }
+    .os-kicker { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.18em; text-transform: uppercase; color: #b4551d; margin: 0 0 12px; }
+    .os-titolo h1 { font: 600 clamp(2.2rem, 6vw, 4rem)/1 Fraunces, Georgia, serif; margin: 0; }
+    .os-titolo p { color: #5d4a36; max-inline-size: 52ch; }
+    .os-menu { display: grid; gap: 32px; grid-template-columns: 1fr; margin-block-start: 28px; }
+    @media (min-width: 860px) { .os-menu { grid-template-columns: 1fr 1fr; gap: 32px 56px; } }
+    .os-cat h2 { font: 500 0.78rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #b4551d; border-block-end: 1px solid #2b1c10; padding-block-end: 8px; margin: 0 0 4px; }
+    .os-cat ul { list-style: none; margin: 0; padding: 0; }
+    .os-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-block-end: 1px dotted #b9a888; }
+    .os-cat .pr { font-weight: 700; white-space: nowrap; }
+    .os-nota { margin-block-start: 32px; color: #5d4a36; font-size: 0.92rem; }
+    .os-piede { margin-block-start: 40px; border-block-start: 1px solid #2b1c10; padding-block-start: 20px; font-size: 0.85rem; color: #5d4a36; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .os-piede a { color: inherit; }
+  </style>
+
+  <div class="os">
+    <div class="os-involucro">
+      <header class="os-top">
+        <a class="os-marchio" href="/demo/ristorante">Osteria del Borgo</a>
+        <a class="os-torna" href="/demo/ristorante">← Torna al sito</a>
+      </header>
+
+      <section class="os-titolo" aria-labelledby="menu-titolo">
+        <p class="os-kicker">Osteria del Borgo · Menu</p>
+        <h1 id="menu-titolo">Tutto il menu</h1>
+        <p>Prezzi chiari, porzioni vere. Il menu del giorno è scritto sulla lavagna all’ingresso.</p>
+      </section>
+
+      <div class="os-menu">
+        {menu.map((c) => (
+          <div class="os-cat">
+            <h2>{c.cat}</h2>
+            <ul>
+              {c.voci.map(([nome, prezzo]) => (
+                <li><span>{nome}</span><span class="pr">€ {prezzo}</span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <p class="os-nota">Menu dimostrativo: piatti e prezzi inventati a scopo illustrativo. Per prenotare: <a href="tel:+390141000000" style="color:#b4551d;font-weight:700">+39 0141 000 000</a>.</p>
+
+      <footer class="os-piede">
+        <span>Osteria del Borgo · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>

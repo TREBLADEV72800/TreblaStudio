@@ -1,0 +1,79 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const camere = [
+  { nome: 'Doppia Gelsomino', prezzo: '€ 90', testo: 'Letto matrimoniale 180×200, bagno privato con doccia, affaccio sul cortile interno. Asciugacapelli, cassaforte e bollitore con tisane.', extra: 'Terzo letto su richiesta · +€ 25' },
+  { nome: 'Superior Lavanda', prezzo: '€ 120', testo: 'Vasca freestanding in camera, macchina espresso, terrazza privata esposta a ovest per il tramonto sulle vigne.', extra: 'Cesto colazione in camera · +€ 15' },
+  { nome: 'Familiare Salvia', prezzo: '€ 140', testo: 'Due ambienti comunicanti fino a 4 ospiti, angolo giochi per bimbi, due bagni. Ideale per famiglie con bambini piccoli.', extra: 'Lettino bimbo · gratis' },
+];
+---
+
+<DemoLayout
+  title="Camere · B&B Casa Verde (demo)"
+  description="Demo concept: camere e prezzi di bed and breakfast. Attività fittizia."
+>
+  <style>
+    .bb { background: #f4f1e6; color: #2a2b24; font-family: Archivo, system-ui, sans-serif; padding-block-end: 56px; }
+    .bb-involucro { inline-size: min(1080px, 100% - 40px); margin-inline: auto; }
+    .bb-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; border-block-end: 1px solid #2a2b24; }
+    .bb-marchio { font: 600 1.3rem/1 Fraunces, Georgia, serif; text-decoration: none; color: inherit; }
+    .bb-torna { color: #5d7351; font-weight: 700; font-size: 0.92rem; }
+    .bb-titolo { padding: clamp(32px, 5vw, 56px) 0 8px; }
+    .bb-kicker { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.18em; text-transform: uppercase; color: #5d7351; margin: 0 0 12px; }
+    .bb-titolo h1 { font: 600 clamp(2.2rem, 6vw, 4rem)/1 Fraunces, Georgia, serif; margin: 0; }
+    .bb-titolo p { color: #5c5d52; max-inline-size: 56ch; }
+    .bb-camera { background: #fffdf7; border: 1px solid #2a2b24; border-radius: 12px; padding: clamp(22px, 3vw, 32px); margin-block-start: 16px; display: grid; gap: 10px; }
+    @media (min-width: 860px) { .bb-camera { grid-template-columns: 1fr auto; gap: 24px; align-items: start; } }
+    .bb-camera h2 { font: 600 1.7rem/1.1 Fraunces, Georgia, serif; margin: 0; }
+    .bb-camera p { margin: 0; color: #5c5d52; max-inline-size: 52ch; line-height: 1.6; }
+    .bb-camera .extra { font-size: 0.9rem; color: #5d7351; font-weight: 600; }
+    .bb-prezzo { font: 600 clamp(1.8rem, 3vw, 2.4rem)/1 Fraunces, Georgia, serif; color: #5d7351; white-space: nowrap; }
+    .bb-prezzo small { display: block; font: 500 0.8rem Archivo, sans-serif; color: #5c5d52; margin-block-start: 4px; }
+    .bb-comuni { margin-block-start: 32px; border: 1px solid #2a2b24; border-radius: 12px; padding: clamp(20px, 3vw, 28px); }
+    .bb-comuni h2 { font: 600 1.4rem/1.2 Fraunces, Georgia, serif; margin: 0 0 8px; }
+    .bb-comuni ul { margin: 0; padding-inline-start: 18px; color: #5c5d52; display: grid; gap: 6px; }
+    .bb-piede { margin-block-start: 40px; border-block-start: 1px solid #2a2b24; padding-block-start: 20px; font-size: 0.85rem; color: #5c5d52; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .bb-piede a { color: inherit; }
+  </style>
+
+  <div class="bb">
+    <div class="bb-involucro">
+      <header class="bb-top">
+        <a class="bb-marchio" href="/demo/beb">Casa Verde</a>
+        <a class="bb-torna" href="/demo/beb">← Torna al sito</a>
+      </header>
+
+      <section class="bb-titolo" aria-labelledby="camere-titolo">
+        <p class="bb-kicker">Casa Verde · Camere</p>
+        <h1 id="camere-titolo">Le tre camere</h1>
+        <p>Prezzi a notte per due ospiti, colazione e pulizia giornaliera sempre incluse.</p>
+      </section>
+
+      {camere.map((c) => (
+        <div class="bb-camera">
+          <div>
+            <h2>{c.nome}</h2>
+            <p style="margin-block-start:10px">{c.testo}</p>
+            <p class="extra" style="margin-block-start:10px">{c.extra}</p>
+          </div>
+          <p class="bb-prezzo">{c.prezzo}<small>a notte · colazione inclusa</small></p>
+        </div>
+      ))}
+
+      <div class="bb-comuni">
+        <h2>Servizi comuni inclusi</h2>
+        <ul>
+          <li>Wi-Fi veloce in tutta la casa</li>
+          <li>Parcheggio privato nella corte</li>
+          <li>Giardino con tavoli e amache</li>
+          <li>Mappe e consigli personalizzati ogni mattina</li>
+        </ul>
+      </div>
+
+      <footer class="bb-piede">
+        <span>Casa Verde · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>

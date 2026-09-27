@@ -10,8 +10,6 @@ const servizi = [
   ['Bagni e cucine', 'Rifacimenti mirati in 2-3 settimane, senza sorprese.'],
   ['Muratura e cartongesso', 'Pareti, controsoffitti, isolamento termoacustico.'],
   ['Esterni e tetti', 'Facciate, tetti, pavimentazioni esterne e recinzioni.'],
-  ['Manutenzione programmata', 'Piccoli interventi rapidi per condomini e attività.'],
-  ['Pratiche e detrazioni', 'Ti seguiamo tra bonus casa, preventivi e scadenze.'],
 ];
 ---
 
@@ -36,7 +34,9 @@ const servizi = [
     .im-hero p { color: #b9c2c9; max-inline-size: 52ch; line-height: 1.6; }
     .im-hero-riga { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-block-start: 26px; }
     .im-hero-riga .tel { color: #fff; font-weight: 700; font-size: 1.1rem; }
-    .im-sezione { padding: clamp(40px, 6vw, 72px) 0; }
+    .im-meta { margin: 20px 0 0; font: 500 0.78rem/1.6 ui-monospace, Menlo, monospace; color: #8d979e; }
+    .im-sezione { padding: clamp(36px, 5vw, 60px) 0; }
+    .im-num { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; color: #c8641a; margin: 0 0 10px; }
     .im-sezione h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); letter-spacing: -0.015em; margin: 0 0 6px; font-weight: 800; }
     .im-sotto { color: #5a646c; margin: 0 0 28px; max-inline-size: 60ch; }
     .im-servizi { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-block-start: 2px solid #1c2126; grid-template-columns: 1fr; }
@@ -52,20 +52,21 @@ const servizi = [
     .im-passi li::before { content: "0" counter(passo); font: 500 0.75rem ui-monospace, Menlo, monospace; color: #e89a4b; }
     .im-passi h3 { margin: 10px 0 6px; font-size: 1.1rem; }
     .im-passi p { margin: 0; color: #b9c2c9; font-size: 0.9rem; }
-    .im-portfolio { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
-    @media (min-width: 860px) { .im-portfolio { grid-template-columns: repeat(3, 1fr); } }
+    .im-portfolio { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    @media (min-width: 760px) { .im-portfolio { grid-template-columns: repeat(3, 1fr); } }
     .im-lavoro { background: #fff; border: 1px solid #cfd6db; border-radius: 4px; padding: 18px; }
     .im-lavoro .tag { font: 500 0.7rem ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #c8641a; margin: 0 0 8px; }
     .im-lavoro h3 { margin: 0 0 6px; font-size: 1.1rem; }
     .im-lavoro p { margin: 0; color: #5a646c; font-size: 0.9rem; }
-    .im-rec { background: #fff; border-inline-start: 4px solid #c8641a; padding: 18px 20px; margin: 12px 0 0; }
-    .im-rec p { margin: 0; font-size: 1.02rem; }
-    .im-rec cite { display: block; margin-block-start: 8px; font-style: normal; font-size: 0.82rem; color: #5a646c; letter-spacing: 0.08em; text-transform: uppercase; }
+    .im-link { display: inline-block; margin-block-start: 22px; font-weight: 700; color: #c8641a; }
+    .im-citazione { background: #1c2126; color: #f2f4f6; padding: clamp(36px, 6vw, 64px) 0; }
+    .im-citazione blockquote { margin: 0; font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.3; font-weight: 700; max-inline-size: 30ch; }
+    .im-citazione cite { display: block; margin-block-start: 14px; font-style: normal; font: 500 0.78rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8d979e; }
     .im-faq details { border-block-start: 1px solid #1c2126; }
     .im-faq summary { cursor: pointer; font-weight: 700; padding: 14px 0; list-style: none; }
     .im-faq summary::-webkit-details-marker { display: none; }
     .im-faq p { margin: 0 0 16px; color: #5a646c; max-inline-size: 62ch; }
-    .im-contatti { background: #1c2126; color: #f2f4f6; border-radius: 4px; padding: clamp(24px, 4vw, 40px); display: grid; gap: 16px; }
+    .im-contatti { background: #1c2126; color: #f2f4f6; border-radius: 4px; padding: clamp(24px, 4vw, 40px); display: grid; gap: 12px; }
     .im-contatti h2 { color: #fff; margin: 0; }
     .im-contatti a.tel { color: #fff; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; text-decoration: none; }
     .im-contatti .mail { color: #e89a4b; }
@@ -78,7 +79,7 @@ const servizi = [
       <header class="im-top">
         <a class="im-marchio" href="/demo/impresa">OFFICINA NORD<small>Impresa edile</small></a>
         <nav class="im-nav" aria-label="Navigazione demo">
-          <a href="#servizi">Servizi</a><a href="#metodo">Metodo</a><a href="#lavori">Lavori</a><a href="#domande">FAQ</a>
+          <a href="#servizi">Servizi</a><a href="#metodo">Metodo</a><a href="/demo/impresa/lavori">Lavori</a><a href="#domande">FAQ</a>
         </nav>
         <a class="im-cta" href={telHref}>Richiedi preventivo</a>
       </header>
@@ -93,13 +94,15 @@ const servizi = [
           <a class="im-cta" href={telHref}>Richiedi un preventivo</a>
           <a class="tel" href={telHref}>{tel}</a>
         </div>
+        <p class="im-meta">Preventivo scritto · data di fine lavori · garanzia scritta</p>
       </div>
     </section>
 
     <div class="im-involucro">
       <section class="im-sezione" id="servizi" aria-labelledby="im-servizi-t">
+        <p class="im-num">01 · Servizi</p>
         <h2 id="im-servizi-t">Cosa facciamo</h2>
-        <p class="im-sotto">Sei ambiti, un solo referente: dal primo sopralluogo alla pulizia finale.</p>
+        <p class="im-sotto">Quattro ambiti principali, un solo referente dal sopralluogo alla pulizia finale.</p>
         <ol class="im-servizi">
           {servizi.map(([t, d], i) => (
             <li><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></li>
@@ -108,6 +111,7 @@ const servizi = [
       </section>
 
       <section class="im-sezione" id="metodo" aria-labelledby="im-metodo-t" style="padding-block-start:0">
+        <p class="im-num">02 · Metodo</p>
         <h2 id="im-metodo-t">Come lavoriamo</h2>
         <p class="im-sotto">Quattro passi, sempre gli stessi per ogni cantiere.</p>
         <ol class="im-passi">
@@ -119,22 +123,30 @@ const servizi = [
       </section>
 
       <section class="im-sezione" id="lavori" aria-labelledby="im-lavori-t" style="padding-block-start:0">
-        <h2 id="im-lavori-t">Lavori recenti</h2>
-        <p class="im-sotto">Una selezione dimostrativa di interventi tipo.</p>
+        <p class="im-num">03 · Lavori</p>
+        <h2 id="im-lavori-t">Interventi tipo</h2>
+        <p class="im-sotto">Esempi dimostrativi del nostro modo di lavorare.</p>
         <div class="im-portfolio">
           <div class="im-lavoro"><p class="tag">Bagno</p><h3>Rifacimento completo 8 mq</h3><p>Demolizione, impianti, piastrelle e sanitari in 18 giorni.</p></div>
           <div class="im-lavoro"><p class="tag">Esterni</p><h3>Facciata e tetto villetta</h3><p>Cappotto, gronde e lattoneria, ponteggio incluso.</p></div>
           <div class="im-lavoro"><p class="tag">Cucina</p><h3>Cucina abitabile open space</h3><p>Abbattimento tramezzo, cucina su misura, parquet.</p></div>
         </div>
-        <div class="im-rec">
-          <p>“Preventivo rispettato al centesimo e casa riconsegnata pulita. Li richiamerei domani.”</p>
-          <cite>Paolo · recensione dimostrativa</cite>
-        </div>
+        <a class="im-link" href="/demo/impresa/lavori">Tutti i lavori dimostrativi →</a>
       </section>
+    </div>
 
-      <section class="im-sezione" id="domande" aria-labelledby="im-domande-t" style="padding-block-start:0">
+    <div class="im-citazione">
+      <div class="im-involucro">
+        <blockquote>“Preventivo rispettato al centesimo e casa riconsegnata pulita. Li richiamerei domani.”</blockquote>
+        <cite>Paolo · recensione dimostrativa</cite>
+      </div>
+    </div>
+
+    <div class="im-involucro">
+      <section class="im-sezione" id="domande" aria-labelledby="im-domande-t">
+        <p class="im-num">04 · Domande</p>
         <h2 id="im-domande-t">Domande frequenti</h2>
-        <div class="im-faq">
+        <div class="im-faq" style="margin-block-start:20px">
           <details><summary>Il sopralluogo costa?</summary><p>No: sopralluogo e primo preventivo sono gratuiti in zona Asti.</p></details>
           <details><summary>Quanto dura una ristrutturazione bagno?</summary><p>In genere 2-3 settimane. La data di fine è scritta nel preventivo.</p></details>
           <details><summary>Seguite le detrazioni fiscali?</summary><p>Sì: bonus casa e pratiche annesse, con documenti in regola.</p></details>

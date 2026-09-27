@@ -6,6 +6,7 @@ const demos = [
     slug: 'ristorante',
     nome: 'Osteria del Borgo',
     settore: 'Ristorante · Pizzeria',
+    formato: 'Più pagine',
     testo: 'Cucina piemontese e pizza nel cuore del borgo: menu con prezzi, prenotazione tavoli, serate a tema.',
     colore: '#3a2415',
     fondo: '#f3e8d5',
@@ -15,6 +16,7 @@ const demos = [
     slug: 'parrucchiere',
     nome: 'Aura · Hair & Beauty',
     settore: 'Parrucchiere · Beauty',
+    formato: 'Pagina singola',
     testo: 'Taglio, colore e trattamenti in un salone luminoso: listino chiaro, gallery lavori, prenotazione rapida.',
     colore: '#22201c',
     fondo: '#faf7f2',
@@ -24,6 +26,7 @@ const demos = [
     slug: 'impresa',
     nome: 'Officina Nord',
     settore: 'Impresa edile · Artigiani',
+    formato: 'Più pagine',
     testo: 'Ristrutturazioni e manutenzione con portfolio lavori, processo in 4 passi e richiesta preventivo.',
     colore: '#1c2126',
     fondo: '#eceff1',
@@ -33,6 +36,7 @@ const demos = [
     slug: 'studio',
     nome: 'Studio Forma',
     settore: 'Commercialista',
+    formato: 'Pagina singola',
     testo: 'Fisco e contabilità per piccole imprese: servizi, metodo, FAQ e primo appuntamento senza impegno.',
     colore: '#1f2a37',
     fondo: '#f2f4f6',
@@ -42,10 +46,21 @@ const demos = [
     slug: 'bar',
     nome: 'Caffè Lumen',
     settore: 'Bar · Caffetteria',
+    formato: 'Pagina singola',
     testo: 'Colazioni, pranzi veloci e aperitivi in centro: menu del giorno, orari lunghi, eventi della settimana.',
     colore: '#20242b',
     fondo: '#f6efe3',
     accento: '#c22e3a',
+  },
+  {
+    slug: 'beb',
+    nome: 'Casa Verde',
+    settore: 'Bed & Breakfast',
+    formato: 'Più pagine',
+    testo: 'Tre camere tra le vigne con colazione inclusa: listino camere, territorio, regole chiare.',
+    colore: '#2a2b24',
+    fondo: '#e9e6d4',
+    accento: '#5d7351',
   },
 ];
 ---
@@ -97,7 +112,7 @@ const demos = [
                 <span style={`inline-size:64%;block-size:10px;background:${d.colore};opacity:.35`} />
               </div>
               <div class="demo-corpo">
-                <p class="demo-settore">{d.settore}</p>
+                <p class="demo-settore">{d.settore} · {d.formato}</p>
                 <h2>{d.nome}</h2>
                 <p>{d.testo}</p>
                 <span class="demo-apri">Apri demo →</span>

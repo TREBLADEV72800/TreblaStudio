@@ -37,6 +37,7 @@ const menu = [
     .ba-sezione { padding: clamp(40px, 6vw, 72px) 0; }
     .ba-sezione h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.02em; margin: 0 0 6px; font-weight: 800; }
     .ba-sotto { color: #5b636c; margin: 0 0 26px; max-inline-size: 56ch; }
+    .ba-num { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; color: #c22e3a; margin: 0 0 10px; }
     .ba-menu { display: grid; gap: 14px; grid-template-columns: 1fr; }
     @media (min-width: 760px) { .ba-menu { grid-template-columns: 1fr 1fr; } }
     .ba-cat { background: #fffdf7; border: 1px solid #20242b; border-radius: 12px; padding: 22px; }
@@ -81,6 +82,7 @@ const menu = [
       </section>
 
       <section class="ba-sezione" id="menu" aria-labelledby="ba-menu-t">
+        <p class="ba-num">01 · Il menu</p>
         <h2 id="ba-menu-t">Il menu</h2>
         <p class="ba-sotto">Prezzi da bar di quartiere, scontrino sempre chiaro.</p>
         <div class="ba-menu">
@@ -109,6 +111,7 @@ const menu = [
       </section>
 
       <section class="ba-sezione" id="galleria" aria-labelledby="ba-galleria-t" style="padding-block-start:0">
+        <p class="ba-num">02 · Il bar</p>
         <h2 id="ba-galleria-t">Il bar</h2>
         <p class="ba-sotto">Bancone in marmo, dehors e la vetrina dei dolci.</p>
         <div class="ba-galleria" role="list" aria-label="Spazi del bar">
@@ -119,6 +122,7 @@ const menu = [
       </section>
 
       <section class="ba-sezione" id="contatti" aria-labelledby="ba-contatti-t" style="padding-block-start:0">
+        <p class="ba-num">03 · Dove siamo</p>
         <h2 id="ba-contatti-t">Dove siamo</h2>
         <div class="ba-contatti">
           <span>Corso Alfieri 100, 14100 Asti <small>(indirizzo dimostrativo)</small></span>

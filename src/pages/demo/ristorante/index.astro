@@ -5,13 +5,10 @@ const tel = '+39 0141 000 000';
 const telHref = 'tel:+390141000000';
 const email = 'osteria-borgo@example.com';
 
-const menu = [
-  { cat: 'Antipasti', voci: [['Tagliere del borgo', '12,00'], ['Vitello tonnato', '11,00'], ['Peperoni in bagna caoda', '9,00'], ['Insalata russa della casa', '7,50']] },
-  { cat: 'Pizze', voci: [['Margherita', '7,50'], ['Diavola', '9,00'], ['Quattro formaggi', '9,50'], ['Borgo (salsiccia e friarielli)', '10,00']] },
+const anteprima = [
+  { cat: 'Antipasti', voci: [['Tagliere del borgo', '12,00'], ['Vitello tonnato', '11,00'], ['Peperoni in bagna caoda', '9,00']] },
+  { cat: 'Pizze', voci: [['Margherita', '7,50'], ['Diavola', '9,00'], ['Quattro formaggi', '9,50']] },
   { cat: 'Primi', voci: [['Agnolotti al sugo', '13,00'], ['Tajarin ai funghi', '12,00'], ['Risotto al barbera', '13,50']] },
-  { cat: 'Secondi', voci: [['Brasato al barbera', '16,00'], ['Pollo alla cacciatora', '13,00'], ['Fritto misto alla piemontese', '15,00']] },
-  { cat: 'Dolci', voci: [['Bunet', '6,00'], ['Panna cotta ai frutti di bosco', '5,50'], ['Torta di nocciole', '6,00']] },
-  { cat: 'Bevande', voci: [['Calice di barbera', '5,00'], ['Birra artigianale 0,4', '4,50'], ['Acqua 0,75', '2,50']] },
 ];
 
 const faqs = [
@@ -35,16 +32,22 @@ const faqs = [
     @media (min-width: 860px) { .os-nav { display: flex; } }
     .os-nav a { color: inherit; text-decoration: none; font-size: 0.92rem; font-weight: 500; }
     .os-cta { display: inline-block; background: #b4551d; color: #fff8ef; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 8px; }
-    .os-hero { padding: clamp(48px, 8vw, 110px) 0 clamp(36px, 5vw, 64px); }
+    .os-hero { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: center; padding: clamp(40px, 7vw, 88px) 0 clamp(32px, 5vw, 56px); }
+    @media (min-width: 900px) { .os-hero { grid-template-columns: 1.15fr 0.85fr; gap: 48px; } }
     .os-kicker { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.18em; text-transform: uppercase; color: #b4551d; margin: 0 0 14px; }
-    .os-hero h1 { font: 600 clamp(2.8rem, 8vw, 5.4rem)/0.98 Fraunces, Georgia, serif; letter-spacing: -0.02em; margin: 0; max-inline-size: 12ch; }
+    .os-hero h1 { font: 600 clamp(2.6rem, 7vw, 4.8rem)/0.98 Fraunces, Georgia, serif; letter-spacing: -0.02em; margin: 0; }
     .os-hero h1 em { font-style: italic; font-weight: 500; color: #b4551d; }
-    .os-hero p { font-size: 1.12rem; line-height: 1.6; color: #5d4a36; max-inline-size: 48ch; }
+    .os-hero p { font-size: 1.1rem; line-height: 1.65; color: #5d4a36; max-inline-size: 46ch; }
     .os-hero-riga { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-block-start: 24px; }
     .os-tel { font-weight: 700; color: #2b1c10; }
-    .os-filo { border-block: 1px solid #2b1c10; padding: clamp(24px, 4vw, 40px) 0; font: 500 clamp(1.2rem, 2.6vw, 1.7rem)/1.4 Fraunces, Georgia, serif; }
-    .os-filo p { margin: 0; max-inline-size: 40ch; }
-    .os-sezione { padding: clamp(40px, 6vw, 72px) 0; }
+    .os-meta { margin: 18px 0 0; font: 500 0.78rem/1.6 ui-monospace, Menlo, monospace; color: #8a7360; }
+    .os-arco { border-radius: 999px 999px 14px 14px; background: #2b1c10; color: #f3e8d5; padding: 30px 26px 26px; display: grid; gap: 10px; align-content: end; min-block-size: 380px; }
+    .os-arco .a-titolo { display: block; block-size: 20px; inline-size: 62%; border-radius: 4px; background: #e89a4b; }
+    .os-arco .a-riga { display: block; block-size: 10px; border-radius: 4px; background: #f3e8d5; opacity: 0.35; }
+    .os-arco .a-riga.corta { inline-size: 70%; }
+    .os-arco p { margin: 8px 0 0; font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #cdbfa5; }
+    .os-sezione { padding: clamp(36px, 5vw, 60px) 0; }
+    .os-num { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; color: #b4551d; margin: 0 0 10px; }
     .os-sezione h2 { font: 600 clamp(1.8rem, 4vw, 2.8rem)/1.05 Fraunces, Georgia, serif; margin: 0 0 8px; letter-spacing: -0.015em; }
     .os-sottotitolo { color: #5d4a36; margin: 0 0 28px; max-inline-size: 56ch; }
     .os-menu { display: grid; gap: 32px; grid-template-columns: 1fr; }
@@ -53,8 +56,10 @@ const faqs = [
     .os-cat ul { list-style: none; margin: 0; padding: 0; }
     .os-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-block-end: 1px dotted #b9a888; }
     .os-cat .pr { font-weight: 700; white-space: nowrap; }
-    .os-scuro { background: #2b1c10; color: #f3e8d5; }
-    .os-scuro h2 { color: #f3e8d5; }
+    .os-menu-link { display: inline-block; margin-block-start: 26px; font-weight: 700; color: #b4551d; }
+    .os-citazione { background: #2b1c10; color: #f3e8d5; padding: clamp(36px, 6vw, 64px) 0; }
+    .os-citazione blockquote { margin: 0; font: 500 clamp(1.4rem, 3.4vw, 2.2rem)/1.3 Fraunces, Georgia, serif; font-style: italic; max-inline-size: 28ch; }
+    .os-citazione cite { display: block; margin-block-start: 14px; font-style: normal; font: 500 0.78rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #cdbfa5; }
     .os-galleria { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
     @media (min-width: 860px) { .os-galleria { grid-template-columns: repeat(4, 1fr); } }
     .os-foto { border-radius: 8px; min-block-size: 150px; padding: 14px; display: flex; align-items: flex-end; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -79,30 +84,38 @@ const faqs = [
       <header class="os-top">
         <a class="os-marchio" href="/demo/ristorante">Osteria del Borgo<small>Ristorante · Pizzeria</small></a>
         <nav class="os-nav" aria-label="Navigazione demo">
-          <a href="#menu">Menu</a><a href="#locale">Il locale</a><a href="#orari">Orari</a><a href="#domande">Domande</a><a href="#contatti">Contatti</a>
+          <a href="/demo/ristorante/menu">Menu</a><a href="#locale">Il locale</a><a href="#orari">Orari</a><a href="#domande">Domande</a>
         </nav>
         <a class="os-cta" href={telHref}>Prenota un tavolo</a>
       </header>
 
       <section class="os-hero" aria-labelledby="os-titolo">
-        <p class="os-kicker">Cucina piemontese · Pizza nel forno a legna</p>
-        <h1 id="os-titolo">La tavola del borgo, <em>come una volta.</em></h1>
-        <p>Agnolotti tirati a mano, pizze alte e soffici, vini della zona. A due minuti dalla piazza, con il parcheggio dietro l’angolo.</p>
-        <div class="os-hero-riga">
-          <a class="os-cta" href={telHref}>Prenota un tavolo</a>
-          <a class="os-tel" href={telHref}>{tel}</a>
+        <div>
+          <p class="os-kicker">Cucina piemontese · Pizza nel forno a legna</p>
+          <h1 id="os-titolo">La tavola del borgo, <em>come una volta.</em></h1>
+          <p>Agnolotti tirati a mano, pizze alte e soffici, vini della zona. A due minuti dalla piazza, con il parcheggio dietro l’angolo.</p>
+          <div class="os-hero-riga">
+            <a class="os-cta" href={telHref}>Prenota un tavolo</a>
+            <a class="os-tel" href={telHref}>{tel}</a>
+          </div>
+          <p class="os-meta">Cucina piemontese · forno a legna · dehors estivo</p>
+        </div>
+        <div class="os-arco" aria-hidden="true">
+          <span class="a-titolo"></span>
+          <span class="a-riga"></span>
+          <span class="a-riga corta"></span>
+          <p>La sala in pietra · 60 coperti</p>
         </div>
       </section>
     </div>
 
-    <div class="os-filo"><div class="os-involucro"><p>“Cuciniamo quello che ci portano i contadini qui intorno. Il resto lo fa il forno.”</p></div></div>
-
     <div class="os-involucro">
-      <section class="os-sezione" id="menu" aria-labelledby="os-menu-t">
-        <h2 id="os-menu-t">Il menu</h2>
-        <p class="os-sottotitolo">Prezzi chiari, porzioni vere. Il menu del giorno lo trovi scritto sulla lavagna all’ingresso.</p>
+      <section class="os-sezione" aria-labelledby="os-menu-t">
+        <p class="os-num">01 · Il menu</p>
+        <h2 id="os-menu-t">Un assaggio</h2>
+        <p class="os-sottotitolo">Prezzi chiari, porzioni vere. Il menu completo ha sei categorie.</p>
         <div class="os-menu">
-          {menu.map((c) => (
+          {anteprima.map((c) => (
             <div class="os-cat">
               <h3>{c.cat}</h3>
               <ul>
@@ -113,11 +126,13 @@ const faqs = [
             </div>
           ))}
         </div>
+        <a class="os-menu-link" href="/demo/ristorante/menu">Menu completo con tutte le categorie →</a>
       </section>
 
       <section class="os-sezione" id="locale" aria-labelledby="os-locale-t" style="padding-block-start:0">
-        <h2 id="os-locale-t">Il locale</h2>
-        <p class="os-sottotitolo">Sala in pietra da 60 coperti più dehors estivo da 40.</p>
+        <p class="os-num">02 · Il locale</p>
+        <h2 id="os-locale-t">Pietra, legno e tovaglie a quadri</h2>
+        <p class="os-sottotitolo">Sala da 60 coperti più dehors estivo da 40.</p>
         <div class="os-galleria" role="list" aria-label="Spazi del locale">
           <div class="os-foto" role="listitem" style="background:#8a5a33;color:#f6ecda">Sala in pietra</div>
           <div class="os-foto" role="listitem" style="background:#b4551d;color:#fff8ef">Forno a legna</div>
@@ -125,10 +140,20 @@ const faqs = [
           <div class="os-foto" role="listitem" style="background:#c8a24a;color:#2b1c10">Cantina</div>
         </div>
       </section>
+    </div>
 
-      <section class="os-sezione" id="orari" aria-labelledby="os-orari-t" style="padding-block-start:0">
-        <h2 id="os-orari-t">Orari</h2>
-        <div class="os-orari">
+    <div class="os-citazione">
+      <div class="os-involucro">
+        <blockquote>“La diavola migliore mangiata fuori Napoli. Torniamo apposta da fuori città.”</blockquote>
+        <cite>Marco · recensione dimostrativa</cite>
+      </div>
+    </div>
+
+    <div class="os-involucro">
+      <section class="os-sezione" id="orari" aria-labelledby="os-orari-t">
+        <p class="os-num">03 · Orari e contatti</p>
+        <h2 id="os-orari-t">Quando ci trovi</h2>
+        <div class="os-orari" style="margin-block-start:24px">
           <table aria-label="Orari di apertura">
             <tr><td>Lunedì</td><td>Chiuso</td></tr>
             <tr><td>Mar – Ven</td><td>12:00 – 14:30 · 19:00 – 22:30</td></tr>
@@ -145,8 +170,9 @@ const faqs = [
       </section>
 
       <section class="os-sezione" id="domande" aria-labelledby="os-domande-t" style="padding-block-start:0">
-        <h2 id="os-domande-t">Domande</h2>
-        <div class="os-faq">
+        <p class="os-num">04 · Domande</p>
+        <h2 id="os-domande-t">Prima di venire</h2>
+        <div class="os-faq" style="margin-block-start:20px">
           {faqs.map((f) => (
             <details><summary>{f.q}</summary><p class="r">{f.a}</p></details>
           ))}
