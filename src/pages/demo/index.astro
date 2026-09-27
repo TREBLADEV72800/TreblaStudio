@@ -6,7 +6,6 @@ const demos = [
     slug: 'ristorante',
     nome: 'Osteria del Borgo',
     settore: 'Ristorante · Pizzeria',
-    formato: 'Più pagine',
     testo: 'Cucina piemontese e pizza nel cuore del borgo: menu con prezzi, prenotazione tavoli, serate a tema.',
     colore: '#3a2415',
     fondo: '#f3e8d5',
@@ -16,7 +15,6 @@ const demos = [
     slug: 'parrucchiere',
     nome: 'Aura · Hair & Beauty',
     settore: 'Parrucchiere · Beauty',
-    formato: 'Pagina singola',
     testo: 'Taglio, colore e trattamenti in un salone luminoso: listino chiaro, gallery lavori, prenotazione rapida.',
     colore: '#22201c',
     fondo: '#faf7f2',
@@ -26,7 +24,6 @@ const demos = [
     slug: 'impresa',
     nome: 'Officina Nord',
     settore: 'Impresa edile · Artigiani',
-    formato: 'Più pagine',
     testo: 'Ristrutturazioni e manutenzione con portfolio lavori, processo in 4 passi e richiesta preventivo.',
     colore: '#1c2126',
     fondo: '#eceff1',
@@ -36,7 +33,6 @@ const demos = [
     slug: 'studio',
     nome: 'Studio Forma',
     settore: 'Commercialista',
-    formato: 'Pagina singola',
     testo: 'Fisco e contabilità per piccole imprese: servizi, metodo, FAQ e primo appuntamento senza impegno.',
     colore: '#1f2a37',
     fondo: '#f2f4f6',
@@ -46,7 +42,6 @@ const demos = [
     slug: 'bar',
     nome: 'Caffè Lumen',
     settore: 'Bar · Caffetteria',
-    formato: 'Pagina singola',
     testo: 'Colazioni, pranzi veloci e aperitivi in centro: menu del giorno, orari lunghi, eventi della settimana.',
     colore: '#20242b',
     fondo: '#f6efe3',
@@ -56,7 +51,6 @@ const demos = [
     slug: 'beb',
     nome: 'Casa Verde',
     settore: 'Bed & Breakfast',
-    formato: 'Più pagine',
     testo: 'Tre camere tra le vigne con colazione inclusa: listino camere, territorio, regole chiare.',
     colore: '#2a2b24',
     fondo: '#e9e6d4',
@@ -91,7 +85,8 @@ const demos = [
     .demo-settore { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #b23a12; margin: 0 0 8px; }
     .demo-corpo h2 { font: 600 1.6rem/1.1 Fraunces, Georgia, serif; margin: 0; }
     .demo-corpo p { color: #6c6054; margin: 10px 0 0; font-size: 0.98rem; }
-    .demo-apri { display: inline-block; margin-block-start: 14px; font-weight: 700; font-size: 0.95rem; color: #b23a12; text-decoration: underline; text-underline-offset: 4px; }
+    .demo-apri { display: inline-block; font-weight: 700; font-size: 0.95rem; color: #b23a12; text-decoration: underline; text-underline-offset: 4px; }
+    .demo-link-riga { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-block-start: 14px; }
     .demo-nota { margin: 28px 0 0; color: #6c6054; font-size: 0.92rem; max-inline-size: 62ch; }
   </style>
 
@@ -106,19 +101,22 @@ const demos = [
       <ol class="demo-griglia">
         {demos.map((d) => (
           <li>
-            <a class="demo-card" href={`/demo/${d.slug}`}>
+            <article class="demo-card">
               <div class="demo-anteprima" style={`background:${d.fondo};color:${d.colore}`} aria-hidden="true">
                 <span class="demo-lettera" style={`color:${d.colore}`}>{d.nome.charAt(0)}</span>
                 <span style={`inline-size:52%;block-size:10px;background:${d.accento};opacity:.8`} />
                 <span style={`inline-size:38%;block-size:10px;background:${d.colore};opacity:.3`} />
               </div>
               <div class="demo-corpo">
-                <p class="demo-settore">{d.settore} · {d.formato}</p>
+                <p class="demo-settore">{d.settore}</p>
                 <h2>{d.nome}</h2>
                 <p>{d.testo}</p>
-                <span class="demo-apri">Apri demo →</span>
+                <div class="demo-link-riga">
+                  <a class="demo-apri" href={`/demo/${d.slug}-single`}>Pagina singola →</a>
+                  <a class="demo-apri" href={`/demo/${d.slug}`}>Più pagine →</a>
+                </div>
               </div>
-            </a>
+            </article>
           </li>
         ))}
       </ol>

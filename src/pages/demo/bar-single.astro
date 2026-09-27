@@ -1,5 +1,5 @@
 ---
-import DemoLayout from '../../../layouts/DemoLayout.astro';
+import DemoLayout from '../../layouts/DemoLayout.astro';
 
 const tel = '+39 0141 444 444';
 const telHref = 'tel:+390141444444';
@@ -67,7 +67,7 @@ const menu = [
   <div class="ba">
     <div class="ba-involucro">
       <header class="ba-top">
-        <a class="ba-marchio" href="/demo/bar">Caffè Lumen<small>Bar · Caffetteria</small></a>
+        <a class="ba-marchio" href="/demo/bar-single">Caffè Lumen<small>Bar · Caffetteria</small></a>
         <nav class="ba-nav" aria-label="Navigazione demo">
           <a href="#menu">Menu</a><a href="#eventi">Eventi</a><a href="#galleria">Galleria</a><a href="#contatti">Dove siamo</a>
         </nav>
@@ -91,7 +91,7 @@ const menu = [
         <h2 id="ba-menu-t">Il menu</h2>
         <p class="ba-sotto">Prezzi da bar di quartiere, scontrino sempre chiaro.</p>
         <div class="ba-menu">
-          {menu.slice(0, 2).map((c) => (
+          {menu.map((c) => (
             <div class="ba-cat">
               <h3>{c.cat}</h3>
               <ul>
@@ -102,7 +102,6 @@ const menu = [
             </div>
           ))}
         </div>
-        <p style="margin:20px 0 0"><a class="ba-cta" href="/demo/bar/menu">Menu completo →</a></p>
       </section>
 
       <section class="ba-sezione" id="eventi" aria-labelledby="ba-eventi-t" style="padding-block-start:0">

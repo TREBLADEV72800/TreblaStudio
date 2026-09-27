@@ -1,0 +1,78 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const tel = '+39 0141 111 111';
+const telHref = 'tel:+390141111111';
+
+const listino = [
+  ['Taglio donna', 'da € 28'],
+  ['Taglio uomo', '€ 20'],
+  ['Piega', 'da € 18'],
+  ['Colore', 'da € 45'],
+  ['Balayage', 'da € 80'],
+  ['Trattamento cheratina', 'da € 50'],
+  ['Barba e rifinitura', '€ 15'],
+];
+---
+
+<DemoLayout
+  title="Listino · Aura Hair & Beauty (demo)"
+  description="Demo concept: listino completo e prenotazioni di salone beauty. Attività fittizia."
+>
+  <style>
+    .au { background: #faf7f2; color: #22201c; font-family: Archivo, system-ui, sans-serif; padding-block-end: 56px; }
+    .au-involucro { inline-size: min(760px, 100% - 40px); margin-inline: auto; }
+    .au-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 26px 0; }
+    .au-marchio { font: 500 1.5rem/1 Fraunces, Georgia, serif; font-style: italic; text-decoration: none; color: inherit; }
+    .au-torna { color: #8a6d3b; font-weight: 700; font-size: 0.92rem; }
+    .au-titolo { padding: clamp(28px, 5vw, 52px) 0 8px; text-align: center; }
+    .au-kicker { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #8a6d3b; margin: 0 0 12px; }
+    .au-titolo h1 { font: 500 clamp(2.2rem, 6vw, 3.6rem)/1 Fraunces, Georgia, serif; font-style: italic; margin: 0; }
+    .au-titolo p { color: #6f675c; max-inline-size: 52ch; margin-inline: auto; }
+    .au-listino ul { list-style: none; margin: 28px 0 0; padding: 0; }
+    .au-listino li { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 15px 0; border-block-end: 1px solid #ddd3c2; font-size: 1.05rem; }
+    .au-listino .pr { font-family: Fraunces, Georgia, serif; font-style: italic; white-space: nowrap; }
+    .au-prenota { margin-block-start: 36px; text-align: center; border: 1px solid #22201c; border-radius: 8px; padding: 28px 24px; }
+    .au-prenota h2 { font: 500 1.5rem/1.2 Fraunces, Georgia, serif; font-style: italic; margin: 0 0 8px; }
+    .au-prenota p { color: #6f675c; margin: 0 0 18px; }
+    .au-cta { display: inline-block; background: #22201c; color: #faf7f2; text-decoration: none; padding: 13px 26px; border-radius: 999px; font-weight: 600; font-size: 0.92rem; }
+    .au-tel { display: block; margin-block-start: 12px; font-weight: 700; color: inherit; font-size: 1.15rem; }
+    .au-piede { margin-block-start: 44px; border-block-start: 1px solid #22201c; padding-block-start: 20px; font-size: 0.85rem; color: #6f675c; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .au-piede a { color: inherit; }
+  </style>
+
+  <div class="au">
+    <div class="au-involucro">
+      <header class="au-top">
+        <a class="au-marchio" href="/demo/parrucchiere">Aura</a>
+        <a class="au-torna" href="/demo/parrucchiere">← Torna al sito</a>
+      </header>
+
+      <section class="au-titolo" aria-labelledby="listino-titolo">
+        <p class="au-kicker">Aura · Listino</p>
+        <h1 id="listino-titolo">Tutto il listino</h1>
+        <p>Il prezzo lo concordiamo prima, in base a lunghezza e lavoro. Prima consulenza sempre gratuita.</p>
+      </section>
+
+      <div class="au-listino">
+        <ul>
+          {listino.map(([nome, prezzo]) => (
+            <li><span>{nome}</span><span class="pr">{prezzo}</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="au-prenota">
+        <h2>Come prenotare</h2>
+        <p>Chiamaci o passa in salone: Via Cavour 21, Asti (indirizzo dimostrativo). Lun – Sab · 9:00 – 19:00.</p>
+        <a class="au-cta" href={telHref}>Prenota ora</a>
+        <a class="au-tel" href={telHref}>{tel}</a>
+      </div>
+
+      <footer class="au-piede">
+        <span>Aura Hair &amp; Beauty · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>

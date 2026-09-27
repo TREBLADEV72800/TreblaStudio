@@ -1,0 +1,69 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const menu = [
+  { cat: 'Caffetteria', voci: [['Espresso', '1,20'], ['Cappuccino', '1,80'], ['Marocchino', '2,00'], ['Ginseng', '2,20']] },
+  { cat: 'Colazione', voci: [['Brioche', '1,50'], ['Brioche farcita', '2,50'], ['Toast', '3,50'], ['Spremuta d’arancia', '3,00']] },
+  { cat: 'Pranzo veloce', voci: [['Panino del giorno', '5,00'], ['Insalatona', '6,50'], ['Piadina', '5,50']] },
+  { cat: 'Aperitivo', voci: [['Spritz', '6,00'], ['Tagliere aperitivo', '8,00'], ['Calice di vino', '5,00'], ['Analcolico', '4,00']] },
+];
+---
+
+<DemoLayout
+  title="Menu · Caffè Lumen (demo)"
+  description="Demo concept: menu completo di bar e caffetteria con prezzi. Attività fittizia."
+>
+  <style>
+    .ba { background: #f6efe3; color: #20242b; font-family: Archivo, system-ui, sans-serif; padding-block-end: 56px; }
+    .ba-involucro { inline-size: min(900px, 100% - 40px); margin-inline: auto; }
+    .ba-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+    .ba-marchio { font-weight: 800; font-size: 1.25rem; text-decoration: none; color: inherit; }
+    .ba-torna { color: #c22e3a; font-weight: 700; font-size: 0.92rem; }
+    .ba-titolo { padding: clamp(28px, 5vw, 52px) 0 8px; }
+    .ba-kicker { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #c22e3a; margin: 0 0 12px; }
+    .ba-titolo h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); letter-spacing: -0.02em; margin: 0; font-weight: 800; }
+    .ba-titolo p { color: #5b636c; max-inline-size: 52ch; }
+    .ba-cat { background: #fffdf7; border: 1px solid #20242b; border-radius: 12px; padding: 22px; margin-block-start: 14px; }
+    .ba-cat h2 { font: 500 0.75rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #c22e3a; margin: 0 0 6px; }
+    .ba-cat ul { list-style: none; margin: 0; padding: 0; }
+    .ba-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 8px 0; border-block-end: 1px dotted #c9c2b2; }
+    .ba-cat li:last-child { border-block-end: 0; }
+    .ba-cat .pr { font-weight: 800; white-space: nowrap; }
+    .ba-nota { margin-block-start: 28px; color: #5b636c; font-size: 0.92rem; }
+    .ba-piede { margin-block-start: 40px; border-block-start: 1px solid #20242b; padding-block-start: 20px; font-size: 0.85rem; color: #5b636c; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .ba-piede a { color: inherit; }
+  </style>
+
+  <div class="ba">
+    <div class="ba-involucro">
+      <header class="ba-top">
+        <a class="ba-marchio" href="/demo/bar">Caffè Lumen</a>
+        <a class="ba-torna" href="/demo/bar">← Torna al sito</a>
+      </header>
+
+      <section class="ba-titolo" aria-labelledby="menu-titolo">
+        <p class="ba-kicker">Caffè Lumen · Menu</p>
+        <h1 id="menu-titolo">Tutto il menu</h1>
+        <p>Prezzi da bar di quartiere, scontrino sempre chiaro.</p>
+      </section>
+
+      {menu.map((c) => (
+        <div class="ba-cat">
+          <h2>{c.cat}</h2>
+          <ul>
+            {c.voci.map(([nome, prezzo]) => (
+              <li><span>{nome}</span><span class="pr">€ {prezzo}</span></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <p class="ba-nota">Menu dimostrativo a scopo illustrativo. Per prenotare un tavolo dell’aperitivo: <a href="tel:+390141444444" style="color:#c22e3a;font-weight:700">+39 0141 444 444</a>.</p>
+
+      <footer class="ba-piede">
+        <span>Caffè Lumen · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>

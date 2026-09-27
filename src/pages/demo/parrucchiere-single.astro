@@ -1,5 +1,5 @@
 ---
-import DemoLayout from '../../../layouts/DemoLayout.astro';
+import DemoLayout from '../../layouts/DemoLayout.astro';
 
 const tel = '+39 0141 111 111';
 const telHref = 'tel:+390141111111';
@@ -70,7 +70,7 @@ const listino = [
   <div class="au">
     <div class="au-involucro">
       <header class="au-top">
-        <a class="au-marchio" href="/demo/parrucchiere">Aura</a>
+        <a class="au-marchio" href="/demo/parrucchiere-single">Aura</a>
         <nav class="au-nav" aria-label="Navigazione demo">
           <a href="#listino">Listino</a><a href="#lavori">Lavori</a><a href="#team">Team</a><a href="#contatti">Contatti</a>
         </nav>
@@ -95,11 +95,10 @@ const listino = [
         </div>
         <div class="au-listino">
           <ul>
-            {listino.slice(0, 4).map(([nome, prezzo]) => (
+            {listino.map(([nome, prezzo]) => (
               <li><span>{nome}</span><span class="pr">{prezzo}</span></li>
             ))}
           </ul>
-          <p style="text-align:center;margin:22px 0 0"><a class="au-cta" href="/demo/parrucchiere/listino">Listino completo e prenotazioni →</a></p>
         </div>
       </section>
 

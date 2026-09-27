@@ -1,0 +1,53 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+---
+
+<DemoLayout
+  title="Servizi · Studio Forma (demo)"
+  description="Demo concept: servizi completi di studio commercialista. Attività fittizia."
+>
+  <style>
+    .st { background: #f2f4f6; color: #1f2a37; font-family: Archivo, system-ui, sans-serif; padding-block-end: 56px; }
+    .st-involucro { inline-size: min(860px, 100% - 40px); margin-inline: auto; }
+    .st-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 0; border-block-end: 1px solid #c6cdd4; }
+    .st-marchio { font-family: Georgia, 'Times New Roman', serif; font-size: 1.35rem; text-decoration: none; color: inherit; }
+    .st-torna { color: #2f5d50; font-weight: 700; font-size: 0.92rem; }
+    .st-titolo { padding: clamp(28px, 5vw, 52px) 0 8px; }
+    .st-kicker { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #2f5d50; margin: 0 0 12px; }
+    .st-titolo h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(2rem, 5vw, 3.2rem); margin: 0; }
+    .st-titolo p { color: #4c5a68; max-inline-size: 56ch; }
+    .st-blocco { background: #fff; border: 1px solid #c6cdd4; border-radius: 8px; padding: 24px; margin-block-start: 14px; }
+    .st-blocco h2 { margin: 0 0 8px; font-size: 1.2rem; }
+    .st-blocco p { margin: 0; color: #4c5a68; font-size: 0.95rem; line-height: 1.65; }
+    .st-nota { margin-block-start: 28px; border-inline-start: 3px solid #2f5d50; padding-inline-start: 18px; color: #4c5a68; max-inline-size: 60ch; }
+    .st-piede { margin-block-start: 44px; border-block-start: 1px solid #c6cdd4; padding-block-start: 20px; font-size: 0.85rem; color: #4c5a68; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .st-piede a { color: inherit; }
+  </style>
+
+  <div class="st">
+    <div class="st-involucro">
+      <header class="st-top">
+        <a class="st-marchio" href="/demo/studio">Studio Forma</a>
+        <a class="st-torna" href="/demo/studio">← Torna al sito</a>
+      </header>
+
+      <section class="st-titolo" aria-labelledby="servizi-titolo">
+        <p class="st-kicker">Studio Forma · Servizi</p>
+        <h1 id="servizi-titolo">Tutti i servizi</h1>
+        <p>Preventivi scritti prima di iniziare, compensi chiari e niente gergo inutile.</p>
+      </section>
+
+      <div class="st-blocco"><h2>Contabilità e bilanci</h2><p>Registrazioni, prima nota, bilanci annuali e infra-annuali con spiegazione riga per riga. Report trimestrali semplici per capire dove sta andando l’attività.</p></div>
+      <div class="st-blocco"><h2>Dichiarazioni fiscali</h2><p>Redditi, IVA, IRAP e adempimenti periodici, con calendario scadenze condiviso e promemoria prima di ogni versamento.</p></div>
+      <div class="st-blocco"><h2>Apertura partita IVA</h2><p>Regime forfettario o ordinario: simulazione imposte e scelta consapevole prima di partire, con assistenza nei primi mesi.</p></div>
+      <div class="st-blocco"><h2>Consulenza del lavoro</h2><p>Assunzioni, buste paga e contratti, in collaborazione con consulenti abilitati. Un solo interlocutore per tutto.</p></div>
+
+      <p class="st-nota">I compensi si concordano per iscritto dopo il primo colloquio gratuito: sai sempre quanto spendi prima di iniziare.</p>
+
+      <footer class="st-piede">
+        <span>Studio Forma · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>
