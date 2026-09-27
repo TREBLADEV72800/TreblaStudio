@@ -860,7 +860,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         indietro.hidden = idx === 0;
         const id = f[idx];
         avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
-        avanti.hidden = id === 'altro-invia';
+        avanti.hidden = id === 'altro-invia' || id === 'invia';
         if (id === 'invia') aggiornaInvia();
         if (scroll) {
           domanda.focus({ preventScroll: true });
@@ -948,10 +948,9 @@ const canonicalHref = canonicalUrl('/preventivo');
       .cfg-schermo .opzione { min-block-size: 52px; padding: 11px 6px; }
       .cfg-schermo .wizard-riga { padding: 8px 0; }
       .cfg-schermo .wizard-totale-finale { padding: 12px 16px; margin-block-start: 0; }
-      /* Ultimo passo fermo: via barra fissa e contatore, tutto entra senza scroll */
-      body[data-passo="invia"] .wizard-barra-fissa { display: none; }
+      /* Ultimo passo fermo: via contatore, resta solo Indietro, tutto entra senza scroll */
       body[data-passo="invia"] #w-passo { display: none; }
-      body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 8px; }
+      body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
       .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
       .cfg-schermo .wizard-totale-finale .d { margin: 0 0 10px; font-size: 0.88rem; }
       .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
