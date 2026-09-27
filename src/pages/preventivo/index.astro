@@ -370,6 +370,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         const f = flusso();
         if (idx >= f.length) idx = f.length - 1;
         const id = f[idx];
+        document.body.dataset.passo = id;
         corpo.innerHTML = '';
         nascondiErrore();
         sotto.style.display = '';
@@ -946,7 +947,11 @@ const canonicalHref = canonicalUrl('/preventivo');
       /* Righe compatte: tutto deve stare nello schermo, senza scorrere */
       .cfg-schermo .opzione { min-block-size: 52px; padding: 11px 6px; }
       .cfg-schermo .wizard-riga { padding: 8px 0; }
-      .cfg-schermo .wizard-totale-finale { padding: 16px 18px; margin-block-start: 0; }
+      .cfg-schermo .wizard-totale-finale { padding: 12px 16px; margin-block-start: 0; }
+      /* Ultimo passo fermo: via barra fissa e contatore, tutto entra senza scroll */
+      body[data-passo="invia"] .wizard-barra-fissa { display: none; }
+      body[data-passo="invia"] #w-passo { display: none; }
+      body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 8px; }
       .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
       .cfg-schermo .wizard-totale-finale .d { margin: 0 0 10px; font-size: 0.88rem; }
       .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
