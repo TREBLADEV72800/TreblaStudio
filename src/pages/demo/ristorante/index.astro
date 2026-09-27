@@ -1,0 +1,164 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const tel = '+39 0141 000 000';
+const telHref = 'tel:+390141000000';
+const email = 'osteria-borgo@example.com';
+
+const menu = [
+  { cat: 'Antipasti', voci: [['Tagliere del borgo', '12,00'], ['Vitello tonnato', '11,00'], ['Peperoni in bagna caoda', '9,00'], ['Insalata russa della casa', '7,50']] },
+  { cat: 'Pizze', voci: [['Margherita', '7,50'], ['Diavola', '9,00'], ['Quattro formaggi', '9,50'], ['Borgo (salsiccia e friarielli)', '10,00']] },
+  { cat: 'Primi', voci: [['Agnolotti al sugo', '13,00'], ['Tajarin ai funghi', '12,00'], ['Risotto al barbera', '13,50']] },
+  { cat: 'Secondi', voci: [['Brasato al barbera', '16,00'], ['Pollo alla cacciatora', '13,00'], ['Fritto misto alla piemontese', '15,00']] },
+  { cat: 'Dolci', voci: [['Bunet', '6,00'], ['Panna cotta ai frutti di bosco', '5,50'], ['Torta di nocciole', '6,00']] },
+  { cat: 'Bevande', voci: [['Calice di barbera', '5,00'], ['Birra artigianale 0,4', '4,50'], ['Acqua 0,75', '2,50']] },
+];
+
+const faqs = [
+  { q: 'Serve prenotare?', a: 'Nel weekend sì, consigliamo sempre di chiamare. In settimana troviamo posto quasi sempre.' },
+  { q: 'Avete opzioni senza glutine?', a: 'Sì: basi pizza senza glutine e diversi piatti segnalati sul menu. Avvisaci al momento della prenotazione.' },
+  { q: 'Fate asporto?', a: 'Sì, pizze e piatti principali anche da asporto. Ordina per telefono e passa a ritirare.' },
+];
+---
+
+<DemoLayout
+  title="Osteria del Borgo · Ristorante Pizzeria (demo)"
+  description="Demo concept di sito per osteria e pizzeria: menu con prezzi, prenotazioni, orari. Attività fittizia."
+>
+  <style>
+    .os { background: #f6ecda; color: #2b1c10; font-family: Archivo, system-ui, sans-serif; }
+    .os-involucro { inline-size: min(1080px, 100% - 40px); margin-inline: auto; }
+    .os-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; border-block-end: 1px solid #2b1c10; }
+    .os-marchio { font: 600 1.3rem/1 Fraunces, Georgia, serif; text-decoration: none; color: inherit; }
+    .os-marchio small { display: block; font: 500 0.65rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.18em; text-transform: uppercase; color: #b4551d; }
+    .os-nav { display: none; gap: 20px; }
+    @media (min-width: 860px) { .os-nav { display: flex; } }
+    .os-nav a { color: inherit; text-decoration: none; font-size: 0.92rem; font-weight: 500; }
+    .os-cta { display: inline-block; background: #b4551d; color: #fff8ef; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 8px; }
+    .os-hero { padding: clamp(48px, 8vw, 110px) 0 clamp(36px, 5vw, 64px); }
+    .os-kicker { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.18em; text-transform: uppercase; color: #b4551d; margin: 0 0 14px; }
+    .os-hero h1 { font: 600 clamp(2.8rem, 8vw, 5.4rem)/0.98 Fraunces, Georgia, serif; letter-spacing: -0.02em; margin: 0; max-inline-size: 12ch; }
+    .os-hero h1 em { font-style: italic; font-weight: 500; color: #b4551d; }
+    .os-hero p { font-size: 1.12rem; line-height: 1.6; color: #5d4a36; max-inline-size: 48ch; }
+    .os-hero-riga { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-block-start: 24px; }
+    .os-tel { font-weight: 700; color: #2b1c10; }
+    .os-filo { border-block: 1px solid #2b1c10; padding: clamp(24px, 4vw, 40px) 0; font: 500 clamp(1.2rem, 2.6vw, 1.7rem)/1.4 Fraunces, Georgia, serif; }
+    .os-filo p { margin: 0; max-inline-size: 40ch; }
+    .os-sezione { padding: clamp(40px, 6vw, 72px) 0; }
+    .os-sezione h2 { font: 600 clamp(1.8rem, 4vw, 2.8rem)/1.05 Fraunces, Georgia, serif; margin: 0 0 8px; letter-spacing: -0.015em; }
+    .os-sottotitolo { color: #5d4a36; margin: 0 0 28px; max-inline-size: 56ch; }
+    .os-menu { display: grid; gap: 32px; grid-template-columns: 1fr; }
+    @media (min-width: 860px) { .os-menu { grid-template-columns: 1fr 1fr; gap: 32px 56px; } }
+    .os-cat h3 { font: 500 0.78rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #b4551d; border-block-end: 1px solid #2b1c10; padding-block-end: 8px; margin: 0 0 4px; }
+    .os-cat ul { list-style: none; margin: 0; padding: 0; }
+    .os-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-block-end: 1px dotted #b9a888; }
+    .os-cat .pr { font-weight: 700; white-space: nowrap; }
+    .os-scuro { background: #2b1c10; color: #f3e8d5; }
+    .os-scuro h2 { color: #f3e8d5; }
+    .os-galleria { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    @media (min-width: 860px) { .os-galleria { grid-template-columns: repeat(4, 1fr); } }
+    .os-foto { border-radius: 8px; min-block-size: 150px; padding: 14px; display: flex; align-items: flex-end; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+    .os-orari { display: grid; gap: 24px; grid-template-columns: 1fr; }
+    @media (min-width: 860px) { .os-orari { grid-template-columns: 1fr 1fr; } }
+    .os-orari table { border-collapse: collapse; inline-size: 100%; }
+    .os-orari td { padding: 9px 0; border-block-start: 1px solid #b9a888; }
+    .os-orari td:last-child { text-align: end; font-weight: 600; }
+    .os-faq details { border-block-start: 1px solid #2b1c10; }
+    .os-faq summary { cursor: pointer; font: 600 1.1rem/1.3 Fraunces, Georgia, serif; padding: 14px 0; list-style: none; }
+    .os-faq summary::-webkit-details-marker { display: none; }
+    .os-faq .r { padding: 0 0 16px; color: #5d4a36; margin: 0; max-inline-size: 60ch; }
+    .os-piede { background: #2b1c10; color: #f3e8d5; padding: 36px 0 28px; }
+    .os-piede a { color: #f3e8d5; }
+    .os-piede-riga { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; font-size: 0.9rem; color: #cdbfa5; }
+    .os-contatti { display: grid; gap: 8px; font-size: 1.05rem; }
+    .os-contatti a { color: inherit; font-weight: 700; }
+  </style>
+
+  <div class="os">
+    <div class="os-involucro">
+      <header class="os-top">
+        <a class="os-marchio" href="/demo/ristorante">Osteria del Borgo<small>Ristorante · Pizzeria</small></a>
+        <nav class="os-nav" aria-label="Navigazione demo">
+          <a href="#menu">Menu</a><a href="#locale">Il locale</a><a href="#orari">Orari</a><a href="#domande">Domande</a><a href="#contatti">Contatti</a>
+        </nav>
+        <a class="os-cta" href={telHref}>Prenota un tavolo</a>
+      </header>
+
+      <section class="os-hero" aria-labelledby="os-titolo">
+        <p class="os-kicker">Cucina piemontese · Pizza nel forno a legna</p>
+        <h1 id="os-titolo">La tavola del borgo, <em>come una volta.</em></h1>
+        <p>Agnolotti tirati a mano, pizze alte e soffici, vini della zona. A due minuti dalla piazza, con il parcheggio dietro l’angolo.</p>
+        <div class="os-hero-riga">
+          <a class="os-cta" href={telHref}>Prenota un tavolo</a>
+          <a class="os-tel" href={telHref}>{tel}</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="os-filo"><div class="os-involucro"><p>“Cuciniamo quello che ci portano i contadini qui intorno. Il resto lo fa il forno.”</p></div></div>
+
+    <div class="os-involucro">
+      <section class="os-sezione" id="menu" aria-labelledby="os-menu-t">
+        <h2 id="os-menu-t">Il menu</h2>
+        <p class="os-sottotitolo">Prezzi chiari, porzioni vere. Il menu del giorno lo trovi scritto sulla lavagna all’ingresso.</p>
+        <div class="os-menu">
+          {menu.map((c) => (
+            <div class="os-cat">
+              <h3>{c.cat}</h3>
+              <ul>
+                {c.voci.map(([nome, prezzo]) => (
+                  <li><span>{nome}</span><span class="pr">€ {prezzo}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="os-sezione" id="locale" aria-labelledby="os-locale-t" style="padding-block-start:0">
+        <h2 id="os-locale-t">Il locale</h2>
+        <p class="os-sottotitolo">Sala in pietra da 60 coperti più dehors estivo da 40.</p>
+        <div class="os-galleria" role="list" aria-label="Spazi del locale">
+          <div class="os-foto" role="listitem" style="background:#8a5a33;color:#f6ecda">Sala in pietra</div>
+          <div class="os-foto" role="listitem" style="background:#b4551d;color:#fff8ef">Forno a legna</div>
+          <div class="os-foto" role="listitem" style="background:#5d4a36;color:#f6ecda">Dehors estivo</div>
+          <div class="os-foto" role="listitem" style="background:#c8a24a;color:#2b1c10">Cantina</div>
+        </div>
+      </section>
+
+      <section class="os-sezione" id="orari" aria-labelledby="os-orari-t" style="padding-block-start:0">
+        <h2 id="os-orari-t">Orari</h2>
+        <div class="os-orari">
+          <table aria-label="Orari di apertura">
+            <tr><td>Lunedì</td><td>Chiuso</td></tr>
+            <tr><td>Mar – Ven</td><td>12:00 – 14:30 · 19:00 – 22:30</td></tr>
+            <tr><td>Sabato</td><td>12:00 – 15:00 · 19:00 – 23:00</td></tr>
+            <tr><td>Domenica</td><td>12:00 – 15:00</td></tr>
+          </table>
+          <div class="os-contatti" id="contatti">
+            <span>Via delle Rose 8, 14100 Asti <small>(indirizzo dimostrativo)</small></span>
+            <a href={telHref}>{tel}</a>
+            <a href={`mailto:${email}`}>{email}</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Asti" target="_blank" rel="noopener noreferrer">Come arrivare →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="os-sezione" id="domande" aria-labelledby="os-domande-t" style="padding-block-start:0">
+        <h2 id="os-domande-t">Domande</h2>
+        <div class="os-faq">
+          {faqs.map((f) => (
+            <details><summary>{f.q}</summary><p class="r">{f.a}</p></details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <footer class="os-piede">
+      <div class="os-involucro os-piede-riga">
+        <span>Osteria del Borgo · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </div>
+    </footer>
+  </div>
+</DemoLayout>

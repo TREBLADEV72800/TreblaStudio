@@ -1,0 +1,159 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const tel = '+39 0141 222 222';
+const telHref = 'tel:+390141222222';
+const email = 'officina-nord@example.com';
+
+const servizi = [
+  ['Ristrutturazioni complete', 'Appartamenti e case, chiavi in mano, un solo referente.'],
+  ['Bagni e cucine', 'Rifacimenti mirati in 2-3 settimane, senza sorprese.'],
+  ['Muratura e cartongesso', 'Pareti, controsoffitti, isolamento termoacustico.'],
+  ['Esterni e tetti', 'Facciate, tetti, pavimentazioni esterne e recinzioni.'],
+  ['Manutenzione programmata', 'Piccoli interventi rapidi per condomini e attività.'],
+  ['Pratiche e detrazioni', 'Ti seguiamo tra bonus casa, preventivi e scadenze.'],
+];
+---
+
+<DemoLayout
+  title="Officina Nord · Impresa edile (demo)"
+  description="Demo concept di sito per impresa edile: servizi, portfolio, preventivo. Attività fittizia."
+>
+  <style>
+    .im { background: #eceff1; color: #1c2126; font-family: Archivo, system-ui, sans-serif; }
+    .im-involucro { inline-size: min(1080px, 100% - 40px); margin-inline: auto; }
+    .im-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+    .im-marchio { font-weight: 800; letter-spacing: 0.02em; text-decoration: none; color: inherit; font-size: 1.15rem; }
+    .im-marchio small { display: block; font: 500 0.65rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; color: #c8641a; }
+    .im-nav { display: none; gap: 20px; }
+    @media (min-width: 860px) { .im-nav { display: flex; } }
+    .im-nav a { color: inherit; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .im-cta { display: inline-block; background: #c8641a; color: #fff; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 4px; }
+    .im-hero { background: #1c2126; color: #f2f4f6; padding: clamp(48px, 8vw, 100px) 0; }
+    .im-hero h1 { font-size: clamp(2.4rem, 6.5vw, 4.6rem); line-height: 1; letter-spacing: -0.02em; margin: 0; max-inline-size: 16ch; font-weight: 800; }
+    .im-hero h1 em { font-style: normal; color: #e89a4b; }
+    .im-kicker { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #e89a4b; margin: 0 0 14px; }
+    .im-hero p { color: #b9c2c9; max-inline-size: 52ch; line-height: 1.6; }
+    .im-hero-riga { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-block-start: 26px; }
+    .im-hero-riga .tel { color: #fff; font-weight: 700; font-size: 1.1rem; }
+    .im-sezione { padding: clamp(40px, 6vw, 72px) 0; }
+    .im-sezione h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); letter-spacing: -0.015em; margin: 0 0 6px; font-weight: 800; }
+    .im-sotto { color: #5a646c; margin: 0 0 28px; max-inline-size: 60ch; }
+    .im-servizi { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-block-start: 2px solid #1c2126; grid-template-columns: 1fr; }
+    @media (min-width: 860px) { .im-servizi { grid-template-columns: 1fr 1fr; } .im-servizi li:nth-child(odd) { border-inline-end: 2px solid #1c2126; } }
+    .im-servizi li { border-block-end: 2px solid #1c2126; padding: 22px 20px 22px 0; }
+    @media (min-width: 860px) { .im-servizi li:nth-child(odd) { padding-inline-end: 28px; } .im-servizi li:nth-child(even) { padding-inline-start: 28px; } }
+    .im-servizi .n { font: 500 0.75rem ui-monospace, Menlo, monospace; color: #c8641a; }
+    .im-servizi h3 { margin: 8px 0 6px; font-size: 1.25rem; }
+    .im-servizi p { margin: 0; color: #5a646c; font-size: 0.95rem; }
+    .im-passi { list-style: none; margin: 0; padding: 0; counter-reset: passo; display: grid; gap: 12px; grid-template-columns: 1fr; }
+    @media (min-width: 860px) { .im-passi { grid-template-columns: repeat(4, 1fr); } }
+    .im-passi li { counter-increment: passo; background: #1c2126; color: #f2f4f6; border-radius: 4px; padding: 20px; }
+    .im-passi li::before { content: "0" counter(passo); font: 500 0.75rem ui-monospace, Menlo, monospace; color: #e89a4b; }
+    .im-passi h3 { margin: 10px 0 6px; font-size: 1.1rem; }
+    .im-passi p { margin: 0; color: #b9c2c9; font-size: 0.9rem; }
+    .im-portfolio { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    @media (min-width: 860px) { .im-portfolio { grid-template-columns: repeat(3, 1fr); } }
+    .im-lavoro { background: #fff; border: 1px solid #cfd6db; border-radius: 4px; padding: 18px; }
+    .im-lavoro .tag { font: 500 0.7rem ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #c8641a; margin: 0 0 8px; }
+    .im-lavoro h3 { margin: 0 0 6px; font-size: 1.1rem; }
+    .im-lavoro p { margin: 0; color: #5a646c; font-size: 0.9rem; }
+    .im-rec { background: #fff; border-inline-start: 4px solid #c8641a; padding: 18px 20px; margin: 12px 0 0; }
+    .im-rec p { margin: 0; font-size: 1.02rem; }
+    .im-rec cite { display: block; margin-block-start: 8px; font-style: normal; font-size: 0.82rem; color: #5a646c; letter-spacing: 0.08em; text-transform: uppercase; }
+    .im-faq details { border-block-start: 1px solid #1c2126; }
+    .im-faq summary { cursor: pointer; font-weight: 700; padding: 14px 0; list-style: none; }
+    .im-faq summary::-webkit-details-marker { display: none; }
+    .im-faq p { margin: 0 0 16px; color: #5a646c; max-inline-size: 62ch; }
+    .im-contatti { background: #1c2126; color: #f2f4f6; border-radius: 4px; padding: clamp(24px, 4vw, 40px); display: grid; gap: 16px; }
+    .im-contatti h2 { color: #fff; margin: 0; }
+    .im-contatti a.tel { color: #fff; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; text-decoration: none; }
+    .im-contatti .mail { color: #e89a4b; }
+    .im-piede { padding: 28px 0; font-size: 0.85rem; color: #5a646c; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .im-piede a { color: inherit; }
+  </style>
+
+  <div class="im">
+    <div class="im-involucro">
+      <header class="im-top">
+        <a class="im-marchio" href="/demo/impresa">OFFICINA NORD<small>Impresa edile</small></a>
+        <nav class="im-nav" aria-label="Navigazione demo">
+          <a href="#servizi">Servizi</a><a href="#metodo">Metodo</a><a href="#lavori">Lavori</a><a href="#domande">FAQ</a>
+        </nav>
+        <a class="im-cta" href={telHref}>Richiedi preventivo</a>
+      </header>
+    </div>
+
+    <section class="im-hero" aria-labelledby="im-titolo">
+      <div class="im-involucro">
+        <p class="im-kicker">Asti e dintorni · sopralluogo gratuito</p>
+        <h1 id="im-titolo">Ristrutturiamo case, <em>manteniamo promesse.</em></h1>
+        <p>Sopralluogo gratuito, preventivo scritto voce per voce, cantiere pulito e data di fine lavori nero su bianco.</p>
+        <div class="im-hero-riga">
+          <a class="im-cta" href={telHref}>Richiedi un preventivo</a>
+          <a class="tel" href={telHref}>{tel}</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="im-involucro">
+      <section class="im-sezione" id="servizi" aria-labelledby="im-servizi-t">
+        <h2 id="im-servizi-t">Cosa facciamo</h2>
+        <p class="im-sotto">Sei ambiti, un solo referente: dal primo sopralluogo alla pulizia finale.</p>
+        <ol class="im-servizi">
+          {servizi.map(([t, d], i) => (
+            <li><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="im-sezione" id="metodo" aria-labelledby="im-metodo-t" style="padding-block-start:0">
+        <h2 id="im-metodo-t">Come lavoriamo</h2>
+        <p class="im-sotto">Quattro passi, sempre gli stessi per ogni cantiere.</p>
+        <ol class="im-passi">
+          <li><h3>Sopralluogo</h3><p>Veniamo a vedere, misuriamo, ascoltiamo. Gratis.</p></li>
+          <li><h3>Preventivo scritto</h3><p>Voci chiare e data di fine lavori.</p></li>
+          <li><h3>Cantiere</h3><p>Ordine, orari rispettati, aggiornamenti foto.</p></li>
+          <li><h3>Collaudo</h3><p>Controlli insieme e garanzia scritta.</p></li>
+        </ol>
+      </section>
+
+      <section class="im-sezione" id="lavori" aria-labelledby="im-lavori-t" style="padding-block-start:0">
+        <h2 id="im-lavori-t">Lavori recenti</h2>
+        <p class="im-sotto">Una selezione dimostrativa di interventi tipo.</p>
+        <div class="im-portfolio">
+          <div class="im-lavoro"><p class="tag">Bagno</p><h3>Rifacimento completo 8 mq</h3><p>Demolizione, impianti, piastrelle e sanitari in 18 giorni.</p></div>
+          <div class="im-lavoro"><p class="tag">Esterni</p><h3>Facciata e tetto villetta</h3><p>Cappotto, gronde e lattoneria, ponteggio incluso.</p></div>
+          <div class="im-lavoro"><p class="tag">Cucina</p><h3>Cucina abitabile open space</h3><p>Abbattimento tramezzo, cucina su misura, parquet.</p></div>
+        </div>
+        <div class="im-rec">
+          <p>“Preventivo rispettato al centesimo e casa riconsegnata pulita. Li richiamerei domani.”</p>
+          <cite>Paolo · recensione dimostrativa</cite>
+        </div>
+      </section>
+
+      <section class="im-sezione" id="domande" aria-labelledby="im-domande-t" style="padding-block-start:0">
+        <h2 id="im-domande-t">Domande frequenti</h2>
+        <div class="im-faq">
+          <details><summary>Il sopralluogo costa?</summary><p>No: sopralluogo e primo preventivo sono gratuiti in zona Asti.</p></details>
+          <details><summary>Quanto dura una ristrutturazione bagno?</summary><p>In genere 2-3 settimane. La data di fine è scritta nel preventivo.</p></details>
+          <details><summary>Seguite le detrazioni fiscali?</summary><p>Sì: bonus casa e pratiche annesse, con documenti in regola.</p></details>
+        </div>
+      </section>
+
+      <section class="im-sezione" id="contatti" aria-labelledby="im-contatti-t" style="padding-block-start:0">
+        <div class="im-contatti">
+          <h2 id="im-contatti-t">Parliamone in cantiere, non al telefono per ore.</h2>
+          <a class="tel" href={telHref}>{tel}</a>
+          <a class="mail" href={`mailto:${email}`}>{email}</a>
+          <p style="margin:0;color:#b9c2c9">Via dei Cantieri 15, 14100 Asti (indirizzo dimostrativo) · Lun – Ven 8:00 – 18:00</p>
+        </div>
+      </section>
+
+      <footer class="im-piede">
+        <span>Officina Nord · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>

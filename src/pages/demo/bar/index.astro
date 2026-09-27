@@ -1,0 +1,138 @@
+---
+import DemoLayout from '../../../layouts/DemoLayout.astro';
+
+const tel = '+39 0141 444 444';
+const telHref = 'tel:+390141444444';
+const email = 'caffe-lumen@example.com';
+
+const menu = [
+  { cat: 'Caffetteria', voci: [['Espresso', '1,20'], ['Cappuccino', '1,80'], ['Marocchino', '2,00'], ['Ginseng', '2,20']] },
+  { cat: 'Colazione', voci: [['Brioche', '1,50'], ['Brioche farcita', '2,50'], ['Toast', '3,50'], ['Spremuta d’arancia', '3,00']] },
+  { cat: 'Pranzo veloce', voci: [['Panino del giorno', '5,00'], ['Insalatona', '6,50'], ['Piadina', '5,50']] },
+  { cat: 'Aperitivo', voci: [['Spritz', '6,00'], ['Tagliere aperitivo', '8,00'], ['Calice di vino', '5,00'], ['Analcolico', '4,00']] },
+];
+---
+
+<DemoLayout
+  title="Caffè Lumen · Bar e caffetteria (demo)"
+  description="Demo concept di sito per bar e caffetteria: menu, orari, eventi. Attività fittizia."
+>
+  <style>
+    .ba { background: #f6efe3; color: #20242b; font-family: Archivo, system-ui, sans-serif; }
+    .ba-involucro { inline-size: min(1080px, 100% - 40px); margin-inline: auto; }
+    .ba-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+    .ba-marchio { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.01em; text-decoration: none; color: inherit; }
+    .ba-marchio small { display: block; font: 500 0.65rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.22em; color: #c22e3a; }
+    .ba-nav { display: none; gap: 20px; }
+    @media (min-width: 860px) { .ba-nav { display: flex; } }
+    .ba-nav a { color: inherit; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .ba-cta { display: inline-block; background: #c22e3a; color: #fff; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 999px; font-size: 0.95rem; }
+    .ba-hero { background: #20242b; color: #f6efe3; border-radius: 16px; padding: clamp(36px, 6vw, 72px) clamp(24px, 5vw, 64px); margin-block-start: 12px; }
+    .ba-hero h1 { font-size: clamp(2.6rem, 8vw, 5.6rem); line-height: 0.95; letter-spacing: -0.03em; margin: 0; font-weight: 800; }
+    .ba-hero h1 em { font-style: normal; color: #f0b429; }
+    .ba-kicker { font: 500 0.75rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #f0b429; margin: 0 0 14px; }
+    .ba-hero p { color: #c8cdd4; max-inline-size: 46ch; line-height: 1.6; }
+    .ba-hero-riga { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-block-start: 26px; }
+    .ba-orari-pill { display: inline-block; border: 1px solid #4a5158; border-radius: 999px; padding: 10px 18px; font-size: 0.88rem; color: #f6efe3; }
+    .ba-sezione { padding: clamp(40px, 6vw, 72px) 0; }
+    .ba-sezione h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.02em; margin: 0 0 6px; font-weight: 800; }
+    .ba-sotto { color: #5b636c; margin: 0 0 26px; max-inline-size: 56ch; }
+    .ba-menu { display: grid; gap: 14px; grid-template-columns: 1fr; }
+    @media (min-width: 760px) { .ba-menu { grid-template-columns: 1fr 1fr; } }
+    .ba-cat { background: #fffdf7; border: 1px solid #20242b; border-radius: 12px; padding: 22px; }
+    .ba-cat h3 { font: 500 0.75rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #c22e3a; margin: 0 0 6px; }
+    .ba-cat ul { list-style: none; margin: 0; padding: 0; }
+    .ba-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 8px 0; border-block-end: 1px dotted #c9c2b2; }
+    .ba-cat li:last-child { border-block-end: 0; }
+    .ba-cat .pr { font-weight: 800; white-space: nowrap; }
+    .ba-eventi { background: #c22e3a; color: #fff; border-radius: 12px; padding: clamp(24px, 4vw, 40px); }
+    .ba-eventi h2 { color: #fff; }
+    .ba-eventi ul { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 12px; }
+    @media (min-width: 760px) { .ba-eventi ul { grid-template-columns: repeat(3, 1fr); } }
+    .ba-eventi li { background: rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 16px; }
+    .ba-eventi li strong { display: block; margin-block-end: 4px; }
+    .ba-eventi li span { font-size: 0.9rem; opacity: 0.9; }
+    .ba-galleria { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
+    .ba-foto { border-radius: 12px; min-block-size: 130px; padding: 14px; display: flex; align-items: flex-end; font: 500 0.7rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+    .ba-contatti { display: grid; gap: 10px; font-size: 1.05rem; }
+    .ba-contatti a { color: inherit; font-weight: 700; }
+    .ba-piede { padding: 26px 0 30px; font-size: 0.85rem; color: #5b636c; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+    .ba-piede a { color: inherit; }
+  </style>
+
+  <div class="ba">
+    <div class="ba-involucro">
+      <header class="ba-top">
+        <a class="ba-marchio" href="/demo/bar">Caffè Lumen<small>Bar · Caffetteria</small></a>
+        <nav class="ba-nav" aria-label="Navigazione demo">
+          <a href="#menu">Menu</a><a href="#eventi">Eventi</a><a href="#galleria">Galleria</a><a href="#contatti">Dove siamo</a>
+        </nav>
+        <a class="ba-cta" href={telHref}>Chiamaci</a>
+      </header>
+
+      <section class="ba-hero" aria-labelledby="ba-titolo">
+        <p class="ba-kicker">Bar di quartiere · dal mattino alla sera</p>
+        <h1 id="ba-titolo">Il buongiorno <em>comincia qui.</em></h1>
+        <p>Espresso come si deve, brioche calde fino alle 10:30, aperitivo la sera. Tavolini fuori da aprile a ottobre.</p>
+        <div class="ba-hero-riga">
+          <a class="ba-cta" href="#menu">Guarda il menu</a>
+          <span class="ba-orari-pill">Oggi 7:00 – 22:00 (orario dimostrativo)</span>
+        </div>
+      </section>
+
+      <section class="ba-sezione" id="menu" aria-labelledby="ba-menu-t">
+        <h2 id="ba-menu-t">Il menu</h2>
+        <p class="ba-sotto">Prezzi da bar di quartiere, scontrino sempre chiaro.</p>
+        <div class="ba-menu">
+          {menu.map((c) => (
+            <div class="ba-cat">
+              <h3>{c.cat}</h3>
+              <ul>
+                {c.voci.map(([nome, prezzo]) => (
+                  <li><span>{nome}</span><span class="pr">€ {prezzo}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="ba-sezione" id="eventi" aria-labelledby="ba-eventi-t" style="padding-block-start:0">
+        <div class="ba-eventi">
+          <h2 id="ba-eventi-t">Questa settimana</h2>
+          <ul>
+            <li><strong>Mercoledì · Spritz night</strong><span>Spritz a € 5 dalle 18:00 alle 20:00.</span></li>
+            <li><strong>Venerdì · Vinili</strong><span>Selezione soul e funk dal giradischi del bancone.</span></li>
+            <li><strong>Domenica · Colazione lenta</strong><span>Brioche e giornali fino alle 12:00.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="ba-sezione" id="galleria" aria-labelledby="ba-galleria-t" style="padding-block-start:0">
+        <h2 id="ba-galleria-t">Il bar</h2>
+        <p class="ba-sotto">Bancone in marmo, dehors e la vetrina dei dolci.</p>
+        <div class="ba-galleria" role="list" aria-label="Spazi del bar">
+          <div class="ba-foto" role="listitem" style="background:#20242b;color:#f6efe3">Bancone</div>
+          <div class="ba-foto" role="listitem" style="background:#c22e3a;color:#fff">Dehors</div>
+          <div class="ba-foto" role="listitem" style="background:#f0b429;color:#20242b">Vetrina dolci</div>
+        </div>
+      </section>
+
+      <section class="ba-sezione" id="contatti" aria-labelledby="ba-contatti-t" style="padding-block-start:0">
+        <h2 id="ba-contatti-t">Dove siamo</h2>
+        <div class="ba-contatti">
+          <span>Corso Alfieri 100, 14100 Asti <small>(indirizzo dimostrativo)</small></span>
+          <span>Lun – Sab · 7:00 – 22:00 · Dom · 8:00 – 13:00 (orari dimostrativi)</span>
+          <a href={telHref}>{tel}</a>
+          <a href={`mailto:${email}`}>{email}</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Asti" target="_blank" rel="noopener noreferrer">Come arrivare →</a>
+        </div>
+      </section>
+
+      <footer class="ba-piede">
+        <span>Caffè Lumen · attività fittizia a scopo dimostrativo</span>
+        <span>Demo concept by Trebla Studio · <a href="/demo">Tutte le demo</a></span>
+      </footer>
+    </div>
+  </div>
+</DemoLayout>

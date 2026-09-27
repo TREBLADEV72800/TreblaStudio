@@ -1,0 +1,61 @@
+---
+// Layout demo: pagine NON indicizzate, senza SEO Trebla, senza nav/footer pubblici.
+// Ogni demo ha il suo stile inline nella pagina; qui solo base + fascia demo.
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; overflow-x: clip; }
+      body { margin: 0; overflow-x: clip; }
+      img { max-inline-size: 100%; }
+      :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+      .salto-demo {
+        position: absolute; left: -9999px; top: 0; z-index: 200;
+        background: #111; color: #fff; padding: 10px 16px;
+        font: 500 0.9rem system-ui, sans-serif; text-decoration: none;
+      }
+      .salto-demo:focus { left: 12px; top: 12px; }
+      .fascia-demo {
+        background: #111; color: #f5f2ea;
+        font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace;
+        letter-spacing: 0.08em;
+      }
+      .fascia-demo div {
+        max-inline-size: 1160px; margin-inline: auto;
+        padding: 8px 20px;
+        display: flex; flex-wrap: wrap; gap: 4px 16px;
+        align-items: center; justify-content: space-between;
+      }
+      .fascia-demo a { color: #f5f2ea; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+    </style>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="salto-demo" href="#contenuto-demo">Salta al contenuto</a>
+    <div class="fascia-demo" role="note" aria-label="Avviso demo">
+      <div>
+        <span>DEMO CONCEPT · ATTIVITÀ FITTIZIA</span>
+        <span>Concept by <a href="/demo">Trebla Studio</a></span>
+      </div>
+    </div>
+    <main id="contenuto-demo"><slot /></main>
+  </body>
+</html>
