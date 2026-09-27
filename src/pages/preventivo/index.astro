@@ -800,10 +800,12 @@ const canonicalHref = canonicalUrl('/preventivo');
             m.setAttribute('aria-disabled', 'true');
             m.style.opacity = '0.55';
             m.href = '#';
+            m.textContent = !S.privacy ? 'Spunta la privacy per inviare' : 'Completa i passi mancanti';
           } else {
             m.removeAttribute('aria-disabled');
             m.style.opacity = '';
-            m.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(messaggio());
+            m.textContent = 'Invia via email';
+            m.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(messaggio().replace(/\*/g, ''));
           }
         }
       }
@@ -823,6 +825,7 @@ const canonicalHref = canonicalUrl('/preventivo');
       function mostraErrore(t) {
         errore.textContent = t;
         errore.hidden = false;
+        errore.scrollIntoView({ block: 'nearest' });
       }
       function nascondiErrore() {
         errore.hidden = true;
