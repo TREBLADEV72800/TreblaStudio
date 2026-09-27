@@ -723,6 +723,38 @@ body.menu-aperto {
 .lavoro h3 { font: 600 clamp(1.6rem, 3.4vw, 2.4rem)/1.05 var(--serif); margin: 0; }
 .lavoro p { color: var(--morbido); margin: 10px 0 0; max-inline-size: 60ch; }
 .lavoro .link-freccia { display: inline-block; margin-block-start: 12px; }
+/* Lavoro: testo + anteprima astratta in puro CSS */
+.lavoro { display: grid; gap: 20px; }
+@media (min-width: 860px) {
+  .lavoro { grid-template-columns: 1.1fr minmax(0, 1fr); align-items: center; gap: clamp(20px, 3vw, 36px); }
+}
+.lavoro-mock {
+  border: 1px solid var(--inchiostro);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--notte);
+  transition: transform var(--transizione);
+}
+.lavoro-mock-barra {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-block-end: 1px solid var(--linea-scura);
+  font: 500 0.7rem var(--mono);
+  color: var(--notte-morbido);
+}
+.lavoro-mock-barra i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--linea-scura); }
+.lavoro-mock-barra i:first-of-type { background: var(--mattone-chiaro); }
+.lavoro-mock-barra span { margin-inline-start: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lavoro-mock-corpo { padding: 16px; display: grid; gap: 10px; }
+.lm-titolo { display: block; block-size: 16px; inline-size: 55%; border-radius: 4px; background: var(--mattone-chiaro); }
+.lm-riga { display: flex; align-items: center; gap: 10px; }
+.lm-riga i { flex: none; inline-size: 34px; block-size: 34px; border-radius: 6px; background: var(--linea-scura); }
+.lm-riga b { display: block; block-size: 10px; flex: 1 1 auto; border-radius: 4px; background: var(--linea-scura); opacity: 0.65; }
+@media (hover: hover) {
+  .lavoro:hover .lavoro-mock { transform: translateY(-3px); }
+}
 
 /* ---------- 14. FAQ ---------- */
 .faq details { border-block-start: 1px solid var(--inchiostro); }
