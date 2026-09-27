@@ -25,14 +25,17 @@ const email = 'studio-forma@example.com';
     .st-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.1; margin: 0; }
     .st-hero h1 strong { font-weight: 700; }
     .st-hero p { color: #4c5a68; line-height: 1.65; max-inline-size: 46ch; }
+    .st-hero p::first-letter { font-family: Georgia, serif; font-size: 2.2em; float: left; line-height: 0.85; padding-inline-end: 8px; color: #2f5d50; }
     .st-scheda { background: #fff; border: 1px solid #c6cdd4; border-radius: 8px; padding: 26px; }
     .st-scheda h2 { font-size: 1.05rem; margin: 0 0 6px; }
     .st-scheda p { color: #4c5a68; font-size: 0.93rem; margin: 0 0 16px; }
     .st-scheda ul { list-style: none; margin: 0 0 18px; padding: 0; font-size: 0.92rem; }
     .st-scheda li { padding: 7px 0 7px 20px; position: relative; border-block-start: 1px solid #e2e7eb; }
     .st-scheda li::before { content: "✓"; position: absolute; left: 0; color: #2f5d50; font-weight: 700; }
+    .st-ledger { display: block; margin-block-end: 14px; }
     .st-sezione { padding: clamp(36px, 5vw, 64px) 0; }
     .st-sezione h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 0 0 8px; }
+    .st-sezione > h2 { border-block-end: 3px double #c6cdd4; padding-block-end: 14px; margin-block-end: 18px; }
     .st-sotto { color: #4c5a68; margin: 0 0 26px; max-inline-size: 60ch; }
     .st-num { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; color: #2f5d50; margin: 0 0 10px; }
     .st-due { display: grid; gap: 16px; grid-template-columns: 1fr; }
@@ -77,6 +80,7 @@ const email = 'studio-forma@example.com';
           </div>
         </div>
         <aside class="st-scheda" aria-label="Per chi lavoriamo">
+          <svg class="st-ledger" width="72" height="48" viewBox="0 0 72 48" fill="none" stroke="#2f5d50" stroke-width="1.5" aria-hidden="true"><path d="M4 10h48M4 20h48M4 30h32" /><path d="M52 26l6 6 12-14" stroke-width="2" /></svg>
           <h2>Per chi lavoriamo</h2>
           <p>Piccole imprese e partite IVA che vogliono dormire tranquille.</p>
           <ul>

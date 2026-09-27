@@ -52,6 +52,9 @@ const camere = [
     .bb-camera .pr small { font: 500 0.8rem Archivo, sans-serif; color: #5c5d52; }
     .bb-camera p { margin: 0; color: #5c5d52; font-size: 0.95rem; }
     .bb-link { display: inline-block; margin-block-start: 22px; font-weight: 700; color: #5d7351; }
+    .bb-vigne { display: block; margin-block-end: 8px; }
+    .bb-sfondo { position: relative; }
+    .bb-parola { position: absolute; top: -8px; right: 0; font: 600 clamp(3.4rem, 10vw, 7rem)/1 Fraunces, Georgia, serif; font-style: italic; color: transparent; -webkit-text-stroke: 1px #b3b8a1; opacity: 0.6; pointer-events: none; }
     .bb-due { display: grid; gap: 14px; grid-template-columns: 1fr; }
     @media (min-width: 860px) { .bb-due { grid-template-columns: 1fr 1fr; } }
     .bb-blocco { background: #fffdf7; border: 1px solid #2a2b24; border-radius: 12px; padding: 24px; }
@@ -93,6 +96,7 @@ const camere = [
           <p class="bb-meta">Colazione inclusa · check-in 15:00 – 20:00 · bimbi benvenuti</p>
         </div>
         <div class="bb-arco" aria-hidden="true">
+          <svg class="bb-vigne" width="120" height="70" viewBox="0 0 120 70" fill="none" stroke="#e8e4d2" stroke-width="1.5"><circle cx="92" cy="18" r="10" /><path d="M4 50 Q30 34 60 48 T116 44" /><path d="M4 58 Q30 44 60 56 T116 52" /></svg>
           <span class="a-titolo"></span>
           <span class="a-riga"></span>
           <span class="a-riga corta"></span>
@@ -100,7 +104,8 @@ const camere = [
         </div>
       </section>
 
-      <section class="bb-sezione" aria-labelledby="bb-camere-t">
+      <section class="bb-sezione bb-sfondo" aria-labelledby="bb-camere-t">
+        <span class="bb-parola" aria-hidden="true">camere</span>
         <p class="bb-num">01 · Le camere</p>
         <h2 id="bb-camere-t">Tre camere, tre caratteri</h2>
         <p class="bb-sotto">Prezzi a notte per due ospiti, colazione inclusa. Pulizia giornaliera sempre compresa.</p>

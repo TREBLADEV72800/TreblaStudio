@@ -86,6 +86,7 @@ const demos = [
     .demo-card:hover { background: #efe7d3; }
     .demo-anteprima { min-block-size: 150px; padding: 22px; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; }
     .demo-anteprima span { display: block; border-radius: 4px; }
+    .demo-anteprima .demo-lettera { font: 600 4rem/0.9 Fraunces, Georgia, serif; letter-spacing: -0.02em; border-radius: 0; }
     .demo-corpo { padding: 20px 22px 22px; border-block-start: 1px solid #1d1712; }
     .demo-settore { font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #b23a12; margin: 0 0 8px; }
     .demo-corpo h2 { font: 600 1.6rem/1.1 Fraunces, Georgia, serif; margin: 0; }
@@ -107,9 +108,9 @@ const demos = [
           <li>
             <a class="demo-card" href={`/demo/${d.slug}`}>
               <div class="demo-anteprima" style={`background:${d.fondo};color:${d.colore}`} aria-hidden="true">
-                <span style={`inline-size:46%;block-size:16px;background:${d.colore}`} />
-                <span style={`inline-size:78%;block-size:10px;background:${d.accento};opacity:.75`} />
-                <span style={`inline-size:64%;block-size:10px;background:${d.colore};opacity:.35`} />
+                <span class="demo-lettera" style={`color:${d.colore}`}>{d.nome.charAt(0)}</span>
+                <span style={`inline-size:52%;block-size:10px;background:${d.accento};opacity:.8`} />
+                <span style={`inline-size:38%;block-size:10px;background:${d.colore};opacity:.3`} />
               </div>
               <div class="demo-corpo">
                 <p class="demo-settore">{d.settore} · {d.formato}</p>

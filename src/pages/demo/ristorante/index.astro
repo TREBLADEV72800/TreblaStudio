@@ -57,6 +57,12 @@ const faqs = [
     .os-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-block-end: 1px dotted #b9a888; }
     .os-cat .pr { font-weight: 700; white-space: nowrap; }
     .os-menu-link { display: inline-block; margin-block-start: 26px; font-weight: 700; color: #b4551d; }
+    .os-timbro { display: inline-grid; place-items: center; inline-size: 104px; block-size: 104px; border: 2px solid #b4551d; border-radius: 50%; color: #b4551d; font: 700 0.66rem/1.35 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; text-align: center; transform: rotate(-10deg); flex: none; }
+    .os-filo { border-block: 1px solid #2b1c10; padding: clamp(24px, 4vw, 40px) 0; }
+    .os-filo p { margin: 0; max-inline-size: 42ch; font: 500 clamp(1.2rem, 2.6vw, 1.7rem)/1.4 Fraunces, Georgia, serif; }
+    .os-filo p::first-letter { font-size: 2.4em; float: left; line-height: 0.85; padding-inline-end: 10px; color: #b4551d; }
+    .os-sfondo { position: relative; }
+    .os-parola { position: absolute; top: -6px; right: 0; font: 600 clamp(3.6rem, 11vw, 8rem)/1 Fraunces, Georgia, serif; font-style: italic; color: transparent; -webkit-text-stroke: 1px #c3ab84; opacity: 0.55; pointer-events: none; }
     .os-citazione { background: #2b1c10; color: #f3e8d5; padding: clamp(36px, 6vw, 64px) 0; }
     .os-citazione blockquote { margin: 0; font: 500 clamp(1.4rem, 3.4vw, 2.2rem)/1.3 Fraunces, Georgia, serif; font-style: italic; max-inline-size: 28ch; }
     .os-citazione cite { display: block; margin-block-start: 14px; font-style: normal; font: 500 0.78rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #cdbfa5; }
@@ -94,10 +100,11 @@ const faqs = [
           <p class="os-kicker">Cucina piemontese · Pizza nel forno a legna</p>
           <h1 id="os-titolo">La tavola del borgo, <em>come una volta.</em></h1>
           <p>Agnolotti tirati a mano, pizze alte e soffici, vini della zona. A due minuti dalla piazza, con il parcheggio dietro l’angolo.</p>
-          <div class="os-hero-riga">
-            <a class="os-cta" href={telHref}>Prenota un tavolo</a>
-            <a class="os-tel" href={telHref}>{tel}</a>
-          </div>
+        <div class="os-hero-riga">
+          <a class="os-cta" href={telHref}>Prenota un tavolo</a>
+          <a class="os-tel" href={telHref}>{tel}</a>
+          <span class="os-timbro" aria-hidden="true">forno<br />a legna</span>
+        </div>
           <p class="os-meta">Cucina piemontese · forno a legna · dehors estivo</p>
         </div>
         <div class="os-arco" aria-hidden="true">
@@ -109,8 +116,11 @@ const faqs = [
       </section>
     </div>
 
+    <div class="os-filo"><div class="os-involucro"><p>Cuciniamo quello che ci portano i contadini qui intorno. Il resto lo fa il forno.</p></div></div>
+
     <div class="os-involucro">
-      <section class="os-sezione" aria-labelledby="os-menu-t">
+      <section class="os-sezione os-sfondo" aria-labelledby="os-menu-t">
+        <span class="os-parola" aria-hidden="true">Menu</span>
         <p class="os-num">01 · Il menu</p>
         <h2 id="os-menu-t">Un assaggio</h2>
         <p class="os-sottotitolo">Prezzi chiari, porzioni vere. Il menu completo ha sei categorie.</p>

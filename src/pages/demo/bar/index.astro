@@ -34,6 +34,9 @@ const menu = [
     .ba-hero p { color: #c8cdd4; max-inline-size: 46ch; line-height: 1.6; }
     .ba-hero-riga { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-block-start: 26px; }
     .ba-orari-pill { display: inline-block; border: 1px solid #4a5158; border-radius: 999px; padding: 10px 18px; font-size: 0.88rem; color: #f6efe3; }
+    .ba-sticker { display: inline-block; background: #f0b429; color: #20242b; font: 700 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 18px; border-radius: 999px; transform: rotate(3deg); }
+    .ba-sfondo { position: relative; }
+    .ba-parola { position: absolute; top: -8px; right: 0; font-size: clamp(3.6rem, 11vw, 8rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: transparent; -webkit-text-stroke: 1px #cfc6ae; opacity: 0.6; pointer-events: none; }
     .ba-sezione { padding: clamp(40px, 6vw, 72px) 0; }
     .ba-sezione h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.02em; margin: 0 0 6px; font-weight: 800; }
     .ba-sotto { color: #5b636c; margin: 0 0 26px; max-inline-size: 56ch; }
@@ -50,7 +53,7 @@ const menu = [
     .ba-eventi h2 { color: #fff; }
     .ba-eventi ul { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 12px; }
     @media (min-width: 760px) { .ba-eventi ul { grid-template-columns: repeat(3, 1fr); } }
-    .ba-eventi li { background: rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 16px; }
+    .ba-eventi li { background: rgba(255, 255, 255, 0.12); border: 1px dashed rgba(255, 255, 255, 0.55); border-radius: 8px; padding: 16px; }
     .ba-eventi li strong { display: block; margin-block-end: 4px; }
     .ba-eventi li span { font-size: 0.9rem; opacity: 0.9; }
     .ba-galleria { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
@@ -78,10 +81,12 @@ const menu = [
         <div class="ba-hero-riga">
           <a class="ba-cta" href="#menu">Guarda il menu</a>
           <span class="ba-orari-pill">Oggi 7:00 – 22:00 (orario dimostrativo)</span>
+          <span class="ba-sticker" aria-hidden="true">spritz € 5</span>
         </div>
       </section>
 
-      <section class="ba-sezione" id="menu" aria-labelledby="ba-menu-t">
+      <section class="ba-sezione ba-sfondo" id="menu" aria-labelledby="ba-menu-t">
+        <span class="ba-parola" aria-hidden="true">menu</span>
         <p class="ba-num">01 · Il menu</p>
         <h2 id="ba-menu-t">Il menu</h2>
         <p class="ba-sotto">Prezzi da bar di quartiere, scontrino sempre chiaro.</p>

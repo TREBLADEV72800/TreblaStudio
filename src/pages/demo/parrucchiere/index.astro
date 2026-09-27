@@ -42,9 +42,12 @@ const listino = [
     .au-listino ul { list-style: none; margin: 0; padding: 0; }
     .au-listino li { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 15px 0; border-block-end: 1px solid #ddd3c2; font-size: 1.05rem; }
     .au-listino .pr { font-family: Fraunces, Georgia, serif; font-style: italic; white-space: nowrap; }
+    .au-sole { display: block; margin: 0 auto 22px; }
+    .au-sfondo { position: relative; }
+    .au-parola { position: absolute; top: 0; right: 0; font: 500 clamp(3.2rem, 10vw, 6.5rem)/1 Fraunces, Georgia, serif; font-style: italic; color: transparent; -webkit-text-stroke: 1px #c9b48f; opacity: 0.6; pointer-events: none; }
     .au-galleria { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; margin-block-start: 36px; }
     @media (min-width: 860px) { .au-galleria { grid-template-columns: repeat(3, 1fr); } }
-    .au-foto { border-radius: 4px; min-block-size: 210px; padding: 16px; display: flex; align-items: flex-end; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+    .au-foto { border-radius: 999px 999px 6px 6px; min-block-size: 250px; padding: 18px 16px; display: flex; align-items: flex-end; justify-content: center; text-align: center; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; }
     .au-team { display: grid; gap: 24px; grid-template-columns: 1fr; margin-block-start: 36px; text-align: center; }
     @media (min-width: 760px) { .au-team { grid-template-columns: repeat(3, 1fr); } }
     .au-persona h3 { font: 500 1.35rem/1.2 Fraunces, Georgia, serif; font-style: italic; margin: 0; }
@@ -75,6 +78,7 @@ const listino = [
       </header>
 
       <section class="au-hero" aria-labelledby="au-titolo">
+        <svg class="au-sole" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#8a6d3b" stroke-width="1.5" aria-hidden="true"><circle cx="32" cy="32" r="12" /><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6-6M52 12l-6 6M18 46l-6 6" /></svg>
         <h1 id="au-titolo">Capelli che<br />parlano di te.</h1>
         <p>Salone di bellezza nel centro storico: taglio sartoriale, colore su misura e un’ora tutta per te. Prima consulenza sempre gratuita.</p>
         <div class="au-hero-riga">
@@ -83,7 +87,8 @@ const listino = [
         </div>
       </section>
 
-      <section class="au-sezione" id="listino" aria-labelledby="au-listino-t">
+      <section class="au-sezione au-sfondo" id="listino" aria-labelledby="au-listino-t">
+        <span class="au-parola" aria-hidden="true">colore</span>
         <div class="au-centro">
           <h2 id="au-listino-t">Listino chiaro, senza sorprese</h2>
           <p>Il prezzo lo concordiamo prima, in base a lunghezza e lavoro. Quello che vedi è quello che paghi.</p>
