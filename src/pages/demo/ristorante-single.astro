@@ -34,6 +34,9 @@ const faqs = [
     .os-nav { display: none; gap: 20px; }
     @media (min-width: 860px) { .os-nav { display: flex; } }
     .os-nav a { color: inherit; text-decoration: none; font-size: 0.92rem; font-weight: 500; }
+    .os-subnav { display: flex; gap: 18px; padding: 12px 0 14px; border-block-end: 1px solid #2b1c10; font-size: 0.88rem; }
+    .os-subnav a { color: inherit; font-weight: 600; padding: 10px 0; display: inline-block; }
+    @media (min-width: 860px) { .os-subnav { display: none; } }
     .os-cta { display: inline-block; background: #b4551d; color: #fff8ef; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 8px; }
     .os-hero { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: center; padding: clamp(40px, 7vw, 88px) 0 clamp(32px, 5vw, 56px); }
     @media (min-width: 900px) { .os-hero { grid-template-columns: 1.15fr 0.85fr; gap: 48px; } }
@@ -56,6 +59,9 @@ const faqs = [
     .os-menu { display: grid; gap: 32px; grid-template-columns: 1fr; }
     @media (min-width: 860px) { .os-menu { grid-template-columns: 1fr 1fr; gap: 32px 56px; } }
     .os-cat h3 { font: 500 0.78rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #b4551d; border-block-end: 1px solid #2b1c10; padding-block-end: 8px; margin: 0 0 4px; }
+    .os-menu { counter-reset: pietanza; }
+    .os-cat { counter-increment: pietanza; }
+    .os-cat h3::before { content: "0" counter(pietanza) " · "; }
     .os-cat ul { list-style: none; margin: 0; padding: 0; }
     .os-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-block-end: 1px dotted #b9a888; }
     .os-cat .pr { font-weight: 700; white-space: nowrap; }
@@ -71,7 +77,8 @@ const faqs = [
     .os-citazione cite { display: block; margin-block-start: 14px; font-style: normal; font: 500 0.78rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #cdbfa5; }
     .os-galleria { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
     @media (min-width: 860px) { .os-galleria { grid-template-columns: repeat(4, 1fr); } }
-    .os-foto { border-radius: 8px; min-block-size: 150px; padding: 14px; display: flex; align-items: flex-end; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+    .os-foto { border-radius: 8px; min-block-size: 150px; padding: 14px; display: flex; align-items: flex-end; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; position: relative; overflow: hidden; }
+    .os-motivo { position: absolute; top: 10px; right: 10px; opacity: 0.85; }
     .os-orari { display: grid; gap: 24px; grid-template-columns: 1fr; }
     @media (min-width: 860px) { .os-orari { grid-template-columns: 1fr 1fr; } }
     .os-orari table { border-collapse: collapse; inline-size: 100%; }
@@ -97,6 +104,7 @@ const faqs = [
         </nav>
         <a class="os-cta" href={telHref}>Prenota un tavolo</a>
       </header>
+      <nav class="os-subnav" aria-label="Sezioni"><a href="#menu">Menu</a><a href="#contatti">Contatti</a></nav>
 
       <section class="os-hero" aria-labelledby="os-titolo">
         <div>
@@ -122,7 +130,7 @@ const faqs = [
     <div class="os-filo"><div class="os-involucro"><p>Cuciniamo quello che ci portano i contadini qui intorno. Il resto lo fa il forno.</p></div></div>
 
     <div class="os-involucro">
-      <section class="os-sezione os-sfondo" aria-labelledby="os-menu-t">
+      <section class="os-sezione os-sfondo" id="menu" aria-labelledby="os-menu-t">
         <span class="os-parola" aria-hidden="true">Menu</span>
         <p class="os-num">01 · Il menu</p>
         <h2 id="os-menu-t">Il menu</h2>
@@ -139,6 +147,7 @@ const faqs = [
             </div>
           ))}
         </div>
+        <p style="margin:24px 0 0"><a class="os-cta" href={telHref}>Prenota un tavolo</a></p>
       </section>
 
       <section class="os-sezione" id="locale" aria-labelledby="os-locale-t" style="padding-block-start:0">
@@ -146,10 +155,10 @@ const faqs = [
         <h2 id="os-locale-t">Pietra, legno e tovaglie a quadri</h2>
         <p class="os-sottotitolo">Sala da 60 coperti più dehors estivo da 40.</p>
         <div class="os-galleria" role="list" aria-label="Spazi del locale">
-          <div class="os-foto" role="listitem" style="background:#8a5a33;color:#f6ecda">Sala in pietra</div>
-          <div class="os-foto" role="listitem" style="background:#b4551d;color:#fff8ef">Forno a legna</div>
-          <div class="os-foto" role="listitem" style="background:#5d4a36;color:#f6ecda">Dehors estivo</div>
-          <div class="os-foto" role="listitem" style="background:#c8a24a;color:#2b1c10">Cantina</div>
+          <div class="os-foto" role="listitem" style="background:#8a5a33;color:#f6ecda"><svg class="os-motivo" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#f6ecda" aria-hidden="true"><rect x="5" y="5" width="15" height="15" /><rect x="24" y="5" width="15" height="15" /><rect x="5" y="24" width="15" height="15" /><rect x="24" y="24" width="15" height="15" /></svg><span>Sala in pietra</span></div>
+          <div class="os-foto" role="listitem" style="background:#b4551d;color:#fff8ef"><svg class="os-motivo" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#fff8ef" aria-hidden="true"><circle cx="22" cy="22" r="6" /><circle cx="22" cy="22" r="12" /><circle cx="22" cy="22" r="18" /></svg><span>Forno a legna</span></div>
+          <div class="os-foto" role="listitem" style="background:#5d4a36;color:#f6ecda"><svg class="os-motivo" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#f6ecda" aria-hidden="true"><path d="M6 38L38 6M-2 26L26 -2M18 46L46 18" /></svg><span>Dehors estivo</span></div>
+          <div class="os-foto" role="listitem" style="background:#c8a24a;color:#2b1c10"><svg class="os-motivo" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#2b1c10" aria-hidden="true"><path d="M8 8h4v6l3 4v18H5V18l3-4z" /><path d="M21 8h4v6l3 4v18h-10V18l3-4z" /><path d="M34 8h4v6l3 4v18H31V18l3-4z" /></svg><span>Cantina</span></div>
         </div>
       </section>
     </div>

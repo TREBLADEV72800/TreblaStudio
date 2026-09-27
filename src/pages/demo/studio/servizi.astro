@@ -20,6 +20,7 @@ import DemoLayout from '../../../layouts/DemoLayout.astro';
     .st-blocco h2 { margin: 0 0 8px; font-size: 1.2rem; }
     .st-blocco p { margin: 0; color: #4c5a68; font-size: 0.95rem; line-height: 1.65; }
     .st-nota { margin-block-start: 28px; border-inline-start: 3px solid #2f5d50; padding-inline-start: 18px; color: #4c5a68; max-inline-size: 60ch; }
+    .st-sigillo { display: inline-grid; place-items: center; inline-size: 64px; block-size: 64px; border: 2px solid #2f5d50; border-radius: 50%; outline: 1px solid #2f5d50; outline-offset: 4px; color: #2f5d50; font-family: Georgia, serif; font-size: 1.3rem; margin-block-start: 20px; }
     .st-piede { margin-block-start: 44px; border-block-start: 1px solid #c6cdd4; padding-block-start: 20px; font-size: 0.85rem; color: #4c5a68; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
     .st-piede a { color: inherit; }
   </style>
@@ -35,6 +36,7 @@ import DemoLayout from '../../../layouts/DemoLayout.astro';
         <p class="st-kicker">Studio Forma · Servizi</p>
         <h1 id="servizi-titolo">Tutti i servizi</h1>
         <p>Preventivi scritti prima di iniziare, compensi chiari e niente gergo inutile.</p>
+        <p class="st-sigillo" aria-hidden="true">SF</p>
       </section>
 
       <div class="st-blocco"><h2>Contabilità e bilanci</h2><p>Registrazioni, prima nota, bilanci annuali e infra-annuali con spiegazione riga per riga. Report trimestrali semplici per capire dove sta andando l’attività.</p></div>

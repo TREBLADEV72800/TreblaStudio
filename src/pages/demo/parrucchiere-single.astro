@@ -28,6 +28,9 @@ const listino = [
     .au-nav { display: none; gap: 22px; }
     @media (min-width: 860px) { .au-nav { display: flex; } }
     .au-nav a { color: inherit; text-decoration: none; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .au-subnav { display: flex; gap: 18px; padding: 12px 0 14px; border-block-end: 1px solid #ddd3c2; font-size: 0.88rem; }
+    .au-subnav a { color: inherit; font-weight: 600; padding: 10px 0; display: inline-block; }
+    @media (min-width: 860px) { .au-subnav { display: none; } }
     .au-cta { display: inline-block; border: 1px solid #22201c; color: #22201c; text-decoration: none; padding: 13px 26px; border-radius: 999px; font-weight: 600; font-size: 0.92rem; }
     .au-cta.solid { background: #22201c; color: #faf7f2; }
     .au-hero { padding: clamp(56px, 10vw, 130px) 0; text-align: center; }
@@ -45,9 +48,12 @@ const listino = [
     .au-sole { display: block; margin: 0 auto 22px; }
     .au-sfondo { position: relative; }
     .au-parola { position: absolute; top: 0; right: 0; font: 500 clamp(3.2rem, 10vw, 6.5rem)/1 Fraunces, Georgia, serif; font-style: italic; color: transparent; -webkit-text-stroke: 1px #c9b48f; opacity: 0.6; pointer-events: none; }
-    .au-galleria { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; margin-block-start: 36px; }
+    .au-galleria { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; margin-block-start: 36px; counter-reset: fase; }
     @media (min-width: 860px) { .au-galleria { grid-template-columns: repeat(3, 1fr); } }
-    .au-foto { border-radius: 999px 999px 6px 6px; min-block-size: 250px; padding: 18px 16px; display: flex; align-items: flex-end; justify-content: center; text-align: center; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+    .au-foto { border-radius: 999px 999px 6px 6px; min-block-size: 250px; padding: 18px 16px; display: flex; align-items: flex-end; justify-content: center; text-align: center; font: 500 0.72rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; counter-increment: fase; position: relative; }
+    .au-foto::before { content: "0" counter(fase); position: absolute; top: 26px; left: 50%; transform: translateX(-50%); font: 500 0.7rem ui-monospace, Menlo, monospace; letter-spacing: 0.2em; opacity: 0.75; }
+    .au-listino { max-inline-size: 600px; }
+    .au-dettaglio { text-align: center; font: 500 0.72rem/1.5 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #8a6d3b; margin: 0 0 4px; }
     .au-team { display: grid; gap: 24px; grid-template-columns: 1fr; margin-block-start: 36px; text-align: center; }
     @media (min-width: 760px) { .au-team { grid-template-columns: repeat(3, 1fr); } }
     .au-persona h3 { font: 500 1.35rem/1.2 Fraunces, Georgia, serif; font-style: italic; margin: 0; }
@@ -76,6 +82,7 @@ const listino = [
         </nav>
         <a class="au-cta solid" href={telHref}>Prenota</a>
       </header>
+      <nav class="au-subnav" aria-label="Sezioni"><a href="#listino">Listino</a><a href="#contatti">Contatti</a></nav>
 
       <section class="au-hero" aria-labelledby="au-titolo">
         <svg class="au-sole" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#8a6d3b" stroke-width="1.5" aria-hidden="true"><circle cx="32" cy="32" r="12" /><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6-6M52 12l-6 6M18 46l-6 6" /></svg>
@@ -89,6 +96,7 @@ const listino = [
 
       <section class="au-sezione au-sfondo" id="listino" aria-labelledby="au-listino-t">
         <span class="au-parola" aria-hidden="true">colore</span>
+        <p class="au-dettaglio">servizi · dettaglio</p>
         <div class="au-centro">
           <h2 id="au-listino-t">Listino chiaro, senza sorprese</h2>
           <p>Il prezzo lo concordiamo prima, in base a lunghezza e lavoro. Quello che vedi è quello che paghi.</p>
@@ -99,6 +107,7 @@ const listino = [
               <li><span>{nome}</span><span class="pr">{prezzo}</span></li>
             ))}
           </ul>
+          <p style="text-align:center;margin:24px 0 0"><a class="au-cta solid" href={telHref}>Prenota ora</a></p>
         </div>
       </section>
 

@@ -28,6 +28,9 @@ const servizi = [
     .im-nav { display: none; gap: 20px; }
     @media (min-width: 860px) { .im-nav { display: flex; } }
     .im-nav a { color: inherit; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .im-subnav { display: flex; gap: 18px; padding: 12px 0 14px; border-block-end: 1px solid #1c2126; font-size: 0.88rem; }
+    .im-subnav a { color: inherit; font-weight: 600; padding: 10px 0; display: inline-block; }
+    @media (min-width: 860px) { .im-subnav { display: none; } }
     .im-cta { display: inline-block; background: #c8641a; color: #fff; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 4px; }
     .im-hero { background-color: #1c2126; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 28px), repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 28px); color: #f2f4f6; padding: clamp(48px, 8vw, 100px) 0; }
     .im-hero h1 { font-size: clamp(2.4rem, 6.5vw, 4.6rem); line-height: 1; letter-spacing: -0.02em; margin: 0; max-inline-size: 16ch; font-weight: 800; }
@@ -87,6 +90,7 @@ const servizi = [
         </nav>
         <a class="im-cta" href={telHref}>Richiedi preventivo</a>
       </header>
+      <nav class="im-subnav" aria-label="Sezioni"><a href="#servizi">Servizi</a><a href="#contatti">Contatti</a></nav>
     </div>
 
     <section class="im-hero" aria-labelledby="im-titolo">
@@ -105,19 +109,8 @@ const servizi = [
     <div class="im-hazard" aria-hidden="true"></div>
 
     <div class="im-involucro">
-      <section class="im-sezione" id="servizi" aria-labelledby="im-servizi-t">
-        <p class="im-num">01 · Servizi</p>
-        <h2 id="im-servizi-t">Cosa facciamo</h2>
-        <p class="im-sotto">Sei ambiti, un solo referente dal sopralluogo alla pulizia finale.</p>
-        <ol class="im-servizi">
-          {servizi.map(([t, d], i) => (
-            <li><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></li>
-          ))}
-        </ol>
-      </section>
-
-      <section class="im-sezione" id="metodo" aria-labelledby="im-metodo-t" style="padding-block-start:0">
-        <p class="im-num">02 · Metodo</p>
+      <section class="im-sezione" id="metodo" aria-labelledby="im-metodo-t">
+        <p class="im-num">01 · Metodo</p>
         <h2 id="im-metodo-t">Come lavoriamo</h2>
         <p class="im-sotto">Quattro passi, sempre gli stessi per ogni cantiere.</p>
         <ol class="im-passi">
@@ -125,6 +118,18 @@ const servizi = [
           <li><h3>Preventivo scritto</h3><p>Voci chiare e data di fine lavori.</p></li>
           <li><h3>Cantiere</h3><p>Ordine, orari rispettati, aggiornamenti foto.</p></li>
           <li><h3>Collaudo</h3><p>Controlli insieme e garanzia scritta.</p></li>
+        </ol>
+        <a class="im-link" href={telHref}>Richiedi un preventivo gratuito →</a>
+      </section>
+
+      <section class="im-sezione" id="servizi" aria-labelledby="im-servizi-t" style="padding-block-start:0">
+        <p class="im-num">02 · Servizi</p>
+        <h2 id="im-servizi-t">Cosa facciamo</h2>
+        <p class="im-sotto">Sei ambiti, un solo referente dal sopralluogo alla pulizia finale.</p>
+        <ol class="im-servizi">
+          {servizi.map(([t, d], i) => (
+            <li><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3><p>{d}</p></li>
+          ))}
         </ol>
       </section>
 

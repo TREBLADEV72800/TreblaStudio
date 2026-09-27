@@ -31,6 +31,14 @@ const lavori = [
     .im-lavoro .tag { font: 500 0.7rem ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #c8641a; margin: 0 0 8px; }
     .im-lavoro h2 { margin: 0 0 8px; font-size: 1.25rem; }
     .im-lavoro p { margin: 0; color: #5a646c; font-size: 0.95rem; line-height: 1.6; }
+    .im-portfolio { counter-reset: scheda; }
+    .im-lavoro { counter-increment: scheda; position: relative; }
+    .im-lavoro::before { content: "SCHEDA 0" counter(scheda); display: block; font: 500 0.7rem ui-monospace, Menlo, monospace; letter-spacing: 0.14em; color: #c8641a; margin-block-end: 8px; }
+    .im-lavoro::after { content: ""; display: block; block-size: 3px; background: #1c2126; margin-block-start: 16px; }
+    @media (min-width: 760px) {
+      .im-lavoro:first-child { grid-column: 1 / -1; }
+      .im-lavoro:first-child p { max-inline-size: 62ch; }
+    }
     .os-nota { margin-block-start: 32px; color: #5a646c; font-size: 0.92rem; }
     .im-piede { margin-block-start: 40px; border-block-start: 2px solid #1c2126; padding-block-start: 20px; font-size: 0.85rem; color: #5a646c; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
     .im-piede a { color: inherit; }

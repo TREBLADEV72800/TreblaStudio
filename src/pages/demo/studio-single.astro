@@ -19,6 +19,9 @@ const email = 'studio-forma@example.com';
     .st-nav { display: none; gap: 22px; }
     @media (min-width: 860px) { .st-nav { display: flex; } }
     .st-nav a { color: inherit; text-decoration: none; font-size: 0.9rem; }
+    .st-subnav { display: flex; gap: 18px; padding: 12px 0 14px; border-block-end: 1px solid #c6cdd4; font-size: 0.88rem; }
+    .st-subnav a { color: inherit; font-weight: 600; padding: 10px 0; display: inline-block; }
+    @media (min-width: 860px) { .st-subnav { display: none; } }
     .st-cta { display: inline-block; background: #2f5d50; color: #fff; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 6px; font-size: 0.95rem; }
     .st-hero { display: grid; gap: 28px; grid-template-columns: 1fr; padding: clamp(44px, 7vw, 88px) 0; }
     @media (min-width: 900px) { .st-hero { grid-template-columns: 1.4fr 1fr; align-items: center; } }
@@ -70,6 +73,7 @@ const email = 'studio-forma@example.com';
         </nav>
         <a class="st-cta" href="#contatti">Primo colloquio</a>
       </header>
+      <nav class="st-subnav" aria-label="Sezioni"><a href="#servizi">Servizi</a><a href="#contatti">Contatti</a></nav>
 
       <section class="st-hero" aria-labelledby="st-titolo">
         <div>
@@ -92,20 +96,8 @@ const email = 'studio-forma@example.com';
         </aside>
       </section>
 
-      <section class="st-sezione" id="servizi" aria-labelledby="st-servizi-t" style="padding-block-start:0">
-        <p class="st-num">01 · Servizi</p>
-        <h2 id="st-servizi-t">Servizi</h2>
-        <p class="st-sotto">Preventivi scritti prima di iniziare, compensi chiari e niente gergo inutile.</p>
-        <div class="st-due">
-          <div class="st-blocco"><h3>Contabilità e bilanci</h3><p>Registrazioni, prima nota, bilanci annuali e infra-annuali con spiegazione riga per riga.</p></div>
-          <div class="st-blocco"><h3>Dichiarazioni fiscali</h3><p>Redditi, IVA, IRAP e adempimenti periodici, con calendario scadenze condiviso.</p></div>
-          <div class="st-blocco"><h3>Apertura partita IVA</h3><p>Regime forfettario o ordinario: simulazione imposte e scelta consapevole prima di partire.</p></div>
-          <div class="st-blocco"><h3>Consulenza del lavoro</h3><p>Assunzioni, buste paga e contratti, in collaborazione con consulenti abilitati.</p></div>
-        </div>
-      </section>
-
       <section class="st-sezione" id="metodo" aria-labelledby="st-metodo-t" style="padding-block-start:0">
-        <p class="st-num">02 · Metodo</p>
+        <p class="st-num">01 · Metodo</p>
         <h2 id="st-metodo-t">Metodo di lavoro</h2>
         <ol class="st-metodo">
           <li><h3>Conoscenza</h3><p>Un’ora gratuita per capire la tua situazione, di persona o in videochiamata.</p></li>
@@ -113,6 +105,17 @@ const email = 'studio-forma@example.com';
           <li><h3>Gestione continua</h3><p>Scadenziario condiviso e promemoria prima di ogni adempimento.</p></li>
           <li><h3>Revisione annuale</h3><p>Ogni anno rivediamo insieme numeri e regime fiscale più conveniente.</p></li>
         </ol>
+      </section>
+
+      <section class="st-sezione" id="servizi" aria-labelledby="st-servizi-t" style="padding-block-start:0">
+        <p class="st-num">02 · Servizi</p>
+        <h2 id="st-servizi-t">Servizi</h2>
+        <p class="st-sotto">Preventivi scritti prima di iniziare, compensi chiari e niente gergo inutile.</p>
+        <div class="st-due">
+          <div class="st-blocco"><h3>Contabilità e bilanci</h3><p>Registrazioni, prima nota, bilanci annuali e infra-annuali con spiegazione riga per riga.</p></div>
+          <div class="st-blocco"><h3>Dichiarazioni fiscali</h3><p>Redditi, IVA, IRAP e adempimenti periodici, con calendario scadenze condiviso.</p></div>
+        </div>
+        <div style="margin-block-start:20px"><a class="st-cta" href="/demo/studio/servizi">Tutti i servizi →</a></div>
       </section>
 
       <section class="st-sezione" id="domande" aria-labelledby="st-domande-t" style="padding-block-start:0">

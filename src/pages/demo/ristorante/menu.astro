@@ -28,6 +28,10 @@ const menu = [
     .os-menu { display: grid; gap: 32px; grid-template-columns: 1fr; margin-block-start: 28px; }
     @media (min-width: 860px) { .os-menu { grid-template-columns: 1fr 1fr; gap: 32px 56px; } }
     .os-cat h2 { font: 500 0.78rem/1.4 ui-monospace, Menlo, monospace; letter-spacing: 0.2em; text-transform: uppercase; color: #b4551d; border-block-end: 1px solid #2b1c10; padding-block-end: 8px; margin: 0 0 4px; }
+    .os-menu { counter-reset: pietanza; }
+    .os-cat { counter-increment: pietanza; }
+    .os-cat h2::before { content: "0" counter(pietanza) " · "; }
+    .os-cat h2 { position: sticky; top: 0; background: #f6ecda; padding-block-start: 8px; z-index: 1; }
     .os-cat ul { list-style: none; margin: 0; padding: 0; }
     .os-cat li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-block-end: 1px dotted #b9a888; }
     .os-cat .pr { font-weight: 700; white-space: nowrap; }

@@ -19,6 +19,9 @@ const email = 'studio-forma@example.com';
     .st-nav { display: none; gap: 22px; }
     @media (min-width: 860px) { .st-nav { display: flex; } }
     .st-nav a { color: inherit; text-decoration: none; font-size: 0.9rem; }
+    .st-subnav { display: flex; gap: 18px; padding: 12px 0 14px; border-block-end: 1px solid #c6cdd4; font-size: 0.88rem; }
+    .st-subnav a { color: inherit; font-weight: 600; padding: 10px 0; display: inline-block; }
+    @media (min-width: 860px) { .st-subnav { display: none; } }
     .st-cta { display: inline-block; background: #2f5d50; color: #fff; font-weight: 700; text-decoration: none; padding: 13px 24px; border-radius: 6px; font-size: 0.95rem; }
     .st-hero { display: grid; gap: 28px; grid-template-columns: 1fr; padding: clamp(44px, 7vw, 88px) 0; }
     @media (min-width: 900px) { .st-hero { grid-template-columns: 1.4fr 1fr; align-items: center; } }
@@ -26,7 +29,13 @@ const email = 'studio-forma@example.com';
     .st-hero h1 strong { font-weight: 700; }
     .st-hero p { color: #4c5a68; line-height: 1.65; max-inline-size: 46ch; }
     .st-hero p::first-letter { font-family: Georgia, serif; font-size: 2.2em; float: left; line-height: 0.85; padding-inline-end: 8px; color: #2f5d50; }
-    .st-scheda { background: #fff; border: 1px solid #c6cdd4; border-radius: 8px; padding: 26px; }
+    .st-scheda { background: #fff; border: 1px solid #c6cdd4; border-radius: 8px; padding: 26px; position: relative; }
+    .st-scheda::before, .st-scheda::after { content: ""; position: absolute; inline-size: 14px; block-size: 14px; border: 2px solid #2f5d50; }
+    .st-scheda::before { top: 8px; left: 8px; border-inline-end: 0; border-block-end: 0; }
+    .st-scheda::after { bottom: 8px; right: 8px; border-inline-start: 0; border-block-start: 0; }
+    .st-stato { display: flex; gap: 6px; margin-block-end: 14px; }
+    .st-stato i { display: block; block-size: 6px; flex: 1 1 auto; border-radius: 3px; background: #2f5d50; }
+    .st-stato i:last-child { background: transparent; border: 1px solid #2f5d50; }
     .st-scheda h2 { font-size: 1.05rem; margin: 0 0 6px; }
     .st-scheda p { color: #4c5a68; font-size: 0.93rem; margin: 0 0 16px; }
     .st-scheda ul { list-style: none; margin: 0 0 18px; padding: 0; font-size: 0.92rem; }
@@ -70,6 +79,7 @@ const email = 'studio-forma@example.com';
         </nav>
         <a class="st-cta" href="#contatti">Primo colloquio</a>
       </header>
+      <nav class="st-subnav" aria-label="Sezioni"><a href="#servizi">Servizi</a><a href="#contatti">Contatti</a></nav>
 
       <section class="st-hero" aria-labelledby="st-titolo">
         <div>
@@ -80,6 +90,7 @@ const email = 'studio-forma@example.com';
           </div>
         </div>
         <aside class="st-scheda" aria-label="Per chi lavoriamo">
+          <span class="st-stato" aria-hidden="true"><i></i><i></i><i></i></span>
           <svg class="st-ledger" width="72" height="48" viewBox="0 0 72 48" fill="none" stroke="#2f5d50" stroke-width="1.5" aria-hidden="true"><path d="M4 10h48M4 20h48M4 30h32" /><path d="M52 26l6 6 12-14" stroke-width="2" /></svg>
           <h2>Per chi lavoriamo</h2>
           <p>Piccole imprese e partite IVA che vogliono dormire tranquille.</p>

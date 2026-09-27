@@ -34,6 +34,13 @@ const camere = [
     .bb-comuni ul { margin: 0; padding-inline-start: 18px; color: #5c5d52; display: grid; gap: 6px; }
     .bb-piede { margin-block-start: 40px; border-block-start: 1px solid #2a2b24; padding-block-start: 20px; font-size: 0.85rem; color: #5c5d52; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
     .bb-piede a { color: inherit; }
+    .bb-indice { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; counter-reset: stanza; }
+    .bb-indice li { counter-increment: stanza; }
+    .bb-indice a { color: #5d7351; font-weight: 700; text-decoration: none; }
+    .bb-indice a::before { content: "0" counter(stanza) " · "; font: 500 0.75rem ui-monospace, Menlo, monospace; }
+    .bb-lista { counter-reset: scheda; }
+    .bb-camera { counter-increment: scheda; }
+    .bb-camera h2::before { content: "0" counter(scheda) " · "; font: 500 0.8rem ui-monospace, Menlo, monospace; letter-spacing: 0.1em; color: #5d7351; }
   </style>
 
   <div class="bb">
@@ -49,8 +56,16 @@ const camere = [
         <p>Prezzi a notte per due ospiti, colazione e pulizia giornaliera sempre incluse.</p>
       </section>
 
-      {camere.map((c) => (
-        <div class="bb-camera">
+      <ol class="bb-indice" aria-label="Indice camere">
+        {camere.map((c, i) => (
+          <li><a href={`#camera-${i + 1}`}>{c.nome}</a></li>
+        ))}
+      </ol>
+
+      <div class="bb-lista">
+
+      {camere.map((c, i) => (
+        <div class="bb-camera" id={`camera-${i + 1}`}>
           <div>
             <h2>{c.nome}</h2>
             <p style="margin-block-start:10px">{c.testo}</p>
@@ -59,6 +74,7 @@ const camere = [
           <p class="bb-prezzo">{c.prezzo}<small>a notte · colazione inclusa</small></p>
         </div>
       ))}
+      </div>
 
       <div class="bb-comuni">
         <h2>Servizi comuni inclusi</h2>
