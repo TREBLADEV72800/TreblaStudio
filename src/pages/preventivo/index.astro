@@ -684,7 +684,7 @@ const canonicalHref = canonicalUrl('/preventivo');
 
         if (id === 'invia') {
           domanda.textContent = 'Ecco la tua stima. Invia';
-          sotto.textContent = 'Prezzo indicativo, concordato insieme prima di iniziare. Scegli come inviare: si apre WhatsApp o email con il riepilogo già scritto. Nessun impegno.';
+          sotto.textContent = 'Stima da concordare insieme prima di iniziare. Inviala su WhatsApp o email. Senza impegno.';
           const box = el('div', 'wizard-totale-finale');
           box.appendChild(el('p', 'k', 'Stima indicativa'));
           const cifra = el('p', 'v', `€ ${stima()}`);
