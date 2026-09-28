@@ -569,8 +569,8 @@ const canonicalHref = canonicalUrl('/preventivo');
         }
 
         if (id === 'grafiche-materiali') {
-          domanda.textContent = 'Quali materiali?';
-          sotto.textContent = 'Solo design, stampa esclusa.';
+          domanda.textContent = `Quali materiali${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
+          sotto.textContent = 'Solo quelli che userai davvero, altrimenti vai avanti. Solo design, stampa esclusa.';
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: designPerTipo(), selezionati: S.graficheExtra, conPrezzo: true });
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
         }
@@ -904,6 +904,8 @@ const canonicalHref = canonicalUrl('/preventivo');
       .cfg-schermo .wizard-riga { padding: 8px 0; }
       .cfg-schermo .wizard-totale-finale { padding: 12px 16px; margin-block-start: 0; }
       /* Ultimo passo fermo: via contatore, resta solo Indietro, tutto entra senza scroll */
+      /* Domanda materiali sempre su una riga intera */
+      body[data-passo="grafiche-materiali"] .wizard-domanda { white-space: nowrap; font-size: clamp(1.05rem, 4.5vw, 1.8rem); }
       body[data-passo="invia"] #w-passo { display: none; }
       body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
       .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
