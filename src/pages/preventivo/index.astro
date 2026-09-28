@@ -262,56 +262,21 @@ const canonicalHref = canonicalUrl('/preventivo');
         return b;
       }
 
-      // Paginazione liste: max 6 voci per schermata, mai scroll
-      const pagineOpzioni = {};
-      const PER_PAGINA = 6;
-
+      // Liste sempre intere: tutte le voci insieme, mai paginate
       function listaOpzioni(contenitore, { nome, voci, selezionati, conPrezzo, chiave }) {
-        const key = chiave || `${nome}:${voci.length}`;
-        const totPagine = Math.max(1, Math.ceil(voci.length / PER_PAGINA));
-        let pag = pagineOpzioni[key] || 0;
-        if (pag > totPagine - 1) pag = totPagine - 1;
-        const wrap = el('div', '');
-        const disegnaPagina = () => {
-          pagineOpzioni[key] = pag;
-          wrap.innerHTML = '';
-          const ul = el('ul', 'wizard-opzioni');
-          voci.slice(pag * PER_PAGINA, pag * PER_PAGINA + PER_PAGINA).forEach((v) => {
-            const nomeVoce = typeof v === 'string' ? v : v.name;
-            const li = document.createElement('li');
-            li.appendChild(opzione({
-              tipo: 'checkbox', nome, valore: nomeVoce, titolo: nomeVoce,
-              nota: typeof v === 'string' ? undefined : v.hint,
-              prezzo: conPrezzo && typeof v !== 'string' ? v.price : 0,
-              checked: selezionati.includes(nomeVoce),
-            }));
-            ul.appendChild(li);
-          });
-          wrap.appendChild(ul);
-          if (totPagine > 1) {
-            const nav = el('div', 'opz-nav');
-            const prev = document.createElement('button');
-            prev.type = 'button';
-            prev.textContent = '←';
-            prev.setAttribute('aria-label', 'Voci precedenti');
-            prev.disabled = pag === 0;
-            prev.addEventListener('click', () => { if (pag > 0) { pag--; disegnaPagina(); } });
-            const num = el('span', 'opz-num', `${pag + 1} di ${totPagine}`);
-            num.setAttribute('aria-live', 'polite');
-            const next = document.createElement('button');
-            next.type = 'button';
-            next.textContent = '→';
-            next.setAttribute('aria-label', 'Altre voci');
-            next.disabled = pag >= totPagine - 1;
-            next.addEventListener('click', () => { if (pag < totPagine - 1) { pag++; disegnaPagina(); } });
-            nav.appendChild(prev);
-            nav.appendChild(num);
-            nav.appendChild(next);
-            wrap.appendChild(nav);
-          }
-        };
-        disegnaPagina();
-        contenitore.appendChild(wrap);
+        const ul = el('ul', 'wizard-opzioni');
+        voci.forEach((v) => {
+          const nomeVoce = typeof v === 'string' ? v : v.name;
+          const li = document.createElement('li');
+          li.appendChild(opzione({
+            tipo: 'checkbox', nome, valore: nomeVoce, titolo: nomeVoce,
+            nota: typeof v === 'string' ? undefined : v.hint,
+            prezzo: conPrezzo && typeof v !== 'string' ? v.price : 0,
+            checked: selezionati.includes(nomeVoce),
+          }));
+          ul.appendChild(li);
+        });
+        contenitore.appendChild(ul);
       }
 
       function titoloGruppo(testo, primo) {
@@ -605,8 +570,8 @@ const canonicalHref = canonicalUrl('/preventivo');
         }
 
         if (id === 'grafiche-materiali') {
-          domanda.textContent = `Quali materiali${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
-          sotto.textContent = 'Solo quelli che userai davvero, altrimenti vai avanti. Solo design, stampa esclusa.';
+          domanda.textContent = 'Quali materiali?';
+          sotto.textContent = 'Solo design, stampa esclusa.';
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: designPerTipo(), selezionati: S.graficheExtra, conPrezzo: true });
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
         }
@@ -946,27 +911,11 @@ const canonicalHref = canonicalUrl('/preventivo');
       .cfg-schermo .wizard-totale-finale .d { margin: 0 0 10px; font-size: 0.88rem; }
       .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
       .cfg-schermo .privacy-riga { margin-block-start: 12px; font-size: 0.88rem; }
-      .opz-nav { display: flex; align-items: center; gap: 14px; margin-block-start: 12px; }
-      .opz-nav button {
-        flex: none;
-        min-block-size: 44px;
-        padding: 10px 18px;
-        background: transparent;
-        border: 1px solid var(--linea);
-        border-radius: var(--raggio);
-        font: 700 0.9rem var(--sans);
-        color: var(--inchiostro);
-        cursor: pointer;
-      }
-      .opz-nav button:hover:not(:disabled) { border-color: var(--inchiostro); }
-      .opz-nav button:disabled { opacity: 0.35; cursor: default; }
-      .opz-num { font: 500 0.8rem var(--mono); color: var(--morbido); }
       @media (max-height: 740px) {
         .cfg-schermo .wizard-domanda { font-size: clamp(1.4rem, 4vh, 1.9rem); margin-block: 18px 4px; }
         .cfg-schermo .wizard-sotto { margin: 0 0 6px; font-size: 0.95rem; }
         .cfg-schermo .opzione { min-block-size: 48px; padding: 9px 6px; font-size: 0.95rem; }
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.6rem); }
-        .opz-nav { margin-block-start: 8px; }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
