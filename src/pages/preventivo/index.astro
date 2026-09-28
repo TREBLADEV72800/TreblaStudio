@@ -179,7 +179,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           if (S.struttura === 'multi') { f.push('pagine'); }
           f.push('foto');
         }
-        if (ha('grafiche')) f.push('grafiche-materiali', 'grafiche-extra');
+        if (ha('grafiche')) f.push('grafiche-materiali');
         if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-extra');
         f.push('obiettivi', 'tempi', 'riepilogo', 'invia');
         return f;
@@ -608,11 +608,6 @@ const canonicalHref = canonicalUrl('/preventivo');
           domanda.textContent = `Quali materiali${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
           sotto.textContent = 'Solo quelli che userai davvero, altrimenti vai avanti. Solo design, stampa esclusa.';
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: designPerTipo(), selezionati: S.graficheExtra, conPrezzo: true });
-        }
-
-        if (id === 'grafiche-extra') {
-          domanda.textContent = 'Extra design?';
-          sotto.textContent = 'Solo se utili, altrimenti vai avanti. Solo design, stampa esclusa.';
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
         }
 
@@ -842,8 +837,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
         if (id === 'social-canali' || id === 'social-contenuti') return '';
         if (id === 'social-extra') return (S.canali.length || S.socialExtra.length) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media dai servizi.';
-        if (id === 'grafiche-materiali') return '';
-        if (id === 'grafiche-extra') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
+        if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
         if (id === 'obiettivi') return S.obiettivi.length ? '' : 'Scegli almeno un obiettivo.';
         if (id === 'tempi') return S.tempi ? '' : 'Scegli quando vorresti iniziare.';
         if (id === 'riepilogo' || id === 'invia') return '';
