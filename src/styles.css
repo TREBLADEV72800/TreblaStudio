@@ -440,20 +440,18 @@ body.menu-aperto {
   inline-size: max-content;
   animation: scorrimento 36s linear infinite;
 }
-.ticker a {
+.ticker span {
   font: 500 0.82rem/1.5 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
   padding-inline: 18px;
-  color: inherit;
-  text-decoration: none;
 }
-.ticker a::after { content: "·"; margin-inline-start: 36px; color: var(--mattone); }
+.ticker span::after { content: "·"; margin-inline-start: 36px; color: var(--mattone); }
 @keyframes scorrimento { to { transform: translateX(-50%); } }
 .ticker:hover .ticker-pista { animation-play-state: paused; }
-/* Home: il primo blocco dopo la striscia non ha la linea sopra. */
-#prova .capitolo { border-block-start: 0; padding-block-start: 0; }
+/* Home: il paragrafo 01 non ha la linea sopra, c'è già quella della striscia. */
+#problema .capitolo { border-block-start: 0; padding-block-start: 0; }
 
 /* ---------- 8. Righe editoriali (problemi / risultati) ---------- */
 .righe { list-style: none; margin: 0; padding: 0; }
@@ -484,33 +482,6 @@ body.menu-aperto {
   .righe p { grid-column: 3; }
 }
 .righe li > .righe-num { grid-row: span 2; }
-
-/* ---------- 8b. Prima / dopo: problema e risultato fusi ---------- */
-.prima-dopo { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 14px; }
-.prima-dopo > li {
-  display: grid;
-  border: 1px solid var(--inchiostro);
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fffdf7;
-}
-@media (min-width: 860px) { .prima-dopo > li { grid-template-columns: 1fr 1fr; } }
-.pd-prima, .pd-dopo { padding: 18px 20px; }
-.pd-etichetta {
-  font: 700 0.7rem/1.4 var(--mono);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--morbido);
-  margin: 0 0 8px;
-}
-.prima-dopo h3 { font: 600 1.25rem/1.2 var(--serif); letter-spacing: -0.01em; margin: 0; }
-.prima-dopo p { margin: 8px 0 0; color: var(--morbido); font-size: 0.95rem; }
-.pd-dopo { background: var(--notte); }
-.pd-dopo .pd-etichetta { color: var(--mattone-chiaro); }
-.pd-dopo h3 { color: var(--notte-carta); }
-.pd-dopo p { color: var(--notte-morbido); }
-@media (max-width: 859px) { .pd-dopo { border-block-start: 1px solid var(--inchiostro); } }
-@media (min-width: 860px) { .pd-dopo { border-inline-start: 1px solid var(--inchiostro); } }
 
 /* ---------- 9. Servizi: titolo + contenuto in colonna ---------- */
 .servizio {
@@ -588,23 +559,6 @@ body.menu-aperto {
   #h-servizi .indice:hover .indice-corpo h3 { transform: translateX(4px); }
   #h-servizi .indice:hover .indice-freccia { transform: translateX(8px); }
 }
-/* Servizio principale: card scura a tutta larghezza, gli altri restano righe */
-#h-servizi .indice-principale {
-  background: var(--notte);
-  border: 1px solid var(--inchiostro);
-  border-radius: 12px;
-  padding: clamp(20px, 3vw, 32px);
-  margin-block-end: 6px;
-}
-#h-servizi .indice-principale .indice-meta { color: var(--notte-morbido); }
-#h-servizi .indice-principale .indice-meta b { color: var(--mattone-chiaro); }
-#h-servizi .indice-principale .indice-testo { color: var(--notte-morbido); }
-#h-servizi .indice-principale .indice-testo strong { color: var(--notte-carta); }
-#h-servizi .indice-principale .indice-lista { color: var(--notte-carta); }
-#h-servizi .indice-principale .indice-lista .indice-k { color: var(--notte-morbido); }
-#h-servizi .indice-principale .indice-lista.indice-no,
-#h-servizi .indice-principale .indice-lista.indice-no .indice-k { color: var(--notte-morbido); }
-#h-servizi .indice-principale .link-freccia { color: var(--mattone-chiaro); }
 .servizio-testa { min-inline-size: 0; }
 .servizio-corpo { min-inline-size: 0; }
 .servizio h3 {
@@ -712,9 +666,6 @@ body.menu-aperto {
 .prezzo-evidenza ul li::before { color: var(--mattone-chiaro); }
 .prezzo-nota { margin: 16px 0 0; color: var(--morbido); font-size: 0.92rem; }
 .prezzo-evidenza .prezzo-nota { color: var(--notte-morbido); }
-/* Home: un solo prezzo di partenza, il confronto resta in /prezzi */
-.prezzo-solo { font: 600 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--serif); letter-spacing: -0.02em; margin: 8px 0 0; }
-.prezzo-solo b { color: var(--mattone); }
 /* Card singola a tutta larghezza (offerta): niente griglia, niente buchi */
 .offerta-solo { border: 1px solid var(--inchiostro); border-radius: 12px; margin-block-start: 22px; }
 
