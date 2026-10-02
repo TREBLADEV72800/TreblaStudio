@@ -842,6 +842,8 @@ body.menu-aperto {
 .piede-fondo nav { display: flex; flex-direction: row; gap: 18px; }
 .piede-fondo a { color: var(--notte-morbido); }
 .piede-fondo a:hover { color: var(--notte-carta); }
+.piede-torna { margin: 10px 0 0; }
+.piede-torna .link-freccia { color: var(--mattone-chiaro); }
 
 /* ---------- 16. Pagine interne ---------- */
 .pagina-titolo { padding-block: clamp(28px, 5vw, 56px) clamp(20px, 3vw, 36px); }
@@ -1081,4 +1083,14 @@ textarea.wizard-campo:focus { border-color: var(--mattone); }
 @media (max-width: 380px) {
   .sopra-riga { gap: 10px; min-block-size: 60px; }
   .marchio img { height: 34px; max-inline-size: 120px; }
+}
+
+/* ---------- 21. Sicurezza layout e stampa ---------- */
+/* Niente scroll orizzontale accidentale, senza rompere lo sticky */
+html, body { overflow-x: clip; }
+@media print {
+  .sopra, .piede, .ticker, .hero-azioni, .cta-azioni, .btn, .nav-mobile, .menu-bottone, .salto, .wizard-barra-fissa { display: none !important; }
+  body { background: #fff; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .faq details, .prezzo { break-inside: avoid; }
 }

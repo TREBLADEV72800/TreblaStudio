@@ -4,12 +4,12 @@ const active = (href: string) =>
   href === '/' ? (path === '/' ? 'page' : undefined) : path.startsWith(href) ? 'page' : undefined;
 ---
 
-<header class="sopra">
+<header class="sopra" id="cima">
   <div class="sopra-riga">
-    <span class="marchio">
+    <a class="marchio" href="/" aria-label="Trebla: torna alla homepage">
       <img src="/trebla-logo.webp" alt="Trebla, Studio web ad Asti" width="1360" height="768" fetchpriority="high" decoding="async" />
       <span class="marchio-luogo">studio · Asti</span>
-    </span>
+    </a>
     <nav class="nav" aria-label="Navigazione principale">
       <a href="/" aria-current={active('/')}>Home</a>
       <a href="/servizi" aria-current={active('/servizi')}>Servizi</a>

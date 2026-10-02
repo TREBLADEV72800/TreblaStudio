@@ -138,6 +138,9 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       document.querySelectorAll('a[data-wa]').forEach((a) => {
         a.href = 'https://wa.me/' + WA_P + '?text=' + encodeURIComponent(a.getAttribute('data-wa') || 'Ciao Trebla!');
       });
+      document.querySelectorAll('a[data-tel]').forEach((a) => {
+        a.href = 'tel:+' + WA_P;
+      });
       document.querySelectorAll('a[data-mail]').forEach((a) => {
         const s = a.getAttribute('data-soggetto');
         a.href = 'mailto:' + MAIL_P + (s ? '?subject=' + encodeURIComponent(s) : '');
@@ -149,9 +152,9 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         window.dispatchEvent(new CustomEvent('trebla:track', { detail: n }));
       };
       document.addEventListener('click', (e) => {
-        const t = e.target && e.target.closest ? e.target.closest('a[data-wa], a[data-mail]') : null;
+        const t = e.target && e.target.closest ? e.target.closest('a[data-wa], a[data-mail], a[data-tel]') : null;
         if (!t) return;
-        track(t.hasAttribute('data-wa') ? 'whatsapp' : 'email');
+        track(t.hasAttribute('data-wa') ? 'whatsapp' : t.hasAttribute('data-tel') ? 'telefono' : 'email');
       });
     </script>
   </body>

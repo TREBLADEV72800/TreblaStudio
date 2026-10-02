@@ -134,6 +134,23 @@ const canonicalHref = canonicalUrl('/preventivo');
         errore = $('w-errore'), riemp = $('w-riempimento'),
         avanti = $('w-avanti'), indietro = $('w-indietro');
 
+      // UTM: se arrivi da una campagna, la fonte viaggia nel messaggio e nel tracking
+      const UTM = (() => {
+        const u = {};
+        try {
+          const q = new URLSearchParams(window.location.search);
+          for (const k of ['utm_source', 'utm_medium', 'utm_campaign']) {
+            const v = (q.get(k) || '').trim().slice(0, 60);
+            if (v) u[k] = v;
+          }
+          if (Object.keys(u).length) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'trebla_utm', ...u });
+          }
+        } catch (e) { /* nessun problema: si continua senza fonte */ }
+        return u;
+      })();
+
       const ha = (s) => S.servizi.includes(s);
       const inOfferta = () => S.struttura === 'offerta';
       const waNum = () => C.whatsapp.join('');
@@ -758,6 +775,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           '',
           `• *Obiettivi:* ${S.obiettivi.join(', ') || 'Da decidere'}`,
           `• *Tempi:* ${S.tempi || 'Da decidere'}`,
+          ...(UTM.utm_source ? [`• *Fonte:* ${[UTM.utm_source, UTM.utm_medium, UTM.utm_campaign].filter(Boolean).join(' / ')}`] : []),
           `• *Anticipo:* 30 € escluso`,
           '',
           `*STIMA INDICATIVA:* ${stima()} €`

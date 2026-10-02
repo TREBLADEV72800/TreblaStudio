@@ -1,4 +1,7 @@
 ---
+const adesso = new Date();
+const anno = adesso.getFullYear();
+const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
 ---
 
 <footer class="piede">
@@ -14,17 +17,19 @@
       <div class="piede-contatti">
         <h2>Contatti diretti</h2>
         <p><a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></p>
+        <p><a data-tel href="#">Chiamaci</a></p>
         <p><a data-mail data-mostra href="#">email</a></p>
         <p>Asti, su appuntamento.</p>
       </div>
     </div>
     <div class="piede-fondo">
-      <span>© 2026 Trebla · Asti</span>
+      <span>© {anno} Trebla · Asti · Aggiornato a {aggiornato}</span>
         <nav aria-label="Note legali">
           <a href="/note-legali#privacy">Privacy</a>
           <a href="/note-legali#cookie">Cookie</a>
           <a href="/note-legali#termini">Termini</a>
         </nav>
+      <p class="piede-torna"><a class="link-freccia" href="#cima">Torna su ↑</a></p>
     </div>
   </div>
 </footer>
