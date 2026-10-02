@@ -134,6 +134,10 @@ a { color: inherit; }
   font-size: 1rem;
   line-height: 1.6;
 }
+/* Lavori: titolo intero su una riga su PC */
+@media (min-width: 900px) {
+  #lavori .capitolo h2 { white-space: nowrap; }
+}
 
 /* ---------- 4. Header ---------- */
 .sopra {
