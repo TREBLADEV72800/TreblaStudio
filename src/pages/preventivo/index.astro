@@ -10,7 +10,7 @@ import '@fontsource/ibm-plex-mono/latin-700.css';
 import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
 import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
 import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
-import { BASE_PRICES, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS } from '../../data/prezzi';
+import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS } from '../../data/prezzi';
 import {
   businessTypes,
   businessCategories,
@@ -28,6 +28,7 @@ import { site, canonicalUrl } from '../../data/site';
 
 const CFG = {
   base: BASE_PRICES,
+  offerta: OFFERTA_SITO,
   siteExtras: SITE_EXTRAS,
   siteExtrasAll,
   socialNeeds: SOCIAL_OPTIONS,
@@ -134,6 +135,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         avanti = $('w-avanti'), indietro = $('w-indietro');
 
       const ha = (s) => S.servizi.includes(s);
+      const inOfferta = () => S.struttura === 'offerta';
       const waNum = () => C.whatsapp.join('');
       const mailAddr = () => C.email.join('@');
       const ordina = (arr) => [...arr].sort((a, b) => a.localeCompare(b, 'it'));
@@ -174,10 +176,12 @@ const canonicalHref = canonicalUrl('/preventivo');
         f.push('servizi');
         if (ha('sito')) {
           f.push('sito');
-          if (funzioniPerTipo().length) f.push('funzioni');
-          f.push('funzioni-extra');
-          if (S.struttura === 'multi') { f.push('pagine'); }
-          f.push('foto');
+          if (!inOfferta()) {
+            if (funzioniPerTipo().length) f.push('funzioni');
+            f.push('funzioni-extra');
+            if (S.struttura === 'multi') { f.push('pagine'); }
+            f.push('foto');
+          }
         }
         if (ha('grafiche')) f.push('grafiche-materiali');
         if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-extra');
@@ -189,17 +193,21 @@ const canonicalHref = canonicalUrl('/preventivo');
       function stima() {
         let t = 0;
         if (ha('sito')) {
-          t += S.struttura === 'multi' ? C.base.multi : C.base.singola;
-          const lf = [...funzioniPerTipo(), ...extraGenerali()];
-          for (const n of S.funzioni) {
-            const e = trova(lf, n);
-            if (e) t += e.price;
+          if (inOfferta()) {
+            t += C.offerta.prezzo;
+          } else {
+            t += S.struttura === 'multi' ? C.base.multi : C.base.singola;
+            const lf = [...funzioniPerTipo(), ...extraGenerali()];
+            for (const n of S.funzioni) {
+              const e = trova(lf, n);
+              if (e) t += e.price;
+            }
+            for (const n of S.pagine) {
+              const p = trova(C.pageOptions, n);
+              if (p) t += p.price;
+            }
+            if (S.foto && C.photoPrices[S.foto]) t += C.photoPrices[S.foto];
           }
-          for (const n of S.pagine) {
-            const p = trova(C.pageOptions, n);
-            if (p) t += p.price;
-          }
-          if (S.foto && C.photoPrices[S.foto]) t += C.photoPrices[S.foto];
         }
         const ls = [...socialPerTipo(), ...C.socialExtrasAll];
         for (const n of S.socialExtra) {
@@ -508,6 +516,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           [
             { v: 'singola', t: 'Pagina singola', n: 'Tutto l’essenziale in una pagina', p: C.base.singola },
             { v: 'multi', t: 'Sito a più pagine', n: 'Storia, servizi, galleria, contatti', p: C.base.multi },
+            { v: 'offerta', t: 'Offerta Tutto incluso', n: `Tutte le funzioni, logo e 5 revisioni · ${C.offerta.prezzo} € tutto incluso`, p: 0 },
           ].forEach((o) => {
             const li = document.createElement('li');
             li.appendChild(opzione({ tipo: 'radio', nome: 'struttura', valore: o.v, titolo: o.t, nota: o.n, prezzo: o.p, checked: S.struttura === o.v }));
@@ -571,7 +580,9 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (id === 'grafiche-materiali') {
           domanda.textContent = `Quali materiali${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
           sotto.textContent = 'Solo quelli che userai davvero, altrimenti vai avanti. Solo design, stampa esclusa.';
-          listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: designPerTipo(), selezionati: S.graficheExtra, conPrezzo: true });
+          // Con l'offerta il logo è già incluso: non riproporlo a pagamento
+          const vociDesign = inOfferta() ? designPerTipo().filter((v) => v.name !== 'Logo creato o rinnovato') : designPerTipo();
+          listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: vociDesign, selezionati: S.graficheExtra, conPrezzo: true });
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
         }
 
@@ -621,10 +632,18 @@ const canonicalHref = canonicalUrl('/preventivo');
           riga('Attività', `${S.nome} · ${tipoLabel()}`);
           riga('Servizi', nomiServizi);
           if (ha('sito')) {
-            riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi} €` : `Pagina singola · ${C.base.singola} €`);
-            if (S.funzioni.length) riga('Funzioni', ordina(S.funzioni).join(', '), true);
-            if (S.pagine.length) riga('Pagine', ordina(S.pagine).join(', '), true);
-            if (S.foto) riga('Foto', S.foto);
+            if (inOfferta()) {
+              riga('Sito', `${C.offerta.nome} · ${C.offerta.prezzo} €`);
+              riga('Include', 'Tutte le funzioni, tutti gli extra, tutte le pagine', true);
+              riga('Foto', 'Le scattiamo noi ad Asti');
+              riga('Logo', 'Nuovo o rifacimento');
+              riga('Revisioni', `${C.offerta.revisioni} giri inclusi`);
+            } else {
+              riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi} €` : `Pagina singola · ${C.base.singola} €`);
+              if (S.funzioni.length) riga('Funzioni', ordina(S.funzioni).join(', '), true);
+              if (S.pagine.length) riga('Pagine', ordina(S.pagine).join(', '), true);
+              if (S.foto) riga('Foto', S.foto);
+            }
           }
           if (ha('grafiche')) {
             riga('Grafiche', S.graficheExtra.join(', ') || 'Da decidere insieme');
@@ -648,6 +667,7 @@ const canonicalHref = canonicalUrl('/preventivo');
           cifra.setAttribute('aria-live', 'polite');
           box.appendChild(cifra);
           box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
+          if (S.struttura === 'offerta') box.appendChild(el('p', 'd', `Offerta Tutto incluso: ${C.offerta.revisioni} revisioni e logo (nuovo o rifacimento) compresi.`));
           box.appendChild(el('p', 'd', 'Anticipo di 30 €, escluso dalla stima: si versa per iniziare, il resto alla consegna.'));
           const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
           invia.setAttribute('data-track', 'preventivo-invia');
@@ -698,14 +718,26 @@ const canonicalHref = canonicalUrl('/preventivo');
           `• *Servizi:* ${S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ')}`,
         ];
         if (ha('sito')) {
-          L.push(
-            '',
-            '*SITO*',
-            `• *Struttura:* ${S.struttura === 'multi' ? 'Più pagine' : 'Pagina singola'}`,
-            `• *Funzioni:* ${S.funzioni.length ? ordina(S.funzioni).join(', ') : 'Standard'}`,
-            `• *Pagine:* ${S.pagine.length ? ordina(S.pagine).join(', ') : 'Standard'}`,
-            `• *Foto:* ${S.foto || 'Da decidere'}`
-          );
+          if (inOfferta()) {
+            L.push(
+              '',
+              '*SITO*',
+              `• *Offerta:* ${C.offerta.nome} (${C.offerta.prezzo} €)`,
+              '• *Include:* tutte le funzioni, tutti gli extra, tutte le pagine',
+              '• *Foto:* le scattiamo noi',
+              '• *Logo:* nuovo o rifacimento',
+              `• *Revisioni:* ${C.offerta.revisioni} giri`
+            );
+          } else {
+            L.push(
+              '',
+              '*SITO*',
+              `• *Struttura:* ${S.struttura === 'multi' ? 'Più pagine' : 'Pagina singola'}`,
+              `• *Funzioni:* ${S.funzioni.length ? ordina(S.funzioni).join(', ') : 'Standard'}`,
+              `• *Pagine:* ${S.pagine.length ? ordina(S.pagine).join(', ') : 'Standard'}`,
+              `• *Foto:* ${S.foto || 'Da decidere'}`
+            );
+          }
         }
         if (ha('grafiche')) {
           L.push(
@@ -774,7 +806,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (!S.tipo || (altro() && S.tipoAltro.trim().length < 2)) m.push('il tipo');
         if (!S.servizi.length) m.push('un servizio');
         if (ha('sito') && !S.struttura) m.push('la struttura del sito');
-        if (ha('sito') && !S.foto) m.push('le foto');
+        if (ha('sito') && !inOfferta() && !S.foto) m.push('le foto');
         if (!S.tempi) m.push('i tempi');
         return m;
       }
@@ -796,7 +828,7 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (id === 'altro-descrivi') return S.tipoAltro.trim().length >= 2 ? '' : 'Descrivi in due parole la tua azienda per continuare.';
         if (id === 'altro-invia') return '';
         if (id === 'servizi') return S.servizi.length ? '' : 'Scegli almeno un servizio: sito, grafiche o social media.';
-        if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola o più pagine.';
+        if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola, più pagine o offerta tutto incluso.';
         if (id === 'funzioni' || id === 'funzioni-extra' || id === 'pagine') return '';
         if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
         if (id === 'social-canali' || id === 'social-contenuti') return '';

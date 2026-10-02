@@ -9,6 +9,10 @@ export const FAQS: Faq[] = [
     a: 'Pagina singola da 300 €, sito a più pagine da 400 €. Le funzioni extra, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare. Lo vedi da solo nel preventivo in 2 minuti.',
   },
   {
+    q: 'Cos’è l’Offerta Tutto incluso da 590 €?',
+    a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 5 revisioni: 590 €, anticipo di 30 € escluso. La scegli nel preventivo alla voce struttura del sito.',
+  },
+  {
     q: 'In quanto tempo è online?',
     a: 'Dipende dai materiali: se hai già testi, foto e logo andiamo veloci, in genere una decina di giorni. Se partiamo da zero, definiamo insieme una data realistica prima di iniziare.',
   },
