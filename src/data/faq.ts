@@ -32,6 +32,12 @@ export const FAQS: Faq[] = [
     cta: [{ href: '/preventivo', label: 'Sceglilo nel preventivo →' }],
   },
   {
+    q: 'Fate anche grafiche e social media?',
+    a: 'Sì, ma solo se ti servono: logo, biglietti, volantini, profili sistemati e contenuti regolari. Il sito resta il punto di partenza. Il resto si aggiunge quando vuoi. Nota: le grafiche sono solo design, non stampiamo né carte, né brochure, né maglie, né niente: ti consegniamo i file pronti da portare dove vuoi.',
+    cta: [{ href: '/preventivo', label: 'Aggiungile nel preventivo →' }],
+    ctaAccapo: true,
+  },
+  {
     q: 'Devo pagare un canone ogni anno?',
     a: 'No, a noi non devi nessun canone obbligatorio. Il sito è tuo. Restano solo i costi vivi verso i fornitori, dominio e hosting, che paghi direttamente a loro, ti diciamo prima quanto sono.',
   },
@@ -42,12 +48,6 @@ export const FAQS: Faq[] = [
   {
     q: 'Posso chiedere modifiche dopo che è online?',
     a: 'Sì. Due giri di revisioni sono inclusi prima della pubblicazione. Dopo, le modifiche te le facciamo noi su richiesta: ti diciamo prima se e quanto costano.',
-  },
-  {
-    q: 'Fate anche grafiche e social media?',
-    a: 'Sì, ma solo se ti servono: logo, biglietti, volantini, profili sistemati e contenuti regolari. Il sito resta il punto di partenza. Il resto si aggiunge quando vuoi. Nota: le grafiche sono solo design, non stampiamo né carte, né brochure, né maglie, né niente: ti consegniamo i file pronti da portare dove vuoi.',
-    cta: [{ href: '/preventivo', label: 'Aggiungile nel preventivo →' }],
-    ctaAccapo: true,
   },
   {
     q: 'Lavorate solo ad Asti?',
