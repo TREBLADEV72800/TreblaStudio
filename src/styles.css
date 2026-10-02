@@ -834,6 +834,10 @@ body.menu-aperto {
 .faq summary:hover { color: var(--mattone-fondo); }
 .faq .risposta { padding: 0 4px 16px; color: var(--morbido); max-inline-size: none; }
 .faq .risposta p { margin: 0; text-wrap: wrap; }
+/* Domanda offerta sempre su una riga su mobile */
+@media (max-width: 640px) {
+  .faq-riga-unica summary { white-space: nowrap; font-size: clamp(0.82rem, 4.4vw, 1rem); }
+}
 @media (min-width: 900px) {
   .faq .risposta p { text-align: justify; }
 }
