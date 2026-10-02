@@ -13,7 +13,7 @@ const { faqs } = Astro.props;
     <details>
       <summary>{f.q}</summary>
       <div class="risposta">
-        <p>{f.a}{f.cta && f.cta.map((c) => (<> <a class="link-freccia" href={c.href}>{c.label}</a></>))}</p>
+        <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-freccia" href={c.href}>{c.label}</a></span>))}</>)}</p>
       </div>
     </details>
   ))}
