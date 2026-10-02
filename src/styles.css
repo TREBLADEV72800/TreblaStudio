@@ -321,17 +321,6 @@ body.menu-aperto {
 .btn-wa { background: var(--wa); color: #fff; }
 .btn-wa:hover { background: var(--wa-fondo); }
 .btn-piccolo { min-block-size: 46px; padding: 10px 18px; font-size: 0.92rem; }
-/* WhatsApp fisso solo su mobile, mai nel configuratore (ha già la sua barra) */
-.wa-fissa {
-  display: none;
-  position: fixed;
-  inset-inline-end: 14px;
-  inset-block-end: calc(14px + env(safe-area-inset-bottom));
-  z-index: 60;
-  box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
-}
-@media (max-width: 860px) and (pointer: coarse) { .wa-fissa { display: inline-flex; } }
-html.cfg-lock .wa-fissa { display: none; }
 
 /* ---------- 6. Hero ---------- */
 .hero { padding-block: clamp(24px, 4vw, 44px) clamp(36px, 5vw, 64px); }
