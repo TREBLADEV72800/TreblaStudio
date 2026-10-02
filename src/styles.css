@@ -612,14 +612,6 @@ html.cfg-lock .wa-fissa { display: none; }
 #h-servizi .indice-principale .indice-lista.indice-no,
 #h-servizi .indice-principale .indice-lista.indice-no .indice-k { color: var(--notte-morbido); }
 #h-servizi .indice-principale .link-freccia { color: var(--mattone-chiaro); }
-/* Pacchetto sito + social: upsell sobrio */
-.pacchetto {
-  border: 1px dashed var(--mattone);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin: 20px 0 0;
-  font-size: 0.98rem;
-}
 .servizio-testa { min-inline-size: 0; }
 .servizio-corpo { min-inline-size: 0; }
 .servizio h3 {
@@ -916,6 +908,10 @@ html.cfg-lock .wa-fissa { display: none; }
   max-inline-size: 14ch;
 }
 .pagina-titolo h1 em { font-style: italic; font-weight: 500; color: var(--mattone); }
+/* Prezzi: titolo intero su una riga su PC, avvolto su mobile */
+@media (min-width: 900px) {
+  #titolo-prezzi { max-inline-size: none; white-space: nowrap; font-size: clamp(2rem, 4.4vw, 3.2rem); }
+}
 .pagina-titolo .lead { font-size: var(--t-lead); color: var(--morbido); max-inline-size: 54ch; margin: 14px 0 0; }
 .prosa { max-inline-size: 68ch; }
 .prosa p, .prosa li { color: var(--morbido); }
