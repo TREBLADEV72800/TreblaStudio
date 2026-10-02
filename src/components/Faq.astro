@@ -10,7 +10,7 @@ const { faqs } = Astro.props;
 
 <div class="faq" data-reveal>
   {faqs.map((f) => (
-    <details class={f.rigaUnica ? 'faq-riga-unica' : undefined}>
+    <details>
       <summary>{f.q}</summary>
       <div class="risposta">
         <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-freccia" href={c.href}>{c.label}</a></span>))}</>)}</p>
