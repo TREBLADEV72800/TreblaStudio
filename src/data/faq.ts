@@ -1,12 +1,17 @@
 export interface Faq {
   q: string;
   a: string;
+  cta?: { href: string; label: string }[];
 }
 
 export const FAQS: Faq[] = [
   {
     q: 'Quanto costa un sito?',
     a: 'Pagina singola da 300 €, sito a più pagine da 400 €. Le funzioni extra, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare. Lo vedi da solo nel preventivo in 2 minuti.',
+    cta: [
+      { href: '/preventivo', label: 'Fai il preventivo in 2 minuti →' },
+      { href: '/prezzi#offerta', label: 'Approfitta dell’offerta →' },
+    ],
   },
   {
     q: 'Cos’è l’Offerta Tutto incluso da 590 €?',
@@ -15,6 +20,7 @@ export const FAQS: Faq[] = [
   {
     q: 'In quanto tempo è online?',
     a: 'Dipende dai materiali: se hai già testi, foto e logo andiamo veloci, in genere una decina di giorni. Se partiamo da zero, definiamo insieme una data realistica prima di iniziare.',
+    cta: [{ href: '/preventivo', label: 'Inizia dal preventivo →' }],
   },
   {
     q: 'Devo pagare un canone ogni anno?',

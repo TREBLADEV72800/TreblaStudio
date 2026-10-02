@@ -845,6 +845,7 @@ html.cfg-lock .wa-fissa { display: none; }
 .faq summary:hover { color: var(--mattone-fondo); }
 .faq .risposta { padding: 0 4px 16px; color: var(--morbido); max-inline-size: none; }
 .faq .risposta p { margin: 0; text-wrap: wrap; }
+.faq-cta { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 12px 0 0; }
 @media (min-width: 900px) {
   .faq .risposta p { text-align: justify; }
 }
