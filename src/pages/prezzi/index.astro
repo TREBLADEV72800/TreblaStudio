@@ -75,6 +75,23 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
       <p class="prezzo-nota" data-reveal>Nessun pagamento e nessun obbligo per chiedere la stima.</p>
     </section>
 
+    <section class="sezione" aria-label="Condizioni">
+      <Capitolo
+        numero="Condizioni"
+        titolo="Le regole, <em>in chiaro</em>"
+      />
+      <ol class="righe">
+        <li><span class="righe-num">01</span><h3>Il sito è tuo</h3><p>Nessun canone obbligatorio verso di noi. Dominio e hosting li paghi ai fornitori, al prezzo loro.</p></li>
+        <li><span class="righe-num">02</span><h3>Due revisioni incluse</h3><p>Guardi, correggi, riguardate: due giri completi prima della pubblicazione.</p></li>
+        <li><span class="righe-num">03</span><h3>Tempi concordati</h3><p>Dopo aver visto i materiali ti diciamo una data. In genere una decina di giorni.</p></li>
+        <li><span class="righe-num">04</span><h3>Modifiche dopo</h3><p>Le piccole correzioni te le facciamo noi su richiesta. Prima ti diciamo se e quanto costano.</p></li>
+      </ol>
+      <div class="hero-azioni">
+        <a class="btn btn-mattone" href="/preventivo">Calcola il tuo prezzo in 2 minuti</a>
+        <a class="btn btn-fantasma" href="/faq">Dubbi? Leggi le domande</a>
+      </div>
+    </section>
+
     <section class="sezione" aria-label="Extra">
       <Capitolo
         numero="Extra"
@@ -100,23 +117,6 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
           <li><span>{e.name}</span><span class="prezzo-extra">+{e.price} €</span></li>
         ))}
       </ul>
-    </section>
-
-    <section class="sezione" aria-label="Condizioni">
-      <Capitolo
-        numero="Condizioni"
-        titolo="Le regole, <em>in chiaro</em>"
-      />
-      <ol class="righe">
-        <li><span class="righe-num">01</span><h3>Il sito è tuo</h3><p>Nessun canone obbligatorio verso di noi. Dominio e hosting li paghi ai fornitori, al prezzo loro.</p></li>
-        <li><span class="righe-num">02</span><h3>Due revisioni incluse</h3><p>Guardi, correggi, riguardate: due giri completi prima della pubblicazione.</p></li>
-        <li><span class="righe-num">03</span><h3>Tempi concordati</h3><p>Dopo aver visto i materiali ti diciamo una data. In genere una decina di giorni.</p></li>
-        <li><span class="righe-num">04</span><h3>Modifiche dopo</h3><p>Le piccole correzioni te le facciamo noi su richiesta. Prima ti diciamo se e quanto costano.</p></li>
-      </ol>
-      <div class="hero-azioni">
-        <a class="btn btn-mattone" href="/preventivo">Calcola il tuo prezzo in 2 minuti</a>
-        <a class="btn btn-fantasma" href="/faq">Dubbi? Leggi le domande</a>
-      </div>
     </section>
   </div>
 </Layout>
