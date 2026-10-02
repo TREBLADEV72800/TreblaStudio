@@ -8,6 +8,7 @@ import '@fontsource/archivo/latin-700.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import '@fontsource/ibm-plex-mono/latin-700.css';
 import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
+import archivo700 from '@fontsource/archivo/files/archivo-latin-700-normal.woff2?url';
 import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
 import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
 import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS } from '../../data/prezzi';
@@ -80,6 +81,7 @@ const canonicalHref = canonicalUrl('/preventivo');
     <meta name="twitter:image" content={`${site.url}/og-trebla.jpg`} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href={archivo400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={archivo700} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fraunces600} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fraunces600Italic} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#1d1712" />
