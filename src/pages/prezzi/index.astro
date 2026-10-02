@@ -98,13 +98,7 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
         titolo="Solo quello <em>che ti serve</em>"
         nota="Ogni extra ha il suo prezzo, visibile nel preventivo prima che tu decida."
       />
-      <h3 style="font:600 1.3rem var(--serif);margin:0 0 4px">Per il sito</h3>
-      <ul class="extra-lista">
-        {SITE_EXTRAS.map((e) => (
-          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">+{e.price} €</span></li>
-        ))}
-      </ul>
-      <h3 style="font:600 1.3rem var(--serif);margin:24px 0 4px">Per le grafiche</h3>
+      <h3 style="font:600 1.3rem var(--serif);margin:0 0 4px">Per le grafiche</h3>
       <p class="prezzo-nota" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
       <ul class="extra-lista">
         {DESIGN_OPTIONS.map((e) => (
@@ -115,6 +109,12 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
       <ul class="extra-lista">
         {SOCIAL_OPTIONS.map((e) => (
           <li><span>{e.name}</span><span class="prezzo-extra">+{e.price} €</span></li>
+        ))}
+      </ul>
+      <h3 style="font:600 1.3rem var(--serif);margin:24px 0 4px">Per il sito</h3>
+      <ul class="extra-lista">
+        {SITE_EXTRAS.map((e) => (
+          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">+{e.price} €</span></li>
         ))}
       </ul>
     </section>
