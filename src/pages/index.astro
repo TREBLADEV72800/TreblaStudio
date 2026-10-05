@@ -80,14 +80,15 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
         titolo="Cosa cambia <em>in pratica</em>"
         nota="Niente promesse: quattro cose concrete che il sito fa per te."
       />
-      <ul class="benefici" id="h-benefici">
-        {benefici.map((b) => (
+      <ol class="righe" id="h-benefici">
+        {benefici.map((b, i) => (
           <li data-reveal>
+            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
             <h3>{b.t}</h3>
             <p>{b.d}</p>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
 
@@ -164,8 +165,8 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
         titolo="Scegli da <em>dove partire</em>"
         nota="Tre modi, un solo principio: sai prima quanto spendi. Il sito resta tuo."
       />
-      <div class="piani" id="h-prezzi">
-        <div class="piano" data-reveal>
+      <div class="prezzi-griglia" id="h-prezzi" data-reveal>
+        <div class="prezzo">
           <p class="prezzo-kicker">Per iniziare</p>
           <h3>Pagina singola</h3>
           <p class="prezzo-cifra">da 300 €</p>
@@ -178,7 +179,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
           <p class="piano-no">Se ti servono sezioni separate, serve il multipagina. Extra a parte.</p>
           <a class="link-freccia" href="/preventivo">Configura la singola →</a>
         </div>
-        <div class="piano" data-reveal>
+        <div class="prezzo">
           <p class="prezzo-kicker">Il più scelto</p>
           <h3>Sito a più pagine</h3>
           <p class="prezzo-cifra">da 400 €</p>
@@ -191,7 +192,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
           <p class="piano-no">Funzioni extra e foto si aggiungono nel preventivo.</p>
           <a class="link-freccia" href="/preventivo">Configura il multipagina →</a>
         </div>
-        <div class="piano piano-evidenza" data-reveal>
+        <div class="prezzo prezzo-evidenza">
           <p class="prezzo-kicker">Tutto incluso</p>
           <h3>Offerta</h3>
           <p class="prezzo-cifra">590 €</p>
