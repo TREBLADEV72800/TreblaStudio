@@ -217,15 +217,13 @@ a { color: inherit; }
   inline-size: 48px;
   block-size: 48px;
   flex: none;
-  background: var(--inchiostro);
-  border: 1px solid var(--inchiostro);
+  background: transparent;
+  border: 1px solid var(--linea);
   border-radius: 12px;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition: background var(--transizione), border-color var(--transizione);
 }
-.menu-bottone[aria-expanded="true"] { background: var(--mattone); border-color: var(--mattone); }
 @media (max-width: 380px) {
   .menu-bottone { inline-size: 44px; block-size: 44px; }
 }
@@ -233,7 +231,7 @@ a { color: inherit; }
 .menu-bottone span {
   display: block; inline-size: 20px; block-size: 2px;
   border-radius: 2px;
-  background: var(--carta);
+  background: var(--inchiostro);
   transition: transform var(--transizione), opacity var(--transizione);
 }
 .menu-bottone[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
