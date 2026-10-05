@@ -87,7 +87,6 @@ const canonicalHref = canonicalUrl('/preventivo');
   <body>
     <div class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
       <div class="wizard-barra" aria-hidden="true"><div class="wizard-riempimento" id="w-riempimento"></div></div>
-      <p class="wizard-passo" id="w-passo"></p>
 
       <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
       <p class="wizard-sotto" id="w-sotto"></p>
@@ -130,7 +129,6 @@ const canonicalHref = canonicalUrl('/preventivo');
         if (v) track(v.getAttribute('data-track'));
       });
       const corpo = $('w-corpo'), domanda = $('w-domanda'), sotto = $('w-sotto'),
-        passo = $('w-passo'),
         errore = $('w-errore'), riemp = $('w-riempimento'),
         avanti = $('w-avanti'), indietro = $('w-indietro');
 
@@ -861,7 +859,6 @@ const canonicalHref = canonicalUrl('/preventivo');
       function aggiornaCromo(scroll) {
         const f = flusso();
         riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
-        passo.textContent = 'Passo ' + (idx + 1) + ' di ' + f.length;
         indietro.hidden = idx === 0;
         const id = f[idx];
         avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
@@ -956,7 +953,6 @@ const canonicalHref = canonicalUrl('/preventivo');
       /* Ultimo passo fermo: via contatore, resta solo Indietro, tutto entra senza scroll */
       /* Domanda materiali sempre su una riga intera */
       body[data-passo="grafiche-materiali"] .wizard-domanda { white-space: nowrap; font-size: clamp(1.05rem, 4.5vw, 1.8rem); }
-      body[data-passo="invia"] #w-passo { display: none; }
       body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
       .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
       .cfg-schermo .wizard-totale-finale .d { margin: 0 0 10px; font-size: 0.88rem; }

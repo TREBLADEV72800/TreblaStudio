@@ -20,14 +20,16 @@ import { FAQS } from '../../data/faq';
 >
   <div class="involucro">
     <section class="pagina-titolo" style="padding-block-start:clamp(10px,2vw,20px)" aria-labelledby="titolo">
+      <div class="faq-titolo-riga">
       <h1 id="titolo" style="white-space:nowrap;max-inline-size:none;font-size:calc(clamp(1.9rem,8.5vw,5.2rem) - 5px);margin:0">Domande <em>frequenti</em></h1>
+      <a class="btn btn-fantasma btn-piccolo" href="/contatti">Oppure parliamone</a>
+      </div>
     </section>
 
     <section class="sezione" style="padding-block-start:0" aria-label="Tutte le domande">
       <Faq faqs={FAQS} />
       <div class="hero-azioni">
         <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-        <a class="btn btn-fantasma" href="/contatti">Oppure parliamone</a>
       </div>
     </section>
   </div>

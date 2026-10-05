@@ -785,6 +785,7 @@ body.menu-aperto {
 .faq summary:hover { color: var(--mattone-fondo); }
 .faq .risposta { padding: 0 4px 16px; color: var(--morbido); max-inline-size: none; }
 .faq .risposta p { margin: 0; text-wrap: wrap; }
+.faq-titolo-riga { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 @media (min-width: 900px) {
   .faq .risposta p { text-align: justify; }
 }
@@ -912,13 +913,6 @@ body.menu-aperto {
   max-inline-size: 20ch;
 }
 .wizard-sotto { color: var(--morbido); margin: 0 0 8px; max-inline-size: 56ch; }
-.wizard-passo {
-  font: 500 0.75rem/1.5 var(--mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--morbido);
-  margin: 12px 0 0;
-}
 .wizard-corpo { padding-block-end: 130px; }
 .wizard-opzioni { list-style: none; margin: 12px 0 0; padding: 0; border-block-end: 1px solid var(--inchiostro); }
 .wizard-opzioni li { border-block-start: 1px solid var(--inchiostro); }
