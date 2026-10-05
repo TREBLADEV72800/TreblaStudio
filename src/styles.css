@@ -173,6 +173,7 @@ a { color: inherit; }
   width: auto;
   max-inline-size: 140px;
   object-fit: contain;
+  aspect-ratio: 256 / 145;
 }
 @media (min-width: 400px) { .marchio img { height: 42px; max-inline-size: 180px; } }
 @media (min-width: 960px) { .marchio img { height: 46px; max-inline-size: none; } }
@@ -853,6 +854,7 @@ body.menu-aperto {
   display: block;
   height: 34px;
   width: auto;
+  aspect-ratio: 1360 / 768;
   filter: invert(1);
 }
 .piede-riga {
