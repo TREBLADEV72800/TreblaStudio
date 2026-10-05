@@ -193,7 +193,7 @@ a { color: inherit; }
   align-items: center;
   min-block-size: 44px;
   text-decoration: none;
-  font: 600 calc(1.05rem + 2px)/1.2 var(--serif);
+  font: 600 calc(1.05rem + 4px)/1.2 var(--serif);
   letter-spacing: -0.01em;
   padding: 8px 10px;
   border-radius: 6px;
@@ -487,7 +487,7 @@ body.menu-aperto {
 
 /* ---------- 8b. Home: chiusura ---------- */
 /* Home: i tre prezzi stanno insieme in un blocco unico */
-@media (min-width: 900px) { #h-prezzi.prezzi-griglia { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { #h-prezzi.prezzi-griglia { grid-template-columns: 0.9fr 1fr 1.1fr; } }
 .piano-per { color: var(--morbido); font-size: 0.95rem; margin: 10px 0 0; }
 .piano-no { color: var(--morbido); font-size: 0.88rem; margin: 12px 0 0; }
 .prezzo-evidenza .piano-per, .prezzo-evidenza .piano-no { color: var(--notte-morbido); }
