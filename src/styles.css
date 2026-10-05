@@ -505,6 +505,10 @@ body.menu-aperto {
 }
 .prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
 .prezzi-riga-finale .link-freccia { margin-inline-start: auto; white-space: nowrap; }
+@media (max-width: 899px) {
+  .prezzi-riga-finale .prezzo-nota { display: none; }
+  .prezzi-riga-finale .link-freccia { margin-inline-start: 0; }
+}
 .cta-finale {
   border: 1px solid var(--inchiostro);
   border-radius: 16px;
