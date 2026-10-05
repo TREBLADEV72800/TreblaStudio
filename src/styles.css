@@ -488,6 +488,7 @@ body.menu-aperto {
 /* ---------- 8b. Home: chiusura ---------- */
 /* Home: i tre prezzi stanno insieme in un blocco unico */
 @media (min-width: 900px) { #h-prezzi.prezzi-griglia { grid-template-columns: 0.9fr 1fr 1.1fr; } }
+#h-prezzi > .prezzo:first-child .prezzo-cifra { font-size: calc(clamp(2.6rem, 5vw, 3.8rem) - 1px); }
 .piano-per { color: var(--morbido); font-size: 0.95rem; margin: 10px 0 0; }
 .piano-no { color: var(--morbido); font-size: 0.88rem; margin: 12px 0 0; }
 .prezzo-evidenza .piano-per, .prezzo-evidenza .piano-no { color: var(--notte-morbido); }
