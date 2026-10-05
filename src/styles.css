@@ -213,9 +213,9 @@ a { color: inherit; }
 .menu-bottone {
   display: grid;
   place-content: center;
-  gap: 5px;
-  inline-size: 48px;
-  block-size: 48px;
+  gap: 6px;
+  inline-size: 56px;
+  block-size: 56px;
   flex: none;
   background: transparent;
   border: 0;
@@ -225,18 +225,18 @@ a { color: inherit; }
   -webkit-tap-highlight-color: transparent;
 }
 @media (max-width: 380px) {
-  .menu-bottone { inline-size: 44px; block-size: 44px; }
+  .menu-bottone { inline-size: 48px; block-size: 48px; }
 }
 @media (min-width: 960px) { .menu-bottone { display: none; } }
 .menu-bottone span {
-  display: block; inline-size: 20px; block-size: 2px;
+  display: block; inline-size: 24px; block-size: 2px;
   border-radius: 2px;
   background: var(--inchiostro);
   transition: transform var(--transizione), opacity var(--transizione);
 }
-.menu-bottone[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-bottone[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .menu-bottone[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.menu-bottone[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.menu-bottone[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 .nav-mobile {
   display: none;
@@ -246,6 +246,7 @@ a { color: inherit; }
 .nav-mobile.aperto {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   position: fixed;
   inset: 0;
   top: 0;
