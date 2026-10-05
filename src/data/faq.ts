@@ -7,7 +7,7 @@ export interface Faq {
 
 export const FAQS: Faq[] = [
   {
-    q: 'Cos’è l’Offerta Tutto incluso da 590€?',
+    q: 'Offerta Tutto incluso da 590€?',
     a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 5 revisioni, anticipo di 30 € escluso. La scegli nel preventivo alla voce struttura del sito.',
     cta: [{ href: '/preventivo', label: 'Approfitta dell’offerta →' }],
   },
