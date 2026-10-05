@@ -703,14 +703,15 @@ const canonicalHref = canonicalUrl('/preventivo');
             }
             // La mail lunga a volte non parte: copiamo il testo e poi apriamo comunque l'email
             const testo = messaggio().replace(/\*/g, '');
-            const apri = () => {
-              window.location.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo);
-            };
-            mostraConferma('Richiesta copiata: si apre la tua email con il testo già dentro. Se non si apre, incollalo a mano.');
+            // Apertura sincrona nel gesto del clic: così la mail parte davvero
+            const a = document.createElement('a');
+            a.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo);
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            mostraConferma('Si apre la tua email con il testo già dentro. Se non si apre, incollalo a mano: è già copiato.');
             if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(testo).then(apri, apri);
-            } else {
-              apri();
+              navigator.clipboard.writeText(testo).catch(() => {});
             }
           });
           box.appendChild(inviaMail);
