@@ -9,26 +9,26 @@ const settori = [
   'Negozi', 'Artigiani', 'Officine', 'Professionisti', 'Associazioni',
 ];
 
-const problemi = [
-  { t: 'Non hai un sito', d: 'Senza sito perdi una parte di ricerche e contatti: chi ti cerca trova il concorrente e prenota lì. Ogni settimana.' },
-  { t: 'Su Google ci sono dati sbagliati', d: 'Orari vecchi, numero errato, foto di altri: il cliente crede prima a Google che a te.' },
-  { t: 'Il menu è un PDF illeggibile', d: 'Dal telefono nessuno lo apre. E un menu che non si legge non fa venire fame.' },
-  { t: 'Sembri meno bravo di quanto sei', d: 'Lavori bene ma online sembri improvvisato. E il cliente decide online se fidarsi.' },
-  { t: 'Per farti contattare bisogna impazzire', d: 'Se il numero è nascosto e la mappa manca, la prenotazione non arriva.' },
+const benefici = [
+  { t: 'Si trova subito l’essenziale', d: 'Chi sei, dove sei, quando sei aperto. Senza scavare nei menu.' },
+  { t: 'Menu e servizi leggibili', d: 'Prezzi chiari dal telefono, senza scaricare PDF. Anche con poco campo.' },
+  { t: 'Contatti in un tocco', d: 'Telefono, WhatsApp, mappa e prenotazioni sempre in vista.' },
+  { t: 'Ordine anche fuori dal sito', d: 'Google Business e mappe sistemati: orari e indicazioni giusti ovunque.' },
 ];
 
-const risultati = [
-  { t: 'Si capisce in cinque secondi', d: 'Chi sei, dove sei, come prenotare. Se non si capisce subito, il cliente scappa altrove.' },
-  { t: 'Menu leggibile sul telefono', d: 'Prezzi chiari, senza scaricare nulla. Anche con poco campo.' },
-  { t: 'Orari e mappa sempre giusti', d: 'Collegati a Google, così nessuno arriva a saracinesca abbassata.' },
-  { t: 'Un tasto per chiamarti', d: 'Chiama, WhatsApp, prenota: a un tocco, sempre in vista.' },
-  { t: 'Veloce e senza fronzoli', d: 'Si apre subito e funziona su ogni telefono, anche non nuovo.' },
+const HOME_FAQS = [
+  'Quanto costa un sito?',
+  'In quanto tempo è online?',
+  'Non ho foto né testi. È un problema?',
+  'Devo pagare un canone ogni anno?',
+  'Come funziona, in pratica?',
 ];
+const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME_FAQS.indexOf(a.q) - HOME_FAQS.indexOf(b.q));
 ---
 
 <Layout
-  title="Trebla: Siti web che portano clienti | Asti"
-  description="Trebla, studio indipendente ad Asti. Siti web per ristoranti, negozi, artigiani e professionisti che fanno chiamare e prenotare: menu leggibili, orari giusti, contatti in un tocco. Da 300 €."
+  title="Trebla: un sito chiaro per la tua attività | Asti"
+  description="Trebla, studio indipendente ad Asti. Siti web semplici e veloci per ristoranti, negozi, artigiani e professionisti: prezzi chiari da 300 €, contatti sempre a portata di mano."
   canonical="/"
 >
   <!-- HERO -->
@@ -36,16 +36,16 @@ const risultati = [
     <section class="hero" aria-labelledby="titolo">
       <div class="hero-griglia">
         <div>
-          <h1 id="titolo">La tua attività<br />lavora bene<br /><em>Online in dieci giorni</em></h1>
+          <h1 id="titolo">Un sito chiaro<br />per far scegliere<br /><em>la tua attività.</em></h1>
           <p class="hero-lead">
-            Siamo Trebla, studio ad Asti: costruiamo il sito di <strong>ristoranti, negozi, artigiani e professionisti</strong>
-            che fa chiamare, prenotare, venire. Menu che si legge dal telefono, orari giusti, un tasto per contattarti.
-            Tu fai il tuo lavoro, a farti trovare pensiamo noi.
+            Siti web semplici e veloci per <strong>attività locali ad Asti e dintorni</strong>:
+            prezzi chiari, un referente diretto e i contatti sempre a portata di mano.
           </p>
           <div class="hero-azioni">
             <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-            <a class="btn btn-fantasma" href="#problema">Vedi se ti serve</a>
+            <a class="btn btn-fantasma" href="/#lavori">Guarda i lavori</a>
           </div>
+          <p class="hero-firma">Studio indipendente ad Asti · Proposta chiara prima di iniziare · Nessun canone obbligatorio</p>
         </div>
 
         <aside class="scheda" aria-label="Esempio: come ti vede un cliente con un sito Trebla">
@@ -60,6 +60,7 @@ const risultati = [
             </ul>
             <div class="scheda-tasti" aria-hidden="true"><span class="solid">Prenota</span><span>Menù</span><span>Come arrivare</span></div>
           </div>
+          <p class="scheda-nota">Esempio illustrativo, non un cliente reale.</p>
         </aside>
       </div>
     </section>
@@ -72,43 +73,50 @@ const risultati = [
     </div>
   </div>
 
-  <!-- 01 PROBLEMA -->
-  <section class="sezione" id="problema" aria-labelledby="h-problema">
+  <!-- 01 LAVORI -->
+  <section class="sezione" id="lavori" aria-label="Lavori pubblicati">
     <div class="involucro">
       <Capitolo
-        numero="01 · Il problema"
-        titolo="Ti suona <em>familiare?</em>"
-        nota="Non sono opinioni: sono le cose che vediamo ogni volta che un’attività ci chiede un sito."
+        numero="01 · Lavori"
+        titolo="Quello che abbiamo <em>pubblicato</em>"
+        nota="Un lavoro vero e visitabile: giudichi tu."
       />
-      <ol class="righe" id="h-problema">
-        {problemi.map((p, i) => (
-          <li data-reveal>
-            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{p.t}</h3>
-            <p>{p.d}</p>
-          </li>
-        ))}
-      </ol>
+      <a class="lavoro" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" data-reveal>
+        <div class="lavoro-testo">
+          <p class="lavoro-kicker">Un lavoro pubblicato · etichetta musicale</p>
+          <h3>Pikete Label</h3>
+          <p>Sito vetrina con catalogo artisti per un’etichetta astigiana. Design, sviluppo e gestione, tutto nostro.</p>
+          <span class="link-freccia">Visita il sito →</span>
+        </div>
+        <div class="lavoro-mock" aria-hidden="true">
+          <div class="lavoro-mock-barra"><i></i><i></i><i></i><span>piketelabel.vercel.app</span></div>
+          <div class="lavoro-mock-corpo">
+            <span class="lm-titolo"></span>
+            <span class="lm-riga"><i></i><b></b></span>
+            <span class="lm-riga"><i></i><b></b></span>
+            <span class="lm-riga"><i></i><b></b></span>
+          </div>
+        </div>
+      </a>
     </div>
   </section>
 
-  <!-- 02 COSA OTTIENI -->
-  <section class="sezione" aria-labelledby="h-risultato">
+  <!-- 02 BENEFICI -->
+  <section class="sezione" aria-labelledby="h-benefici">
     <div class="involucro">
       <Capitolo
-        numero="02 · Cosa ottieni"
-        titolo="Un sito che ti porta <em>clienti</em>"
-        nota="Niente effetti speciali. Cinque cose concrete che fanno chiamare e prenotare."
+        numero="02 · Benefici"
+        titolo="Cosa cambia <em>in pratica</em>"
+        nota="Niente promesse: quattro cose concrete che il sito fa per te."
       />
-      <ol class="righe" id="h-risultato">
-        {risultati.map((r, i) => (
+      <ul class="benefici" id="h-benefici">
+        {benefici.map((b) => (
           <li data-reveal>
-            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{r.t}</h3>
-            <p>{r.d}</p>
+            <h3>{b.t}</h3>
+            <p>{b.d}</p>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   </section>
 
@@ -125,7 +133,7 @@ const risultati = [
           <div class="indice-corpo">
             <h3>Sito web</h3>
             <p class="indice-meta">da <b>300 €</b> · pagina singola · <b>400 €</b> · più pagine</p>
-            <p class="indice-testo">Il punto di partenza che ti porta clienti. <strong>Una pagina che spiega tutto</strong> o un sito completo, con chi ti contatta in un tocco.</p>
+            <p class="indice-testo">Il punto di partenza per farti trovare e contattare. <strong>Una pagina che spiega tutto</strong> o un sito completo.</p>
             <p class="indice-lista"><span class="indice-k">Inclusi</span>Testi essenziali preparati insieme a te · Telefono, WhatsApp e mappa · Foto e menu sistemati · Privacy e cookie inclusi</p>
             <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Gergo tecnico · Ore della tua giornata · Canone obbligatorio</p>
             <a class="link-freccia" href="/servizi#sito">Il sito nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
@@ -159,11 +167,11 @@ const risultati = [
     </div>
   </section>
 
-  <!-- 04 METODO -->
+  <!-- 05 METODO -->
   <section class="sezione" aria-labelledby="h-metodo">
     <div class="involucro">
       <Capitolo
-        numero="04 · Come funziona"
+        numero="05 · Come funziona"
         titolo="Tu lavori, <em>noi al resto</em>"
         nota="Cinque passi, un solo referente, zero tempo perso."
       />
@@ -177,38 +185,58 @@ const risultati = [
     </div>
   </section>
 
-  <!-- 05 PREZZI -->
+  <!-- 04 PREZZI -->
   <section class="sezione" aria-labelledby="h-prezzi">
     <div class="involucro">
       <Capitolo
-        numero="05 · Prezzi"
-        titolo="Sai già <em>quanto spendi</em>"
-        nota="Prezzo e tempi chiari prima di iniziare, con poche domande. Il sito resta tuo, nessun canone, il resto alla consegna."
+        numero="04 · Prezzi"
+        titolo="Scegli da <em>dove partire</em>"
+        nota="Tre modi, un solo principio: sai prima quanto spendi. Il sito resta tuo."
       />
-      <div class="prezzi-griglia" id="h-prezzi" data-reveal>
-        <div class="prezzo">
+      <div class="piani" id="h-prezzi">
+        <div class="piano" data-reveal>
           <p class="prezzo-kicker">Per iniziare</p>
           <h3>Pagina singola</h3>
-          <p class="prezzo-cifra">300 €</p>
+          <p class="prezzo-cifra">da 300 €</p>
+          <p class="piano-per">Per artigiani, professionisti e botteghe che devono farsi trovare e contattare.</p>
           <ul>
             <li>Tutto l’essenziale in una pagina che scorre</li>
-            <li>Chi sei, cosa fai, dove sei, come contattarti</li>
             <li>Telefono, WhatsApp e mappa in vista</li>
+            <li>Privacy e cookie inclusi</li>
           </ul>
+          <p class="piano-no">Se ti servono sezioni separate, serve il multipagina. Extra a parte.</p>
+          <a class="link-freccia" href="/preventivo">Configura la singola →</a>
         </div>
-        <div class="prezzo prezzo-evidenza">
+        <div class="piano" data-reveal>
           <p class="prezzo-kicker">Il più scelto</p>
           <h3>Sito a più pagine</h3>
-          <p class="prezzo-cifra">400 €</p>
+          <p class="prezzo-cifra">da 400 €</p>
+          <p class="piano-per">Per ristoranti, B&amp;B, saloni e negozi con tanto da mostrare.</p>
           <ul>
             <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
             <li>Menu, prenotazioni, eventi se ti servono</li>
             <li>Telefono, WhatsApp e mappa in vista</li>
           </ul>
+          <p class="piano-no">Funzioni extra e foto si aggiungono nel preventivo.</p>
+          <a class="link-freccia" href="/preventivo">Configura il multipagina →</a>
+        </div>
+        <div class="piano piano-evidenza" data-reveal>
+          <p class="prezzo-kicker">Tutto incluso</p>
+          <h3>Offerta</h3>
+          <p class="prezzo-cifra">590 €</p>
+          <p class="piano-per">Per chi vuole tutto senza pensarci.</p>
+          <ul>
+            <li>Sito a più pagine completo, tutti gli extra</li>
+            <li>Foto scattate da noi ad Asti</li>
+            <li>Logo nuovo o rinnovato</li>
+            <li>5 revisioni invece di due</li>
+          </ul>
+          <p class="piano-no">Stampa dei materiali esclusa. Social e grafiche extra a parte.</p>
+          <a class="link-freccia" href="/preventivo">Prendi l’offerta →</a>
         </div>
       </div>
-      <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/prezzi">Tutti i dettagli e gli extra →</a></p>
-      <p style="margin:8px 0 0" data-reveal><a class="link-freccia" href="/prezzi#offerta">Offerta Tutto incluso a 590 € →</a></p>
+      <p class="prezzo-nota" data-reveal>Dominio e hosting si pagano ai fornitori, al prezzo loro. A noi, nessun canone obbligatorio.</p>
+      <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/prezzi">Tutti i dettagli in Prezzi →</a></p>
     </div>
   </section>
 
@@ -232,23 +260,6 @@ const risultati = [
           <p>Cura l’aspetto e i contenuti: grafiche, foto e social. Quello che si vede, lo ha visto lui prima di te.</p>
         </div>
       </div>
-      <a class="lavoro" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" data-reveal>
-        <div class="lavoro-testo">
-          <p class="lavoro-kicker">Un lavoro pubblicato · etichetta musicale</p>
-          <h3>Pikete Label</h3>
-          <p>Sito vetrina con catalogo artisti per un’etichetta astigiana. Design, sviluppo e gestione, tutto nostro.</p>
-          <span class="link-freccia">Visita il sito →</span>
-        </div>
-        <div class="lavoro-mock" aria-hidden="true">
-          <div class="lavoro-mock-barra"><i></i><i></i><i></i><span>piketelabel.vercel.app</span></div>
-          <div class="lavoro-mock-corpo">
-            <span class="lm-titolo"></span>
-            <span class="lm-riga"><i></i><b></b></span>
-            <span class="lm-riga"><i></i><b></b></span>
-            <span class="lm-riga"><i></i><b></b></span>
-          </div>
-        </div>
-      </a>
     </div>
   </section>
 
@@ -260,11 +271,22 @@ const risultati = [
         titolo="Quelle che ci fanno <em>sempre</em>"
         nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
       />
-      <div id="h-domande"><Faq faqs={FAQS.slice(0, 5)} /></div>
+      <div id="h-domande"><Faq faqs={homeFaqs} /></div>
       <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
-      <div class="cta-azioni" data-reveal>
-        <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-        <a class="btn btn-wa" data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- 08 CONTATTO -->
+  <section class="sezione" aria-labelledby="h-contatto">
+    <div class="involucro">
+      <div class="cta-finale" id="h-contatto" data-reveal>
+        <p class="prezzo-kicker">Iniziamo</p>
+        <h2>Cominciamo da quello che serve <em>alla tua attività.</em></h2>
+        <p>Raccontaci in poche righe cosa fai. Ti rispondiamo con un’indicazione chiara sui prossimi passi.</p>
+        <div class="cta-azioni">
+          <a class="btn btn-mattone" href="/preventivo">Fai il preventivo</a>
+          <a class="btn btn-wa" data-wa="Ciao Trebla! Ti racconto cosa fa la mia attività." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a>
+        </div>
       </div>
     </div>
   </section>

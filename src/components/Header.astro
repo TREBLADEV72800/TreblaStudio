@@ -11,11 +11,11 @@ const active = (href: string) =>
       <span class="marchio-luogo">studio · Asti</span>
     </a>
     <nav class="nav" aria-label="Navigazione principale">
-      <a href="/" aria-current={active('/')}>Home</a>
       <a href="/servizi" aria-current={active('/servizi')}>Servizi</a>
+      <a href="/#lavori" aria-current={Astro.url.hash === 'lavori' ? 'page' : undefined}>Lavori</a>
       <a href="/prezzi" aria-current={active('/prezzi')}>Prezzi</a>
       <a href="/chi-siamo" aria-current={active('/chi-siamo')}>Studio</a>
-      <a href="/faq" aria-current={active('/faq')}>Domande</a>
+      <a href="/faq" aria-current={active('/faq')}>FAQ</a>
       <a href="/contatti" aria-current={active('/contatti')}>Contatti</a>
     </nav>
     <a class="btn btn-mattone btn-piccolo" href="/preventivo">Preventivo in 2 minuti</a>
@@ -31,12 +31,13 @@ const active = (href: string) =>
     </button>
   </div>
   <nav class="nav-mobile" id="menu-mobile" aria-label="Navigazione mobile">
-    <a href="/" aria-current={active('/')}>Home</a>
     <a href="/servizi" aria-current={active('/servizi')}>Servizi</a>
+    <a href="/#lavori" aria-current={Astro.url.hash === 'lavori' ? 'page' : undefined}>Lavori</a>
     <a href="/prezzi" aria-current={active('/prezzi')}>Prezzi</a>
     <a href="/chi-siamo" aria-current={active('/chi-siamo')}>Studio</a>
-    <a href="/faq" aria-current={active('/faq')}>Domande</a>
+    <a href="/faq" aria-current={active('/faq')}>FAQ</a>
     <a href="/contatti" aria-current={active('/contatti')}>Contatti</a>
+    <a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
     <a class="btn btn-mattone" href="/preventivo">Preventivo in 2 minuti</a>
   </nav>
 </header>

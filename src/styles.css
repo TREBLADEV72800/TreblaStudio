@@ -485,6 +485,49 @@ body.menu-aperto {
 }
 .righe li > .righe-num { grid-row: span 2; }
 
+/* ---------- 8b. Home: benefici, piani, chiusura ---------- */
+.benefici { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 12px; }
+@media (min-width: 860px) { .benefici { grid-template-columns: 1fr 1fr; } }
+.benefici li { border: 1px solid var(--inchiostro); border-radius: 12px; padding: 18px 20px; background: #fffdf7; }
+.benefici h3 { font: 600 1.2rem/1.2 var(--serif); letter-spacing: -0.01em; margin: 0; }
+.benefici h3::before { content: "✓"; color: var(--mattone); font-weight: 700; margin-inline-end: 8px; }
+.benefici p { margin: 8px 0 0; color: var(--morbido); font-size: 0.95rem; }
+.piani { display: grid; gap: 14px; margin: 18px 0 0; }
+@media (min-width: 900px) { .piani { grid-template-columns: repeat(3, 1fr); } }
+.piano {
+  border: 1px solid var(--inchiostro);
+  border-radius: 12px;
+  padding: clamp(20px, 3vw, 28px);
+  background: #fffdf7;
+  display: flex;
+  flex-direction: column;
+}
+.piano h3 { font: 600 1.45rem/1.1 var(--serif); letter-spacing: -0.015em; margin: 0; }
+.piano .prezzo-cifra { font-size: clamp(2.2rem, 4vw, 3rem); }
+.piano-per { color: var(--morbido); font-size: 0.95rem; margin: 10px 0 0; }
+.piano ul { list-style: none; margin: 14px 0 0; padding: 0; }
+.piano ul li { padding: 7px 0 7px 20px; position: relative; border-block-start: 1px solid var(--linea); font-size: 0.95rem; }
+.piano ul li::before { content: "✓"; position: absolute; left: 0; color: var(--mattone); font-weight: 700; }
+.piano-no { color: var(--morbido); font-size: 0.88rem; margin: 12px 0 0; }
+.piano .link-freccia { display: inline-block; margin-top: auto; padding-top: 16px; }
+.piano-evidenza { background: var(--notte); color: var(--notte-carta); }
+.piano-evidenza .prezzo-kicker { color: var(--mattone-chiaro); }
+.piano-evidenza .piano-per, .piano-evidenza .piano-no { color: var(--notte-morbido); }
+.piano-evidenza ul li { border-color: var(--linea-scura); }
+.piano-evidenza ul li::before { color: var(--mattone-chiaro); }
+.piano-evidenza .link-freccia { color: var(--mattone-chiaro); }
+.cta-finale {
+  background: var(--notte);
+  color: var(--notte-carta);
+  border-radius: 16px;
+  padding: clamp(28px, 5vw, 56px);
+}
+.cta-finale .prezzo-kicker { color: var(--mattone-chiaro); }
+.cta-finale h2 { font: 600 clamp(1.8rem, 4.5vw, 3rem)/1.05 var(--serif); letter-spacing: -0.02em; margin: 0; max-inline-size: 20ch; }
+.cta-finale h2 em { font-style: italic; font-weight: 500; color: var(--mattone-chiaro); }
+.cta-finale p { color: var(--notte-morbido); max-inline-size: 52ch; }
+.scheda-nota { font-size: 0.8rem; color: var(--morbido); margin: 10px 0 0; }
+
 /* ---------- 9. Servizi: titolo + contenuto in colonna ---------- */
 .servizio {
   border-block-start: 1px solid var(--inchiostro);
