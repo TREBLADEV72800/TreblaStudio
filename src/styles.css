@@ -495,17 +495,13 @@ body.menu-aperto {
 #h-prezzi .prezzo { display: flex; flex-direction: column; padding-block: calc(clamp(20px, 3vw, 32px) - 5px); }
 #h-prezzi .link-freccia { margin-top: auto; padding-top: 16px; }
 #h-prezzi .prezzo-evidenza .link-freccia { color: var(--mattone-chiaro); }
-/* Mobile: card compatte, tutto su una riga */
+/* Mobile: card compatte */
 @media (max-width: 899px) {
   #h-prezzi .prezzo { padding: 16px; }
   #h-prezzi .prezzo-kicker { margin: 0 0 8px; }
-  #h-prezzi .prezzo h3 { font-size: 1.3rem; }
-  #h-prezzi .prezzo-cifra { font-size: 2rem; margin: 10px 0 2px; }
-  #h-prezzi .piano-per { font-size: 0.85rem; text-wrap: balance; }
+  #h-prezzi .prezzo-cifra { margin: 10px 0 2px; }
   #h-prezzi .prezzo ul { margin-top: 10px; }
-  #h-prezzi .prezzo ul li { font-size: 0.72rem; white-space: nowrap; padding: 6px 0 6px 18px; }
-  #h-prezzi .piano-no { font-size: 0.8rem; white-space: nowrap; }
-  #h-prezzi .link-freccia { font-size: 0.85rem; }
+  #h-prezzi .prezzo ul li { padding: 6px 0 6px 18px; }
 }
 .prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
 .prezzi-riga-finale .link-freccia { margin-inline-start: auto; white-space: nowrap; }
