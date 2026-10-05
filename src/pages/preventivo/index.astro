@@ -690,17 +690,31 @@ const canonicalHref = canonicalUrl('/preventivo');
           invia.target = '_blank';
           invia.rel = 'noopener noreferrer';
           box.appendChild(invia);
-          const inviaMail = el('a', 'btn btn-fantasma', 'Invia via email');
-          inviaMail.id = 'w-invia-mail';
-          inviaMail.setAttribute('data-track', 'preventivo-invia-email');
-          inviaMail.addEventListener('click', (e) => {
-            const manc = mancantiRiepilogo();
-            if (!S.privacy || manc.length) {
-              e.preventDefault();
-              mostraErrore(!S.privacy ? 'Spunta il consenso privacy per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
-            }
-          });
-          box.appendChild(inviaMail);
+          // Email solo da computer: su telefono c'è WhatsApp, un tasto solo
+          const daComputer = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
+          if (daComputer) {
+            const inviaMail = el('a', 'btn btn-fantasma', 'Invia via email');
+            inviaMail.id = 'w-invia-mail';
+            inviaMail.setAttribute('data-track', 'preventivo-invia-email');
+            inviaMail.addEventListener('click', (e) => {
+              const manc = mancantiRiepilogo();
+              if (!S.privacy || manc.length) {
+                e.preventDefault();
+                mostraErrore(!S.privacy ? 'Spunta il consenso privacy per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
+                return;
+              }
+              // Su PC senza programma email il mailto muore in silenzio:
+              // copiamo il testo così si incolla a mano dove si vuole.
+              try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(messaggio().replace(/\*/g, '')).catch(() => {});
+                  inviaMail.textContent = 'Testo copiato ✓';
+                  setTimeout(() => { const m2 = $('w-invia-mail'); if (m2) m2.textContent = 'Invia via email'; }, 3000);
+                }
+              } catch (err) { /* appunti non disponibili: il mailto prova comunque */ }
+            });
+            box.appendChild(inviaMail);
+          }
           corpo.appendChild(box);
 
           const priv = el('label', 'privacy-riga');
