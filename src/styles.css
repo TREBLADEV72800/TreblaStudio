@@ -494,6 +494,8 @@ body.menu-aperto {
 .prezzo-evidenza .piano-per, .prezzo-evidenza .piano-no { color: var(--notte-morbido); }
 #h-prezzi .link-freccia { display: inline-block; margin-top: 16px; }
 #h-prezzi .prezzo-evidenza .link-freccia { color: var(--mattone-chiaro); }
+.prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
+.prezzi-riga-finale .link-freccia { margin-inline-start: auto; white-space: nowrap; }
 .cta-finale {
   background: var(--notte);
   color: var(--notte-carta);

@@ -176,7 +176,6 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <li>Telefono, WhatsApp e mappa in vista</li>
             <li>Privacy e cookie inclusi</li>
           </ul>
-          <p class="piano-no">Se ti servono sezioni separate scegli multipagina.</p>
           <a class="link-freccia" href="/preventivo">Configura la singola →</a>
         </div>
         <div class="prezzo">
@@ -206,8 +205,10 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
           <a class="link-freccia" href="/preventivo">Prendi l’offerta →</a>
         </div>
       </div>
-      <p class="prezzo-nota" data-reveal>Dominio e hosting si pagano ai fornitori, al prezzo loro. A noi, nessun canone obbligatorio.</p>
-      <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/prezzi">Tutti i dettagli in Prezzi →</a></p>
+      <div class="prezzi-riga-finale" data-reveal>
+        <p class="prezzo-nota" style="margin:0">Dominio e hosting si pagano ai fornitori, al prezzo loro. A noi, nessun canone obbligatorio.</p>
+        <a class="link-freccia" href="/prezzi">Tutti i dettagli in Prezzi →</a>
+      </div>
     </div>
   </section>
 
