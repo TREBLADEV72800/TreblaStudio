@@ -91,6 +91,7 @@ const canonicalHref = canonicalUrl('/preventivo');
       <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
       <p class="wizard-sotto" id="w-sotto"></p>
       <p class="wizard-errore" id="w-errore" role="alert" hidden></p>
+      <p class="wizard-ok" id="w-ok" role="status" hidden></p>
 
       <div class="wizard-corpo" id="w-corpo"></div>
     </div>
@@ -690,31 +691,29 @@ const canonicalHref = canonicalUrl('/preventivo');
           invia.target = '_blank';
           invia.rel = 'noopener noreferrer';
           box.appendChild(invia);
-          // Email solo da computer: su telefono c'è WhatsApp, un tasto solo
-          const daComputer = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
-          if (daComputer) {
-            const inviaMail = el('a', 'btn btn-fantasma', 'Invia via email');
-            inviaMail.id = 'w-invia-mail';
-            inviaMail.setAttribute('data-track', 'preventivo-invia-email');
-            inviaMail.addEventListener('click', (e) => {
-              const manc = mancantiRiepilogo();
-              if (!S.privacy || manc.length) {
-                e.preventDefault();
-                mostraErrore(!S.privacy ? 'Spunta il consenso privacy per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
-                return;
-              }
-              // Su PC senza programma email il mailto muore in silenzio:
-              // copiamo il testo così si incolla a mano dove si vuole.
-              try {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                  navigator.clipboard.writeText(messaggio().replace(/\*/g, '')).catch(() => {});
-                  inviaMail.textContent = 'Testo copiato ✓';
-                  setTimeout(() => { const m2 = $('w-invia-mail'); if (m2) m2.textContent = 'Invia via email'; }, 3000);
-                }
-              } catch (err) { /* appunti non disponibili: il mailto prova comunque */ }
-            });
-            box.appendChild(inviaMail);
-          }
+          const inviaMail = el('a', 'btn btn-fantasma', 'Invia via email');
+          inviaMail.id = 'w-invia-mail';
+          inviaMail.setAttribute('data-track', 'preventivo-invia-email');
+          inviaMail.addEventListener('click', (e) => {
+            e.preventDefault();
+            const manc = mancantiRiepilogo();
+            if (!S.privacy || manc.length) {
+              mostraErrore(!S.privacy ? 'Spunta il consenso privacy per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
+              return;
+            }
+            // La mail lunga a volte non parte: copiamo il testo e poi apriamo comunque l'email
+            const testo = messaggio().replace(/\*/g, '');
+            const apri = () => {
+              window.location.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo);
+            };
+            mostraConferma('Richiesta copiata: si apre la tua email con il testo già dentro. Se non si apre, incollalo a mano.');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(testo).then(apri, apri);
+            } else {
+              apri();
+            }
+          });
+          box.appendChild(inviaMail);
           corpo.appendChild(box);
 
           const priv = el('label', 'privacy-riga');
@@ -846,9 +845,18 @@ const canonicalHref = canonicalUrl('/preventivo');
         errore.hidden = false;
         errore.scrollIntoView({ block: 'nearest' });
       }
+      function mostraConferma(t) {
+        const ok = $('w-ok');
+        if (!ok) return;
+        ok.textContent = t;
+        ok.hidden = false;
+        ok.scrollIntoView({ block: 'nearest' });
+      }
       function nascondiErrore() {
         errore.hidden = true;
         errore.textContent = '';
+        const ok = $('w-ok');
+        if (ok) { ok.hidden = true; ok.textContent = ''; }
       }
 
       function valido(id) {
@@ -967,6 +975,10 @@ const canonicalHref = canonicalUrl('/preventivo');
       /* Ultimo passo fermo: via contatore, resta solo Indietro, tutto entra senza scroll */
       /* Domanda materiali sempre su una riga intera */
       body[data-passo="grafiche-materiali"] .wizard-domanda { white-space: nowrap; font-size: clamp(1.05rem, 4.5vw, 1.8rem); }
+      /* Ultimo passo: la riga di invio resta intera su PC */
+      @media (min-width: 900px) {
+        body[data-passo="invia"] .wizard-sotto { white-space: nowrap; max-inline-size: none; }
+      }
       body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
       .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
       .cfg-schermo .wizard-totale-finale .d { margin: 0 0 10px; font-size: 0.88rem; }

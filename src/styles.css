@@ -512,7 +512,6 @@ body.menu-aperto {
 .cta-finale h2 { font: 600 clamp(1.8rem, 4.5vw, 2.8rem)/1.05 var(--serif); letter-spacing: -0.02em; margin: 0; }
 .cta-finale h2 em { font-style: italic; font-weight: 500; color: var(--mattone); }
 .cta-finale p { color: var(--morbido); }
-.scheda-nota { font-size: 0.8rem; color: var(--morbido); margin: 10px 0 0; }
 
 /* ---------- 9. Servizi: titolo + contenuto in colonna ---------- */
 .servizio {
@@ -1028,6 +1027,7 @@ textarea.wizard-campo {
 }
 textarea.wizard-campo:focus { border-color: var(--mattone); }
 .wizard-errore { color: var(--mattone-fondo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
+.wizard-ok { color: var(--inchiostro); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
 .wizard-barra-fissa {
   position: fixed;
   inset-inline: 0;
