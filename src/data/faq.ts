@@ -47,7 +47,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Posso chiedere modifiche dopo che è online?',
-    a: 'Sì. Due giri di revisioni sono inclusi prima della pubblicazione. Dopo, le modifiche te le facciamo noi su richiesta: ti diciamo prima se e quanto costano.',
+    a: 'Sì. Due revisioni sono incluse prima della pubblicazione. Dopo, le modifiche te le facciamo noi su richiesta: ti diciamo prima se e quanto costano.',
   },
   {
     q: 'Lavorate solo ad Asti?',
