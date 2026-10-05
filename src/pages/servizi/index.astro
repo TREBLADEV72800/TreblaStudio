@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Capitolo from '../../components/Capitolo.astro';
 ---
 
 <Layout
@@ -10,7 +9,6 @@ import Capitolo from '../../components/Capitolo.astro';
 >
   <div class="involucro">
     <section class="pagina-titolo" aria-labelledby="titolo">
-      <p class="capitolo-numero">Servizi</p>
       <h1 id="titolo">Tre cose, <em>fatte bene</em></h1>
       <p class="lead">Non un catalogo infinito e non una pagina sola: sistemiamo testi, contatti, menu, mappe e prenotazioni. Il sito al centro, il resto solo se ti serve davvero.</p>
       <div class="hero-azioni">
@@ -65,24 +63,6 @@ import Capitolo from '../../components/Capitolo.astro';
           <a class="link-freccia" href="/preventivo">Valuta i social →</a>
         </div>
       </article>
-    </section>
-
-    <section class="sezione" aria-label="Come si combinano">
-      <Capitolo
-        numero="Come si combinano"
-        titolo="Da soli o <em>insieme</em>"
-        nota="Ogni servizio funziona da solo. Insieme costano meno sbatti, non di più."
-      />
-      <ol class="righe">
-        <li><span class="righe-num">A</span><h3>Solo il sito</h3><p>Il punto di partenza per farti trovare e contattare. Il resto più avanti, se serve.</p></li>
-        <li><span class="righe-num">B</span><h3>Sito + grafiche</h3><p>Sito e stampati con la stessa faccia: chi ti vede online ti riconosce dal vivo. Li pensiamo insieme.</p></li>
-        <li><span class="righe-num">C</span><h3>Tutto coordinato</h3><p>Sito, grafiche e social media con la stessa faccia. Per chi riparte da zero e vuole farlo una volta sola.</p></li>
-      </ol>
-      <div class="hero-azioni">
-        <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-        <a class="btn btn-fantasma" href={`/contatti`}>Parlane con noi</a>
-      </div>
-      <p class="hero-firma">Preferisci parlare? <a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a></p>
     </section>
   </div>
 </Layout>
