@@ -193,8 +193,8 @@ a { color: inherit; }
   align-items: center;
   min-block-size: 44px;
   text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 500;
+  font: 600 1.05rem/1.2 var(--serif);
+  letter-spacing: -0.01em;
   padding: 8px 10px;
   border-radius: 6px;
   color: var(--inchiostro);

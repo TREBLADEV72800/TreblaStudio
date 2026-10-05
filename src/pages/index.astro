@@ -43,9 +43,8 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
           </p>
           <div class="hero-azioni">
             <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-            <a class="btn btn-fantasma" href="/#lavori">Guarda i lavori</a>
+            <a class="btn btn-fantasma" href="/servizi">Scopri i servizi</a>
           </div>
-          <p class="hero-firma">Studio indipendente ad Asti · Proposta chiara prima di iniziare · Nessun canone obbligatorio</p>
         </div>
 
         <aside class="scheda" aria-label="Esempio: come ti vede un cliente con un sito Trebla">
@@ -73,39 +72,11 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
     </div>
   </div>
 
-  <!-- 01 LAVORI -->
-  <section class="sezione" id="lavori" aria-label="Lavori pubblicati">
-    <div class="involucro">
-      <Capitolo
-        numero="01 · Lavori"
-        titolo="Quello che abbiamo <em>pubblicato</em>"
-        nota="Un lavoro vero e visitabile: giudichi tu."
-      />
-      <a class="lavoro" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" data-reveal>
-        <div class="lavoro-testo">
-          <p class="lavoro-kicker">Un lavoro pubblicato · etichetta musicale</p>
-          <h3>Pikete Label</h3>
-          <p>Sito vetrina con catalogo artisti per un’etichetta astigiana. Design, sviluppo e gestione, tutto nostro.</p>
-          <span class="link-freccia">Visita il sito →</span>
-        </div>
-        <div class="lavoro-mock" aria-hidden="true">
-          <div class="lavoro-mock-barra"><i></i><i></i><i></i><span>piketelabel.vercel.app</span></div>
-          <div class="lavoro-mock-corpo">
-            <span class="lm-titolo"></span>
-            <span class="lm-riga"><i></i><b></b></span>
-            <span class="lm-riga"><i></i><b></b></span>
-            <span class="lm-riga"><i></i><b></b></span>
-          </div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- 02 BENEFICI -->
+  <!-- 01 BENEFICI -->
   <section class="sezione" aria-labelledby="h-benefici">
     <div class="involucro">
       <Capitolo
-        numero="02 · Benefici"
+        numero="01 · Benefici"
         titolo="Cosa cambia <em>in pratica</em>"
         nota="Niente promesse: quattro cose concrete che il sito fa per te."
       />
@@ -124,7 +95,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <section class="sezione" aria-labelledby="h-servizi">
     <div class="involucro">
       <Capitolo
-        numero="03 · Cosa facciamo"
+        numero="02 · Cosa facciamo"
         titolo="Il sito al centro, <em>il resto intorno</em>"
         nota="Parti da quello che ti serve ora. Il resto si aggiunge quando vuoi."
       />
@@ -171,7 +142,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <section class="sezione" aria-labelledby="h-metodo">
     <div class="involucro">
       <Capitolo
-        numero="05 · Come funziona"
+        numero="04 · Come funziona"
         titolo="Tu lavori, <em>noi al resto</em>"
         nota="Cinque passi, un solo referente, zero tempo perso."
       />
@@ -189,7 +160,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <section class="sezione" aria-labelledby="h-prezzi">
     <div class="involucro">
       <Capitolo
-        numero="04 · Prezzi"
+        numero="03 · Prezzi"
         titolo="Scegli da <em>dove partire</em>"
         nota="Tre modi, un solo principio: sai prima quanto spendi. Il sito resta tuo."
       />
@@ -244,7 +215,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <section class="sezione" aria-labelledby="h-studio">
     <div class="involucro">
       <Capitolo
-        numero="06 · Lo studio"
+        numero="05 · Lo studio"
         titolo="Due persone, <em>niente call center</em>"
         nota="Parli sempre con chi costruisce il tuo sito."
       />
@@ -260,6 +231,34 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
           <p>Cura l’aspetto e i contenuti: grafiche, foto e social. Quello che si vede, lo ha visto lui prima di te.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 06 LAVORI -->
+  <section class="sezione" id="lavori" aria-label="Lavori pubblicati">
+    <div class="involucro">
+      <Capitolo
+        numero="06 · Lavori"
+        titolo="Quello che abbiamo <em>pubblicato</em>"
+        nota="Un lavoro vero e visitabile: giudichi tu."
+      />
+      <a class="lavoro" href="https://piketelabel.vercel.app" target="_blank" rel="noopener noreferrer" data-reveal>
+        <div class="lavoro-testo">
+          <p class="lavoro-kicker">Un lavoro pubblicato · etichetta musicale</p>
+          <h3>Pikete Label</h3>
+          <p>Sito vetrina con catalogo artisti per un’etichetta astigiana. Design, sviluppo e gestione, tutto nostro.</p>
+          <span class="link-freccia">Visita il sito →</span>
+        </div>
+        <div class="lavoro-mock" aria-hidden="true">
+          <div class="lavoro-mock-barra"><i></i><i></i><i></i><span>piketelabel.vercel.app</span></div>
+          <div class="lavoro-mock-corpo">
+            <span class="lm-titolo"></span>
+            <span class="lm-riga"><i></i><b></b></span>
+            <span class="lm-riga"><i></i><b></b></span>
+            <span class="lm-riga"><i></i><b></b></span>
+          </div>
+        </div>
+      </a>
     </div>
   </section>
 
