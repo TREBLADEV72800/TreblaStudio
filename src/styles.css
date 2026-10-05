@@ -498,15 +498,20 @@ body.menu-aperto {
 .prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
 .prezzi-riga-finale .link-freccia { margin-inline-start: auto; white-space: nowrap; }
 .cta-finale {
-  background: var(--notte);
-  color: var(--notte-carta);
+  border: 1px solid var(--inchiostro);
   border-radius: 16px;
-  padding: clamp(28px, 5vw, 56px);
+  background: #fffdf7;
+  padding: clamp(24px, 4vw, 40px);
+  display: grid;
+  gap: 20px;
 }
-.cta-finale .prezzo-kicker { color: var(--mattone-chiaro); }
-.cta-finale h2 { font: 600 clamp(1.8rem, 4.5vw, 3rem)/1.05 var(--serif); letter-spacing: -0.02em; margin: 0; max-inline-size: 20ch; }
-.cta-finale h2 em { font-style: italic; font-weight: 500; color: var(--mattone-chiaro); }
-.cta-finale p { color: var(--notte-morbido); max-inline-size: 52ch; }
+@media (min-width: 900px) {
+  .cta-finale { grid-template-columns: minmax(0, 1.5fr) auto; align-items: center; gap: 32px; }
+  .cta-finale .cta-azioni { flex-direction: column; align-items: stretch; margin-block-start: 0; }
+}
+.cta-finale h2 { font: 600 clamp(1.8rem, 4.5vw, 2.8rem)/1.05 var(--serif); letter-spacing: -0.02em; margin: 0; }
+.cta-finale h2 em { font-style: italic; font-weight: 500; color: var(--mattone); }
+.cta-finale p { color: var(--morbido); }
 .scheda-nota { font-size: 0.8rem; color: var(--morbido); margin: 10px 0 0; }
 
 /* ---------- 9. Servizi: titolo + contenuto in colonna ---------- */
