@@ -735,14 +735,10 @@ const fontCss = (
           cb.checked = S.privacy;
           cb.addEventListener('change', () => { S.privacy = cb.checked; aggiornaInvia(); nascondiErrore(); });
           priv.appendChild(cb);
-          const span = el('span', '', 'Ho letto e accetto i termini e le condizioni e l’informativa privacy: ');
+          const span = el('span', '', 'Ho letto e accetto i termini e le condizioni: ');
           const link = el('a', 'link-freccia', 'Termini e condizioni');
           link.href = '/note-legali#termini';
           span.appendChild(link);
-          span.appendChild(document.createTextNode(' e '));
-          const link2 = el('a', 'link-freccia', 'Privacy');
-          link2.href = '/note-legali#privacy';
-          span.appendChild(link2);
           span.appendChild(document.createTextNode('. *'));
           priv.appendChild(span);
           corpo.appendChild(priv);
