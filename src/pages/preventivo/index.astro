@@ -5,7 +5,7 @@ import plex700 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-nor
 import archivo700 from '@fontsource/archivo/files/archivo-latin-700-normal.woff2?url';
 import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
 import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
-import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS } from '../../data/prezzi';
+import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS, VIDEO_PRICE } from '../../data/prezzi';
 import {
   businessTypes,
   businessCategories,
@@ -41,6 +41,7 @@ const CFG = {
   designByType,
   goals: [...GOALS],
   timings: [...TIMINGS],
+  videoPrice: VIDEO_PRICE,
   whatsapp: ['39', '351', '892', '4471'],
   email: ['trebla.dev.simoni', 'gmail.com'],
 };
@@ -123,7 +124,7 @@ const fontCss = (
       const S = {
         nome: '', categoria: '', tipo: '', tipoAltro: '', altroMsg: '', servizi: [],
         struttura: '', funzioni: [], pagine: [], foto: '',
-        canali: [], socialExtra: [], graficheExtra: [],
+        canali: [], socialExtra: [], videoQty: 0, graficheExtra: [],
         obiettivi: [], tempi: '', note: '',
         privacy: false,
       };
@@ -195,6 +196,9 @@ const fontCss = (
         });
       };
       const socialPerTipo = () => [...(C.socialByType[S.tipo] || C.socialNeeds)];
+      // Le voci video stanno nel passo quantità, non nell'elenco contenuti
+      const isVideoVoce = (n) => /reel|video|filmati/i.test(n);
+      const socialContenuti = () => socialPerTipo().filter((v) => !isVideoVoce(v.name));
       const designPerTipo = () => [...(C.designByType[S.tipo] || C.designNeeds)];
       const trova = (lista, n) => lista.find((x) => x.name === n);
 
@@ -215,7 +219,7 @@ const fontCss = (
           }
         }
         if (ha('grafiche')) f.push('grafiche-materiali');
-        if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-extra');
+        if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-video', 'social-extra');
         f.push('obiettivi-tempi', 'riepilogo', 'invia');
         return f;
       }
@@ -240,11 +244,12 @@ const fontCss = (
             if (S.foto && C.photoPrices[S.foto]) t += C.photoPrices[S.foto];
           }
         }
-        const ls = [...socialPerTipo(), ...C.socialExtrasAll];
+        const ls = [...socialContenuti(), ...C.socialExtrasAll];
         for (const n of S.socialExtra) {
           const e = trova(ls, n);
           if (e) t += e.price;
         }
+        t += S.videoQty * C.videoPrice;
         const ld = [...designPerTipo(), ...C.designExtrasAll];
         for (const n of S.graficheExtra) {
           const e = trova(ld, n);
@@ -336,11 +341,12 @@ const fontCss = (
           }
           if (nome === 'foto') S.foto = vals[0] || '';
           if (nome === 'tempi') S.tempi = vals[0] || '';
+          if (nome === 'videoQty') S.videoQty = parseInt(vals[0] || '0', 10) || 0;
         } else {
           if (nome === 'servizi') {
             S.servizi = vals;
             if (!ha('sito')) { S.struttura = ''; S.funzioni = []; S.pagine = []; S.foto = ''; }
-            if (!ha('social')) { S.canali = []; S.socialExtra = []; }
+            if (!ha('social')) { S.canali = []; S.socialExtra = []; S.videoQty = 0; }
             if (!ha('grafiche')) S.graficheExtra = [];
           }
           if (nome === 'funzioni') S.funzioni = unisci(S.funzioni);
@@ -355,7 +361,7 @@ const fontCss = (
       function setTipo(t) {
         S.tipo = t;
         S.funzioni = []; S.pagine = []; S.foto = '';
-        S.canali = []; S.socialExtra = []; S.graficheExtra = [];
+        S.canali = []; S.socialExtra = []; S.videoQty = 0; S.graficheExtra = [];
       }
 
       const SERVIZI_INFO = {
@@ -599,7 +605,23 @@ const fontCss = (
         if (id === 'social-contenuti') {
           domanda.textContent = `Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
           sotto.textContent = 'Solo quello che ha senso per te, altrimenti vai avanti.';
-          listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialPerTipo(), selezionati: S.socialExtra, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
+        }
+
+        if (id === 'social-video') {
+          domanda.textContent = 'Quanti video vuoi farti fare?';
+          sotto.textContent = `Riprese e montaggio per i social, ${C.videoPrice}€ a video. Altrimenti vai avanti.`;
+          const ulVideo = el('ul', 'wizard-opzioni');
+          ulVideo.setAttribute('role', 'group');
+          ulVideo.setAttribute('aria-label', 'Numero di video');
+          [{ v: 0, t: 'Nessuno', p: 0 }].concat(
+            [1, 2, 3, 4, 5].map((n) => ({ v: n, t: n === 1 ? '1 video' : `${n} video`, p: n * C.videoPrice }))
+          ).forEach((o) => {
+            const li = document.createElement('li');
+            li.appendChild(opzione({ tipo: 'radio', nome: 'videoQty', valore: String(o.v), titolo: o.t, prezzo: o.p, checked: S.videoQty === o.v }));
+            ulVideo.appendChild(li);
+          });
+          corpo.appendChild(ulVideo);
         }
 
         if (id === 'social-extra') {
@@ -668,6 +690,7 @@ const fontCss = (
           if (ha('social')) {
             const vociSocial = [S.canali.join(', '), S.socialExtra.join(', ')].filter(Boolean).join(' · ');
             riga('Social media', vociSocial || 'Da decidere insieme');
+            if (S.videoQty) riga('Video', `${S.videoQty} video · ${S.videoQty * C.videoPrice}€`);
           }
           if (S.obiettivi.length) riga('Obiettivi', S.obiettivi.join(', '));
           riga('Tempi', S.tempi);
@@ -795,6 +818,7 @@ const fontCss = (
             `• *Canali:* ${S.canali.join(', ') || 'Da decidere'}`,
             `• *Contenuti:* ${S.socialExtra.join(', ') || 'Da decidere'}`
           );
+          if (S.videoQty) L.push(`• *Video:* ${S.videoQty} video`);
         }
         L.push(
           '',
@@ -874,7 +898,7 @@ const fontCss = (
         if (id === 'funzioni' || id === 'funzioni-extra' || id === 'pagine') return '';
         if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
         if (id === 'social-canali' || id === 'social-contenuti') return '';
-        if (id === 'social-extra') return (S.canali.length || S.socialExtra.length) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media dai servizi.';
+        if (id === 'social-extra') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale, un contenuto o dei video, oppure togli Social media dai servizi.';
         if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
         if (id === 'obiettivi-tempi') return '';
         if (id === 'riepilogo' || id === 'invia') return '';

@@ -46,6 +46,8 @@ export const DESIGN_OPTIONS: Extra[] = [
 
 export const CHANNELS = ['Instagram', 'Facebook', 'TikTok'] as const;
 
+export const VIDEO_PRICE = 20;
+
 export const GOALS = [
   'Farmi trovare su Google e in zona',
   'Mostrare servizi e prodotti',
