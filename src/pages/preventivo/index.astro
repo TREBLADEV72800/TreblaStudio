@@ -320,7 +320,7 @@ const fontCss = (
 
       function titoloGruppo(testo, primo, grande) {
         const h = el('h2', '', testo);
-        h.style.cssText = `font:600 ${grande ? '1.5rem' : '1.2rem'} var(--serif);margin:${primo ? '4px' : '28px'} 0 0`;
+        h.style.cssText = `font:600 ${grande ? 'calc(1.5rem - 2px)' : '1.2rem'} var(--serif);margin:${primo ? '4px' : grande ? '16px' : '28px'} 0 0`;
         corpo.appendChild(h);
       }
 
@@ -631,16 +631,6 @@ const fontCss = (
             ul2.appendChild(li);
           });
           corpo.appendChild(ul2);
-          titoloGruppo('Note (facoltativo)', false);
-          const ta = document.createElement('textarea');
-          ta.className = 'wizard-campo';
-          ta.rows = 3;
-          ta.maxLength = 800;
-          ta.value = S.note;
-          ta.placeholder = 'Es. ho già il menu, vorrei i colori del locale...';
-          ta.setAttribute('aria-label', 'Note per il progetto');
-          ta.addEventListener('input', () => { S.note = ta.value.slice(0, 800); });
-          corpo.appendChild(ta);
         }
 
         if (id === 'riepilogo') {
@@ -848,7 +838,6 @@ const fontCss = (
         if (!S.servizi.length) m.push('un servizio');
         if (ha('sito') && !S.struttura) m.push('la struttura del sito');
         if (ha('sito') && !inOfferta() && !S.foto) m.push('le foto');
-        if (!S.tempi) m.push('i tempi');
         return m;
       }
 
@@ -884,11 +873,7 @@ const fontCss = (
         if (id === 'social-canali' || id === 'social-contenuti') return '';
         if (id === 'social-extra') return (S.canali.length || S.socialExtra.length) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media dai servizi.';
         if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
-        if (id === 'obiettivi-tempi') {
-          if (!S.obiettivi.length) return 'Scegli almeno un obiettivo.';
-          if (!S.tempi) return 'Scegli quando vorresti iniziare.';
-          return '';
-        }
+        if (id === 'obiettivi-tempi') return '';
         if (id === 'riepilogo' || id === 'invia') return '';
         return '';
       }
@@ -898,7 +883,7 @@ const fontCss = (
         riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
         indietro.hidden = idx === 0;
         const id = f[idx];
-        avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'obiettivi-tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
+        avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'obiettivi-tempi' ? 'Salta →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
         avanti.hidden = id === 'altro-invia' || id === 'invia';
         if (id === 'invia') aggiornaInvia();
         if (scroll) {

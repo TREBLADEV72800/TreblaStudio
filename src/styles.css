@@ -1021,16 +1021,6 @@ body.menu-aperto {
 }
 .wizard-campo:focus { outline: none; border-color: var(--mattone); }
 .wizard-campo::placeholder { color: #a29480; }
-textarea.wizard-campo {
-  border: 1px solid var(--linea);
-  border-radius: var(--raggio);
-  background: #fffdf7;
-  padding: 14px 16px;
-  font-size: 1rem;
-  min-block-size: 110px;
-  resize: vertical;
-}
-textarea.wizard-campo:focus { border-color: var(--mattone); }
 .wizard-errore { color: var(--mattone-fondo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
 .wizard-ok { color: var(--inchiostro); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
 .wizard-barra-fissa {
