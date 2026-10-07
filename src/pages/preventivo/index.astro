@@ -165,6 +165,7 @@ const fontCss = (
       })();
 
       const ha = (s) => S.servizi.includes(s);
+      const isPC = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
       const inOfferta = () => S.struttura === 'offerta';
       const waNum = () => C.whatsapp.join('');
       const mailAddr = () => C.email.join('@');
@@ -691,7 +692,7 @@ const fontCss = (
           invia.target = '_blank';
           invia.rel = 'noopener noreferrer';
           box.appendChild(invia);
-          const inviaMail = el('a', 'btn btn-fantasma', 'Invia via email');
+          const inviaMail = el('a', 'btn btn-fantasma', isPC ? 'Copia email' : 'Invia via email');
           inviaMail.id = 'w-invia-mail';
           inviaMail.setAttribute('data-track', 'preventivo-invia-email');
           inviaMail.addEventListener('click', (e) => {
@@ -701,8 +702,21 @@ const fontCss = (
               mostraErrore(!S.privacy ? 'Accetta i termini e le condizioni per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
               return;
             }
-            // La mail lunga a volte non parte: copiamo il testo e poi apriamo comunque l'email
             const testo = messaggio().replace(/\*/g, '');
+            if (isPC) {
+              // Da PC spesso manca un client email: copiamo il messaggio e mostriamo a chi inviarlo
+              const fatto = () => {
+                inviaMail.textContent = 'Copiato! Scrivici a: ' + mailAddr();
+                setTimeout(aggiornaInvia, 3000);
+              };
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(testo).then(fatto).catch(fatto);
+              } else {
+                fatto();
+              }
+              return;
+            }
+            // La mail lunga a volte non parte: copiamo il testo e poi apriamo comunque l'email
             // Apertura sincrona nel gesto del clic: così la mail parte davvero
             const a = document.createElement('a');
             a.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo);
@@ -822,7 +836,7 @@ const fontCss = (
           } else {
             m.removeAttribute('aria-disabled');
             m.style.opacity = '';
-            m.textContent = 'Invia via email';
+            m.textContent = isPC ? 'Copia email' : 'Invia via email';
             m.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(messaggio().replace(/\*/g, ''));
           }
         }
