@@ -29,7 +29,16 @@ const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'nu
           <a href="/note-legali#cookie">Cookie</a>
           <a href="/note-legali#termini">Termini</a>
         </nav>
-      <p class="piede-torna"><a class="link-freccia" href="#cima">Torna su ↑</a></p>
+      <p class="piede-torna"><a class="link-freccia" href="#cima" id="torna-su">Torna su ↑</a></p>
     </div>
   </div>
 </footer>
+
+<script>
+  // Torna su garantito: l'ancora da sola a volte non basta con overflow-x: clip.
+  document.getElementById('torna-su')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: ridotto ? 'auto' : 'smooth' });
+  });
+</script>
