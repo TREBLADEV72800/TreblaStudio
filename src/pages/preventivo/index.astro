@@ -318,9 +318,9 @@ const fontCss = (
         contenitore.appendChild(ul);
       }
 
-      function titoloGruppo(testo, primo) {
+      function titoloGruppo(testo, primo, grande) {
         const h = el('h2', '', testo);
-        h.style.cssText = `font:600 1.2rem var(--serif);margin:${primo ? '4px' : '28px'} 0 0`;
+        h.style.cssText = `font:600 ${grande ? '1.5rem' : '1.2rem'} var(--serif);margin:${primo ? '4px' : '28px'} 0 0`;
         corpo.appendChild(h);
       }
 
@@ -618,10 +618,10 @@ const fontCss = (
         }
 
         if (id === 'obiettivi-tempi') {
-          domanda.textContent = 'Obiettivi e tempi insieme?';
+          domanda.textContent = 'Cosa vuoi ottenere?';
           sotto.style.display = 'none';
           listaOpzioni(corpo, { nome: 'obiettivi', chiave: 'ob', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
-          titoloGruppo('Quando vorresti iniziare?', false);
+          titoloGruppo('Quando vorresti iniziare?', false, true);
           const ul2 = el('ul', 'wizard-opzioni');
           ul2.setAttribute('role', 'group');
           ul2.setAttribute('aria-label', 'Tempi desiderati');
