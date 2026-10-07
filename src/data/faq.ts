@@ -8,7 +8,7 @@ export interface Faq {
 export const FAQS: Faq[] = [
   {
     q: 'Offerta Tutto incluso da 590€?',
-    a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 5 revisioni, anticipo di 30 € escluso. La scegli nel preventivo alla voce struttura del sito.',
+    a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 3 modifiche gratuite, anticipo di 30 € compreso nella stima. La scegli nel preventivo alla voce struttura del sito.',
     cta: [{ href: '/preventivo', label: 'Approfitta dell’offerta →' }],
   },
   {
@@ -43,7 +43,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Come funziona l’anticipo di 30 €?',
-    a: 'Per iniziare serve un anticipo di 30 €, escluso dalla stima: conferma l’avvio del lavoro. Il resto lo paghi alla consegna, senza altri costi.',
+    a: 'Per iniziare serve un anticipo di 30 €, già compreso nella stima: conferma l’avvio del lavoro e non si restituisce se cambi idea. Il resto lo paghi alla consegna, senza altri costi.',
   },
   {
     q: 'Chiedo modifiche dopo che è online?',
