@@ -1022,7 +1022,6 @@ body.menu-aperto {
 .wizard-campo:focus { outline: none; border-color: var(--mattone); }
 .wizard-campo::placeholder { color: #a29480; }
 .wizard-errore { color: var(--mattone-fondo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
-.wizard-ok { color: var(--inchiostro); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
 .wizard-barra-fissa {
   position: fixed;
   inset-inline: 0;

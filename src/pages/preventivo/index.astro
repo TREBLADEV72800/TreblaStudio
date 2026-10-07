@@ -106,7 +106,6 @@ const fontCss = (
       <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
       <p class="wizard-sotto" id="w-sotto"></p>
       <p class="wizard-errore" id="w-errore" role="alert" hidden></p>
-      <p class="wizard-ok" id="w-ok" role="status" hidden></p>
 
       <div class="wizard-corpo" id="w-corpo"></div>
     </div>
@@ -710,7 +709,6 @@ const fontCss = (
             document.body.appendChild(a);
             a.click();
             a.remove();
-            mostraConferma('Si apre la tua email con il testo già dentro. Se non si apre, incollalo a mano: è già copiato.');
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(testo).catch(() => {});
             }
@@ -846,18 +844,9 @@ const fontCss = (
         errore.hidden = false;
         errore.scrollIntoView({ block: 'nearest' });
       }
-      function mostraConferma(t) {
-        const ok = $('w-ok');
-        if (!ok) return;
-        ok.textContent = t;
-        ok.hidden = false;
-        ok.scrollIntoView({ block: 'nearest' });
-      }
       function nascondiErrore() {
         errore.hidden = true;
         errore.textContent = '';
-        const ok = $('w-ok');
-        if (ok) { ok.hidden = true; ok.textContent = ''; }
       }
 
       function valido(id) {
@@ -986,15 +975,15 @@ const fontCss = (
         body[data-passo="invia"] .wizard-sotto { white-space: nowrap; max-inline-size: none; }
       }
       body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
-      .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.8rem); margin: 6px 0 4px; }
-      .cfg-schermo .wizard-totale-finale .d { margin: 0 0 4px; font-size: 0.88rem; line-height: 1.4; }
+      .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.8rem + 2px)); margin: 6px 0 4px; }
+      .cfg-schermo .wizard-totale-finale .d { margin: 0 0 4px; font-size: calc(0.88rem - 1px); line-height: 1.4; }
       .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
       .cfg-schermo .privacy-riga { margin-block-start: 12px; font-size: 0.88rem; }
       @media (max-height: 740px) {
         .cfg-schermo .wizard-domanda { font-size: clamp(1.4rem, 4vh, 1.9rem); margin-block: 18px 4px; }
         .cfg-schermo .wizard-sotto { margin: 0 0 6px; font-size: 0.95rem; }
         .cfg-schermo .opzione { min-block-size: 48px; padding: 9px 6px; font-size: 0.95rem; }
-        .cfg-schermo .wizard-totale-finale .v { font-size: clamp(2rem, 7vh, 2.6rem); }
+        .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
