@@ -618,8 +618,8 @@ const fontCss = (
         }
 
         if (id === 'obiettivi-tempi') {
-          domanda.textContent = 'Cosa vuoi ottenere, e quando?';
-          sotto.textContent = 'Scegli almeno un obiettivo e quando vorresti iniziare.';
+          domanda.textContent = 'Obiettivi e tempi insieme?';
+          sotto.style.display = 'none';
           listaOpzioni(corpo, { nome: 'obiettivi', chiave: 'ob', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
           titoloGruppo('Quando vorresti iniziare?', false);
           const ul2 = el('ul', 'wizard-opzioni');
