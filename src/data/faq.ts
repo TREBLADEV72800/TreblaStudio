@@ -8,12 +8,12 @@ export interface Faq {
 export const FAQS: Faq[] = [
   {
     q: 'Offerta Tutto incluso da 590€?',
-    a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 3 modifiche gratuite, anticipo di 30 € compreso nella stima. La scegli nel preventivo alla voce struttura del sito.',
+    a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 3 modifiche gratuite, anticipo di 30€ compreso nella stima. La scegli nel preventivo alla voce struttura del sito.',
     cta: [{ href: '/preventivo', label: 'Approfitta dell’offerta →' }],
   },
   {
     q: 'Quanto costa un sito?',
-    a: 'Pagina singola da 300 €, sito a più pagine da 400 €. Le funzioni extra, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare. Lo vedi da solo nel preventivo in 2 minuti.',
+    a: 'Pagina singola da 300€, sito a più pagine da 400€. Le funzioni extra, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare. Lo vedi da solo nel preventivo in 2 minuti.',
     cta: [{ href: '/preventivo', label: 'Fai il preventivo in 2 minuti →' }],
   },
   {
@@ -42,8 +42,8 @@ export const FAQS: Faq[] = [
     a: 'No, a noi non devi nessun canone obbligatorio. Il sito è tuo. Restano solo i costi vivi verso i fornitori, dominio e hosting, che paghi direttamente a loro, ti diciamo prima quanto sono.',
   },
   {
-    q: 'Come funziona l’anticipo di 30 €?',
-    a: 'Per iniziare serve un anticipo di 30 €, già compreso nella stima: conferma l’avvio del lavoro e non si restituisce se cambi idea. Il resto lo paghi alla consegna, senza altri costi.',
+    q: 'Come funziona l’anticipo di 30€?',
+    a: 'Per iniziare serve un anticipo di 30€, già compreso nella stima: conferma l’avvio del lavoro e non si restituisce se cambi idea. Il resto lo paghi alla consegna, senza altri costi.',
   },
   {
     q: 'Chiedo modifiche dopo che è online?',

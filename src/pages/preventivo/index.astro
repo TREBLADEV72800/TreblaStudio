@@ -171,7 +171,7 @@ const fontCss = (
       const mailAddr = () => C.email.join('@');
       const ordina = (arr) => [...arr].sort((a, b) => a.localeCompare(b, 'it'));
       const altro = () => S.tipo === 'Altro';
-      const euro = (p) => (p ? `+${p} €` : 'incluso');
+      const euro = (p) => (p ? `+${p}€` : 'incluso');
       const tipoLabel = () => (!S.tipo ? '' : (altro() && S.tipoAltro.trim() ? `Altro (${S.tipoAltro.trim()})` : S.tipo));
       const categoriaDi = (t) => (Object.entries(C.businessCategories).find(([, tipi]) => tipi.includes(t)) || [])[0] || '';
 
@@ -547,7 +547,7 @@ const fontCss = (
           [
             { v: 'singola', t: 'Pagina singola', n: 'Tutto l’essenziale in una pagina', p: C.base.singola },
             { v: 'multi', t: 'Sito a più pagine', n: 'Storia, servizi, galleria, contatti', p: C.base.multi },
-            { v: 'offerta', t: 'Offerta Tutto incluso', n: `Tutte le funzioni, logo e 3 modifiche gratuite · ${C.offerta.prezzo} € tutto incluso`, p: 0 },
+            { v: 'offerta', t: 'Offerta Tutto incluso', n: `Tutte le funzioni, logo e 3 modifiche gratuite · ${C.offerta.prezzo}€ tutto incluso`, p: 0 },
           ].forEach((o) => {
             const li = document.createElement('li');
             li.appendChild(opzione({ tipo: 'radio', nome: 'struttura', valore: o.v, titolo: o.t, nota: o.n, prezzo: o.p, checked: S.struttura === o.v }));
@@ -664,13 +664,13 @@ const fontCss = (
           riga('Servizi', nomiServizi);
           if (ha('sito')) {
             if (inOfferta()) {
-              riga('Sito', `${C.offerta.nome} · ${C.offerta.prezzo} €`);
+              riga('Sito', `${C.offerta.nome} · ${C.offerta.prezzo}€`);
               riga('Include', 'Tutte le funzioni, tutti gli extra, tutte le pagine', true);
               riga('Foto', 'Le scattiamo noi ad Asti');
               riga('Logo', 'Nuovo o rifacimento');
-              riga('Revisioni', `${C.offerta.revisioni} modifiche gratuite incluse`);
+              riga('Revisioni', '3 modifiche gratuite');
             } else {
-              riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi} €` : `Pagina singola · ${C.base.singola} €`);
+              riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi}€` : `Pagina singola · ${C.base.singola}€`);
               if (S.funzioni.length) riga('Funzioni', ordina(S.funzioni).join(', '), true);
               if (S.pagine.length) riga('Pagine', ordina(S.pagine).join(', '), true);
               if (S.foto) riga('Foto', S.foto);
@@ -699,7 +699,7 @@ const fontCss = (
           box.appendChild(cifra);
           box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
           if (S.struttura === 'offerta') box.appendChild(el('p', 'd', `Offerta Tutto incluso: ${C.offerta.revisioni} modifiche gratuite e logo (nuovo o rifacimento) compresi.`));
-          box.appendChild(el('p', 'd', 'Anticipo di 30 € già compreso nella stima: lo versi per iniziare, il resto alla consegna.'));
+          box.appendChild(el('p', 'd', 'Anticipo di 30€ già compreso nella stima: lo versi per iniziare, il resto alla consegna.'));
           const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
           invia.setAttribute('data-track', 'preventivo-invia');
           invia.id = 'w-invia';
@@ -770,11 +770,11 @@ const fontCss = (
             L.push(
               '',
               '*SITO*',
-              `• *Offerta:* ${C.offerta.nome} (${C.offerta.prezzo} €)`,
+              `• *Offerta:* ${C.offerta.nome} (${C.offerta.prezzo}€)`,
               '• *Include:* tutte le funzioni, tutti gli extra, tutte le pagine',
               '• *Foto:* le scattiamo noi',
               '• *Logo:* nuovo o rifacimento',
-              `• *Modifiche gratuite:* ${C.offerta.revisioni}`
+              '• *3 modifiche gratuite*'
             );
           } else {
             L.push(
@@ -807,7 +807,7 @@ const fontCss = (
           `• *Obiettivi:* ${S.obiettivi.join(', ') || 'Da decidere'}`,
           `• *Tempi:* ${S.tempi || 'Da decidere'}`,
           ...(UTM.utm_source ? [`• *Fonte:* ${[UTM.utm_source, UTM.utm_medium, UTM.utm_campaign].filter(Boolean).join(' / ')}`] : []),
-          `• *Anticipo:* 30 € compresi nella stima`,
+          `• *Anticipo:* 30€ compresi nella stima`,
           '',
           `*STIMA INDICATIVA:* ${stima()} €`
         );

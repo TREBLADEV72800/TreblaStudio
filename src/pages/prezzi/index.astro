@@ -5,8 +5,8 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
 ---
 
 <Layout
-  title="Prezzi chiari da 300 € | Trebla"
-  description="Prezzi chiari Trebla: pagina singola da 300 €, sito a più pagine da 400 €. Due revisioni incluse, nessun canone obbligatorio, il sito è tuo."
+  title="Prezzi chiari da 300€ | Trebla"
+  description="Prezzi chiari Trebla: pagina singola da 300€, sito a più pagine da 400€. Due revisioni incluse, nessun canone obbligatorio, il sito è tuo."
   canonical="/prezzi"
   jsonLd={{
     '@context': 'https://schema.org',
@@ -33,7 +33,7 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
         <div class="prezzo">
           <p class="prezzo-kicker">Per iniziare</p>
           <h2 style="font:600 clamp(1.5rem,2.6vw,2rem)/1.1 var(--serif);margin:0">Pagina singola</h2>
-          <p class="prezzo-cifra">300 €</p>
+          <p class="prezzo-cifra">300€</p>
           <ul>
             <li>Tutto l’essenziale in una pagina che scorre</li>
             <li>Chi sei, cosa fai, dove sei, come contattarti</li>
@@ -44,7 +44,7 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
         <div class="prezzo prezzo-evidenza">
           <p class="prezzo-kicker">Il più scelto</p>
           <h2 style="font:600 clamp(1.5rem,2.6vw,2rem)/1.1 var(--serif);margin:0">Sito a più pagine</h2>
-          <p class="prezzo-cifra">400 €</p>
+          <p class="prezzo-cifra">400€</p>
           <ul>
             <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
             <li>Menu, prenotazioni, eventi se ti servono</li>
@@ -53,22 +53,22 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
             <p class="prezzo-nota">Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</p>
         </div>
       </div>
-      <p class="prezzo-nota" data-reveal style="margin:14px 0 0">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, galleria fotografica e due revisioni. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+20 €) o partire da zero.</p>
+      <p class="prezzo-nota" data-reveal style="margin:14px 0 0">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, galleria fotografica e due revisioni. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+20€) o partire da zero.</p>
       <div class="prezzo prezzo-evidenza offerta-solo" id="offerta" data-reveal>
           <p class="prezzo-kicker">Offerta</p>
           <h2 style="font:600 clamp(1.5rem,2.6vw,2rem)/1.1 var(--serif);margin:0">{OFFERTA_SITO.nome}</h2>
-          <p class="prezzo-cifra">{OFFERTA_SITO.prezzo} €</p>
+          <p class="prezzo-cifra">{OFFERTA_SITO.prezzo}€</p>
           <ul>
             <li>Sito a più pagine completo: tutte le funzioni, tutti gli extra, tutte le pagine</li>
             <li>Foto scattate da noi ad Asti</li>
             <li>Logo nuovo o rinnovato</li>
             <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
           </ul>
-          <p class="prezzo-nota">Anticipo di 30 € compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
+          <p class="prezzo-nota">Anticipo di 30€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
           <div class="hero-azioni" style="margin-block-start:16px">
             <a class="btn btn-mattone" href="/preventivo">Prendi l’offerta</a>
           </div>
-          <p class="prezzo-nota"><a class="link-freccia" href="https://wa.me/?text=Trebla%3A%20sito%20completo%20a%20590%20%E2%82%AC%2C%20con%20foto%2C%20logo%20e%203%20modifiche%20gratuite%20incluse%20https%3A%2F%2Ftreblastudio.vercel.app%2Fprezzi%23offerta" target="_blank" rel="noopener noreferrer">Girala a chi gli serve →</a></p>
+          <p class="prezzo-nota"><a class="link-freccia" href="https://wa.me/?text=Trebla%3A%20sito%20completo%20a%20590%E2%82%AC%2C%20con%20foto%2C%20logo%20e%203%20modifiche%20gratuite%20https%3A%2F%2Ftreblastudio.vercel.app%2Fprezzi%23offerta" target="_blank" rel="noopener noreferrer">Girala a chi gli serve →</a></p>
       </div>
       <div class="hero-azioni" data-reveal style="margin-block-start:16px">
         <a class="btn btn-mattone" href="/preventivo">Configura il tuo prezzo</a>
@@ -103,19 +103,19 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
       <p class="prezzo-nota" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
       <ul class="extra-lista">
         {DESIGN_OPTIONS.map((e) => (
-          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price} €</span></li>
+          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>
         ))}
       </ul>
       <h3 style="font:600 1.3rem var(--serif);margin:24px 0 4px">Per i social media</h3>
       <ul class="extra-lista">
         {SOCIAL_OPTIONS.map((e) => (
-          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price} €</span></li>
+          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>
         ))}
       </ul>
       <h3 style="font:600 1.3rem var(--serif);margin:24px 0 4px">Per il sito</h3>
       <ul class="extra-lista">
         {SITE_EXTRAS.map((e) => (
-          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">+{e.price} €</span></li>
+          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">+{e.price}€</span></li>
         ))}
       </ul>
     </section>
