@@ -9,7 +9,7 @@ export const FAQS: Faq[] = [
   {
     q: 'Offerta Tutto incluso da 590€?',
     a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 3 modifiche gratuite, anticipo di 30€ compreso nella stima. La scegli nel preventivo alla voce struttura del sito.',
-    cta: [{ href: '/preventivo', label: 'Approfitta dell’offerta →' }],
+    cta: [{ href: '/preventivo?offerta=1', label: 'Approfitta dell’offerta →' }],
   },
   {
     q: 'Quanto costa un sito?',

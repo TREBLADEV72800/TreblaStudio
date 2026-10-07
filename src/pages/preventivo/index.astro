@@ -204,9 +204,9 @@ const fontCss = (
           f.push('altro-descrivi', 'servizi', 'altro-invia');
           return f;
         }
-        f.push('servizi');
+        if (!offertaDiretta) f.push('servizi');
         if (ha('sito')) {
-          f.push('sito');
+          if (!offertaDiretta) f.push('sito');
           if (!inOfferta()) {
             if (funzioniPerTipo().length) f.push('funzioni');
             f.push('funzioni-extra');
@@ -216,10 +216,10 @@ const fontCss = (
         }
         if (ha('grafiche')) f.push('grafiche-materiali');
         if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-extra');
-        f.push('obiettivi', 'tempi', 'riepilogo', 'invia');
+        f.push('obiettivi-tempi', 'riepilogo', 'invia');
         return f;
       }
-      let idx = 0, tracciatoAvvio = false;
+      let idx = 0, tracciatoAvvio = false, offertaDiretta = false;
 
       function stima() {
         let t = 0;
@@ -617,15 +617,11 @@ const fontCss = (
           listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
         }
 
-        if (id === 'obiettivi') {
-          domanda.textContent = 'Cosa vuoi ottenere?';
-          sotto.textContent = 'Scegline almeno uno: ci aiuta a proporti le cose giuste.';
+        if (id === 'obiettivi-tempi') {
+          domanda.textContent = 'Cosa vuoi ottenere, e quando?';
+          sotto.textContent = 'Scegli almeno un obiettivo e quando vorresti iniziare.';
           listaOpzioni(corpo, { nome: 'obiettivi', chiave: 'ob', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
-        }
-
-        if (id === 'tempi') {
-          domanda.textContent = 'Quando vorresti iniziare?';
-          sotto.textContent = 'Le note sono facoltative.';
+          titoloGruppo('Quando vorresti iniziare?', false);
           const ul2 = el('ul', 'wizard-opzioni');
           ul2.setAttribute('role', 'group');
           ul2.setAttribute('aria-label', 'Tempi desiderati');
@@ -892,8 +888,11 @@ const fontCss = (
         if (id === 'social-canali' || id === 'social-contenuti') return '';
         if (id === 'social-extra') return (S.canali.length || S.socialExtra.length) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media dai servizi.';
         if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
-        if (id === 'obiettivi') return S.obiettivi.length ? '' : 'Scegli almeno un obiettivo.';
-        if (id === 'tempi') return S.tempi ? '' : 'Scegli quando vorresti iniziare.';
+        if (id === 'obiettivi-tempi') {
+          if (!S.obiettivi.length) return 'Scegli almeno un obiettivo.';
+          if (!S.tempi) return 'Scegli quando vorresti iniziare.';
+          return '';
+        }
         if (id === 'riepilogo' || id === 'invia') return '';
         return '';
       }
@@ -903,7 +902,7 @@ const fontCss = (
         riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
         indietro.hidden = idx === 0;
         const id = f[idx];
-        avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
+        avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'obiettivi-tempi' ? 'Vedi il riepilogo →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
         avanti.hidden = id === 'altro-invia' || id === 'invia';
         if (id === 'invia') aggiornaInvia();
         if (scroll) {
@@ -961,6 +960,12 @@ const fontCss = (
               .filter(Boolean)
           )];
           if (pre.length) S.servizi = pre;
+          // Ingresso diretto offerta da ?offerta=1: sito e struttura già scelti, via i passi decisi
+          if (q.get('offerta') === '1') {
+            S.servizi = ['sito'];
+            S.struttura = 'offerta';
+            offertaDiretta = true;
+          }
         } catch (e) { /* query non valida: si parte da zero */ }
         renderizza();
       })();
