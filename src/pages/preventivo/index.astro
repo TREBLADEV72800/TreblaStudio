@@ -219,7 +219,7 @@ const fontCss = (
           }
         }
         if (ha('grafiche')) f.push('grafiche-materiali');
-        if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-video', 'social-extra');
+        if (ha('social')) f.push('social-tutto');
         f.push('obiettivi-tempi', 'riepilogo', 'invia');
         return f;
       }
@@ -341,7 +341,6 @@ const fontCss = (
           }
           if (nome === 'foto') S.foto = vals[0] || '';
           if (nome === 'tempi') S.tempi = vals[0] || '';
-          if (nome === 'videoQty') S.videoQty = parseInt(vals[0] || '0', 10) || 0;
         } else {
           if (nome === 'servizi') {
             S.servizi = vals;
@@ -596,37 +595,38 @@ const fontCss = (
           corpo.appendChild(ul);
         }
 
-        if (id === 'social-canali') {
+        if (id === 'social-tutto') {
           domanda.textContent = 'Su quali canali pubblichiamo?';
           sotto.textContent = 'Scegli dove farti vedere.';
           listaOpzioni(corpo, { nome: 'canali', chiave: 'cn', voci: C.channels, selezionati: S.canali, conPrezzo: false });
-        }
-
-        if (id === 'social-contenuti') {
-          domanda.textContent = `Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
-          sotto.textContent = 'Solo quello che ha senso per te, altrimenti vai avanti.';
+          titoloGruppo(`Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`, false);
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
-        }
-
-        if (id === 'social-video') {
-          domanda.textContent = 'Quanti video vuoi farti fare?';
-          sotto.textContent = `Riprese e montaggio per i social, ${C.videoPrice}€ a video. Altrimenti vai avanti.`;
-          const ulVideo = el('ul', 'wizard-opzioni');
-          ulVideo.setAttribute('role', 'group');
-          ulVideo.setAttribute('aria-label', 'Numero di video');
-          [{ v: 0, t: 'Nessuno', p: 0 }].concat(
-            [1, 2, 3, 4, 5].map((n) => ({ v: n, t: n === 1 ? '1 video' : `${n} video`, p: n * C.videoPrice }))
-          ).forEach((o) => {
-            const li = document.createElement('li');
-            li.appendChild(opzione({ tipo: 'radio', nome: 'videoQty', valore: String(o.v), titolo: o.t, prezzo: o.p, checked: S.videoQty === o.v }));
-            ulVideo.appendChild(li);
-          });
-          corpo.appendChild(ulVideo);
-        }
-
-        if (id === 'social-extra') {
-          domanda.textContent = 'Extra social?';
-          sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
+          titoloGruppo('Quanti video vuoi farti fare?', false);
+          corpo.appendChild(el('p', 'wizard-sotto', `Riprese e montaggio per i social, ${C.videoPrice}€ a video.`));
+          const qta = el('div', 'video-qta');
+          const meno = document.createElement('button');
+          meno.type = 'button';
+          meno.textContent = '−';
+          meno.setAttribute('aria-label', 'Un video in meno');
+          const num = el('span', 'video-qta-num', '');
+          num.setAttribute('aria-live', 'polite');
+          const piu = document.createElement('button');
+          piu.type = 'button';
+          piu.textContent = '+';
+          piu.setAttribute('aria-label', 'Un video in più');
+          const aggiornaQta = () => {
+            num.textContent = S.videoQty === 0 ? 'Nessuno' : (S.videoQty === 1 ? `1 video · ${C.videoPrice}€` : `${S.videoQty} video · ${S.videoQty * C.videoPrice}€`);
+            meno.disabled = S.videoQty <= 0;
+            piu.disabled = S.videoQty >= 5;
+          };
+          meno.addEventListener('click', () => { if (S.videoQty > 0) { S.videoQty--; aggiornaQta(); } });
+          piu.addEventListener('click', () => { if (S.videoQty < 5) { S.videoQty++; aggiornaQta(); } });
+          qta.appendChild(meno);
+          qta.appendChild(num);
+          qta.appendChild(piu);
+          corpo.appendChild(qta);
+          aggiornaQta();
+          titoloGruppo('Extra social?', false);
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-ex', voci: C.socialExtrasAll, selezionati: S.socialExtra, conPrezzo: true });
         }
 
@@ -897,8 +897,7 @@ const fontCss = (
         if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola, più pagine o offerta tutto incluso.';
         if (id === 'funzioni' || id === 'funzioni-extra' || id === 'pagine') return '';
         if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
-        if (id === 'social-canali' || id === 'social-contenuti') return '';
-        if (id === 'social-extra') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale, un contenuto o dei video, oppure togli Social media dai servizi.';
+        if (id === 'social-tutto') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale, un contenuto o dei video, oppure togli Social media dai servizi.';
         if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
         if (id === 'obiettivi-tempi') return '';
         if (id === 'riepilogo' || id === 'invia') return '';
@@ -1024,6 +1023,10 @@ const fontCss = (
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
+      .video-qta { display: flex; align-items: center; gap: 14px; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); padding: 10px 0; margin: 12px 0 0; }
+      .video-qta button { flex: none; inline-size: 52px; block-size: 52px; border-radius: 50%; border: 1.5px solid var(--inchiostro); background: transparent; color: var(--inchiostro); font: 700 1.4rem/1 var(--sans); cursor: pointer; touch-action: manipulation; }
+      .video-qta button:disabled { opacity: 0.3; cursor: default; }
+      .video-qta-num { flex: 1 1 auto; text-align: center; font-weight: 600; }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
       @media (hover: hover) and (pointer: fine) {
         .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
