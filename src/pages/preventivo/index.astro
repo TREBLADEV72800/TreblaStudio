@@ -625,10 +625,9 @@ const fontCss = (
             riga.appendChild(b);
           });
           corpo.appendChild(riga);
-          titoloGruppo(`Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`, false);
+          corpo.appendChild(el('p', 'gruppo-kicker', `Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`));
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
-          titoloGruppo('Quanti video vuoi farti fare?', false);
-          corpo.appendChild(el('p', 'wizard-sotto', `Riprese e montaggio per i social, ${C.videoPrice}€ a video.`));
+          corpo.appendChild(el('p', 'gruppo-kicker', `Video · ${C.videoPrice}€ l'uno`));
           const qta = el('div', 'video-qta');
           const meno = document.createElement('button');
           meno.type = 'button';
@@ -643,16 +642,16 @@ const fontCss = (
           const aggiornaQta = () => {
             num.textContent = S.videoQty === 0 ? '0' : (S.videoQty === 1 ? `1 video · ${C.videoPrice}€` : `${S.videoQty} video · ${S.videoQty * C.videoPrice}€`);
             meno.disabled = S.videoQty <= 0;
-            piu.disabled = S.videoQty >= 5;
+            piu.disabled = S.videoQty >= 30;
           };
           meno.addEventListener('click', () => { if (S.videoQty > 0) { S.videoQty--; aggiornaQta(); } });
-          piu.addEventListener('click', () => { if (S.videoQty < 5) { S.videoQty++; aggiornaQta(); } });
+          piu.addEventListener('click', () => { if (S.videoQty < 30) { S.videoQty++; aggiornaQta(); } });
           qta.appendChild(meno);
           qta.appendChild(num);
           qta.appendChild(piu);
           corpo.appendChild(qta);
           aggiornaQta();
-          titoloGruppo('Extra social?', false);
+          corpo.appendChild(el('p', 'gruppo-kicker', 'Extra'));
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-ex', voci: C.socialExtrasAll, selezionati: S.socialExtra, conPrezzo: true });
         }
 
@@ -1049,11 +1048,12 @@ const fontCss = (
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
-      .video-qta { display: flex; align-items: center; gap: 14px; margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); padding: 10px 6px; }
-      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 46px; block-size: 46px; border: 1.5px solid var(--inchiostro); border-radius: 7px; background: #fffdf7; color: var(--inchiostro); font: 400 1.3rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
+      .video-qta { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); padding: 8px 6px; }
+      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 44px; block-size: 44px; border: 1.5px solid var(--inchiostro); border-radius: 7px; background: #fffdf7; color: var(--inchiostro); font: 400 1.2rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
       .video-qta button:hover:not(:disabled) { background: var(--carta-2); }
       .video-qta button:disabled { opacity: 0.3; cursor: default; }
       .video-qta-num { flex: 1 1 auto; text-align: center; font: 600 1.02rem/1.4 var(--sans); }
+      .gruppo-kicker { font: 700 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--morbido); margin: 22px 0 0; }
       .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); }
       .canale { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 6px 14px; background: transparent; border: 0; border-inline-start: 1px solid var(--inchiostro); border-radius: 6px; color: var(--inchiostro); font: 600 0.9rem var(--sans); cursor: pointer; touch-action: manipulation; }
       .canale:first-child { border-inline-start: 0; }
