@@ -609,7 +609,7 @@ const fontCss = (
             const b = document.createElement('button');
             b.type = 'button';
             b.className = 'canale';
-            b.innerHTML = '<span class="pallino" aria-hidden="true">✓</span>' + (LOGHI[c] || '') + '<span>' + c + '</span>';
+            b.innerHTML = '<span class="check" aria-hidden="true"></span>' + (LOGHI[c] || '') + '<span>' + c + '</span>';
             const dipingi = () => {
               b.setAttribute('aria-pressed', S.canali.includes(c) ? 'true' : 'false');
             };
@@ -629,15 +629,18 @@ const fontCss = (
           const meno = document.createElement('button');
           meno.type = 'button';
           meno.textContent = '−';
+          meno.setAttribute('data-azione', 'meno');
           meno.setAttribute('aria-label', 'Un video in meno');
-          const num = el('span', 'video-qta-num', '');
+          const num = el('span', 'video-qta-num', '0');
           num.setAttribute('aria-live', 'polite');
+          num.setAttribute('aria-atomic', 'true');
           const piu = document.createElement('button');
           piu.type = 'button';
           piu.textContent = '+';
+          piu.setAttribute('data-azione', 'piu');
           piu.setAttribute('aria-label', 'Un video in più');
           const aggiornaQta = () => {
-            num.textContent = S.videoQty === 0 ? '0' : (S.videoQty === 1 ? `1 video · ${C.videoPrice}€` : `${S.videoQty} video · ${S.videoQty * C.videoPrice}€`);
+            num.textContent = String(S.videoQty);
             meno.disabled = S.videoQty <= 0;
             piu.disabled = S.videoQty >= 30;
           };
@@ -1046,20 +1049,27 @@ const fontCss = (
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
-      .video-qta { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; padding: 0; border: 0; }
-      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 48px; block-size: 48px; border: 1px solid var(--inchiostro); border-radius: 4px; background: #EEF0F0; box-shadow: none; color: var(--inchiostro); font: 400 1.3rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
+      .video-qta { display: inline-flex; align-items: stretch; gap: 0; margin: 12px 0 0; padding: 0; border: 0; }
+      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 48px; block-size: 48px; margin: 0; border: 1px solid var(--inchiostro); background: #EEF0F0; box-shadow: none; appearance: none; -webkit-appearance: none; color: var(--inchiostro); font: 700 1.25rem/1 var(--sans); cursor: pointer; touch-action: manipulation; }
       .video-qta button:hover:not(:disabled) { background: #E4E7E7; }
       .video-qta button:disabled { opacity: 0.4; cursor: not-allowed; }
+      .video-qta button[data-azione="meno"] { border-radius: 4px 0 0 4px; border-inline-end: 0; }
+      .video-qta button[data-azione="piu"] { border-radius: 0 4px 4px 0; border-inline-start: 0; }
       .canale:focus-visible, .video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
-      .video-qta-num { min-inline-size: 3ch; font: 600 1.125rem/1.4 var(--sans); }
+      .video-qta-num { min-inline-size: 56px; block-size: 48px; box-sizing: border-box; display: grid; place-items: center; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); font: 600 1.125rem/1 var(--sans); font-variant-numeric: tabular-nums; }
       .gruppo-kicker { font: 400 1.125rem/1.4 var(--sans); color: var(--inchiostro); margin: 24px 0 0; }
-      .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0 0; }
-      .canale { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-block-size: 120px; padding: 12px 6px 10px; background: #EEF0F0; border: 1px solid var(--inchiostro); border-radius: 3px; box-shadow: none; color: var(--inchiostro); font: 400 0.875rem var(--sans); cursor: pointer; touch-action: manipulation; }
+      .canali-riga { display: flex; gap: 8px; flex-wrap: wrap; margin: 24px 0 0; }
+      .canale { box-sizing: border-box; inline-size: 104px; block-size: 118px; margin: 0; padding: 10px 6px 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; background: #EEF0F0; border: 1px solid var(--inchiostro); border-radius: 4px; box-shadow: none; appearance: none; -webkit-appearance: none; color: var(--inchiostro); font: 400 0.875rem/1 var(--sans); cursor: pointer; touch-action: manipulation; transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease; }
       .canale:hover { background: #E4E7E7; }
-      .canale svg { inline-size: 60px; block-size: 60px; }
-      .canale .pallino { display: grid; place-items: center; inline-size: 12px; block-size: 12px; border: 1px solid var(--inchiostro); border-radius: 50%; font-size: 8px; line-height: 1; color: transparent; }
-      .canale[aria-pressed="true"] { border: 2px solid var(--mattone); background: #FFFCF6; }
-      .canale[aria-pressed="true"] .pallino { background: var(--mattone); border-color: var(--mattone); color: #fff; }
+      .canale svg { inline-size: 56px; block-size: 56px; }
+      .canale .check { display: block; position: relative; inline-size: 12px; block-size: 12px; border: 1px solid var(--inchiostro); border-radius: 50%; }
+      .canale[aria-pressed="true"] { background: #FFFCF6; border-color: var(--mattone); box-shadow: inset 0 0 0 1px var(--mattone); }
+      .canale[aria-pressed="true"] .check { background: var(--mattone); border-color: var(--mattone); }
+      .canale[aria-pressed="true"] .check::after { content: ''; position: absolute; left: 3px; top: 0; width: 3px; height: 6px; border: solid #FFFCF6; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+      @media (max-width: 480px) {
+        .canale { inline-size: calc((100% - 16px) / 3); min-inline-size: 88px; block-size: 108px; }
+        .canale svg { inline-size: 44px; block-size: 44px; }
+      }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
       @media (hover: hover) and (pointer: fine) {
         .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
