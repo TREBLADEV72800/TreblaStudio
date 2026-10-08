@@ -350,7 +350,6 @@ const fontCss = (
           }
           if (nome === 'funzioni') S.funzioni = unisci(S.funzioni);
           if (nome === 'pagine') S.pagine = unisci(S.pagine);
-          if (nome === 'canali') S.canali = unisci(S.canali);
           if (nome === 'socialExtra') S.socialExtra = unisci(S.socialExtra);
           if (nome === 'graficheExtra') S.graficheExtra = unisci(S.graficheExtra);
           if (nome === 'obiettivi') S.obiettivi = unisci(S.obiettivi);
@@ -596,9 +595,30 @@ const fontCss = (
         }
 
         if (id === 'social-tutto') {
-          domanda.textContent = 'Su quali canali pubblichiamo?';
-          sotto.textContent = 'Scegli dove farti vedere.';
-          listaOpzioni(corpo, { nome: 'canali', chiave: 'cn', voci: C.channels, selezionati: S.canali, conPrezzo: false });
+          domanda.textContent = 'Dove ti facciamo vedere?';
+          sotto.textContent = 'Tocca i loghi dei social dove vuoi comparire.';
+          const LOGHI = {
+            Instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r="1.2" fill="currentColor" stroke="none"/></svg>',
+            Facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 21v-6.5h2.2l.4-2.8H13V9.5c0-.8.3-1.4 1.5-1.4H16V5.6c-.3 0-1.2-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.6v2.6H8v2.8h2.4V21H13z"/></svg>',
+            TikTok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="17" r="3.5"/><path d="M11 17V6c.7 2.3 2.5 3.9 5 4.2"/></svg>',
+          };
+          const riga = el('div', 'canali-riga');
+          riga.setAttribute('role', 'group');
+          riga.setAttribute('aria-label', 'Social dove pubblicare');
+          C.channels.forEach((c) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'canale';
+            b.setAttribute('aria-pressed', S.canali.includes(c) ? 'true' : 'false');
+            b.innerHTML = (LOGHI[c] || '') + '<span>' + c + '</span>';
+            b.addEventListener('click', () => {
+              const i = S.canali.indexOf(c);
+              if (i >= 0) S.canali.splice(i, 1); else S.canali.push(c);
+              b.setAttribute('aria-pressed', S.canali.includes(c) ? 'true' : 'false');
+            });
+            riga.appendChild(b);
+          });
+          corpo.appendChild(riga);
           titoloGruppo(`Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`, false);
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
           titoloGruppo('Quanti video vuoi farti fare?', false);
@@ -1027,6 +1047,10 @@ const fontCss = (
       .video-qta button { flex: none; inline-size: 52px; block-size: 52px; border-radius: 50%; border: 1.5px solid var(--inchiostro); background: transparent; color: var(--inchiostro); font: 700 1.4rem/1 var(--sans); cursor: pointer; touch-action: manipulation; }
       .video-qta button:disabled { opacity: 0.3; cursor: default; }
       .video-qta-num { flex: 1 1 auto; text-align: center; font-weight: 600; }
+      .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 0; }
+      .canale { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 6px 12px; border: 1.5px solid var(--inchiostro); border-radius: 12px; background: transparent; color: var(--inchiostro); font: 600 0.85rem var(--sans); cursor: pointer; touch-action: manipulation; }
+      .canale svg { inline-size: 30px; block-size: 30px; }
+      .canale[aria-pressed="true"] { border-color: var(--mattone); background: var(--carta-2); color: var(--mattone-fondo); }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
       @media (hover: hover) and (pointer: fine) {
         .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
