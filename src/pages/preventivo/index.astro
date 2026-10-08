@@ -219,7 +219,7 @@ const fontCss = (
           }
         }
         if (ha('grafiche')) f.push('grafiche-materiali');
-        if (ha('social')) f.push('social-tutto');
+        if (ha('social')) f.push('social-canali', 'social-contenuti', 'social-video', 'social-extra');
         f.push('obiettivi-tempi', 'riepilogo', 'invia');
         return f;
       }
@@ -594,7 +594,7 @@ const fontCss = (
           corpo.appendChild(ul);
         }
 
-        if (id === 'social-tutto') {
+        if (id === 'social-canali') {
           domanda.textContent = 'Dove ti facciamo vedere?';
           sotto.textContent = 'Tocca i loghi dei social dove vuoi comparire.';
           const LOGHI = {
@@ -625,9 +625,17 @@ const fontCss = (
             riga.appendChild(b);
           });
           corpo.appendChild(riga);
-          corpo.appendChild(el('p', 'gruppo-kicker', `Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`));
+        }
+
+        if (id === 'social-contenuti') {
+          domanda.textContent = `Quali contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
+          sotto.textContent = 'Solo quello che ha senso per te, altrimenti vai avanti.';
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
-          corpo.appendChild(el('p', 'gruppo-kicker', `Video · ${C.videoPrice}€ l'uno`));
+        }
+
+        if (id === 'social-video') {
+          domanda.textContent = 'Quanti video vuoi farti fare?';
+          sotto.textContent = `Riprese e montaggio per i social, ${C.videoPrice}€ a video. Altrimenti vai avanti.`;
           const qta = el('div', 'video-qta');
           const meno = document.createElement('button');
           meno.type = 'button';
@@ -651,7 +659,11 @@ const fontCss = (
           qta.appendChild(piu);
           corpo.appendChild(qta);
           aggiornaQta();
-          corpo.appendChild(el('p', 'gruppo-kicker', 'Extra'));
+        }
+
+        if (id === 'social-extra') {
+          domanda.textContent = 'Extra social?';
+          sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-ex', voci: C.socialExtrasAll, selezionati: S.socialExtra, conPrezzo: true });
         }
 
@@ -922,7 +934,8 @@ const fontCss = (
         if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola, più pagine o offerta tutto incluso.';
         if (id === 'funzioni' || id === 'funzioni-extra' || id === 'pagine') return '';
         if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
-        if (id === 'social-tutto') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale, un contenuto o dei video, oppure togli Social media dai servizi.';
+        if (id === 'social-canali' || id === 'social-contenuti' || id === 'social-video') return '';
+        if (id === 'social-extra') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale, un contenuto o dei video, oppure togli Social media dai servizi.';
         if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
         if (id === 'obiettivi-tempi') return '';
         if (id === 'riepilogo' || id === 'invia') return '';
@@ -1055,7 +1068,6 @@ const fontCss = (
       .video-qta button:disabled { opacity: 0.4; cursor: default; }
       .canale:focus-visible, .video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
       .video-qta-num { flex: 1 1 auto; text-align: center; font: 600 1.02rem/1.4 var(--sans); }
-      .gruppo-kicker { font: 700 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--morbido); margin: 22px 0 0; }
       .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); }
       .canale { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 6px 14px; background: transparent; border: 0; border-inline-start: 1px solid var(--inchiostro); border-radius: 6px; color: var(--inchiostro); font: 600 0.9rem var(--sans); cursor: pointer; touch-action: manipulation; }
       .canale:first-child { border-inline-start: 0; }
