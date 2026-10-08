@@ -102,7 +102,7 @@ const fontCss = (
   </head>
   <body>
     <div class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
-      <div class="wizard-barra" aria-hidden="true"><div class="wizard-riempimento" id="w-riempimento"></div></div>
+      <div class="wizard-barra" id="w-barra" role="progressbar" aria-label="Avanzamento preventivo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wizard-riempimento" id="w-riempimento"></div></div>
 
       <h1 class="wizard-domanda" id="w-domanda" tabindex="-1">Come si chiama la tua attività?</h1>
       <p class="wizard-sotto" id="w-sotto"></p>
@@ -932,6 +932,7 @@ const fontCss = (
       function aggiornaCromo(scroll) {
         const f = flusso();
         riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
+        $('w-barra')?.setAttribute('aria-valuenow', String(Math.round(((idx + 1) / f.length) * 100)));
         indietro.hidden = idx === 0;
         const id = f[idx];
         avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'obiettivi-tempi' ? 'Salta →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
@@ -1051,7 +1052,8 @@ const fontCss = (
       .video-qta { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); padding: 8px 6px; }
       .video-qta button { flex: none; display: grid; place-items: center; inline-size: 44px; block-size: 44px; border: 1.5px solid var(--inchiostro); border-radius: 7px; background: #fffdf7; color: var(--inchiostro); font: 400 1.2rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
       .video-qta button:hover:not(:disabled) { background: var(--carta-2); }
-      .video-qta button:disabled { opacity: 0.3; cursor: default; }
+      .video-qta button:disabled { opacity: 0.4; cursor: default; }
+      .canale:focus-visible, .video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
       .video-qta-num { flex: 1 1 auto; text-align: center; font: 600 1.02rem/1.4 var(--sans); }
       .gruppo-kicker { font: 700 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--morbido); margin: 22px 0 0; }
       .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); }
