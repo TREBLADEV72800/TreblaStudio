@@ -619,9 +619,9 @@ const fontCss = (
             riga.appendChild(b);
           });
           corpo.appendChild(riga);
-          corpo.appendChild(el('p', 'gruppo-kicker', `Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`));
+          titoloGruppo(`Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`, false);
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
-          corpo.appendChild(el('p', 'gruppo-kicker', `Video · ${C.videoPrice}€ l'uno`));
+          titoloGruppo(`Video · ${C.videoPrice}€ l'uno`, false);
           const ulQ = el('ul', 'wizard-opzioni');
           const liQ = document.createElement('li');
           const qta = el('div', 'video-qta');
@@ -649,7 +649,7 @@ const fontCss = (
           ulQ.appendChild(liQ);
           corpo.appendChild(ulQ);
           aggiornaQta();
-          corpo.appendChild(el('p', 'gruppo-kicker', 'Extra'));
+          titoloGruppo('Extra', false);
           listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-ex', voci: C.socialExtrasAll, selezionati: S.socialExtra, conPrezzo: true });
         }
 
@@ -1047,6 +1047,9 @@ const fontCss = (
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
+body[data-passo="categoria"] .cfg-schermo .opzione,
+      body[data-passo="tipo"] .cfg-schermo .opzione,
+      body[data-passo="servizi"] .cfg-schermo .opzione { min-block-size: 64px; padding: 14px 6px; font-size: 1.1rem; }
       .canali-riga { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0 0; }
       .canale { display: flex; align-items: center; justify-content: center; gap: 10px; min-block-size: 58px; min-inline-size: 0; padding: 12px 8px; background: transparent; border: 1.5px solid var(--inchiostro); border-radius: 6px; color: var(--inchiostro); font: 600 1.02rem/1.2 var(--sans); cursor: pointer; touch-action: manipulation; }
       .canale:hover { background: var(--carta-2); }
@@ -1064,8 +1067,7 @@ const fontCss = (
       .video-qta button:disabled { opacity: 0.4; cursor: default; }
       .video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
       .video-qta-num { flex: 1 1 auto; text-align: center; }
-      .gruppo-kicker { font: 700 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--morbido); margin: 22px 0 0; }
-      /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
+            /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
       @media (hover: hover) and (pointer: fine) {
         .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
         .cfg-schermo .wizard-corpo::-webkit-scrollbar { display: none; }
