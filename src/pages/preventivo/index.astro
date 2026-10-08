@@ -609,12 +609,9 @@ const fontCss = (
             const b = document.createElement('button');
             b.type = 'button';
             b.className = 'canale';
-            b.innerHTML = '<span class="segno" aria-hidden="true">○</span>' + (LOGHI[c] || '') + '<span>' + c + '</span>';
-            const segno = b.querySelector('.segno');
+            b.innerHTML = '<span class="pallino" aria-hidden="true">✓</span>' + (LOGHI[c] || '') + '<span>' + c + '</span>';
             const dipingi = () => {
-              const dentro = S.canali.includes(c);
-              b.setAttribute('aria-pressed', dentro ? 'true' : 'false');
-              if (segno) segno.textContent = dentro ? '●' : '○';
+              b.setAttribute('aria-pressed', S.canali.includes(c) ? 'true' : 'false');
             };
             dipingi();
             b.addEventListener('click', () => {
@@ -1049,21 +1046,20 @@ const fontCss = (
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
-      .video-qta { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); padding: 8px 6px; }
-      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 44px; block-size: 44px; border: 1.5px solid var(--inchiostro); border-radius: 7px; background: #fffdf7; color: var(--inchiostro); font: 400 1.2rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
-      .video-qta button:hover:not(:disabled) { background: var(--carta-2); }
-      .video-qta button:disabled { opacity: 0.4; cursor: default; }
+      .video-qta { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; padding: 0; border: 0; }
+      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 48px; block-size: 48px; border: 1px solid var(--inchiostro); border-radius: 4px; background: #EEF0F0; box-shadow: none; color: var(--inchiostro); font: 400 1.3rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
+      .video-qta button:hover:not(:disabled) { background: #E4E7E7; }
+      .video-qta button:disabled { opacity: 0.4; cursor: not-allowed; }
       .canale:focus-visible, .video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
-      .video-qta-num { flex: 1 1 auto; text-align: center; font: 600 1.02rem/1.4 var(--sans); }
-      .gruppo-kicker { font: 700 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--morbido); margin: 22px 0 0; }
-      .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); }
-      .canale { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 6px 14px; background: transparent; border: 0; border-inline-start: 1px solid var(--inchiostro); border-radius: 6px; color: var(--inchiostro); font: 600 0.9rem var(--sans); cursor: pointer; touch-action: manipulation; }
-      .canale:first-child { border-inline-start: 0; }
-      .canale:hover { background: var(--carta-2); }
-      .canale svg { inline-size: 32px; block-size: 32px; }
-      .canale .segno { display: grid; place-items: center; inline-size: 26px; block-size: 26px; border: 1.5px solid var(--inchiostro); border-radius: 7px; font: 400 0.9rem/1 var(--mono); background: #fffdf7; }
-      .canale[aria-pressed="true"] { background: var(--carta-2); color: var(--mattone-fondo); }
-      .canale[aria-pressed="true"] .segno { background: var(--mattone); border-color: var(--mattone); color: #fff; }
+      .video-qta-num { min-inline-size: 3ch; font: 600 1.125rem/1.4 var(--sans); }
+      .gruppo-kicker { font: 400 1.125rem/1.4 var(--sans); color: var(--inchiostro); margin: 24px 0 0; }
+      .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0 0; }
+      .canale { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-block-size: 120px; padding: 12px 6px 10px; background: #EEF0F0; border: 1px solid var(--inchiostro); border-radius: 3px; box-shadow: none; color: var(--inchiostro); font: 400 0.875rem var(--sans); cursor: pointer; touch-action: manipulation; }
+      .canale:hover { background: #E4E7E7; }
+      .canale svg { inline-size: 60px; block-size: 60px; }
+      .canale .pallino { display: grid; place-items: center; inline-size: 12px; block-size: 12px; border: 1px solid var(--inchiostro); border-radius: 50%; font-size: 8px; line-height: 1; color: transparent; }
+      .canale[aria-pressed="true"] { border: 2px solid var(--mattone); background: #FFFCF6; }
+      .canale[aria-pressed="true"] .pallino { background: var(--mattone); border-color: var(--mattone); color: #fff; }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
       @media (hover: hover) and (pointer: fine) {
         .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
