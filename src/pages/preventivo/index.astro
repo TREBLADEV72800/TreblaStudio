@@ -609,12 +609,18 @@ const fontCss = (
             const b = document.createElement('button');
             b.type = 'button';
             b.className = 'canale';
-            b.setAttribute('aria-pressed', S.canali.includes(c) ? 'true' : 'false');
-            b.innerHTML = (LOGHI[c] || '') + '<span>' + c + '</span>';
+            b.innerHTML = '<span class="segno" aria-hidden="true">○</span>' + (LOGHI[c] || '') + '<span>' + c + '</span>';
+            const segno = b.querySelector('.segno');
+            const dipingi = () => {
+              const dentro = S.canali.includes(c);
+              b.setAttribute('aria-pressed', dentro ? 'true' : 'false');
+              if (segno) segno.textContent = dentro ? '●' : '○';
+            };
+            dipingi();
             b.addEventListener('click', () => {
               const i = S.canali.indexOf(c);
               if (i >= 0) S.canali.splice(i, 1); else S.canali.push(c);
-              b.setAttribute('aria-pressed', S.canali.includes(c) ? 'true' : 'false');
+              dipingi();
             });
             riga.appendChild(b);
           });
@@ -1043,17 +1049,19 @@ const fontCss = (
         .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
       }
       .cfg-schermo .wizard-barra { margin-block-start: 2px; }
-      .video-qta { display: flex; align-items: center; gap: 16px; border: 1.5px solid var(--linea); border-radius: 16px; background: #fffdf7; padding: 10px 14px; margin: 12px 0 0; }
-      .video-qta button { flex: none; inline-size: 54px; block-size: 54px; border-radius: 50%; border: 1.5px solid var(--inchiostro); background: transparent; color: var(--inchiostro); font: 700 1.5rem/1 var(--sans); cursor: pointer; touch-action: manipulation; transition: transform 0.15s ease, opacity 0.15s ease; }
-      .video-qta button:active:not(:disabled) { transform: scale(0.9); }
-      .video-qta button:disabled { opacity: 0.25; cursor: default; }
-      .video-qta-num { flex: 1 1 auto; text-align: center; font: 600 1.1rem var(--serif); }
-      .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0 0; }
-      .canale { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 6px 14px; border: 1.5px solid var(--linea); border-radius: 16px; background: #fffdf7; color: var(--inchiostro); font: 600 0.85rem var(--sans); cursor: pointer; touch-action: manipulation; transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease; }
-      .canale svg { inline-size: 36px; block-size: 36px; }
-      .canale:active { transform: scale(0.96); }
-      .canale[aria-pressed="true"] { border: 2px solid var(--mattone); background: var(--carta-2); color: var(--mattone-fondo); }
-      .canale[aria-pressed="true"]::after { content: '✓'; position: absolute; top: 8px; right: 10px; font: 700 0.85rem var(--sans); color: var(--mattone); }
+      .video-qta { display: flex; align-items: center; gap: 14px; margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); padding: 10px 6px; }
+      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 46px; block-size: 46px; border: 1.5px solid var(--inchiostro); border-radius: 7px; background: #fffdf7; color: var(--inchiostro); font: 400 1.3rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
+      .video-qta button:hover:not(:disabled) { background: var(--carta-2); }
+      .video-qta button:disabled { opacity: 0.3; cursor: default; }
+      .video-qta-num { flex: 1 1 auto; text-align: center; font: 600 1.02rem/1.4 var(--sans); }
+      .canali-riga { display: grid; grid-template-columns: repeat(3, 1fr); margin: 12px 0 0; border-block-start: 1px solid var(--inchiostro); border-block-end: 1px solid var(--inchiostro); }
+      .canale { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 6px 14px; background: transparent; border: 0; border-inline-start: 1px solid var(--inchiostro); border-radius: 6px; color: var(--inchiostro); font: 600 0.9rem var(--sans); cursor: pointer; touch-action: manipulation; }
+      .canale:first-child { border-inline-start: 0; }
+      .canale:hover { background: var(--carta-2); }
+      .canale svg { inline-size: 32px; block-size: 32px; }
+      .canale .segno { display: grid; place-items: center; inline-size: 26px; block-size: 26px; border: 1.5px solid var(--inchiostro); border-radius: 7px; font: 400 0.9rem/1 var(--mono); background: #fffdf7; }
+      .canale[aria-pressed="true"] { background: var(--carta-2); color: var(--mattone-fondo); }
+      .canale[aria-pressed="true"] .segno { background: var(--mattone); border-color: var(--mattone); color: #fff; }
       /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
       @media (hover: hover) and (pointer: fine) {
         .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
