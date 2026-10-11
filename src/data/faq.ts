@@ -39,7 +39,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Devo pagare un canone ogni anno?',
-    a: 'No, a noi non devi nessun canone obbligatorio. Il sito è tuo. Restano solo i costi vivi verso i fornitori, dominio e hosting, che paghi direttamente a loro, ti diciamo prima quanto sono.',
+    a: 'No, a noi non devi nessun canone obbligatorio. Il sito è tuo, l’hosting è completamente gratuito e la configurazione del dominio è gratis.',
   },
   {
     q: 'Come funziona l’anticipo di 30€?',
@@ -52,5 +52,9 @@ export const FAQS: Faq[] = [
   {
     q: 'Lavorate solo ad Asti?',
     a: 'Operiamo solo ad Asti: veniamo sul posto, in città.',
+  },
+  {
+    q: 'Fate siti con login o pagamenti online?',
+    a: 'No. Non facciamo siti con accessi utenti, aree riservate o pagamenti online: facciamo siti vetrina chiari per farti trovare e contattare. Se ti serve vendere online, te lo diciamo subito e non ti facciamo perdere tempo.',
   },
 ];
