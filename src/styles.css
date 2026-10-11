@@ -491,8 +491,7 @@ body.menu-aperto {
 @media (min-width: 900px) { #h-prezzi.prezzi-griglia { grid-template-columns: 0.9fr 1fr 1.1fr; } }
 #h-prezzi > .prezzo:first-child .prezzo-cifra { font-size: calc(clamp(2.6rem, 5vw, 3.8rem) - 1px); }
 .piano-per { color: var(--morbido); font-size: 0.95rem; margin: 10px 0 0; }
-.piano-no { color: var(--morbido); font-size: 0.88rem; margin: 12px 0 0; }
-.prezzo-evidenza .piano-per, .prezzo-evidenza .piano-no { color: var(--notte-morbido); }
+.prezzo-evidenza .piano-per { color: var(--notte-morbido); }
 #h-prezzi .prezzo { display: flex; flex-direction: column; padding-block: calc(clamp(20px, 3vw, 32px) - 5px); }
 #h-prezzi .link-freccia { margin-top: auto; padding-top: 16px; }
 #h-prezzi .prezzo-evidenza .link-freccia { color: var(--mattone-chiaro); }
