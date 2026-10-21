@@ -15,7 +15,9 @@
         flex-direction: column;
         overflow: hidden;
         padding-block-start: clamp(14px, 3vw, 26px);
-        padding-block-end: 0;
+        /* Spazio per la barra fissa: senza, l'ultima riga resta sotto la barra.
+           L'altezza reale la misura lo script (--wizard-barra). */
+        padding-block-end: var(--wizard-barra, 79px);
       }
       .cfg-schermo .wizard-corpo {
         flex: 1 1 auto;
@@ -35,7 +37,7 @@
       @media (min-width: 900px) {
         body[data-passo="invia"] .wizard-sotto { white-space: nowrap; max-inline-size: none; }
       }
-      body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
+      body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
       .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.8rem + 2px)); margin: 6px 0 4px; }
       .cfg-schermo .wizard-totale-finale .d { margin: 0 0 4px; font-size: calc(0.88rem - 1px); line-height: 1.4; }
       .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }

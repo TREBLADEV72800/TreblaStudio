@@ -344,6 +344,10 @@ body.menu-aperto {
   font: 400 0.8rem/1.6 var(--mono);
   color: var(--morbido);
 }
+/* Area di tap piu' generosa anche qui: il pseudo-elemento esce dal testo
+   senza spostare niente nel layout. */
+.hero-firma a { position: relative; }
+.hero-firma a::after { content: ''; position: absolute; inset: -6px -4px; }
 
 /* Scheda «come ti vede un cliente» — mockup in puro CSS, contenuto reale */
 .scheda {
@@ -619,6 +623,14 @@ body.menu-aperto {
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-thickness: 1px;
+  position: relative;
+}
+/* Area di tap piu' generosa: il pseudo-elemento esce dal testo e basta.
+   Non sposta niente nel layout, rende solo il link premibile col dito. */
+.link-freccia::after {
+  content: '';
+  position: absolute;
+  inset: -6px -4px;
 }
 .link-freccia:hover { color: var(--mattone-fondo); }
 

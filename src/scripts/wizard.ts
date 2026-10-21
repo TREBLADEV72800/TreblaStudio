@@ -79,6 +79,17 @@ const corpo = $('w-corpo'), domanda = $('w-domanda'), sotto = $('w-sotto'),
   errore = $('w-errore'), riemp = $('w-riempimento'),
   avanti = $<HTMLButtonElement>('w-avanti'), indietro = $<HTMLButtonElement>('w-indietro');
 
+// La barra dei pulsanti e' fixed: senza misurarla, il corpo scrollabile ci
+// finisce sotto e l'ultima riga resta coperta. Pubblichiamo l'altezza reale
+// (cambia con safe-area e con la rotazione).
+const barra = document.querySelector<HTMLElement>('.wizard-barra-fissa');
+const aggiornaBarra = () => {
+  if (!barra) return;
+  document.documentElement.style.setProperty('--wizard-barra', `${barra.offsetHeight}px`);
+};
+aggiornaBarra();
+if (barra && 'ResizeObserver' in window) new ResizeObserver(aggiornaBarra).observe(barra);
+
 // UTM: se arrivi da una campagna, la fonte viaggia nel messaggio e nel tracking
 const UTM: Record<string, string> = (() => {
   const u: Record<string, string> = {};

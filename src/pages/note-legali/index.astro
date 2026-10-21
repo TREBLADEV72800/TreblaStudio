@@ -16,6 +16,8 @@ a{color:var(--mattone)}
 section{scroll-margin-top:20px}
 nav{margin:1em 0 2em}
 nav a{margin-right:16px}
+nav a,main>p>a{position:relative}
+nav a::after,main>p>a::after{content:'';position:absolute;inset:-6px -4px}
 :focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 ::selection{background:var(--mattone);color:var(--carta)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

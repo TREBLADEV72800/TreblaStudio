@@ -39,7 +39,12 @@ onesto e riconoscibile. Niente template travestiti.
   niente gradienti, niente glass, niente neon.
 - Bottoni come righe grandi (min 58px) con quadratino ○/● stato.
 - Una sola animazione sobria (reveal), con `prefers-reduced-motion`.
-- Mobile-first, `overflow-x: clip`, touch target min 44px.
+- Mobile-first, `overflow-x: clip`, touch target min 44px per i controlli.
+  I link di testo in piede di riga stanno a 16px: si rende premibile
+  con un pseudo-elemento (`::after` con `inset` negativo), cosi l'area
+  di tap arriva a 24px senza spostare niente nel layout.
+- Il contenuto non deve finire sotto i elementi fissi: il configuratore
+  misura la barra fissa e la mette da parte (`--wizard-barra`).
 
 ## 3. Contenuti e tono
 
