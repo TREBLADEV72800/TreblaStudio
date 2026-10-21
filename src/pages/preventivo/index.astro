@@ -1,50 +1,12 @@
 ---
 import '../../styles.css';
+import Contatti from '../../components/Contatti.astro';
 import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
 import plex700 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2?url';
 import archivo700 from '@fontsource/archivo/files/archivo-latin-700-normal.woff2?url';
 import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
 import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
-import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS, VIDEO_PRICE } from '../../data/prezzi';
-import {
-  businessTypes,
-  businessCategories,
-  featuresByType,
-  extendedFeatures,
-  pageOptions,
-  siteExtrasAll,
-  socialExtrasAll,
-  designExtrasAll,
-  photoPrices,
-  socialByType,
-  designByType,
-} from '../../data/configuratore';
 import { site, canonicalUrl } from '../../data/site';
-
-const CFG = {
-  base: BASE_PRICES,
-  offerta: OFFERTA_SITO,
-  siteExtras: SITE_EXTRAS,
-  siteExtrasAll,
-  socialNeeds: SOCIAL_OPTIONS,
-  socialExtrasAll,
-  designNeeds: DESIGN_OPTIONS,
-  designExtrasAll,
-  channels: [...CHANNELS],
-  businessTypes,
-  businessCategories,
-  featuresByType,
-  extendedFeatures,
-  pageOptions,
-  photoPrices,
-  socialByType,
-  designByType,
-  goals: [...GOALS],
-  timings: [...TIMINGS],
-  videoPrice: VIDEO_PRICE,
-  whatsapp: ['39', '351', '892', '4471'],
-  email: ['trebla.dev.simoni', 'gmail.com'],
-};
 
 const title = 'Preventivo su misura | Trebla';
 const description =
@@ -119,30 +81,53 @@ const fontCss = (
       </div>
     </div>
 
-    <script define:vars={{ CFG }}>
-      const C = CFG;
+    <script>
+      import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS, VIDEO_PRICE } from '../../data/prezzi';
+      import {
+        businessTypes,
+        businessCategories,
+        featuresByType,
+        extendedFeatures,
+        pageOptions,
+        photoPrices,
+        socialByType,
+        designByType,
+      } from '../../data/configuratore';
+      import { unione, concetto } from '../../lib/catalogo';
+      import { contatti } from '../../data/contatti';
+      import { track } from '../../lib/tracking';
+
+      const C = {
+        base: BASE_PRICES,
+        offerta: OFFERTA_SITO,
+        siteExtras: SITE_EXTRAS,
+        socialNeeds: SOCIAL_OPTIONS,
+        designNeeds: DESIGN_OPTIONS,
+        channels: [...CHANNELS],
+        businessTypes,
+        businessCategories,
+        featuresByType,
+        extendedFeatures,
+        pageOptions,
+        photoPrices,
+        socialByType,
+        designByType,
+        goals: [...GOALS],
+        timings: [...TIMINGS],
+        videoPrice: VIDEO_PRICE,
+      };
       const S = {
         nome: '', categoria: '', tipo: '', tipoAltro: '', altroMsg: '', servizi: [],
         struttura: '', funzioni: [], pagine: [], foto: '',
         canali: [], socialExtra: [], videoQty: 0, graficheExtra: [],
-        obiettivi: [], tempi: '', note: '',
+        obiettivi: [], tempi: '',
         privacy: false,
       };
 
       const $ = (id) => document.getElementById(id);
-      const track = (n) => {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'trebla_' + n });
-        window.dispatchEvent(new CustomEvent('trebla:track', { detail: n }));
-      };
-      document.addEventListener('click', (e) => {
-        const t = e.target && e.target.closest ? e.target.closest('a[data-wa], a[data-mail]') : null;
-        if (!t) return;
-        track(t.hasAttribute('data-wa') ? 'whatsapp' : 'email');
-      });
       document.addEventListener('click', (e) => {
         const v = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
-        if (v) track(v.getAttribute('data-track'));
+        if (v) track(v.getAttribute('data-track') || '');
       });
       const corpo = $('w-corpo'), domanda = $('w-domanda'), sotto = $('w-sotto'),
         errore = $('w-errore'), riemp = $('w-riempimento'),
@@ -168,38 +153,49 @@ const fontCss = (
       const ha = (s) => S.servizi.includes(s);
       const isPC = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
       const inOfferta = () => S.struttura === 'offerta';
-      const waNum = () => C.whatsapp.join('');
-      const mailAddr = () => C.email.join('@');
+      const waNum = () => contatti.whatsapp.join('');
+      const mailAddr = () => contatti.email.join('');
       const ordina = (arr) => [...arr].sort((a, b) => a.localeCompare(b, 'it'));
       const altro = () => S.tipo === 'Altro';
       const euro = (p) => (p ? `+${p}€` : 'incluso');
       const tipoLabel = () => (!S.tipo ? '' : (altro() && S.tipoAltro.trim() ? `Altro (${S.tipoAltro.trim()})` : S.tipo));
       const categoriaDi = (t) => (Object.entries(C.businessCategories).find(([, tipi]) => tipi.includes(t)) || [])[0] || '';
 
-      const funzioniPerTipo = () => [...(C.featuresByType[S.tipo] || []), ...(C.extendedFeatures[S.tipo] || [])];
-      const extraGenerali = () => {
-        const visti = new Set();
-        const out = [];
-        for (const e of [...C.siteExtras, ...C.siteExtrasAll]) {
-          const k = e.name.toLowerCase();
-          if (!visti.has(k)) { visti.add(k); out.push(e); }
+      // I concetti già coperti dalle voci su misura: la voce generica non si ripete.
+      const concettiDi = (voci) => {
+        const out = new Set();
+        for (const v of voci) {
+          const c = concetto(v);
+          if (c) out.add(c);
         }
-        // Doppioni concettuali: se il tipo ha già la sua versione su misura,
-        // la voce generica non deve riapparire (deve vedersi una volta sola).
-        // Es. Barbiere ha "Prenotazione appuntamento rapida" -> nascondi "Prenotazioni e ordini su WhatsApp".
-        const specifiche = funzioniPerTipo().map((f) => f.name.toLowerCase()).join(' | ');
-        return out.filter((e) => {
-          const n = e.name.toLowerCase();
-          if (n.includes('prenotazioni e ordini') && /(\bprenot|\bordin)/.test(specifiche)) return false;
-          if (n.includes('menu digitale con qr') && /\bmenu/.test(specifiche) && /(\bqr|\bdigitale|\bcodice)/.test(specifiche)) return false;
-          return true;
-        });
+        return out;
       };
-      const socialPerTipo = () => [...(C.socialByType[S.tipo] || C.socialNeeds)];
+
+      const funzioniPerTipo = () => [...(C.featuresByType[S.tipo] || []), ...(C.extendedFeatures[S.tipo] || [])];
+      // Se il tipo gestisce già le prenotazioni, la voce generica sparisce.
+      // Es. Barbiere ha "Prenotazione appuntamenti rapida" -> via "Prenotazioni e ordini su WhatsApp".
+      const concettiFunzioni = () => {
+        const nomi = funzioniPerTipo().map((f) => f.name.toLowerCase()).join(' | ');
+        const c = new Set();
+        if (/(\bprenot|\bordin)/.test(nomi)) c.add('prenotazioni');
+        return c;
+      };
+      const extraGenerali = () => unione([], C.siteExtras, concettiFunzioni());
+      const socialPerTipo = () => C.socialByType[S.tipo] || [];
+      const socialGenerici = () => unione([], C.socialNeeds, concettiDi(socialPerTipo()));
       // Le voci video stanno nel passo quantità, non nell'elenco contenuti
       const isVideoVoce = (n) => /reel|video|filmati/i.test(n);
-      const socialContenuti = () => socialPerTipo().filter((v) => !isVideoVoce(v.name));
-      const designPerTipo = () => [...(C.designByType[S.tipo] || C.designNeeds)];
+      const socialContenuti = () => [...socialPerTipo(), ...socialGenerici()].filter((v) => !isVideoVoce(v.name));
+      const designPerTipo = () => C.designByType[S.tipo] || [];
+      const designGenerici = () => unione([], C.designNeeds, concettiDi(designPerTipo()));
+      // Con l'offerta il logo è già incluso: non riproporlo a pagamento.
+      // Stessa regola per la lista mostrata, per il prezzo e per il riepilogo.
+      const designVisibili = () =>
+        new Set(
+          [...designPerTipo(), ...designGenerici()]
+            .filter((v) => !(inOfferta() && concetto(v) === 'logo'))
+            .map((v) => v.name)
+        );
       const trova = (lista, n) => lista.find((x) => x.name === n);
 
       function flusso() {
@@ -244,13 +240,13 @@ const fontCss = (
             if (S.foto && C.photoPrices[S.foto]) t += C.photoPrices[S.foto];
           }
         }
-        const ls = [...socialContenuti(), ...C.socialExtrasAll];
+        const ls = socialContenuti();
         for (const n of S.socialExtra) {
           const e = trova(ls, n);
           if (e) t += e.price;
         }
         t += S.videoQty * C.videoPrice;
-        const ld = [...designPerTipo(), ...C.designExtrasAll];
+        const ld = [...designPerTipo(), ...designGenerici()].filter((v) => designVisibili().has(v.name));
         for (const n of S.graficheExtra) {
           const e = trova(ld, n);
           if (e) t += e.price;
@@ -307,7 +303,7 @@ const fontCss = (
       }
 
       // Liste sempre intere: tutte le voci insieme, mai paginate
-      function listaOpzioni(contenitore, { nome, voci, selezionati, conPrezzo, chiave }) {
+      function listaOpzioni(contenitore, { nome, voci, selezionati, conPrezzo }) {
         const ul = el('ul', 'wizard-opzioni');
         voci.forEach((v) => {
           const nomeVoce = typeof v === 'string' ? v : v.name;
@@ -564,20 +560,20 @@ const fontCss = (
         if (id === 'funzioni') {
           domanda.textContent = altro() ? 'Funzioni consigliate:' : `Funzioni per ${S.tipo}:`;
           sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
-          listaOpzioni(corpo, { nome: 'funzioni', chiave: 'fz-tipo', voci: funzioniPerTipo(), selezionati: S.funzioni, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'funzioni', voci: funzioniPerTipo(), selezionati: S.funzioni, conPrezzo: true });
         }
 
         if (id === 'funzioni-extra') {
           const tutte = extraGenerali();
           domanda.textContent = 'Funzioni extra per il sito?';
           sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
-          listaOpzioni(corpo, { nome: 'funzioni', chiave: 'fz-extra', voci: tutte, selezionati: S.funzioni, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'funzioni', voci: tutte, selezionati: S.funzioni, conPrezzo: true });
         }
 
         if (id === 'pagine') {
           domanda.textContent = 'Quali pagine vuoi nel sito?';
           sotto.textContent = 'Solo se utili, altrimenti vai avanti.';
-          listaOpzioni(corpo, { nome: 'pagine', chiave: 'pg', voci: C.pageOptions, selezionati: S.pagine, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'pagine', voci: C.pageOptions, selezionati: S.pagine, conPrezzo: true });
         }
 
         if (id === 'foto') {
@@ -620,7 +616,7 @@ const fontCss = (
           });
           corpo.appendChild(riga);
           titoloGruppo(`Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`, false);
-          listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-co', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'socialExtra', voci: socialPerTipo().filter((v) => !isVideoVoce(v.name)), selezionati: S.socialExtra, conPrezzo: true });
           titoloGruppo(`Video · ${C.videoPrice}€ l'uno`, false);
           const ulQ = el('ul', 'wizard-opzioni');
           const liQ = document.createElement('li');
@@ -649,23 +645,25 @@ const fontCss = (
           ulQ.appendChild(liQ);
           corpo.appendChild(ulQ);
           aggiornaQta();
-          titoloGruppo('Extra', false);
-          listaOpzioni(corpo, { nome: 'socialExtra', chiave: 'so-ex', voci: C.socialExtrasAll, selezionati: S.socialExtra, conPrezzo: true });
+          const socialExtra = socialGenerici().filter((v) => !isVideoVoce(v.name));
+          if (socialExtra.length) {
+            titoloGruppo('Extra', false);
+            listaOpzioni(corpo, { nome: 'socialExtra', voci: socialExtra, selezionati: S.socialExtra, conPrezzo: true });
+          }
         }
 
         if (id === 'grafiche-materiali') {
           domanda.textContent = `Quali materiali${S.tipo && !altro() ? ` per ${S.tipo}` : ''}?`;
           sotto.textContent = 'Solo quelli che userai davvero, altrimenti vai avanti. Solo design, stampa esclusa.';
-          // Con l'offerta il logo è già incluso: non riproporlo a pagamento
-          const vociDesign = inOfferta() ? designPerTipo().filter((v) => v.name !== 'Logo creato o rinnovato') : designPerTipo();
-          listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ma', voci: vociDesign, selezionati: S.graficheExtra, conPrezzo: true });
-          listaOpzioni(corpo, { nome: 'graficheExtra', chiave: 'de-ex', voci: C.designExtrasAll, selezionati: S.graficheExtra, conPrezzo: true });
+          const visibili = designVisibili();
+          listaOpzioni(corpo, { nome: 'graficheExtra', voci: designPerTipo().filter((v) => visibili.has(v.name)), selezionati: S.graficheExtra, conPrezzo: true });
+          listaOpzioni(corpo, { nome: 'graficheExtra', voci: designGenerici().filter((v) => visibili.has(v.name)), selezionati: S.graficheExtra, conPrezzo: true });
         }
 
         if (id === 'obiettivi-tempi') {
           domanda.textContent = 'Cosa vuoi ottenere?';
           sotto.style.display = 'none';
-          listaOpzioni(corpo, { nome: 'obiettivi', chiave: 'ob', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
+          listaOpzioni(corpo, { nome: 'obiettivi', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
           titoloGruppo('Quando vorresti iniziare?', false, true);
           const ul2 = el('ul', 'wizard-opzioni');
           ul2.setAttribute('role', 'group');
@@ -708,7 +706,8 @@ const fontCss = (
             }
           }
           if (ha('grafiche')) {
-            riga('Grafiche', S.graficheExtra.join(', ') || 'Da decidere insieme');
+            const scelte = S.graficheExtra.filter((n) => designVisibili().has(n));
+            riga('Grafiche', scelte.join(', ') || 'Da decidere insieme');
           }
           if (ha('social')) {
             const vociSocial = [S.canali.join(', '), S.socialExtra.join(', ')].filter(Boolean).join(' · ');
@@ -717,7 +716,6 @@ const fontCss = (
           }
           if (S.obiettivi.length) riga('Obiettivi', S.obiettivi.join(', '));
           riga('Tempi', S.tempi);
-          if (S.note.trim()) riga('Note', S.note.trim());
           corpo.appendChild(dl);
         }
 
@@ -831,7 +829,7 @@ const fontCss = (
           L.push(
             '',
             '*GRAFICHE*',
-            `• *Materiali:* ${S.graficheExtra.join(', ') || 'Da decidere'}`
+            `• *Materiali:* ${S.graficheExtra.filter((n) => designVisibili().has(n)).join(', ') || 'Da decidere'}`
           );
         }
         if (ha('social')) {
@@ -852,7 +850,6 @@ const fontCss = (
           '',
           `*STIMA INDICATIVA:* ${stima()} €`
         );
-        if (S.note.trim()) L.push('', '*NOTE:*', S.note.trim());
         let msg = L.join('\n');
         if (msg.length > 1800) msg = msg.slice(0, 1780) + '\n…(continua a voce)';
         return msg;
