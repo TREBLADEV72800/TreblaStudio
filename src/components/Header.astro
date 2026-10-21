@@ -92,9 +92,9 @@ const active = (href: string) =>
     }
     if (e.key === 'Tab' && aperto && menu) {
       const voci = Array.from(menu.querySelectorAll('a')) as HTMLElement[];
-      if (!voci.length) return;
       const prima = voci[0];
       const ultima = voci[voci.length - 1];
+      if (!prima || !ultima) return;
       if (e.shiftKey && document.activeElement === prima) { e.preventDefault(); ultima.focus(); }
       else if (!e.shiftKey && document.activeElement === ultima) { e.preventDefault(); prima.focus(); }
     }

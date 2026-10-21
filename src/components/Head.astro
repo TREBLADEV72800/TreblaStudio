@@ -1,0 +1,113 @@
+---
+// Testata condivisa: Layout (pagine normali) e configuratore (a schermo intero).
+// Un posto solo per meta, Open Graph, font e JSON-LD: niente copie da tenere allineate.
+import { site, canonicalUrl } from '../data/site';
+import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
+import archivo700 from '@fontsource/archivo/files/archivo-latin-700-normal.woff2?url';
+import plex700 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2?url';
+import fraunces600 from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import fraunces600Italic from '@fontsource/fraunces/files/fraunces-latin-600-italic.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  noindex?: boolean | undefined;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[] | undefined;
+}
+
+const { title, description, canonical, noindex = false, jsonLd } = Astro.props;
+
+const canonicalHref = canonicalUrl(canonical);
+const titleFull = title === site.name ? title : title.includes('Trebla') ? title : `${title} · Trebla`;
+
+const baseLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${site.url}/#studio`,
+    name: 'Trebla',
+    url: `${site.url}/`,
+    description: 'Studio indipendente ad Asti: siti web, grafiche e social media per piccole attività.',
+    areaServed: { '@type': 'City', name: 'Asti' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${site.url}/#servizio`,
+    name: 'Trebla, Studio web ad Asti',
+    url: `${site.url}/`,
+    priceRange: '€€',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Asti',
+      addressCountry: 'IT',
+    },
+    areaServed: { '@type': 'City', name: 'Asti' },
+    currenciesAccepted: 'EUR',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Trebla',
+    url: `${site.url}/`,
+    inLanguage: 'it',
+  },
+];
+const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+// @font-face solo woff2: gli import CSS di fontsource trascinavano anche i .woff nel build.
+const FONT_RANGE =
+  'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
+const fontCss = (
+  [
+    ['Fraunces', 'normal', '600', fraunces600],
+    ['Fraunces', 'italic', '600', fraunces600Italic],
+    ['Archivo', 'normal', '400', archivo400],
+    ['Archivo', 'normal', '700', archivo700],
+    ['IBM Plex Mono', 'normal', '700', plex700],
+  ] as [string, string, string, string][]
+)
+  .map(
+    ([f, s, w, u]) =>
+      `@font-face{font-family:'${f}';font-style:${s};font-weight:${w};font-display:swap;src:url('${u}') format('woff2');unicode-range:${FONT_RANGE}}`
+  )
+  .join('');
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{titleFull}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalHref} />
+{noindex
+  ? <meta name="robots" content="noindex, nofollow" />
+  : <meta name="robots" content="index, follow" />}
+<meta property="og:type" content="website" />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:site_name" content="Trebla" />
+<meta property="og:title" content={titleFull} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalHref} />
+<meta property="og:image" content={`${site.url}/og-trebla.jpg`} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Trebla, studio web ad Asti" />
+<meta name="twitter:card" content={site.twitterCard} />
+<meta name="twitter:image" content={`${site.url}/og-trebla.jpg`} />
+<meta name="twitter:title" content={titleFull} />
+<meta name="twitter:description" content={description} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="preload" href={fraunces600} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={fraunces600Italic} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={archivo400} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={archivo700} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={plex700} as="font" type="font/woff2" crossorigin />
+<link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />
+<style set:html={fontCss}></style>
+<meta name="theme-color" content="#1d1712" />
+<script type="application/ld+json" set:html={JSON.stringify([...baseLd, ...extraLd])} />
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+<slot name="head" />

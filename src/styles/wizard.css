@@ -1,0 +1,93 @@
+/* Configuratore: schermo intero, passo un passo.
+   Vive in un file suo: lo carica solo la pagina del preventivo,
+   cosi gli altri 8 pagine non ne pagano il peso.
+   I token condivisi stanno in tokens.css. */
+
+/* Pagina indipendente: nessuno scroll al footer, tutto resta nello schermo */
+      html.cfg-lock, html.cfg-lock body { height: 100%; }
+      html.cfg-lock body { overflow: hidden; }
+      .cfg-schermo {
+        min-height: 100vh;
+        min-height: 100svh;
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-block-start: clamp(14px, 3vw, 26px);
+        padding-block-end: 0;
+      }
+      .cfg-schermo .wizard-corpo {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      /* Righe compatte: tutto deve stare nello schermo, senza scorrere */
+      .cfg-schermo .opzione { min-block-size: 52px; padding: 11px 6px; }
+      .cfg-schermo .wizard-riga { padding: 8px 0; }
+      .cfg-schermo .wizard-totale-finale { padding: 12px 16px; margin-block-start: 0; }
+      /* Ultimo passo fermo: via contatore, resta solo Indietro, tutto entra senza scroll */
+      /* Domanda materiali sempre su una riga intera */
+      body[data-passo="grafiche-materiali"] .wizard-domanda { white-space: nowrap; font-size: clamp(1.05rem, 4.5vw, 1.8rem); }
+      /* Ultimo passo: la riga di invio resta intera su PC */
+      @media (min-width: 900px) {
+        body[data-passo="invia"] .wizard-sotto { white-space: nowrap; max-inline-size: none; }
+      }
+      body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 84px; }
+      .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.8rem + 2px)); margin: 6px 0 4px; }
+      .cfg-schermo .wizard-totale-finale .d { margin: 0 0 4px; font-size: calc(0.88rem - 1px); line-height: 1.4; }
+      .cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
+      .cfg-schermo .privacy-riga { margin-block-start: 12px; font-size: 0.88rem; }
+      @media (max-height: 740px) {
+        .cfg-schermo .wizard-domanda { font-size: clamp(1.4rem, 4vh, 1.9rem); margin-block: 18px 4px; }
+        .cfg-schermo .wizard-sotto { margin: 0 0 6px; font-size: 0.95rem; }
+        .cfg-schermo .opzione { min-block-size: 48px; padding: 9px 6px; font-size: 0.95rem; }
+        .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
+      }
+      .cfg-schermo .wizard-barra { margin-block-start: 2px; }
+body[data-passo="categoria"] .cfg-schermo .opzione,
+      body[data-passo="tipo"] .cfg-schermo .opzione,
+      body[data-passo="servizi"] .cfg-schermo .opzione { min-block-size: 64px; padding: 14px 6px; font-size: 1.1rem; }
+      .canali-riga { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0 0; }
+      .canale { display: flex; align-items: center; justify-content: center; gap: 10px; min-block-size: 58px; min-inline-size: 0; padding: 12px 8px; background: transparent; border: 1.5px solid var(--inchiostro); border-radius: 6px; color: var(--inchiostro); font: 600 1.02rem/1.2 var(--sans); cursor: pointer; touch-action: manipulation; }
+      .canale:hover { background: var(--carta-2); }
+      .canale svg { flex: none; inline-size: 30px; block-size: 30px; }
+      .canale span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .canale[aria-pressed="true"] { background: var(--carta-2); border-color: var(--mattone); box-shadow: inset 0 0 0 1px var(--mattone); color: var(--mattone-fondo); }
+      .canale:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
+      @media (max-width: 480px) {
+        .canale { gap: 6px; padding: 10px 6px; font-size: 0.85rem; }
+        .canale svg { inline-size: 24px; block-size: 24px; }
+      }
+      .video-qta { display: flex; align-items: center; gap: 14px; inline-size: 100%; background: transparent; border: 0; padding: 17px 6px; min-block-size: 58px; font: 600 1.02rem/1.4 var(--sans); color: var(--inchiostro); }
+      .video-qta button { flex: none; display: grid; place-items: center; inline-size: 44px; block-size: 44px; border: 1.5px solid var(--inchiostro); border-radius: 7px; background: var(--carta-3); color: var(--inchiostro); font: 400 1.2rem/1 var(--mono); cursor: pointer; touch-action: manipulation; }
+      .video-qta button:hover:not(:disabled) { background: var(--carta-2); }
+      .video-qta button:disabled { opacity: 0.4; cursor: default; }
+      .video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
+      .video-qta-num { flex: 1 1 auto; text-align: center; }
+            /* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
+      @media (hover: hover) and (pointer: fine) {
+        .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
+        .cfg-schermo .wizard-corpo::-webkit-scrollbar { display: none; }
+      }
+      .wizard-casa {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-block-size: 52px;
+        padding: 12px 18px;
+        border: 1px solid var(--linea);
+        border-radius: var(--raggio);
+        font: 700 0.9rem/1 var(--sans);
+        text-decoration: none;
+        color: var(--inchiostro);
+        background: transparent;
+      }
+      .wizard-casa svg { flex: none; display: block; }
+      .wizard-casa:hover { border-color: var(--inchiostro); }
+      .wizard-riga.wizard-riga-sotto { flex-direction: column; align-items: stretch; gap: 4px; }
+      :global(.wizard-riga.wizard-riga-sotto dd) { text-align: left; }

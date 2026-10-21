@@ -1,9 +1,29 @@
 ---
-const stile = `body{margin:0;background:#f7f2e8;color:#1d1712;font:16px/1.65 system-ui,sans-serif;padding:24px 18px 64px}main{max-width:65ch;margin:auto}h1{font-size:1.8rem;line-height:1.15;margin:.4em 0 .6em}h2{font-size:1.4rem;margin:2em 0 .4em}h3{font-size:1.1rem;margin:1.4em 0 .3em}p,li{color:#3a3129}a{color:#b23a12}section{scroll-margin-top:20px}nav{margin:1em 0 2em}nav a{margin-right:16px}`;
+// Pagina note legali: fuori dal Layout per restare essenziale, ma dentro il
+// design system: stessi token, stesso anello di focus, stessi contatti.
+import '../../styles/tokens.css';
+import Contatti from '../../components/Contatti.astro';
+import { site } from '../../data/site';
+
+const stile = `
+body{margin:0;background:var(--carta);color:var(--inchiostro);font:16px/1.65 system-ui,sans-serif;padding:24px 18px 64px;overflow-x:clip}
+main{max-width:65ch;margin:auto}
+h1{font-size:1.8rem;line-height:1.15;margin:.4em 0 .6em}
+h2{font-size:1.4rem;margin:2em 0 .4em}
+h3{font-size:1.1rem;margin:1.4em 0 .3em}
+p,li{color:var(--linea-scura)}
+a{color:var(--mattone)}
+section{scroll-margin-top:20px}
+nav{margin:1em 0 2em}
+nav a{margin-right:16px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+::selection{background:var(--mattone);color:var(--carta)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+`;
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={site.lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -76,6 +96,6 @@ const stile = `body{margin:0;background:#f7f2e8;color:#1d1712;font:16px/1.65 sys
         <p>Per qualsiasi questione: <a data-mail data-mostra href="#">email</a>.</p>
       </section>
     </main>
-    <script>const MP=['trebla','.dev','.simoni'].join('')+'@'+['gmail','.com'].join('');document.querySelectorAll('a[data-mail]').forEach(a=>{a.href='mailto:'+MP;if(a.hasAttribute('data-mostra'))a.textContent=MP});document.addEventListener('click',e=>{const t=e.target&&e.target.closest?e.target.closest('a[data-mail]'):null;if(!t)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'trebla_email'})});</script>
+    <Contatti />
   </body>
 </html>

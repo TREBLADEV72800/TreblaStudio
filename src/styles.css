@@ -5,42 +5,7 @@
    ============================================================ */
 
 /* ---------- 1. Tokens ---------- */
-:root {
-  --carta: #f7f2e8;
-  --carta-2: #efe7d3;
-  --carta-3: var(--carta-3);
-  --inchiostro: #1d1712;
-  --morbido: #6c6054;
-  --linea: #d9cdb9;
-  --linea-scura: #3a3129;
-  --mattone: #b23a12;
-  --mattone-fondo: #932d0c;
-  --mattone-chiaro: #e89a6b;
-  --notte: #201913;
-  --notte-carta: #f4eee1;
-  --notte-morbido: #b7ab98;
-  --wa: #157f3d;
-  --wa-fondo: #0f5f2d;
-
-  /* Anello di focus: sul chiaro regge il mattone, sul notte serve il chiaro. */
-  --focus: var(--mattone);
-
-  --serif: "Fraunces", Georgia, "Times New Roman", serif;
-  --sans: "Archivo", -apple-system, "Segoe UI", Roboto, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-
-  --t-display: clamp(2.9rem, 7.2vw, 5.6rem);
-  --t-h2: clamp(2rem, 4.6vw, 3.4rem);
-  --t-h3: clamp(1.3rem, 2.4vw, 1.7rem);
-  --t-lead: clamp(1.1rem, 1.9vw, 1.3rem);
-
-  --larghezza: 1160px;
-  --margine: clamp(20px, 5vw, 56px);
-  --sezione: clamp(44px, 6vw, 84px);
-
-  --raggio: 12px;
-  --transizione: 0.18s ease;
-}
+@import './styles/tokens.css';
 
 /* ---------- 2. Base ---------- */
 *,
@@ -1111,7 +1076,7 @@ body.menu-aperto {
 .privacy-riga { display: flex; gap: 12px; align-items: flex-start; margin-block-start: 20px; font-size: 0.92rem; cursor: pointer; }
 .privacy-riga input { inline-size: 24px; block-size: 24px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
 
-/* ---------- 18. Reveal ---------- */
+
 [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
 [data-reveal].visibile { opacity: 1; transform: none; }
 
