@@ -11,7 +11,7 @@ import {
 } from '../data/configuratore';
 import { unione, concetto } from '../lib/catalogo';
 import type { Voce } from '../lib/catalogo';
-import { contatti } from '../data/contatti';
+import { numeroWhatsapp, indirizzoEmail } from '../data/contatti';
 import { track } from '../lib/tracking';
 
 type Servizio = 'sito' | 'grafiche' | 'social';
@@ -99,8 +99,8 @@ const UTM: Record<string, string> = (() => {
 const ha = (s: Servizio) => S.servizi.includes(s);
 const isPC = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const inOfferta = () => S.struttura === 'offerta';
-const waNum = () => contatti.whatsapp.join('');
-const mailAddr = () => contatti.email.join('');
+const waNum = () => numeroWhatsapp();
+const mailAddr = () => indirizzoEmail();
 const ordina = (arr: string[]) => [...arr].sort((a, b) => a.localeCompare(b, 'it'));
 const altro = () => S.tipo === 'Altro';
 const euro = (p: number) => (p ? `+${p}€` : 'incluso');

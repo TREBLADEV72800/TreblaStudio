@@ -12,7 +12,7 @@ export interface Voce {
 }
 
 /** Chiave di confronto: minuscole, senza punteggiatura. */
-export function chiave(nome: string): string {
+function chiave(nome: string): string {
   return nome.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
@@ -64,21 +64,4 @@ export function unione(suMisura: Voce[], generiche: Voce[], concettiExtra?: Set<
   }
 
   return out;
-}
-
-/** Indice prezzi unico: la prima voce che compare fa fede. */
-export function indice(...liste: Voce[][]): Map<string, number> {
-  const m = new Map<string, number>();
-  for (const lista of liste) {
-    for (const v of lista) {
-      const k = chiave(v.name);
-      if (!m.has(k)) m.set(k, v.price);
-    }
-  }
-  return m;
-}
-
-/** Prezzo di una voce cercandola per nome esatto. */
-export function prezzoDi(m: Map<string, number>, nome: string): number | undefined {
-  return m.get(chiave(nome));
 }

@@ -12,14 +12,18 @@ sistema esistente con scelte deliberate e verificabili.
 ## 0. Contesto progetto (leggi prima di toccare codice)
 
 - Stack: Astro 4, sito statico, deploy Vercel (`treblastudio.vercel.app`).
-  Comandi: `npm run build`, push su `main`, `vercel --prod --yes`.
-- Sistema visivo: "Quaderno di bottega". Token in `src/styles.css`:
+  Comandi: `npm run check`, `npm run build`, push su `main`,
+  `vercel --prod --yes`.
+- Sistema visivo: "Quaderno di bottega". Token in `src/styles/tokens.css`:
   carta, inchiostro, mattone, linee ledger da 1px, serif Fraunces per i
   titoli, Archivo per il corpo, IBM Plex Mono per prezzi ed etichette.
 - Contenuti reali in `src/data/` (prezzi, faq, configuratore, site):
   sono l'unica fonte di verità. Prezzi con € attaccato al numero.
-- Contatti mai in chiaro nell'HTML: assemblati via JS (`data-wa`,
-  `data-mail`, `data-tel` in `Layout.astro`).
+  `prezzi.ts` è il catalogo commerciale, `configuratore.ts` solo le voci
+  su misura: si uniscono per concetto in `src/lib/catalogo.ts`.
+- Contatti mai in chiaro nell'HTML: frammenti in `src/data/contatti.ts`,
+  assemblati a runtime da `src/components/Contatti.astro`.
+- Logica del configuratore in `src/scripts/wizard.ts`, tipizzata.
 - Lingua: italiano semplice. Mai il trattino lungo —. Titoli senza punto.
 - Performance: punteggio Lighthouse 100 da mantenere. Niente dipendenze
   nuove senza motivo. Rispetta `prefers-reduced-motion`.
@@ -60,7 +64,8 @@ Non usare automaticamente, salvo funzione precisa e motivata:
 
 Dopo ogni modifica visiva:
 
-1. `npm run build` pulita, 9 pagine, nessun errore.
+1. `npm run check` pulito (0 errori) e `npm run build` pulita, 9 pagine,
+   nessun errore.
 2. Cerca pattern generici, gerarchie deboli, spaziature incoerenti,
    testi vaghi, decorazioni senza funzione.
 3. Dai un punteggio di genericità 0-30 (0 distintivo, 30 stereotipo).
