@@ -596,7 +596,7 @@ function renderizza() {
     });
     corpo.appendChild(riga);
     titoloGruppo(`Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`, false);
-    listaOpzioni(corpo, { nome: 'socialExtra', voci: socialPerTipo().filter((v) => !isVideoVoce(v.name)), selezionati: S.socialExtra, conPrezzo: true });
+    listaOpzioni(corpo, { nome: 'socialExtra', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
     titoloGruppo(`Video · ${C.videoPrice}€ l'uno`, false);
     const ulQ = el('ul', 'wizard-opzioni');
     const liQ = document.createElement('li');
@@ -625,11 +625,6 @@ function renderizza() {
     ulQ.appendChild(liQ);
     corpo.appendChild(ulQ);
     aggiornaQta();
-    const socialExtra = socialGenerici().filter((v) => !isVideoVoce(v.name));
-    if (socialExtra.length) {
-      titoloGruppo('Extra', false);
-      listaOpzioni(corpo, { nome: 'socialExtra', voci: socialExtra, selezionati: S.socialExtra, conPrezzo: true });
-    }
   }
 
   if (id === 'grafiche-materiali') {

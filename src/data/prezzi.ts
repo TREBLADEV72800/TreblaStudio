@@ -32,10 +32,8 @@ export const SITE_EXTRAS: Extra[] = [
 
 export const SOCIAL_OPTIONS: Extra[] = [
   { name: 'Profili sistemati da zero', price: 20, concept: 'profili' },
-  { name: 'Piano con pubblicazioni regolari', price: 30, concept: 'piano' },
   { name: 'Filmati e brevi video', price: 20, concept: 'video' },
   { name: 'Grafiche per post e storie', price: 10, concept: 'storie' },
-  { name: 'Gestione messaggi e recensioni (1 mese)', price: 20, concept: 'recensioni' },
 ];
 
 export const DESIGN_OPTIONS: Extra[] = [
