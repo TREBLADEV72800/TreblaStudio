@@ -8,6 +8,7 @@
 :root {
   --carta: #f7f2e8;
   --carta-2: #efe7d3;
+  --carta-3: var(--carta-3);
   --inchiostro: #1d1712;
   --morbido: #6c6054;
   --linea: #d9cdb9;
@@ -18,8 +19,11 @@
   --notte: #201913;
   --notte-carta: #f4eee1;
   --notte-morbido: #b7ab98;
-  --wa: #1e9e52;
-  --wa-fondo: #14733b;
+  --wa: #157f3d;
+  --wa-fondo: #0f5f2d;
+
+  /* Anello di focus: sul chiaro regge il mattone, sul notte serve il chiaro. */
+  --focus: var(--mattone);
 
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Archivo", -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -46,7 +50,8 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
-  scroll-padding-top: 96px;
+  /* Ancoraggio sotto la testata sticky: segue l'altezza reale, non un numero sparso. */
+  scroll-padding-top: calc(70px + 24px);
 }
 
 body {
@@ -69,10 +74,15 @@ a { color: inherit; }
 ::selection { background: var(--mattone); color: var(--carta); }
 
 :focus-visible {
-  outline: 2px solid var(--mattone);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
+/* Sul notte il mattone non regge il contrasto: serve il mattone chiaro. */
+.piede,
+.prezzo-evidenza,
+.wizard-totale-finale,
+.wizard-barra-fissa { --focus: var(--mattone-chiaro); }
 
 .salto {
   position: absolute; left: -9999px; top: 0;
@@ -90,6 +100,8 @@ a { color: inherit; }
 
 .sezione { padding-block: var(--sezione); }
 .sezione + .sezione { padding-block-start: 0; }
+/* Sezione che segue il titolo di pagina: niente spazio sopra. */
+.sezione-flush { padding-block-start: 0; }
 /* La linea tra un paragrafo e l'altro sta a metà strada: stessa aria sopra e sotto. */
 .sezione:has(+ .sezione) { padding-block-end: clamp(20px, 3vw, 36px); }
 /* Servizi: tolta la riga di chiusura, tolto anche il suo spazio. */
@@ -220,7 +232,7 @@ a { color: inherit; }
   flex: none;
   background: transparent;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--raggio);
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -266,15 +278,9 @@ a { color: inherit; }
 @media (min-width: 640px) {
   .nav-mobile.aperto { padding-top: 86px; }
 }
-/* Telefoni in landscape / schermi bassi: voci compatte per stare in altezza */
-@media (max-height: 500px) and (orientation: landscape) {
-  .nav-mobile.aperto { padding-top: 72px; }
-  .nav-mobile a { font-size: 1.35rem !important; padding: 8px 0 !important; }
-  .nav-mobile a.btn { margin-block-start: 12px; padding: 12px 20px !important; }
-}
 /* Quando il menu è aperto la pagina dietro non deve scorrere */
 body.menu-aperto {
-  overflow: hidden !important;
+  overflow: hidden;
   overscroll-behavior: none;
 }
 @media (min-width: 960px) { .nav-mobile.aperto { display: none; } }
@@ -298,6 +304,13 @@ body.menu-aperto {
   border: 1px solid transparent;
   margin-block-start: 22px;
   padding: 15px 26px;
+}
+/* Telefoni in landscape / schermi bassi: voci compatte per stare in altezza.
+   Sta dopo le regole base, cosi non servono gli !important. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .nav-mobile.aperto { padding-top: 72px; }
+  .nav-mobile a { font-size: 1.35rem; padding: 8px 0; }
+  .nav-mobile a.btn { margin-block-start: 12px; padding: 12px 20px; }
 }
 
 /* ---------- 5. Bottoni ---------- */
@@ -370,8 +383,8 @@ body.menu-aperto {
 /* Scheda «come ti vede un cliente» — mockup in puro CSS, contenuto reale */
 .scheda {
   border: 1px solid var(--inchiostro);
-  border-radius: 12px;
-  background: #fffdf7;
+  border-radius: var(--raggio);
+  background: var(--carta-3);
   overflow: hidden;
   box-shadow: 6px 6px 0 var(--carta-2);
 }
@@ -454,7 +467,7 @@ body.menu-aperto {
 @keyframes scorrimento { to { transform: translateX(-50%); } }
 .ticker:hover .ticker-pista { animation-play-state: paused; }
 /* Home: il paragrafo 01 non ha la linea sopra, c'è già quella della striscia. */
-#problema .capitolo { border-block-start: 0; padding-block-start: 0; }
+.ticker + .sezione .capitolo { border-block-start: 0; padding-block-start: 0; }
 
 /* ---------- 8. Righe editoriali (problemi / risultati) ---------- */
 .righe { list-style: none; margin: 0; padding: 0; }
@@ -512,7 +525,7 @@ body.menu-aperto {
 .cta-finale {
   border: 1px solid var(--inchiostro);
   border-radius: 16px;
-  background: #fffdf7;
+  background: var(--carta-3);
   padding: clamp(24px, 4vw, 40px);
   display: grid;
   gap: 20px;
@@ -603,7 +616,7 @@ body.menu-aperto {
 }
 .servizio-testa { min-inline-size: 0; }
 .servizio-corpo { min-inline-size: 0; }
-.servizio h3 {
+.servizio-titolo {
   font: 600 clamp(1.7rem, 3.4vw, 2.5rem)/1.05 var(--serif);
   letter-spacing: -0.015em;
   margin: 0;
@@ -668,9 +681,9 @@ body.menu-aperto {
   display: grid;
   gap: 0;
   border: 1px solid var(--inchiostro);
-  border-radius: 12px;
+  border-radius: var(--raggio);
   overflow: hidden;
-  background: #fffdf7;
+  background: var(--carta-3);
 }
 @media (min-width: 860px) { .prezzi-griglia { grid-template-columns: 1fr 1fr; } }
 .prezzo {
@@ -689,7 +702,7 @@ body.menu-aperto {
   margin: 0 0 12px;
 }
 .prezzo-evidenza .prezzo-kicker { color: var(--mattone-chiaro); }
-.prezzo h3 { font: 600 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--serif); margin: 0; }
+.prezzo-titolo { font: 600 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--serif); margin: 0; }
 .prezzo-cifra {
   font: 600 clamp(2.6rem, 5vw, 3.8rem)/1 var(--serif);
   letter-spacing: -0.02em;
@@ -709,7 +722,7 @@ body.menu-aperto {
 .prezzo-nota { margin: 16px 0 0; color: var(--morbido); font-size: 0.92rem; }
 .prezzo-evidenza .prezzo-nota { color: var(--notte-morbido); }
 /* Card singola a tutta larghezza (offerta): niente griglia, niente buchi */
-.offerta-solo { border: 1px solid var(--inchiostro); border-radius: 12px; margin-block-start: 22px; }
+.offerta-solo { border: 1px solid var(--inchiostro); border-radius: var(--raggio); margin-block-start: 22px; }
 
 .extra-lista { list-style: none; margin: 18px 0 0; padding: 0; }
 .extra-lista li {
@@ -729,7 +742,7 @@ body.menu-aperto {
 }
 
 /* ---------- 12. Azioni CTA ---------- */
-.cta-azioni { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 22px; }
+.hero-azioni, .cta-azioni { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 22px; }
 
 /* ---------- 13. Studio ---------- */
 .persone { display: grid; gap: 0; border-block-start: 1px solid var(--inchiostro); }
@@ -740,7 +753,7 @@ body.menu-aperto {
   .persona + .persona { border-block-start: 0; border-inline-start: 1px solid var(--linea); padding-inline-start: 32px; }
   .persona:first-child { padding-inline-end: 32px; }
 }
-.persona h3 { font: 600 1.4rem/1.2 var(--serif); margin: 0; }
+.persona-titolo { font: 600 1.4rem/1.2 var(--serif); margin: 0; }
 .persona-ruolo {
   font: 400 0.75rem/1.5 var(--mono);
   letter-spacing: 0.12em;
@@ -754,10 +767,10 @@ body.menu-aperto {
   display: block;
   margin-block-start: 28px;
   border: 1px solid var(--inchiostro);
-  border-radius: 12px;
+  border-radius: var(--raggio);
   padding: clamp(20px, 3vw, 28px);
   text-decoration: none;
-  background: #fffdf7;
+  background: var(--carta-3);
   transition: background var(--transizione);
 }
 .lavoro:hover { background: var(--carta-2); }
@@ -768,7 +781,8 @@ body.menu-aperto {
   color: var(--mattone);
   margin: 0 0 10px;
 }
-.lavoro h3 { font: 600 clamp(1.6rem, 3.4vw, 2.4rem)/1.05 var(--serif); margin: 0; }
+.lavoro-titolo { font: 600 clamp(1.6rem, 3.4vw, 2.4rem)/1.05 var(--serif); margin: 0; }
+.lavoro-testo { min-inline-size: 0; }
 .lavoro p { color: var(--morbido); margin: 10px 0 0; max-inline-size: 60ch; }
 .lavoro .link-freccia { display: inline-block; margin-block-start: 12px; }
 /* Lavoro: testo + anteprima astratta in puro CSS */
@@ -830,7 +844,7 @@ body.menu-aperto {
 .faq-titolo-riga { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 /* Home: titolo domande sempre su una riga su PC */
 @media (min-width: 900px) {
-  section[aria-labelledby="h-domande"] .capitolo h2 { white-space: nowrap; }
+  section[aria-labelledby="t-domande"] .capitolo h2 { white-space: nowrap; }
 }
 .faq-titolo-riga .btn { margin-inline-start: auto; }
 .solo-pc { display: none; }
@@ -876,6 +890,10 @@ body.menu-aperto {
   color: var(--notte-carta);
   text-decoration: none;
   font-size: 0.95rem;
+  /* Bersaglio tattile: sotto i 24px non si tocca bene. */
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
 }
 .piede nav a:hover, .piede-contatti a:hover { color: var(--mattone-chiaro); }
 .piede-contatti p { margin: 0 0 8px; color: var(--notte-morbido); font-size: 0.9rem; }
@@ -891,14 +909,24 @@ body.menu-aperto {
   color: var(--notte-morbido);
 }
 .piede-fondo nav { display: flex; flex-direction: row; gap: 18px; }
-.piede-fondo a { color: var(--notte-morbido); }
+.piede-fondo a {
+  color: var(--notte-morbido);
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+}
 .piede-fondo a:hover { color: var(--notte-carta); }
 .piede-torna { margin: 10px 0 0; }
 .piede-torna .link-freccia { color: var(--mattone-chiaro); }
 
 /* ---------- 16. Pagine interne ---------- */
-.pagina-titolo { padding-block: clamp(28px, 5vw, 56px) clamp(20px, 3vw, 36px); }
-.pagina-titolo h1 {
+/* Spaziature ricorrenti: un nome condiviso invece di valori sparsi nel markup. */
+.stacco-16 { margin-block-start: 16px; }
+.extra-titolo { font: 600 1.3rem var(--serif); margin: 24px 0 4px; }
+.extra-titolo:first-of-type { margin-block-start: 0; }
+.servizio-nota { margin: 10px 0 0; }
+.contatto-nota { color: var(--morbido); margin: 0 0 20px; }
+.pagina-titolo { padding-block: clamp(28px, 5vw, 56px) clamp(20px, 3vw, 36px); }.pagina-titolo h1 {
   font: 600 var(--t-display)/0.98 var(--serif);
   letter-spacing: -0.02em;
   margin: 14px 0 0;
@@ -910,7 +938,7 @@ body.menu-aperto {
   #titolo-prezzi { max-inline-size: none; white-space: nowrap; font-size: clamp(2rem, 4.4vw, 3.2rem); }
 }
 .pagina-titolo .lead { font-size: var(--t-lead); color: var(--morbido); max-inline-size: 54ch; margin: 14px 0 0; }
-.prosa { max-inline-size: 68ch; }
+.prosa { max-inline-size: 68ch; margin-block-start: 24px; }
 .prosa p, .prosa li { color: var(--morbido); }
 .prosa strong, .prosa h2, .prosa h3 { color: var(--inchiostro); }
 .prosa h2 { font: 600 1.6rem/1.2 var(--serif); margin: 1.6em 0 0.5em; }
@@ -918,9 +946,9 @@ body.menu-aperto {
 .prosa a { color: var(--mattone); }
 
 /* Contatti */
-.contatti-griglia { display: grid; gap: 0; border: 1px solid var(--inchiostro); border-radius: 12px; overflow: hidden; }
+.contatti-griglia { display: grid; gap: 0; border: 1px solid var(--inchiostro); border-radius: var(--raggio); overflow: hidden; }
 @media (min-width: 820px) { .contatti-griglia { grid-template-columns: 1fr 1fr; } }
-.contatto-cella { padding: clamp(20px, 3vw, 32px); background: #fffdf7; }
+.contatto-cella { padding: clamp(20px, 3vw, 32px); background: var(--carta-3); }
 .contatto-cella + .contatto-cella { border-block-start: 1px solid var(--inchiostro); }
 @media (min-width: 820px) {
   .contatto-cella + .contatto-cella { border-block-start: 0; border-inline-start: 1px solid var(--inchiostro); }
@@ -980,10 +1008,10 @@ body.menu-aperto {
   border: 1.5px solid var(--inchiostro);
   border-radius: 7px;
   font: 400 1rem/1 var(--mono);
-  background: #fffdf7;
+  background: var(--carta-3);
 }
-.opzione[aria-pressed="true"], .opzione[aria-checked="true"] { color: var(--mattone-fondo); }
-.opzione[aria-pressed="true"] .segno, .opzione[aria-checked="true"] .segno {
+.opzione[aria-pressed="true"] { color: var(--mattone-fondo); }
+.opzione[aria-pressed="true"] .segno {
   background: var(--mattone);
   border-color: var(--mattone);
   color: #fff;
@@ -1018,8 +1046,9 @@ body.menu-aperto {
   color: var(--inchiostro);
   margin-block-start: 18px;
 }
-.wizard-campo:focus { outline: none; border-color: var(--mattone); }
-.wizard-campo::placeholder { color: #a29480; }
+.wizard-campo:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wizard-campo:focus { border-color: var(--mattone); }
+.wizard-campo::placeholder { color: var(--morbido); }
 .wizard-errore { color: var(--mattone-fondo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
 .wizard-barra-fissa {
   position: fixed;
@@ -1039,7 +1068,7 @@ body.menu-aperto {
 }
 .wizard-indietro {
   background: transparent;
-  border: 1px solid var(--linea);
+  border: 1px solid var(--linea-scura);
   border-radius: var(--raggio);
   min-block-size: 52px;
   padding: 12px 20px;
@@ -1066,7 +1095,7 @@ body.menu-aperto {
 .wizard-totale-finale {
   background: var(--notte);
   color: var(--notte-carta);
-  border-radius: 12px;
+  border-radius: var(--raggio);
   padding: clamp(24px, 4vw, 36px);
   margin-block-start: 24px;
 }
@@ -1080,7 +1109,7 @@ body.menu-aperto {
 }
 .wizard-totale-finale .btn-fantasma { border-color: var(--notte-morbido); color: var(--notte-carta); background: transparent; }
 .privacy-riga { display: flex; gap: 12px; align-items: flex-start; margin-block-start: 20px; font-size: 0.92rem; cursor: pointer; }
-.privacy-riga input { inline-size: 22px; block-size: 22px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
+.privacy-riga input { inline-size: 24px; block-size: 24px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
 
 /* ---------- 18. Reveal ---------- */
 [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -1091,6 +1120,8 @@ body.menu-aperto {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .ticker-pista { animation: none; flex-wrap: wrap; inline-size: auto; }
+  /* La striscia senza animazione mostrerebbe i settori due volte: sparisce la copia. */
+  .ticker-pista span[aria-hidden="true"] { display: none; }
   [data-reveal] { opacity: 1; transform: none; }
 }
 
@@ -1111,8 +1142,6 @@ body.menu-aperto {
 }
 
 /* ---------- 21. Sicurezza layout e stampa ---------- */
-/* Niente scroll orizzontale accidentale, senza rompere lo sticky */
-html, body { overflow-x: clip; }
 @media print {
   .sopra, .piede, .ticker, .hero-azioni, .cta-azioni, .btn, .nav-mobile, .menu-bottone, .salto, .wizard-barra-fissa { display: none !important; }
   body { background: #fff; }

@@ -3,15 +3,17 @@ interface Props {
   numero: string;
   titolo: string;
   nota?: string;
+  /** Id del titolo: serve a legare la sezione al suo heading (aria-labelledby). */
+  id?: string;
 }
 
-const { numero, titolo, nota } = Astro.props;
+const { numero, titolo, nota, id } = Astro.props;
 ---
 
 <div class="capitolo" data-reveal>
   <div>
     <p class="capitolo-numero">{numero}</p>
-    <h2 set:html={titolo} />
+    <h2 id={id} set:html={titolo} />
   </div>
   {nota && <p class="capitolo-nota">{nota}</p>}
 </div>

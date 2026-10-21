@@ -129,23 +129,30 @@ const fontCss = (
     <Contatti />
     <script>
       // Reveal sobrio: una sola IntersectionObserver per tutto il sito.
-      const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!ridotto && 'IntersectionObserver' in window) {
-        const els = document.querySelectorAll('[data-reveal]');
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                e.target.classList.add('visibile');
-                io.unobserve(e.target);
-              }
-            }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
-        );
-        els.forEach((el) => io.observe(el));
-      } else {
+      const mostraTutto = () =>
         document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('visibile'));
+      try {
+        const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!ridotto && 'IntersectionObserver' in window) {
+          const els = document.querySelectorAll('[data-reveal]');
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (e.isIntersecting) {
+                  e.target.classList.add('visibile');
+                  io.unobserve(e.target);
+                }
+              }
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+          );
+          els.forEach((el) => io.observe(el));
+        } else {
+          mostraTutto();
+        }
+      } catch (e) {
+        // Se qualcosa va storto, meglio tutto visibile che una pagina vuota.
+        mostraTutto();
       }
     </script>
   </body>

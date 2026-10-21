@@ -72,9 +72,10 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   </div>
 
   <!-- 01 BENEFICI -->
-  <section class="sezione" aria-labelledby="h-benefici">
+  <section class="sezione" aria-labelledby="t-benefici">
     <div class="involucro">
       <Capitolo
+        id="t-benefici"
         numero="01 · Benefici"
         titolo="Cosa cambia <em>in pratica</em>"
         nota="Niente promesse: quattro cose concrete che il sito fa per te."
@@ -92,9 +93,10 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   </section>
 
   <!-- 03 SERVIZI -->
-  <section class="sezione" aria-labelledby="h-servizi">
+  <section class="sezione" aria-labelledby="t-servizi">
     <div class="involucro">
       <Capitolo
+        id="t-servizi"
         numero="02 · Cosa facciamo"
         titolo="Il sito al centro, <em>il resto intorno</em>"
         nota="Parti da quello che ti serve ora. Il resto si aggiunge quando vuoi."
@@ -139,9 +141,10 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   </section>
 
   <!-- 05 METODO -->
-  <section class="sezione" aria-labelledby="h-metodo">
+  <section class="sezione" aria-labelledby="t-metodo">
     <div class="involucro">
       <Capitolo
+        id="t-metodo"
         numero="03 · Come funziona"
         titolo="Tu lavori, <em>noi al resto</em>"
         nota="Cinque passi, un solo referente, zero tempo perso."
@@ -157,9 +160,10 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   </section>
 
   <!-- 04 PREZZI -->
-  <section class="sezione" aria-labelledby="h-prezzi">
+  <section class="sezione" aria-labelledby="t-prezzi">
     <div class="involucro">
       <Capitolo
+        id="t-prezzi"
         numero="04 · Prezzi"
         titolo="Scegli da <em>dove partire</em>"
       />
@@ -210,9 +214,10 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   </section>
 
   <!-- 06 STUDIO -->
-  <section class="sezione" aria-labelledby="h-studio">
+  <section class="sezione" aria-labelledby="t-studio">
     <div class="involucro">
       <Capitolo
+        id="t-studio"
         numero="05 · Lo studio"
         titolo="Due persone, <em>niente call center</em>"
         nota="Parli sempre con chi costruisce il tuo sito."
@@ -233,25 +238,26 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   </section>
 
   <!-- 07 DOMANDE -->
-  <section class="sezione" aria-labelledby="h-domande">
+  <section class="sezione" aria-labelledby="t-domande">
     <div class="involucro">
       <Capitolo
+        id="t-domande"
         numero="06 · Domande"
         titolo="Quelle che ci fanno <em>sempre</em>"
         nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
       />
       <div id="h-domande"><Faq faqs={homeFaqs} /></div>
-      <p style="margin:16px 0 0" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
+      <p class="stacco-16" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
     </div>
   </section>
 
   <!-- 08 CONTATTO -->
-  <section class="sezione" aria-labelledby="h-contatto">
+  <section class="sezione" aria-labelledby="t-contatto">
     <div class="involucro">
       <div class="cta-finale" id="h-contatto" data-reveal>
         <div>
           <p class="prezzo-kicker">Iniziamo</p>
-          <h2>Cominciamo da quello che serve <em>alla tua attività.</em></h2>
+          <h2 id="t-contatto">Cominciamo da quello che serve <em>alla tua attività.</em></h2>
           <p>Raccontaci in poche righe cosa fai. Ti rispondiamo con un’indicazione chiara sui prossimi passi.</p>
         </div>
         <div class="cta-azioni">
