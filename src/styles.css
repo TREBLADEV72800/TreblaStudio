@@ -485,6 +485,10 @@ body.menu-aperto {
   #h-prezzi .prezzo ul { margin-top: 10px; }
   #h-prezzi .prezzo ul li { padding: 6px 0 6px 18px; }
 }
+/* Home: kicker, titolo e cifra attaccati, senza righe vuote in mezzo. */
+#h-prezzi .prezzo-kicker { margin: 0 0 4px; }
+#h-prezzi .prezzo h3 { margin: 0; }
+#h-prezzi .prezzo-cifra { margin: 2px 0 0; }
 .prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
 .prezzi-riga-finale .link-freccia { margin-inline-start: auto; white-space: nowrap; }
 @media (max-width: 899px) {

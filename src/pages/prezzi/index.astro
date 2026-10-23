@@ -97,7 +97,7 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
       <Capitolo
         numero="Extra"
         titolo="Solo quello <em>che ti serve</em>"
-        nota="Ogni extra ha il suo prezzo, visibile nel preventivo prima che tu decida."
+        nota="Grafiche, social e foto hanno un prezzo a parte. Le funzioni del sito sono incluse."
       />
       <h3 class="extra-titolo">Per le grafiche</h3>
       <p class="prezzo-nota" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
@@ -113,9 +113,10 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
         ))}
       </ul>
       <h3 class="extra-titolo">Per il sito</h3>
+      <p class="prezzo-nota" style="margin:0 0 8px">Comprese nel prezzo di partenza: le scegli nel preventivo senza sovrapprezzo.</p>
       <ul class="extra-lista">
         {SITE_EXTRAS.map((e) => (
-          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">+{e.price}€</span></li>
+          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">{e.price > 0 ? `+${e.price}€` : 'incluso'}</span></li>
         ))}
       </ul>
     </section>

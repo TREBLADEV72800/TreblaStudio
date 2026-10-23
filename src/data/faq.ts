@@ -13,7 +13,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Quanto costa un sito?',
-    a: 'Pagina singola da 300€, sito a più pagine da 400€. Le funzioni extra, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting completo, hanno un prezzo a parte, sempre concordato prima di iniziare.',
+    a: 'Pagina singola 300€, sito a più pagine da 400€. Le funzioni del sito, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting, sono comprese. Grafiche, social e foto hanno un prezzo a parte, sempre concordato prima di iniziare.',
     cta: [{ href: '/preventivo', label: 'Fai il preventivo in 2 minuti →' }],
   },
   {

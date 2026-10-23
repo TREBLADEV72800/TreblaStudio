@@ -23,11 +23,11 @@ export const OFFERTA_SITO = {
 export type Extra = Voce;
 
 export const SITE_EXTRAS: Extra[] = [
-  { name: 'Prenotazioni e ordini su WhatsApp', price: 10, concept: 'prenotazioni' },
-  { name: 'Copywriting completo (testi professionali per tutte le pagine)', price: 30, concept: 'copy' },
-  { name: 'Versione inglese essenziale', price: 30, concept: 'inglese' },
-  { name: 'SEO locale: Google Business + mappe', price: 30, concept: 'seo' },
-  { name: 'Feed Instagram integrato nel sito', price: 20, concept: 'feed' },
+  { name: 'Prenotazioni e ordini su WhatsApp', price: 0, concept: 'prenotazioni' },
+  { name: 'Copywriting completo (testi professionali per tutte le pagine)', price: 0, concept: 'copy' },
+  { name: 'Versione inglese essenziale', price: 0, concept: 'inglese' },
+  { name: 'SEO locale: Google Business + mappe', price: 0, concept: 'seo' },
+  { name: 'Feed Instagram integrato nel sito', price: 0, concept: 'feed' },
 ];
 
 export const SOCIAL_OPTIONS: Extra[] = [
