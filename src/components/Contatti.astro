@@ -10,8 +10,6 @@ const payload = JSON.stringify(contatti).replace(/</g, '\\u003c');
 <script type="application/json" id="trebla-contatti" set:html={payload}></script>
 
 <script>
-  import { track } from '../lib/tracking';
-
   const fonte = document.getElementById('trebla-contatti');
   const parti = fonte ? JSON.parse(fonte.textContent || '{}') : {};
   const wa = (parti.whatsapp || []).join('');
@@ -30,9 +28,20 @@ const payload = JSON.stringify(contatti).replace(/</g, '\\u003c');
     if (a.hasAttribute('data-mostra')) a.textContent = mail;
   });
 
+  // Tracking: 4 righe riscalate qui da lib/tracking (cancellata) per non
+  // creare un chunk separato, che aggiunge un salto alla catena di
+  // caricamento (Lighthouse, albero delle dipendenze). La copia gemella
+  // sta in src/scripts/wizard.ts: cambiare entrambe insieme.
+  const traccia = (nome: string) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'trebla_' + nome });
+    window.dispatchEvent(new CustomEvent('trebla:track', { detail: nome }));
+  };
+
   document.addEventListener('click', (e) => {
     const t = e.target instanceof Element ? e.target.closest('a[data-wa], a[data-mail], a[data-tel]') : null;
     if (!t) return;
-    track(t.hasAttribute('data-wa') ? 'whatsapp' : t.hasAttribute('data-tel') ? 'telefono' : 'email');
+    traccia(t.hasAttribute('data-wa') ? 'whatsapp' : t.hasAttribute('data-tel') ? 'telefono' : 'email');
   });
+</script>
 </script>

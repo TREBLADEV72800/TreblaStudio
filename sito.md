@@ -29,14 +29,13 @@ src/
     faq.ts          FAQS (question/answer + cta opzionali)
   lib/
     catalogo.ts     tipo Voce + CONCETTI + concetto() + unione() (filtro doppioni)
-    tracking.ts     track(): solo dataLayer, eventi "trebla_*", niente pixel
   components/
     Head.astro      meta, OG, twitter, JSON-LD (Organization + ProfessionalService
                     + WebSite), @font-face woff2 (solo latin, preloaded), favicon, manifest
     Header.astro    sticky, logo, nav desktop, CTA "Preventivo in 2 minuti",
                     menu mobile overlay + script (blocca scroll iOS, trap focus, ESC)
     Footer.astro    notte, logo invertito, contatti (link data-*), legale, "Torna su"
-    Contatti.astro  script che assembla contatti runtime → link data-wa/data-tel/data-mail
+    Contatti.astro  script che assembla contatti runtime → link data-wa/data-tel/data-mail;
     Faq.astro       <details>/<summary> da Faq[]
     Capitolo.astro  testata sezione: numero · titolo (set:html, em = corsivo mattone) + nota
   layouts/Layout.astro   pagina normale: skip-link, Header, main, Footer, Contatti,
@@ -68,6 +67,10 @@ trebla-logo-transparent.png (footer, invertita su notte), og-trebla.jpg, llms.tx
 
 - Contatti mai in chiaro: frammenti in `data/contatti.ts`, assemblati a runtime da
   `components/Contatti.astro` via script JSON + data-* attributes. Anche note-legali li usa.
+- Tracking (dataLayer, eventi `trebla_*`, niente pixel): la funzione è riscalata
+  in DUE copie gemelle, `components/Contatti.astro` e `scripts/wizard.ts`:
+  averla in un file importato crea un chunk separato → catena di caricamento a
+  3 livelli tra il Lighthouse (albero delle dipendenze). Cambiare una copia cambia l'altra.
 - Offerta Tutto incluso 590€: nel wizard, la scelta `struttura: 'offerta'` toglie
   passi e voci (logo, foto, funzioni, pagine) e libro il logo dalle grafiche
   (`designVisibili`). Il deep-link `?offerta=1` preseleziona tutto
@@ -110,7 +113,7 @@ trebla-logo-transparent.png (footer, invertita su notte), og-trebla.jpg, llms.tx
 
 ## Checklist modifica → live
 
-1. `npm run build` pulito (9 pagine).
+1. `npm run build` pulito (9 pagine, grafo dei chunk JS flat: nessun `import` annidato in `dist/_astro/*.js`).
 2. `vercel --prod --yes`.
 3. Controllare live: home, preventivo (menu mobile, flusso completo, invio),
    nota legale se toccata.

@@ -18,7 +18,17 @@ import {
 import { unione, concetto } from '../lib/catalogo';
 import type { Voce } from '../lib/catalogo';
 import { numeroWhatsapp, indirizzoEmail } from '../data/contatti';
-import { track } from '../lib/tracking';
+
+// Tracking: 4 righe riscalate qui da lib/tracking (cancellata) per non
+// creare un chunk separato, che aggiunge un salto alla catena di
+// caricamento (Lighthouse, albero delle dipendenze). La copia gemella
+// sta in components/Contatti.astro: cambiare entrambe insieme.
+const traccia = (nome: string) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'trebla_' + nome });
+  window.dispatchEvent(new CustomEvent('trebla:track', { detail: nome }));
+};
+const track = traccia;
 
 type Servizio = 'sito' | 'grafiche' | 'social';
 type Struttura = 'singola' | 'multi' | 'offerta' | '';
