@@ -1,3 +1,9 @@
+// ============================================================
+// Configuratore del preventivo (pagina /preventivo).
+// Un solo flusso dichiarativo: flusso() -> renderizza() per passo.
+// Fonte dei prezzi: src/data/prezzi.ts + src/data/configuratore.ts
+// (si uniscono in src/lib/catalogo.ts). Stato unico in S.
+// ============================================================
 import { BASE_PRICES, OFFERTA_SITO, SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, CHANNELS, GOALS, TIMINGS, VIDEO_PRICE } from '../data/prezzi';
 import {
   businessTypes,
@@ -37,6 +43,13 @@ interface Stato {
   privacy: boolean;
 }
 
+// ---------- Catalogo e stato ----------
+
+/**
+ * C = catalogo normalizzato: una sola mappa da cui leggere.
+ * Le copie `[...X] as string[]` servono per leggere gli `as const`
+ * fuori dal contesto di tipo readonly.
+ */
 const C = {
   base: BASE_PRICES,
   offerta: OFFERTA_SITO,
@@ -56,6 +69,7 @@ const C = {
   timings: [...TIMINGS] as string[],
   videoPrice: VIDEO_PRICE,
 };
+/** Stato dell'intero questionario: una sola fonte di verità. */
 const S: Stato = {
   nome: '', categoria: '', tipo: '', tipoAltro: '', altroMsg: '', servizi: [],
   struttura: '', funzioni: [], pagine: [], foto: '',
@@ -63,6 +77,8 @@ const S: Stato = {
   obiettivi: [], tempi: '',
   privacy: false,
 };
+
+// ---------- Aiuti (DOM, formato, selezioni) ----------
 
 /** Elemento obbligatorio: se manca è un bug, non un caso da gestire a runtime. */
 const $ = <T extends HTMLElement>(id: string): T => {
@@ -128,6 +144,8 @@ const concettiDi = (voci: Voce[]) => {
   return out;
 };
 
+// ---------- Catalogo su misura: viste del wizard ----------
+
 const funzioniPerTipo = (): Voce[] => [...(C.featuresByType[S.tipo] || []), ...(C.extendedFeatures[S.tipo] || [])];
 // Se il tipo gestisce già le prenotazioni, la voce generica sparisce.
 // Es. Barbiere ha "Prenotazione appuntamenti rapida" -> via "Prenotazioni e ordini su WhatsApp".
@@ -137,14 +155,14 @@ const concettiFunzioni = () => {
   if (/(\bprenot|\bordin)/.test(nomi)) c.add('prenotazioni');
   return c;
 };
-const extraGenerali = () => unione([], C.siteExtras, concettiFunzioni());
+const extraGenerali = () => unione(C.siteExtras, concettiFunzioni());
 const socialPerTipo = (): Voce[] => C.socialByType[S.tipo] || [];
-const socialGenerici = () => unione([], C.socialNeeds, concettiDi(socialPerTipo()));
+const socialGenerici = () => unione(C.socialNeeds, concettiDi(socialPerTipo()));
 // Le voci video stanno nel passo quantità, non nell'elenco contenuti
 const isVideoVoce = (n: string) => /reel|video|filmati/i.test(n);
 const socialContenuti = () => [...socialPerTipo(), ...socialGenerici()].filter((v) => !isVideoVoce(v.name));
 const designPerTipo = (): Voce[] => C.designByType[S.tipo] || [];
-const designGenerici = () => unione([], C.designNeeds, concettiDi(designPerTipo()));
+const designGenerici = () => unione(C.designNeeds, concettiDi(designPerTipo()));
 // Con l'offerta il logo è già incluso: non riproporlo a pagamento.
 // Stessa regola per la lista mostrata, per il prezzo e per il riepilogo.
 const designVisibili = () =>
@@ -155,6 +173,9 @@ const designVisibili = () =>
   );
 const trova = (lista: Voce[], n: string) => lista.find((x) => x.name === n);
 
+// ---------- Flusso, stima, widgets ----------
+
+/** Passi effettivi: cambiano col tipo e con i servizi scelti. */
 function flusso() {
   const f = ['nome', 'categoria', 'tipo'];
   if (altro()) {
@@ -178,6 +199,7 @@ function flusso() {
 }
 let idx = 0, tracciatoAvvio = false, offertaDiretta = false;
 
+/** Stima indicativa: somma di base + extra scelti. Sempre intera, mai negativa. */
 function stima() {
   let t = 0;
   if (ha('sito')) {
@@ -212,6 +234,9 @@ function stima() {
   return Math.max(0, Math.round(t));
 }
 
+// ---------- Widgets riutilizzabili del questionario ----------
+
+/** Crea un elemento con classe e testo, per costruire il DOM a mano. */
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -349,6 +374,9 @@ const SERVIZI_INFO_GENERICA: Record<Servizio, [string, string]> = {
   social: ['Social media', 'Per farti conoscere'],
 };
 
+// ---------- Render dei passi ----------
+
+/** Un solo "if" per passo del flusso: aggiunge il suo markup in #w-corpo. */
 function renderizza() {
   const f = flusso();
   if (idx >= f.length) idx = f.length - 1;
@@ -769,6 +797,9 @@ function renderizza() {
   aggiornaCromo(true);
 }
 
+// ---------- Messaggio WhatsApp/email, invio, validazione ----------
+
+/** Testo anonimato col formato WhatsApp (asterischi = grassetto). */
 function messaggio() {
   const L = [
     '*Ciao Trebla!*',

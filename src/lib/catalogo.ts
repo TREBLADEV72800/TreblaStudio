@@ -35,23 +35,14 @@ export function concetto(v: Voce): string | undefined {
 }
 
 /**
- * Unisce voci su misura e generiche, togliendo i doppioni.
- * `concettiExtra` serve per i concetti coperti da regole di dominio
- * (per esempio le prenotazioni, coperte da un tipo che le gestisce già).
+ * Filtra le voci generiche: toglie i doppioni di nome e le voci il cui concetto
+ * è già coperto. `concettiExtra` serve per i concetti coperti da regole di
+ * dominio (per esempio le prenotazioni, coperte da un tipo che le gestisce già).
  */
-export function unione(suMisura: Voce[], generiche: Voce[], concettiExtra?: Set<string>): Voce[] {
+export function unione(generiche: Voce[], concettiExtra?: Set<string>): Voce[] {
   const out: Voce[] = [];
   const visti = new Set<string>();
   const coperti = new Set<string>(concettiExtra ?? []);
-
-  for (const v of suMisura) {
-    const k = chiave(v.name);
-    if (visti.has(k)) continue;
-    visti.add(k);
-    const c = concetto(v);
-    if (c) coperti.add(c);
-    out.push(v);
-  }
 
   for (const v of generiche) {
     const k = chiave(v.name);

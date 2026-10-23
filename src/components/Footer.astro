@@ -1,4 +1,5 @@
 ---
+// Anno e mese di aggiornamento: calcolati a build, non a runtime.
 const adesso = new Date();
 const anno = adesso.getFullYear();
 const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
@@ -24,11 +25,11 @@ const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'nu
     </div>
     <div class="piede-fondo">
       <span>© {anno} Trebla · Asti · Aggiornato a {aggiornato}</span>
-        <nav aria-label="Note legali">
-          <a href="/note-legali#privacy">Privacy</a>
-          <a href="/note-legali#cookie">Cookie</a>
-          <a href="/note-legali#termini">Termini</a>
-        </nav>
+      <nav aria-label="Note legali">
+        <a href="/note-legali#privacy">Privacy</a>
+        <a href="/note-legali#cookie">Cookie</a>
+        <a href="/note-legali#termini">Termini</a>
+      </nav>
       <p class="piede-torna"><a class="link-freccia" href="#cima" id="torna-su">Torna su ↑</a></p>
     </div>
   </div>
