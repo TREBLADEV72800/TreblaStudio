@@ -35,11 +35,13 @@ const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'nu
   </div>
 </footer>
 
-<script>
-  // Torna su garantito: l'ancora da sola a volte non basta con overflow-x: clip.
-  document.getElementById('torna-su')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: 0, behavior: ridotto ? 'auto' : 'smooth' });
-  });
+<script is:inline>
+  // is:inline: poche righe di JS puro, senza chunk nel grafo di caricamento.
+  (function () {
+    document.getElementById('torna-su')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: ridotto ? 'auto' : 'smooth' });
+    });
+  })();
 </script>

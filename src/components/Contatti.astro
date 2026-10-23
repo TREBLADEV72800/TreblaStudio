@@ -9,39 +9,40 @@ const payload = JSON.stringify(contatti).replace(/</g, '\\u003c');
 
 <script type="application/json" id="trebla-contatti" set:html={payload}></script>
 
-<script>
-  const fonte = document.getElementById('trebla-contatti');
-  const parti = fonte ? JSON.parse(fonte.textContent || '{}') : {};
-  const wa = (parti.whatsapp || []).join('');
-  const mail = (parti.email || []).join('');
+<script is:inline>
+  (function () {
+    const fonte = document.getElementById('trebla-contatti');
+    const parti = fonte ? JSON.parse(fonte.textContent || '{}') : {};
+    const wa = (parti.whatsapp || []).join('');
+    const mail = (parti.email || []).join('');
 
-  document.querySelectorAll<HTMLAnchorElement>('a[data-wa]').forEach((a) => {
-    a.href =
-      'https://wa.me/' + wa + '?text=' + encodeURIComponent(a.getAttribute('data-wa') || 'Ciao Trebla!');
-  });
-  document.querySelectorAll<HTMLAnchorElement>('a[data-tel]').forEach((a) => {
-    a.href = 'tel:+' + wa;
-  });
-  document.querySelectorAll<HTMLAnchorElement>('a[data-mail]').forEach((a) => {
-    const s = a.getAttribute('data-soggetto');
-    a.href = 'mailto:' + mail + (s ? '?subject=' + encodeURIComponent(s) : '');
-    if (a.hasAttribute('data-mostra')) a.textContent = mail;
-  });
+    document.querySelectorAll('a[data-wa]').forEach((a) => {
+      a.href =
+        'https://wa.me/' + wa + '?text=' + encodeURIComponent(a.getAttribute('data-wa') || 'Ciao Trebla!');
+    });
+    document.querySelectorAll('a[data-tel]').forEach((a) => {
+      a.href = 'tel:+' + wa;
+    });
+    document.querySelectorAll('a[data-mail]').forEach((a) => {
+      const s = a.getAttribute('data-soggetto');
+      a.href = 'mailto:' + mail + (s ? '?subject=' + encodeURIComponent(s) : '');
+      if (a.hasAttribute('data-mostra')) a.textContent = mail;
+    });
 
-  // Tracking: 4 righe riscalate qui da lib/tracking (cancellata) per non
-  // creare un chunk separato, che aggiunge un salto alla catena di
-  // caricamento (Lighthouse, albero delle dipendenze). La copia gemella
-  // sta in src/scripts/wizard.ts: cambiare entrambe insieme.
-  const traccia = (nome: string) => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'trebla_' + nome });
-    window.dispatchEvent(new CustomEvent('trebla:track', { detail: nome }));
-  };
+    // Tracking: 4 righe riscalate qui da lib/tracking (cancellata) per non
+    // creare un chunk separato, che aggiunge un salto alla catena di
+    // caricamento (Lighthouse, albero delle dipendenze). La copia gemella
+    // sta in src/scripts/wizard.ts: cambiare entrambe insieme.
+    const traccia = (nome) => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'trebla_' + nome });
+      window.dispatchEvent(new CustomEvent('trebla:track', { detail: nome }));
+    };
 
-  document.addEventListener('click', (e) => {
-    const t = e.target instanceof Element ? e.target.closest('a[data-wa], a[data-mail], a[data-tel]') : null;
-    if (!t) return;
-    traccia(t.hasAttribute('data-wa') ? 'whatsapp' : t.hasAttribute('data-tel') ? 'telefono' : 'email');
-  });
-</script>
+    document.addEventListener('click', (e) => {
+      const t = e.target instanceof Element ? e.target.closest('a[data-wa], a[data-mail], a[data-tel]') : null;
+      if (!t) return;
+      traccia(t.hasAttribute('data-wa') ? 'whatsapp' : t.hasAttribute('data-tel') ? 'telefono' : 'email');
+    });
+  })();
 </script>

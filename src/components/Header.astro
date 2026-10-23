@@ -41,64 +41,67 @@ const active = (href: string) =>
   </nav>
 </header>
 
-<script>
-  const btn = document.getElementById('menu-bottone');
-  const menu = document.getElementById('menu-mobile');
-  let aperto = false;
-  let scrollY = 0;
+<script is:inline>
+  // Menu mobile. is:inline: JS puro, niente chunk nel grafo di caricamento.
+  (function () {
+    const btn = document.getElementById('menu-bottone');
+    const menu = document.getElementById('menu-mobile');
+    let aperto = false;
+    let scrollY = 0;
 
-  function bloccaScroll(v: boolean) {
-    // Blocco vero: su iOS `overflow:hidden` da solo non basta,
-    // la pagina dietro continuerebbe a scorrere e si vedrebbe sotto il menu.
-    // Fissiamo il body e ripristiniamo la posizione alla chiusura.
-    if (v) {
-      scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      document.body.classList.add('menu-aperto');
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
-      document.documentElement.style.overflow = 'hidden';
-      if (menu) menu.scrollTop = 0;
-    } else {
-      document.body.classList.remove('menu-aperto');
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      document.documentElement.style.overflow = '';
-      window.scrollTo(0, scrollY);
+    function bloccaScroll(v) {
+      // Blocco vero: su iOS `overflow:hidden` da solo non basta,
+      // la pagina dietro continuerebbe a scorrere e si vedrebbe sotto il menu.
+      // Fissiamo il body e ripristiniamo la posizione alla chiusura.
+      if (v) {
+        scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        document.body.classList.add('menu-aperto');
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.documentElement.style.overflow = 'hidden';
+        if (menu) menu.scrollTop = 0;
+      } else {
+        document.body.classList.remove('menu-aperto');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.documentElement.style.overflow = '';
+        window.scrollTo(0, scrollY);
+      }
     }
-  }
 
-  function imposta(v: boolean) {
-    aperto = v;
-    btn?.setAttribute('aria-expanded', String(v));
-    btn?.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
-    menu?.classList.toggle('aperto', v);
-    bloccaScroll(v);
-    if (v) menu?.querySelector('a')?.focus();
-  }
+    function imposta(v) {
+      aperto = v;
+      btn?.setAttribute('aria-expanded', String(v));
+      btn?.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
+      menu?.classList.toggle('aperto', v);
+      bloccaScroll(v);
+      if (v) menu?.querySelector('a')?.focus();
+    }
 
-  btn?.addEventListener('click', () => imposta(!aperto));
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => imposta(false)));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && aperto) {
-      imposta(false);
-      (btn as HTMLElement | null)?.focus();
-    }
-    if (e.key === 'Tab' && aperto && menu) {
-      const voci = Array.from(menu.querySelectorAll('a')) as HTMLElement[];
-      const prima = voci[0];
-      const ultima = voci[voci.length - 1];
-      if (!prima || !ultima) return;
-      if (e.shiftKey && document.activeElement === prima) { e.preventDefault(); ultima.focus(); }
-      else if (!e.shiftKey && document.activeElement === ultima) { e.preventDefault(); prima.focus(); }
-    }
-  });
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 960 && aperto) imposta(false);
-  });
+    btn?.addEventListener('click', () => imposta(!aperto));
+    menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => imposta(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && aperto) {
+        imposta(false);
+        btn?.focus();
+      }
+      if (e.key === 'Tab' && aperto && menu) {
+        const voci = Array.from(menu.querySelectorAll('a'));
+        const prima = voci[0];
+        const ultima = voci[voci.length - 1];
+        if (!prima || !ultima) return;
+        if (e.shiftKey && document.activeElement === prima) { e.preventDefault(); ultima.focus(); }
+        else if (!e.shiftKey && document.activeElement === ultima) { e.preventDefault(); prima.focus(); }
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 960 && aperto) imposta(false);
+    });
+  })();
 </script>

@@ -65,12 +65,17 @@ trebla-logo-transparent.png (footer, invertita su notte), og-trebla.jpg, llms.tx
 
 ## Roba da non rompere (le insidie)
 
-- Contatti mai in chiaro: frammenti in `data/contatti.ts`, assemblati a runtime da
-  `components/Contatti.astro` via script JSON + data-* attributes. Anche note-legali li usa.
+- Contatti mai in chiaro nel markup: i frammenti viaggiano in un JSON (tag script
+  + id `trebla-contatti`), assemblato a runtime dallo script inline di
+  `components/Contatti.astro` con i data-* attributes. Anche note-legali lo usa.
 - Tracking (dataLayer, eventi `trebla_*`, niente pixel): la funzione è riscalata
-  in DUE copie gemelle, `components/Contatti.astro` e `scripts/wizard.ts`:
-  averla in un file importato crea un chunk separato → catena di caricamento a
-  3 livelli tra il Lighthouse (albero delle dipendenze). Cambiare una copia cambia l'altra.
+  in DUE copie gemelle, `components/Contatti.astro` e `scripts/wizard.ts`: essere
+  in un file importato crea un chunk separato → catena di caricamento a 3 livelli
+  nel Lighthouse (albero delle dipendenze). Cambiare una copia cambia l'altra.
+- Script di base (menu header, reveal, contatti, torna-su) sono `is:inline` con
+  JS puro (niente TS) in IIFE: **zero chunk JS esterni** sulle pagine normali;
+  l'unico chunk resta wizard.ts, solo su /preventivo, flat. Non riconvertirl
+  in `<script>` processati: ricreerebbe il nesting del bundler.
 - Offerta Tutto incluso 590€: nel wizard, la scelta `struttura: 'offerta'` toglie
   passi e voci (logo, foto, funzioni, pagine) e libro il logo dalle grafiche
   (`designVisibili`). Il deep-link `?offerta=1` preseleziona tutto
@@ -113,7 +118,9 @@ trebla-logo-transparent.png (footer, invertita su notte), og-trebla.jpg, llms.tx
 
 ## Checklist modifica → live
 
-1. `npm run build` pulito (9 pagine, grafo dei chunk JS flat: nessun `import` annidato in `dist/_astro/*.js`).
+1. `npm run build` pulito (9 pagine). Convenzioni da proteggere: zero chunk JS
+   esterni sulle pagine normali (script di base `is:inline`), wizard.ts verso
+   unico chunk (spesso flusso flat, no import annidati in `dist/_astro/*.js`).
 2. `vercel --prod --yes`.
 3. Controllare live: home, preventivo (menu mobile, flusso completo, invio),
    nota legale se toccata.
