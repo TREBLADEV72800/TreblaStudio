@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Capitolo from '../../components/Capitolo.astro';
-import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
+import { SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
 ---
 
 <Layout
@@ -110,13 +110,6 @@ import { SITE_EXTRAS, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../..
       <ul class="extra-lista">
         {SOCIAL_OPTIONS.map((e) => (
           <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>
-        ))}
-      </ul>
-      <h3 class="extra-titolo">Per il sito</h3>
-      <p class="prezzo-nota" style="margin:0 0 8px">Comprese nel prezzo di partenza: le scegli nel preventivo senza sovrapprezzo.</p>
-      <ul class="extra-lista">
-        {SITE_EXTRAS.map((e) => (
-          <li><span>{e.name}{e.hint ? ` · ${e.hint}` : ''}</span><span class="prezzo-extra">{e.price > 0 ? `+${e.price}€` : 'incluso'}</span></li>
         ))}
       </ul>
     </section>
