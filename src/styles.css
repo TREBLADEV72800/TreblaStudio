@@ -727,6 +727,18 @@ body.menu-aperto {
   .persona:first-child { padding-inline-end: 32px; }
 }
 .persona-titolo { font: 600 1.4rem/1.2 var(--serif); margin: 0; }
+/* Nome e ruolo sulla stessa riga: il ruolo è una qualifica, non un titolo. */
+.persona-testa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 10px;
+  row-gap: 2px;
+  margin-block-end: 4px;
+}
+.persona-testa h2,
+.persona-testa h3 { margin: 0; }
+.persona-testa .persona-ruolo { margin: 0; }
 .persona-ruolo {
   font: 400 0.75rem/1.5 var(--mono);
   letter-spacing: 0.12em;
