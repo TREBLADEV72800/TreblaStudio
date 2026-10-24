@@ -1,17 +1,17 @@
 ---
-import '../../styles.css';
-import '../../styles/wizard.css';
-import Head from '../../components/Head.astro';
+import '../../stili-globali.css';
+import '../../styles/configuratore.css';
+import MetaDocumento from '../../components/MetaDocumento.astro';
 
-const title = 'Preventivo su misura | Trebla';
+const title = 'Preventivo sito web in 2 minuti | Trebla';
 const description =
-  'Configura il preventivo in base alla tua attività: scegli il tipo, le funzioni su misura per te, pagine, foto, grafiche e social media. Stima immediata, senza impegno.';
+  'Configura il sito della tua attività e vedi subito la stima: tipo di attività, funzioni, pagine, foto e social. Senza impegno.';
 ---
 
 <!doctype html>
 <html lang="it" class="cfg-lock">
   <head>
-    <Head title={title} description={description} canonical="/preventivo" />
+    <MetaDocumento title={title} description={description} canonical="/preventivo" />
   </head>
   <body>
     <div class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
@@ -32,7 +32,7 @@ const description =
       </div>
     </div>
     <script>
-      import '../../scripts/wizard';
+      import '../../scripts/configuratore-preventivo';
     </script>
   </body>
 </html>

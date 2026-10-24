@@ -19,17 +19,20 @@ vercel --prod --yes
 
 ## Struttura
 
-- `src/data/` — dati reali, unica fonte di verità: `site.ts` (dominio),
+- `src/data/` — dati reali, unica fonte di verità: `sito.ts` (dominio),
   `contatti.ts` (frammenti di numero ed email), `prezzi.ts` (catalogo
-  commerciale), `faq.ts`, `configuratore.ts` (voci su misura per tipo).
+  commerciale), `domande-frequenti.ts`, `configuratore.ts` (voci su misura
+  per tipo di attività).
 - `src/lib/` — logica condivisa: `catalogo.ts` unisce catalogo generico e
-  voci su misura per concetto, `tracking.ts` scrive sul dataLayer.
-- `src/scripts/wizard.ts` — logica del configuratore, tipizzata.
-- `src/components/` — `Head` (testata), `Header`, `Footer`, `Contatti`
-  (link e tracking), `Faq`, `Capitolo`.
-- `src/layouts/Layout.astro` — pagina normale.
-- `src/styles.css`, `src/styles/tokens.css`, `src/styles/wizard.css` —
-  design system, token condivisi, css del configuratore.
+  voci su misura per concetto.
+- `src/scripts/configuratore-preventivo.ts` — logica del configuratore, tipizzata.
+- `src/components/` — `MetaDocumento` (testata e JSON-LD), `Intestazione`,
+  `Piede`, `ContattiDinamici` (link e tracking), `ElencoDomande`,
+  `TestataSezione`.
+- `src/layouts/LayoutPagina.astro` — pagina normale.
+- `src/stili-globali.css`, `src/styles/variabili.css`,
+  `src/styles/configuratore.css` — design system, token condivisi e CSS del
+  configuratore.
 - `src/pages/` — route.
 - `public/` — asset.
 

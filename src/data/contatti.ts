@@ -1,6 +1,6 @@
 // Contatti reali Trebla.
 // I frammenti non vanno mai in chiaro nel markup: si uniscono a runtime,
-// in src/components/Contatti.astro e nel configuratore.
+// in src/components/ContattiDinamici.astro e nel configuratore.
 // Cambiare il numero o l'email si fa qui e in un solo punto.
 
 export const contatti = {

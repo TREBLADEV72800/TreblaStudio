@@ -1,4 +1,4 @@
-import { site } from '../data/site';
+import { site } from '../data/sito';
 
 const pagine = ['/', '/servizi', '/prezzi', '/preventivo', '/chi-siamo', '/contatti', '/faq'];
 

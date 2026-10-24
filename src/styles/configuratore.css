@@ -1,7 +1,7 @@
 /* Configuratore: schermo intero, passo un passo.
    Vive in un file suo: lo carica solo la pagina del preventivo,
    così le altre 8 pagine non ne pagano il peso.
-   Token condivisi in tokens.css, base wizard in styles.css. */
+   Token condivisi in variabili.css, base in stili-globali.css. */
 
 /* ---------- Pagina bloccata: nessuno scroll della pagina, tutto nello schermo ---------- */
 html.cfg-lock,

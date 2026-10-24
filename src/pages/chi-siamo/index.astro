@@ -1,11 +1,11 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Capitolo from '../../components/Capitolo.astro';
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataSezione from '../../components/TestataSezione.astro';
 ---
 
-<Layout
-  title="Lo studio: Albert e Gabriel, Asti | Trebla"
-  description="Trebla è uno studio indipendente ad Asti: Albert (sviluppo) e Gabriel (design e social). Un lavoro pubblicato: Pikete Label."
+<LayoutPagina
+  title="Chi siamo: Albert e Gabriel, studio web ad Asti | Trebla"
+  description="Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social. Un lavoro pubblicato: Pikete Label."
   canonical="/chi-siamo"
 >
   <div class="involucro">
@@ -41,7 +41,7 @@ import Capitolo from '../../components/Capitolo.astro';
     </section>
 
     <section class="sezione" id="lavori" aria-label="Lavori">
-      <Capitolo
+      <TestataSezione
         numero="Lavori"
         titolo="Quello che abbiamo <em>pubblicato</em>"
         nota="Niente numeri inventati: ti mostriamo il lavoro vero, così giudichi tu."
@@ -70,4 +70,4 @@ import Capitolo from '../../components/Capitolo.astro';
       <p class="hero-firma"><a data-mail data-mostra href="#">email</a></p>
     </section>
   </div>
-</Layout>
+</LayoutPagina>

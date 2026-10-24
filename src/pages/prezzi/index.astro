@@ -1,19 +1,21 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Capitolo from '../../components/Capitolo.astro';
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataSezione from '../../components/TestataSezione.astro';
 import { SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
+import { site } from '../../data/sito';
 ---
 
-<Layout
-  title="Prezzi chiari da 300€ | Trebla"
-  description="Prezzi chiari Trebla: pagina singola da 300€, sito a più pagine da 400€. Due revisioni incluse, nessun canone obbligatorio, il sito è tuo."
+<LayoutPagina
+  title="Prezzi: siti web da 300€, senza canone | Trebla"
+  description="Pagina singola 300€, sito a più pagine 400€, offerta Tutto incluso 590€. Due revisioni incluse, nessun canone, il sito è tuo."
   canonical="/prezzi"
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: 'Realizzazione siti web per piccole attività, Trebla',
-    provider: { '@id': 'https://treblastudio.vercel.app/#studio' },
-    areaServed: 'Asti, IT',
+    url: `${site.url}/prezzi`,
+    provider: { '@id': `${site.url}/#studio` },
+    areaServed: { '@type': 'City', name: 'Asti' },
     offers: [
       { '@type': 'Offer', name: 'Pagina singola', price: '300', priceCurrency: 'EUR' },
       { '@type': 'Offer', name: 'Sito a più pagine', price: '400', priceCurrency: 'EUR' },
@@ -77,7 +79,7 @@ import { SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi'
     </section>
 
     <section class="sezione" aria-label="Condizioni">
-      <Capitolo
+      <TestataSezione
         numero="Condizioni"
         titolo="Le regole, <em>in chiaro</em>"
       />
@@ -94,7 +96,7 @@ import { SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi'
     </section>
 
     <section class="sezione" aria-label="Extra">
-      <Capitolo
+      <TestataSezione
         numero="Extra"
         titolo="Solo quello <em>che ti serve</em>"
         nota="Grafiche, social e foto hanno un prezzo a parte. Le funzioni del sito sono incluse."
@@ -114,4 +116,4 @@ import { SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi'
       </ul>
     </section>
   </div>
-</Layout>
+</LayoutPagina>

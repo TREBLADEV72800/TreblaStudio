@@ -14,16 +14,16 @@ sistema esistente con scelte deliberate e verificabili.
 - Stack: Astro 4, sito statico, deploy Vercel (`treblastudio.vercel.app`).
   Comandi: `npm run check`, `npm run build`, push su `main`,
   `vercel --prod --yes`.
-- Sistema visivo: "Quaderno di bottega". Token in `src/styles/tokens.css`:
+- Sistema visivo: "Quaderno di bottega". Token in `src/styles/variabili.css`:
   carta, inchiostro, mattone, linee ledger da 1px, serif Fraunces per i
   titoli, Archivo per il corpo, IBM Plex Mono per prezzi ed etichette.
-- Contenuti reali in `src/data/` (prezzi, faq, configuratore, site):
+- Contenuti reali in `src/data/` (prezzi, domande frequenti, configuratore, sito):
   sono l'unica fonte di verità. Prezzi con € attaccato al numero.
   `prezzi.ts` è il catalogo commerciale, `configuratore.ts` solo le voci
   su misura: si uniscono per concetto in `src/lib/catalogo.ts`.
 - Contatti mai in chiaro nell'HTML: frammenti in `src/data/contatti.ts`,
-  assemblati a runtime da `src/components/Contatti.astro`.
-- Logica del configuratore in `src/scripts/wizard.ts`, tipizzata.
+  assemblati a runtime da `src/components/ContattiDinamici.astro`.
+- Logica del configuratore in `src/scripts/configuratore-preventivo.ts`, tipizzata.
 - Lingua: italiano semplice. Mai il trattino lungo —. Titoli senza punto.
 - Performance: punteggio Lighthouse 100 da mantenere. Niente dipendenze
   nuove senza motivo. Rispetta `prefers-reduced-motion`.

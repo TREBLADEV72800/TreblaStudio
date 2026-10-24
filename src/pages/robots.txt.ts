@@ -1,4 +1,4 @@
-import { site } from '../data/site';
+import { site } from '../data/sito';
 
 export function GET() {
   const base = site.url.replace(/\/$/, '');

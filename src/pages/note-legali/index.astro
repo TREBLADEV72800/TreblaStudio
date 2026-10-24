@@ -1,9 +1,9 @@
 ---
-// Pagina note legali: fuori dal Layout per restare essenziale, ma dentro il
+// Pagina note legali: fuori da LayoutPagina per restare essenziale, ma dentro il
 // design system: stessi token, stesso anello di focus, stessi contatti.
-import '../../styles/tokens.css';
-import Contatti from '../../components/Contatti.astro';
-import { site } from '../../data/site';
+import '../../styles/variabili.css';
+import ContattiDinamici from '../../components/ContattiDinamici.astro';
+import { site } from '../../data/sito';
 
 const stile = `
 body{margin:0;background:var(--carta);color:var(--inchiostro);font:16px/1.65 system-ui,sans-serif;padding:24px 18px 64px;overflow-x:clip}
@@ -98,6 +98,6 @@ nav a::after,main>p>a::after{content:'';position:absolute;inset:-6px -4px}
         <p>Per qualsiasi questione: <a data-mail data-mostra href="#">email</a>.</p>
       </section>
     </main>
-    <Contatti />
+    <ContattiDinamici />
   </body>
 </html>

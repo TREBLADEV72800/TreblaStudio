@@ -22,7 +22,7 @@ import { numeroWhatsapp, indirizzoEmail } from '../data/contatti';
 // Tracking: 4 righe riscalate qui da lib/tracking (cancellata) per non
 // creare un chunk separato, che aggiunge un salto alla catena di
 // caricamento (Lighthouse, albero delle dipendenze). La copia gemella
-// sta in components/Contatti.astro: cambiare entrambe insieme.
+// sta in components/ContattiDinamici.astro: cambiare entrambe insieme.
 const traccia = (nome: string) => {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: 'trebla_' + nome });

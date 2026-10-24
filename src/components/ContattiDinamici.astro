@@ -32,7 +32,7 @@ const payload = JSON.stringify(contatti).replace(/</g, '\\u003c');
     // Tracking: 4 righe riscalate qui da lib/tracking (cancellata) per non
     // creare un chunk separato, che aggiunge un salto alla catena di
     // caricamento (Lighthouse, albero delle dipendenze). La copia gemella
-    // sta in src/scripts/wizard.ts: cambiare entrambe insieme.
+    // sta in src/scripts/configuratore-preventivo.ts: cambiare entrambe insieme.
     const traccia = (nome) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'trebla_' + nome });

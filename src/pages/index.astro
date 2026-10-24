@@ -1,8 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Capitolo from '../components/Capitolo.astro';
-import Faq from '../components/Faq.astro';
-import { FAQS } from '../data/faq';
+import LayoutPagina from '../layouts/LayoutPagina.astro';
+import TestataSezione from '../components/TestataSezione.astro';
+import ElencoDomande from '../components/ElencoDomande.astro';
+import { FAQS } from '../data/domande-frequenti';
 
 const settori = [
   'Ristoranti', 'Bar', 'Pizzerie', 'B&B', 'Barbieri', 'Saloni', 'Centri estetici',
@@ -26,9 +26,9 @@ const HOME_FAQS = [
 const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME_FAQS.indexOf(a.q) - HOME_FAQS.indexOf(b.q));
 ---
 
-<Layout
-  title="Trebla: un sito chiaro per la tua attività | Asti"
-  description="Trebla, studio indipendente ad Asti. Siti web completi e veloci per ristoranti, negozi, artigiani e professionisti: prezzi chiari da 300€, contatti sempre a portata di mano."
+<LayoutPagina
+  title="Siti web chiari per attività locali ad Asti | Trebla"
+  description="Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e artigiani. Prezzi da 300€, senza canone obbligatorio. Preventivo in 2 minuti."
   canonical="/"
 >
   <!-- HERO -->
@@ -74,7 +74,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <!-- 01 · BENEFICI -->
   <section class="sezione" aria-labelledby="t-benefici">
     <div class="involucro">
-      <Capitolo
+      <TestataSezione
         id="t-benefici"
         numero="01 · Benefici"
         titolo="Cosa cambia <em>in pratica</em>"
@@ -95,7 +95,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <!-- 02 · SERVIZI -->
   <section class="sezione" aria-labelledby="t-servizi">
     <div class="involucro">
-      <Capitolo
+      <TestataSezione
         id="t-servizi"
         numero="02 · Cosa facciamo"
         titolo="Il sito al centro, <em>il resto intorno</em>"
@@ -143,7 +143,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <!-- 03 · METODO -->
   <section class="sezione" aria-labelledby="t-metodo">
     <div class="involucro">
-      <Capitolo
+      <TestataSezione
         id="t-metodo"
         numero="03 · Come funziona"
         titolo="Tu lavori, <em>noi al resto</em>"
@@ -162,7 +162,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <!-- 04 · PREZZI -->
   <section class="sezione" aria-labelledby="t-prezzi">
     <div class="involucro">
-      <Capitolo
+      <TestataSezione
         id="t-prezzi"
         numero="04 · Prezzi"
         titolo="Scegli da <em>dove partire</em>"
@@ -216,7 +216,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <!-- 05 · STUDIO -->
   <section class="sezione" aria-labelledby="t-studio">
     <div class="involucro">
-      <Capitolo
+      <TestataSezione
         id="t-studio"
         numero="05 · Lo studio"
         titolo="Due persone, <em>niente call center</em>"
@@ -244,13 +244,13 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   <!-- 06 · DOMANDE -->
   <section class="sezione" aria-labelledby="t-domande">
     <div class="involucro">
-      <Capitolo
+      <TestataSezione
         id="t-domande"
         numero="06 · Domande"
         titolo="Quelle che ci fanno <em>sempre</em>"
         nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
       />
-      <div id="h-domande"><Faq faqs={homeFaqs} /></div>
+      <div id="h-domande"><ElencoDomande faqs={homeFaqs} /></div>
       <p class="stacco-16" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
     </div>
   </section>
@@ -271,4 +271,4 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
       </div>
     </div>
   </section>
-</Layout>
+</LayoutPagina>

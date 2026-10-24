@@ -1,12 +1,12 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Faq from '../../components/Faq.astro';
-import { FAQS } from '../../data/faq';
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import ElencoDomande from '../../components/ElencoDomande.astro';
+import { FAQS } from '../../data/domande-frequenti';
 ---
 
-<Layout
-  title="Domande frequenti | Trebla"
-  description="Quanto costa, in quanto tempo, serve un canone, cosa serve per iniziare: le risposte oneste alle domande che ci fanno sempre."
+<LayoutPagina
+  title="Domande frequenti sui siti web | Trebla"
+  description="Quanto costa un sito, in quanto tempo è online, serve un canone, cosa serve per iniziare: risposte chiare alle domande più comuni."
   canonical="/faq"
   jsonLd={{
     '@context': 'https://schema.org',
@@ -27,10 +27,10 @@ import { FAQS } from '../../data/faq';
     </section>
 
     <section class="sezione sezione-flush" aria-label="Tutte le domande">
-      <Faq faqs={FAQS} />
+      <ElencoDomande faqs={FAQS} />
       <div class="hero-azioni">
         <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
       </div>
     </section>
   </div>
-</Layout>
+</LayoutPagina>

@@ -1,8 +1,8 @@
 ---
-// Testata condivisa: Layout (pagine normali) e configuratore (a schermo intero).
+// Testata condivisa: LayoutPagina (pagine normali) e configuratore (a schermo intero).
 // Un posto solo per meta, Open Graph, font e JSON-LD: niente copie da tenere allineate.
 // `site.name` resta qui per OG/JSON-LD; nel `<title>` basta la stringa 'Trebla'.
-import { site, canonicalUrl } from '../data/site';
+import { site, canonicalUrl } from '../data/sito';
 import archivo400 from '@fontsource/archivo/files/archivo-latin-400-normal.woff2?url';
 import archivo700 from '@fontsource/archivo/files/archivo-latin-700-normal.woff2?url';
 import plex700 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2?url';
@@ -31,6 +31,13 @@ const baseLd = [
     name: 'Trebla',
     url: `${site.url}/`,
     description: 'Studio indipendente ad Asti: siti web, grafiche e social media per piccole attività.',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${site.url}/trebla-logo.webp`,
+      width: 1360,
+      height: 768,
+    },
+    image: `${site.url}/og-trebla.jpg`,
     areaServed: { '@type': 'City', name: 'Asti' },
   },
   {
@@ -39,6 +46,8 @@ const baseLd = [
     '@id': `${site.url}/#servizio`,
     name: 'Trebla, Studio web ad Asti',
     url: `${site.url}/`,
+    image: `${site.url}/og-trebla.jpg`,
+    logo: `${site.url}/trebla-logo.webp`,
     priceRange: '€€',
     address: {
       '@type': 'PostalAddress',
@@ -51,11 +60,34 @@ const baseLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': `${site.url}/#sito`,
     name: 'Trebla',
     url: `${site.url}/`,
+    description: site.description,
     inLanguage: 'it',
+    publisher: { '@id': `${site.url}/#studio` },
   },
 ];
+
+// Una WebPage per ogni pagina indicizzabile, generata dagli stessi
+// title/description/canonical della testata: mai copie da tenere allineate.
+const paginaLd = noindex
+  ? []
+  : [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${canonicalHref}#pagina`,
+        url: canonicalHref,
+        name: titleFull,
+        description,
+        inLanguage: 'it',
+        isPartOf: { '@id': `${site.url}/#sito` },
+        about: { '@id': `${site.url}/#studio` },
+        publisher: { '@id': `${site.url}/#studio` },
+      },
+    ];
+
 const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
 // @font-face solo woff2: gli import CSS di fontsource trascinavano anche i .woff nel build.
@@ -110,6 +142,6 @@ const fontCss = (
 <link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />
 <style set:html={fontCss}></style>
 <meta name="theme-color" content="#1d1712" />
-<script type="application/ld+json" set:html={JSON.stringify([...baseLd, ...extraLd])} />
+<script type="application/ld+json" set:html={JSON.stringify([...baseLd, ...paginaLd, ...extraLd])} />
 <noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
 <slot name="head" />

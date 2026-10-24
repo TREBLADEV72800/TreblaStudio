@@ -1,5 +1,5 @@
 /* Token del design system: carta, inchiostro, mattone, linee.
-   Un posto solo: styles.css li importa, note-legali li usa da solo. */
+   Un posto solo: stili-globali.css li importa, note-legali li usa da solo. */
 :root {
   --carta: #f7f2e8;
   --carta-2: #efe7d3;
