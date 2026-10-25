@@ -43,7 +43,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Come funziona l’anticipo di 30€?',
-    a: 'Per iniziare serve un anticipo di 30€, già compreso nella stima: conferma l’avvio del lavoro e non si restituisce se cambi idea. Il resto lo paghi alla consegna, senza altri costi.',
+    a: 'Per iniziare serve un anticipo di 30€, già compreso nella stima: conferma l’avvio del lavoro e non si restituisce se cambi idea. Il resto lo paghi alla consegna o in 3 rate, senza altri costi.',
   },
   {
     q: 'Posso pagare in 3 rate?',
