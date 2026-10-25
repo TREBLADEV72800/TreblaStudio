@@ -1372,7 +1372,7 @@ npm run deploy
 - Il deploy automatico da GitHub è descritto in §12.3.1.
 - La produzione è pubblica su `https://treblastudio.pages.dev`.
 - Dopo il deploy, Wrangler stampa l'URL di produzione e l'URL del deployment.
-- Ultimo deploy produzione verificato: `b38fdbe0-2d90-4bad-9348-76e8ab2e516f`, ambiente Production, branch `main`.
+- Primo deploy automatico verificato: run GitHub Actions `40179445680`, commit `62ef1d5`, ambiente Production, branch `main`.
 
 #### 12.3.1 Deploy automatico da GitHub
 
@@ -1619,8 +1619,8 @@ Se il titolare chiede di allineare il copy, correggi questi punti e aggiorna que
 - Il dominio di produzione è `https://treblastudio.pages.dev`; `treblastudio.it` non è attivo.
 - `PUBLIC_SITE_URL` è impostata in produzione e in `.env.example`.
 - Il sito è ospitato su Cloudflare Pages ed è stato verificato sulle 7 pagine indicizzabili, robots, sitemap, menu mobile e wizard.
-- Deploy di produzione Cloudflare Pages: `b38fdbe0-2d90-4bad-9348-76e8ab2e516f` su `https://treblastudio.pages.dev`.
-- Le modifiche sono in parte non committate: controlla `git status` prima di aggiungere altro lavoro.
+- Primo deploy automatico GitHub Actions: `033a599c-9bef-4840-a4f9-9a0e068f1a01`, commit `62ef1d5`, su `https://treblastudio.pages.dev`.
+- Le modifiche sono committate su `main`; ogni push attiva il deploy automatico.
 - `README.md` e `comecreare.md` restano come documentazione secondaria. Se contraddicono questo file o il codice, vincono questo file e il codice.
 
 Prossimi passi possibili, solo se richiesti:
