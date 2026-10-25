@@ -290,7 +290,7 @@ Regole:
 - `SITE_EXTRAS` e le pagine del sito hanno prezzo 0: `euro(0)` restituisce `incluso`.
 - Le voci generiche possono essere filtrate se una voce su misura copre lo stesso concetto.
 - `OFFERTA_SITO.revisioni` è l'unico dato sulle revisioni. Le 2 revisioni dei pacchetti base sono solo nel copy, non in una costante: se cambi la policy, cerca `due revisioni`, `2 revisioni`, `due giri`, `revisioni` in pagine, FAQ, note legali e `llms.txt`.
-- L'anticipo di 30€ non è una costante: è scritto nel copy del configuratore, delle FAQ e delle note legali. Cerca `30€` prima di cambiarlo.
+- L'anticipo di 30€ e l'opzione delle 3 rate non sono costanti: sono scritti nel copy del configuratore, delle FAQ e delle note legali. Cerca `30€` e `3 rate` prima di cambiarli.
 - La cifra finale della stima usa `€ ${stima()}` con lo spazio, per leggibilità. I prezzi nel corpo usano `300€`, `+20€`, `incluso`.
 
 ### 4.4 `src/data/configuratore.ts`
@@ -360,7 +360,7 @@ export interface Faq {
 }
 ```
 
-Ci sono 11 FAQ. Le domande esatte sono:
+Ci sono 12 FAQ. Le domande esatte sono:
 
 1. Offerta Tutto incluso da 590€?
 2. Quanto costa un sito?
@@ -370,9 +370,10 @@ Ci sono 11 FAQ. Le domande esatte sono:
 6. Fate anche grafiche e social media?
 7. Devo pagare un canone ogni anno?
 8. Come funziona l'anticipo di 30€?
-9. Chiedo modifiche dopo che è online?
-10. Lavorate solo ad Asti?
-11. Fate siti con login o pagamenti online?
+9. Posso pagare in 3 rate?
+10. Chiedo modifiche dopo che è online?
+11. Lavorate solo ad Asti?
+12. Fate siti con login o pagamenti online?
 
 La home mostra solo 5 FAQ, selezionate per testo esatto in `src/pages/index.astro`:
 
@@ -568,7 +569,7 @@ Description: `Quanto costa un sito, in quanto tempo è online, serve un canone, 
 Contenuto:
 
 - H1 `Domande frequenti`.
-- Tutte le 11 FAQ con `ElencoDomande`.
+- Tutte le 12 FAQ con `ElencoDomande`.
 - JSON-LD `FAQPage` generato da `FAQS`.
 - CTA preventivo.
 
@@ -925,7 +926,7 @@ Dettagli:
 - Grafiche scelte o "Da decidere insieme".
 - Social: canali e contenuti, video con prezzo.
 - Obiettivi, tempi.
-- Nel passo `invia`: totale, nota sul prezzo concordato, nota sull'anticipo di 30€, CTA WhatsApp e CTA email.
+- Nel passo `invia`: totale, nota sul prezzo concordato, nota su anticipo di 30€ e possibilità di 3 rate, CTA WhatsApp e CTA email.
 - Il link `Termini e condizioni` nel checkbox privacy punta a `/note-legali#termini`.
 
 `mancantiRiepilogo()` controlla solo:

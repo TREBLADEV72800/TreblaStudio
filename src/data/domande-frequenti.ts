@@ -46,6 +46,10 @@ export const FAQS: Faq[] = [
     a: 'Per iniziare serve un anticipo di 30€, già compreso nella stima: conferma l’avvio del lavoro e non si restituisce se cambi idea. Il resto lo paghi alla consegna, senza altri costi.',
   },
   {
+    q: 'Posso pagare in 3 rate?',
+    a: 'Sì. Dopo l’anticipo di 30€, il saldo si può dividere in 3 rate. Le scadenze le concordiamo prima di iniziare e le scriviamo nella proposta: sai sempre quanto e quando pagare.',
+  },
+  {
     q: 'Chiedo modifiche dopo che è online?',
     a: 'Sì. Due giri di revisioni sono inclusi prima della pubblicazione. Dopo, le modifiche te le facciamo noi su richiesta: ti diciamo prima se e quanto costano.',
   },

@@ -742,7 +742,7 @@ function renderizza() {
     box.appendChild(cifra);
     box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
     if (S.struttura === 'offerta') box.appendChild(el('p', 'd', `Offerta Tutto incluso: ${C.offerta.revisioni} modifiche gratuite e logo (nuovo o rifacimento) compresi.`));
-    box.appendChild(el('p', 'd', 'Anticipo di 30€ già compreso nella stima: lo versi per iniziare, il resto alla consegna.'));
+    box.appendChild(el('p', 'd', 'Anticipo di 30€ già compreso nella stima: lo versi per iniziare, il resto alla consegna o in 3 rate.'));
     const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
     invia.setAttribute('data-track', 'preventivo-invia');
     invia.id = 'w-invia';
