@@ -6,7 +6,8 @@ onesto e riconoscibile. Niente template travestiti.
 ## 1. Stack
 
 - Astro 4, output statico (`output: "static"`), TypeScript stretto.
-- Deploy Vercel con `vercel.json` (redirect, header di sicurezza, cache asset).
+- Deploy Cloudflare Pages: `public/_redirects` (redirect legali) e
+  `public/_headers` (header di sicurezza, cache asset) finiscono in `dist`.
 - Font self-hosted via Fontsource: solo pesi usati, solo `woff2`,
   `@font-face` scritta a mano (i CSS di fontsource trascinano anche i `.woff`).
 - Immagini ottimizzate con Sharp, dimensioni reali dichiarate
@@ -113,7 +114,7 @@ onesto e riconoscibile. Niente template travestiti.
 1. `npm run check` pulito (0 errori di tipo) e `npm run build` pulita
    (9 pagine, zero errori).
 2. `git add` solo i file voluti, commit con messaggio chiaro, push.
-3. `vercel --prod --yes`, verifica READY.
+3. `npm run deploy` (build + deploy Cloudflare Pages), verifica OK.
 4. Mai commit di file altrui per sbaglio: kit locali in `.gitignore`.
 
 ## 9. Anti-AI-slop (revisione obbligatoria)

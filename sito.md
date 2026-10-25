@@ -10,7 +10,7 @@ Gerarchia delle fonti:
 4. `comecreare.md` è il playbook storico del design system: utile per il tono, non per i dettagli aggiornati.
 5. `.opencode/skills/anti-ai-slop/SKILL.md` va letto prima di modificare UI o copy.
 
-Ultimo aggiornamento: 24 ottobre 2026.
+Ultimo aggiornamento: 25 ottobre 2026.
 
 ---
 
@@ -19,7 +19,7 @@ Ultimo aggiornamento: 24 ottobre 2026.
 | Voce | Valore |
 |---|---|
 | Progetto | Trebla, studio web indipendente ad Asti |
-| Sito live | https://treblastudio.vercel.app |
+| Sito live | https://treblastudio.pages.dev |
 | Dominio .it | `treblastudio.it` non risolve e non risulta registrato al 24/10/2026. Non usarlo in canonical, sitemap o JSON-LD |
 | Lingua | Italiano |
 | Stack | Astro 4.16.19, `output: 'static'`, TypeScript `strictest` |
@@ -28,7 +28,7 @@ Ultimo aggiornamento: 24 ottobre 2026.
 | Framework UI | Nessuno |
 | CSS | CSS custom, inline nel build |
 | Dati | File TypeScript in `src/data/`, nessun CMS |
-| Deploy | Vercel, comando `vercel --prod --yes` |
+| Deploy | Cloudflare Pages, progetto `treblastudio`, comando `npm run deploy` |
 | Pagine HTML | 9 |
 | JS esterno | Solo `/preventivo`, un unico chunk piatto |
 | Test automatici | Nessuno: la verifica è build + controllo manuale |
@@ -39,8 +39,8 @@ Stato del repository:
 - Branch: `main`.
 - Ultimo commit noto: `3df05b7 Perf reale: script di base inline (is:inline), zero chunk JS su pagine normali`.
 - Le modifiche di rinomina file, SEO e fix sono state deployate ma non tutte committate. `git status` mostra rinomine staged e modifiche unstaged.
-- Ultimo deploy produzione verificato: `dpl_AukxKJoBDJYcha7AKHeqbnJ6mu15`, stato `READY`.
-- La produzione è pubblica. Le preview Vercel possono essere protette: se ricevi 401/403 usa `vercel curl` o la skill `access-protected-vercel-deployment`.
+- Ultimo deploy produzione verificato: `b38fdbe0-2d90-4bad-9348-76e8ab2e516f`, ambiente Production su `https://treblastudio.pages.dev`.
+- La produzione è pubblica. Le preview Cloudflare Pages vivono su URL `*.pages.dev` del deployment e non sono protette da password salvo configurazione esplicita.
 
 Comandi principali:
 
@@ -51,7 +51,7 @@ Comandi principali:
 | `npm run build` | Verifica obbligatoria prima di consegnare | 9 pagine HTML, `robots.txt`, `sitemap.xml` |
 | `npm run preview` | Controllo del build statico | Serve `dist/` in locale |
 | `npm run check` | Controllo tipi | Può restare appeso dopo aver stampato 0 errori: non è un errore del codice |
-| `vercel --prod --yes` | Deploy in produzione | Deploy Vercel; il push su Git non deploya da solo |
+| `npm run deploy` | Deploy in produzione | Build + `wrangler pages deploy` su Cloudflare Pages; il push su Git non deploya da solo |
 
 `npm run check` è utile ma non è la verifica che sblocca la consegna. La verifica affidabile è `npm run build`. Se `check` resta appeso dopo l'output corretto, non uccidere processi a caso e non dichiarare errori inesistenti.
 
@@ -69,7 +69,7 @@ Queste regole spiegano il perché di molte scelte. Se una modifica le viola, pro
 6. **Offerta Tutto incluso.** Nel configuratore la struttura `offerta` vale 590€, include tutte le funzioni, tutti gli extra, tutte le pagine, foto scattate da Trebla, logo nuovo o rinnovato e 3 modifiche gratuite. Con l'offerta il logo non va riproposto a pagamento.
 7. **Font solo woff2.** `MetaDocumento.astro` importa cinque file woff2 e scrive `@font-face` a mano. Non importare i CSS di Fontsource: trascinano anche `.woff` e appesantiscono il build.
 8. **Copy italiano, concreto, senza trattino lungo.** Non usare il trattino lungo nei contenuti del sito. Titoli SEO senza punto finale; l'H1 della home chiude con un punto per scelta editoriale. Prezzi con `€` attaccato al numero (`300€`), tranne la cifra finale della stima che resta staccata (`€ 590`).
-9. **URL pubblici stabili.** Non cambiare `/servizi`, `/prezzi`, `/chi-siamo`, `/preventivo`, `/contatti`, `/faq`, `/note-legali`. I nomi dei file interni possono essere descrittivi, gli slug pubblici no.
+9. **URL pubblici stabili.** Non cambiare `/servizi`, `/prezzi`, `/chi-siamo`, `/preventivo`, `/contatti`, `/faq`, `/note-legali`. I nomi dei file interni possono essere descrittivi, gli slug pubblici no. Cloudflare Pages li serve con lo slash finale (`/servizi/`, `/prezzi/`): canonical, sitemap e link interni usano quella forma.
 10. **Dominio build-time.** `PUBLIC_SITE_URL` viene letto in build da `astro.config.mjs` e `src/data/sito.ts`. Canonical, sitemap e JSON-LD dipendono da quel valore: dopo averlo cambiato serve un nuovo deploy.
 11. **Build pulita con 9 pagine.** Se il build non arriva a 9 pagine HTML, manca una route o una pagina è stata rotta.
 12. **Non reinventare il design.** Prima di una modifica UI leggi la skill anti-ai-slop. Il sistema è "Quaderno di bottega": carta, inchiostro, mattone, righe da 1px, Fraunces, Archivo, IBM Plex Mono.
@@ -86,14 +86,15 @@ TreblaStudio/
   package-lock.json             Lockfile npm
   astro.config.mjs              Config Astro: site, output static, CSS inline, sharp
   tsconfig.json                 TypeScript strictest + tipi Astro
-  vercel.json                   Redirect legali, header sicurezza, cache asset
   .env.example                  Esempio PUBLIC_SITE_URL
-  .gitignore                    Esclude dist, node_modules, .astro, .vercel, piketelabel/
+  .gitignore                    Esclude dist, node_modules, .astro, .wrangler, piketelabel/
   README.md                     Avvio rapido e struttura, secondario
   comecreare.md                 Playbook storico del design system, secondario
   sito.md                       Questo manuale operativo
 
   public/
+    _headers                    Header sicurezza e cache (Cloudflare Pages)
+    _redirects                  Redirect legali (Cloudflare Pages)
     favicon.svg                 Favicon SVG
     og-trebla.jpg               Immagine Open Graph 1200x630
     site.webmanifest            Manifest PWA
@@ -151,7 +152,7 @@ Cartelle generate o fuori scope:
 - `dist/`: build statico. Non modificare a mano.
 - `.astro/`: tipi generati da Astro.
 - `node_modules/`: dipendenze.
-- `.vercel/`: collegamento al progetto Vercel.
+- `.wrangler/`: stato locale di Wrangler, ignorato da Git.
 - `piketelabel/`: cartella ignorata da Git, contiene solo un README di un kit separato. Non fa parte del sito.
 - `.opencode/`: skill e configurazione dell'agente.
 
@@ -190,7 +191,7 @@ Contiene:
 ```ts
 export const site = {
   name: 'Trebla',
-  url: import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.vercel.app',
+  url: import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.pages.dev',
   lang: 'it',
   locale: 'it_IT',
   description: 'Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da 300€, senza canone obbligatorio.',
@@ -203,19 +204,20 @@ export function canonicalUrl(path: string) { ... }
 Regole:
 
 - `site.url` non ha slash finale. `canonicalUrl()` lo toglie comunque.
-- `canonicalUrl('/prezzi')` restituisce `https://dominio/prezzi`.
+- `canonicalUrl('/prezzi')` restituisce `https://dominio/prezzi/`: Cloudflare Pages serve le directory con lo slash finale (`/prezzi` risponde 308).
 - `canonicalUrl('/')` restituisce `https://dominio/`.
+- `canonicalUrl('/404')` resta `https://dominio/404`: è la pagina di errore, `noindex`.
 - `site.description` è il fallback usato da `LayoutPagina` se una pagina non passa una description.
 - `site.name` è usato in OG e JSON-LD; nel `<title>` basta la stringa `Trebla`.
 - `PUBLIC_SITE_URL` è letto in build, non a runtime. Cambiarlo richiede un nuovo build e deploy.
 
 Cambiare dominio:
 
-1. Aggiorna `.env.example` e la variabile di produzione su Vercel.
+1. Aggiorna `.env.example` e `PUBLIC_SITE_URL` nelle variabili di build di Cloudflare Pages.
 2. Aggiorna `src/data/sito.ts` solo se vuoi cambiare il fallback locale.
 3. Aggiorna `public/llms.txt` (URL assoluti hardcoded).
-4. Aggiorna il link di condivisione in `src/pages/prezzi/index.astro` (contiene `treblastudio.vercel.app`).
-5. Cerca eventuali altri riferimenti con `rg "treblastudio\.vercel\.app|treblastudio\.it"`.
+4. Aggiorna il link di condivisione in `src/pages/prezzi/index.astro` (contiene `treblastudio.pages.dev`).
+5. Cerca eventuali altri riferimenti con `rg "treblastudio\.pages\.dev|treblastudio\.it"`.
 6. Fai build e deploy, poi verifica canonical, sitemap, robots, OG e JSON-LD live.
 
 ### 4.2 `src/data/contatti.ts`
@@ -436,6 +438,8 @@ Regole:
 
 `/preventivo` è indicizzabile e presente in sitemap. `/note-legali` e `/404` sono `noindex, nofollow` e fuori sitemap.
 
+Le rotte nel browser finiscono con lo slash (`/servizi/`, `/preventivo/`): è la forma che Cloudflare Pages serve con 200. La colonna Canonical indica lo slug logico; `canonicalUrl()` aggiunge lo slash.
+
 ### 5.2 Home `/`
 
 File: `src/pages/index.astro`.
@@ -499,7 +503,7 @@ Contenuto:
 - Una card offerta con id `#offerta`, prezzo da `OFFERTA_SITO.prezzo`, 590€.
 - Condizioni in 4 righe: sito tuo, due revisioni, tempi concordati, modifiche dopo.
 - Extra grafiche da `DESIGN_OPTIONS` e social da `SOCIAL_OPTIONS`, con prezzi generati dai dati.
-- Link di condivisione WhatsApp hardcoded con `treblastudio.vercel.app`: da aggiornare se cambia dominio.
+- Link di condivisione WhatsApp hardcoded con `treblastudio.pages.dev`: da aggiornare se cambia dominio.
 - JSON-LD `Service` con tre `Offer`: 300, 400, 590. I primi due sono stringhe hardcoded, il terzo usa `OFFERTA_SITO.prezzo`.
 
 ### 5.5 Preventivo `/preventivo`
@@ -580,7 +584,7 @@ Caratteristiche:
 - CSS inline minimale nel frontmatter.
 - Sezioni: `#privacy`, `#cookie`, `#termini`.
 - Data "Ultimo aggiornamento: ottobre 2026" hardcoded.
-- I redirect `/privacy`, `/cookie`, `/termini` arrivano qui da `vercel.json`.
+- I redirect `/privacy`, `/cookie`, `/termini` arrivano qui da `public/_redirects`.
 
 Se cambi i termini, aggiorna la data e verifica che il configuratore continui a linkare `/note-legali#termini`.
 
@@ -598,7 +602,7 @@ Caratteristiche:
 - Canonical `/404`.
 - H1 `Qui non c'è niente`.
 - CTA homepage e preventivo.
-- Vercel serve `404.html` per le rotte inesistenti.
+- Cloudflare Pages serve `404.html` per le rotte inesistenti.
 
 ### 5.11 Endpoint generati
 
@@ -613,7 +617,7 @@ Sitemap: https://dominio/sitemap.xml
 
 `src/pages/sitemap.xml.ts`:
 
-- Array `pagine`: `/`, `/servizi`, `/prezzi`, `/preventivo`, `/chi-siamo`, `/contatti`, `/faq`.
+- Array `pagine`: `/`, `/servizi/`, `/prezzi/`, `/preventivo/`, `/chi-siamo/`, `/contatti/`, `/faq/` (forma servita con 200 da Pages).
 - Esclude `/note-legali` e `/404`.
 - Ogni URL ha `lastmod` pari alla data del build.
 - Se aggiungi una pagina indicizzabile, aggiungila qui.
@@ -1092,12 +1096,12 @@ Non aggiungere `Review`, `AggregateRating`, `LocalBusiness` con indirizzo invent
 
 ### 8.5 Cambiare dominio
 
-1. Imposta `PUBLIC_SITE_URL` in produzione su Vercel.
+1. Imposta `PUBLIC_SITE_URL` nelle variabili di build del progetto Cloudflare Pages.
 2. Aggiorna `.env.example` se vuoi che il repository documenti il nuovo valore.
 3. Aggiorna il fallback in `src/data/sito.ts` se non vuoi dipendere dalla variabile.
 4. Aggiorna `public/llms.txt`.
 5. Aggiorna il link di condivisione in `src/pages/prezzi/index.astro`.
-6. Cerca altri riferimenti con `rg "treblastudio\\.vercel\\.app|treblastudio\\.it"`.
+6. Cerca altri riferimenti con `rg "treblastudio\\.pages\\.dev|treblastudio\\.it"`.
 7. Build, deploy, verifica canonical, sitemap, robots, OG e JSON-LD.
 
 Il dominio deve risolvere. Canonical e sitemap non devono mai puntare a un dominio morto.
@@ -1238,7 +1242,7 @@ Il CSS del configuratore non deve essere importato da `LayoutPagina` o dalle alt
 - Immagini: dimensioni dichiarate, `loading="lazy"` sotto la piega, `fetchpriority="high"` solo per il logo header.
 - Niente analytics, pixel, framework o librerie runtime.
 - `sharp` è una devDependency e serve al servizio immagini di Astro; non aggiungere immagini non ottimizzate.
-- La cache Vercel è immutabile per `/_astro/*` e per immagini, font, SVG.
+- La cache Cloudflare Pages è immutabile per `/_astro/*` e per immagini, font, SVG, impostata in `public/_headers`.
 
 ### 10.2 Verifica JS
 
@@ -1318,12 +1322,15 @@ Il markup header e footer dichiara `width="1360" height="768"`, stesso rapporto 
 - `build.inlineStylesheets: 'always'`.
 - `image.service` sharp.
 
-`vercel.json`:
+`public/_redirects`:
 
 - Redirect permanenti:
   - `/privacy` -> `/note-legali#privacy`
   - `/cookie` -> `/note-legali#cookie`
   - `/termini` -> `/note-legali#termini`
+
+`public/_headers`:
+
 - Header globali:
   - `X-Content-Type-Options: nosniff`
   - `X-Frame-Options: DENY`
@@ -1334,7 +1341,7 @@ Il markup header e footer dichiara `width="1360" height="768"`, stesso rapporto 
 
 `tsconfig.json`: estende `astro/tsconfigs/strictest`, tipi `astro/client`.
 
-`.env.example`: `PUBLIC_SITE_URL=https://treblastudio.vercel.app`.
+`.env.example`: `PUBLIC_SITE_URL=https://treblastudio.pages.dev`.
 
 ### 12.2 Build
 
@@ -1356,14 +1363,28 @@ Se il build fallisce, leggi l'errore completo. Non ignorare warning su import ma
 ### 12.3 Deploy
 
 ```powershell
-vercel --prod --yes
+npm run deploy
 ```
 
+- `npm run deploy` esegue `npm run build` e poi `wrangler pages deploy dist --project-name treblastudio --branch main`.
+- Il progetto Pages `treblastudio` esiste già. Se va ricreato da zero, usare una sola volta `npx wrangler pages project create treblastudio --production-branch main --force`: senza `--force` la CLI 4.152 delega a Cloudflare Workers e non crea un `*.pages.dev`.
 - Il deploy va fatto dalla root del progetto.
-- Il push su Git non deploya da solo.
-- La produzione è pubblica.
-- Le preview possono essere protette: usa `vercel curl` o la skill `access-protected-vercel-deployment`.
-- Dopo il deploy, Vercel stampa l'URL di produzione e l'URL del deployment.
+- Il deploy automatico da GitHub è descritto in §12.3.1.
+- La produzione è pubblica su `https://treblastudio.pages.dev`.
+- Dopo il deploy, Wrangler stampa l'URL di produzione e l'URL del deployment.
+- Ultimo deploy produzione verificato: `b38fdbe0-2d90-4bad-9348-76e8ab2e516f`, ambiente Production, branch `main`.
+
+#### 12.3.1 Deploy automatico da GitHub
+
+Una volta impostato il secret, ogni push su `main` deploya in produzione con GitHub Actions, workflow `.github/workflows/deploy-pages.yml`.
+
+- Il progetto Pages è nato in **Direct Upload** (Wrangler) e Cloudflare non permette di convertirlo a Git integration. L'automazione resta quindi in Direct Upload, eseguita da CI.
+- Il workflow esegue `npm ci`, `npm run check`, `npm run build` e `npx wrangler pages deploy dist --project-name treblastudio --branch main`.
+- Serve un solo secret GitHub, `CLOUDFLARE_API_TOKEN`: token API Cloudflare con permesso **Account → Cloudflare Pages → Edit**, limitato all'account `384f57dcfcbabf74d7869d18319d56e7`.
+- `CLOUDFLARE_ACCOUNT_ID` è scritto nel workflow: non è un segreto.
+- Il token si crea da [My Profile → API Tokens](https://dash.cloudflare.com/profile/api-tokens); il secret si imposta in repository → **Settings → Secrets and variables → Actions → New repository secret**.
+- Per ruotare o revocare il token: Cloudflare → My Profile → API Tokens.
+- Il deploy manuale resta disponibile con `npm run deploy`.
 
 ### 12.4 Controlli live
 
@@ -1385,12 +1406,12 @@ Dopo un deploy che tocca codice o contenuti:
 Comandi utili:
 
 ```powershell
-curl.exe -s https://treblastudio.vercel.app/robots.txt
-curl.exe -s https://treblastudio.vercel.app/sitemap.xml
-curl.exe -I https://treblastudio.vercel.app/
+curl.exe -s https://treblastudio.pages.dev/robots.txt
+curl.exe -s https://treblastudio.pages.dev/sitemap.xml
+curl.exe -I https://treblastudio.pages.dev/
 ```
 
-Se una preview è protetta, `curl.exe` può restituire 401/403. In quel caso usa `vercel curl` o la skill dedicata.
+Le preview Cloudflare Pages sono pubbliche su URL `*.pages.dev` del deployment.
 
 ### 12.5 Docs-only
 
@@ -1514,7 +1535,7 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 2. **`npm run check` può appendersi.** Se l'output è corretto, non è un errore. La build è la verifica affidabile.
 3. **`treblastudio.it` non è attivo.** Non usarlo in canonical, sitemap, JSON-LD o `llms.txt`.
 4. **`llms.txt` ha URL assoluti.** Non è generato: va aggiornato a mano se cambia il dominio.
-5. **Il link di condivisione in Prezzi è hardcoded.** Cerca `treblastudio.vercel.app` prima di cambiare dominio.
+5. **Il link di condivisione in Prezzi è hardcoded.** Cerca `treblastudio.pages.dev` prima di cambiare dominio.
 6. **I prezzi nel copy sono hardcoded.** `BASE_PRICES` non alimenta automaticamente home, servizi, FAQ e note legali. Cerca i numeri.
 7. **Il JSON-LD `Service` ha 300 e 400 hardcoded.** L'offerta usa `OFFERTA_SITO.prezzo`, gli altri no.
 8. **`note-legali` non usa `MetaDocumento`.** Non aspettarti canonical, OG o JSON-LD lì.
@@ -1532,9 +1553,10 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 20. **Le FAQ della home sono selezionate per testo esatto.** Cambiare `q` può svuotare la home.
 21. **Il ticker duplica i settori.** La copia è `aria-hidden` e sparisce con reduced motion.
 22. **`dist/` può essere vecchio.** Fai sempre build prima di controllare.
-23. **Il push non deploya.** Usa `vercel --prod --yes`.
-24. **Le preview possono essere protette.** La produzione no.
-25. **`piketelabel/` è ignorata.** Non fa parte del sito.
+23. **Il push su `main` deploya con GitHub Actions.** In locale usa `npm run deploy`.
+24. **Le preview Pages sono pubbliche.** La produzione è `treblastudio.pages.dev`.
+25. **Le pagine finiscono con lo slash.** Pages risponde 308 su `/servizi` e 200 su `/servizi/`. Canonical, sitemap e link interni devono usare `/servizi/`.
+26. **`piketelabel/` è ignorata.** Non fa parte del sito.
 
 ### 14.1 Incoerenze note nei contenuti
 
@@ -1543,7 +1565,7 @@ Queste non vanno corrette senza richiesta esplicita, ma vanno sapute:
 - `public/llms.txt` dice "Sito web pagina singola: da €300"; il sito pubblico dice 300€ esatti.
 - La card multipagina della home dice "da 400€"; la pagina Prezzi dice 400€.
 - L'opzione foto in `configuratore.ts` dice "Servono le foto (le scattate voi)"; il resto del sito dice "le scattiamo noi".
-- La skill anti-ai-slop cita il push su `main` tra i comandi; il deploy reale è `vercel --prod --yes`.
+- La skill anti-ai-slop cita il push su `main` tra i comandi; il deploy reale è il push su `main` (GitHub Actions), oppure `npm run deploy` in locale.
 
 Se il titolare chiede di allineare il copy, correggi questi punti e aggiorna questa sezione.
 
@@ -1594,9 +1616,10 @@ Se il titolare chiede di allineare il copy, correggi questi punti e aggiorna que
 
 - I file sorgente sono stati rinominati in italiano descrittivo; gli slug pubblici sono rimasti invariati.
 - La SEO è stata rifinita: title e description unici, canonical corretto, JSON-LD `WebPage` per pagina, `Service` su Prezzi, `FAQPage` su FAQ, `Organization`/`ProfessionalService`/`WebSite` condivisi.
-- Il dominio di produzione è `https://treblastudio.vercel.app`; `treblastudio.it` non è attivo.
+- Il dominio di produzione è `https://treblastudio.pages.dev`; `treblastudio.it` non è attivo.
 - `PUBLIC_SITE_URL` è impostata in produzione e in `.env.example`.
-- Il sito è stato deployato con `dpl_AukxKJoBDJYcha7AKHeqbnJ6mu15` e verificato sulle 7 pagine indicizzabili, robots, sitemap, menu mobile e wizard.
+- Il sito è ospitato su Cloudflare Pages ed è stato verificato sulle 7 pagine indicizzabili, robots, sitemap, menu mobile e wizard.
+- Deploy di produzione Cloudflare Pages: `b38fdbe0-2d90-4bad-9348-76e8ab2e516f` su `https://treblastudio.pages.dev`.
 - Le modifiche sono in parte non committate: controlla `git status` prima di aggiungere altro lavoro.
 - `README.md` e `comecreare.md` restano come documentazione secondaria. Se contraddicono questo file o il codice, vincono questo file e il codice.
 

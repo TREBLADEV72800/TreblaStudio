@@ -42,8 +42,8 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             prezzi chiari, un referente diretto e i contatti sempre a portata di mano.
           </p>
           <div class="hero-azioni">
-            <a class="btn btn-mattone" href="/preventivo">Fai il preventivo in 2 minuti</a>
-            <a class="btn btn-fantasma" href="/servizi">Scopri i servizi</a>
+            <a class="btn btn-mattone" href="/preventivo/">Fai il preventivo in 2 minuti</a>
+            <a class="btn btn-fantasma" href="/servizi/">Scopri i servizi</a>
           </div>
         </div>
 
@@ -109,7 +109,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <p class="indice-testo">Il punto di partenza per farti trovare e contattare. <strong>Una pagina che spiega tutto</strong> o un sito completo.</p>
             <p class="indice-lista"><span class="indice-k">Inclusi</span>Testi essenziali preparati insieme a te · Telefono, WhatsApp e mappa · Foto e menu sistemati · Privacy e cookie inclusi</p>
             <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Gergo tecnico · Ore della tua giornata · Canone obbligatorio</p>
-            <a class="link-freccia" href="/servizi#sito">Il sito nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+            <a class="link-freccia" href="/servizi/#sito">Il sito nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
           </div>
           <span class="indice-freccia" aria-hidden="true">→</span>
         </article>
@@ -121,7 +121,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <p class="indice-lista"><span class="indice-k">Inclusi</span>Logo creato o rinnovato · Biglietti da visita, volantini, menu · File pronti per la stampa</p>
             <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Restyling ogni sei mesi · Stampa di qualsiasi materiale</p>
             <p class="indice-nota">Solo design: non stampiamo niente, ti consegniamo i file da portare dove vuoi.</p>
-            <a class="link-freccia" href="/servizi#grafiche">Le grafiche nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+            <a class="link-freccia" href="/servizi/#grafiche">Le grafiche nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
           </div>
           <span class="indice-freccia" aria-hidden="true">→</span>
         </article>
@@ -132,7 +132,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <p class="indice-testo"><strong>Profili in ordine e contenuti regolari</strong>, senza che tu debba pensarci ogni sera dopo la chiusura.</p>
             <p class="indice-lista"><span class="indice-k">Inclusi</span>Profili sistemati da zero · Foto, video e grafiche · Pubblicazioni regolari</p>
             <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Follower comprati · Promesse di viralità</p>
-            <a class="link-freccia" href="/servizi#social">I social nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+            <a class="link-freccia" href="/servizi/#social">I social nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
           </div>
           <span class="indice-freccia" aria-hidden="true">→</span>
         </article>
@@ -178,7 +178,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <li>Telefono, WhatsApp e mappa in vista</li>
             <li>Privacy e cookie inclusi</li>
           </ul>
-          <a class="link-freccia" href="/preventivo">Configura la singola →</a>
+          <a class="link-freccia" href="/preventivo/">Configura la singola →</a>
         </div>
         <div class="prezzo">
           <p class="prezzo-kicker">Il completo</p>
@@ -190,7 +190,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <li>Menu, prenotazioni, eventi se ti servono</li>
             <li>Telefono, WhatsApp e mappa in vista</li>
           </ul>
-          <a class="link-freccia" href="/preventivo">Configura il multipagina →</a>
+          <a class="link-freccia" href="/preventivo/">Configura il multipagina →</a>
         </div>
         <div class="prezzo prezzo-evidenza">
           <p class="prezzo-kicker">Tutto incluso</p>
@@ -203,12 +203,12 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             <li>Logo nuovo o rinnovato</li>
             <li>3 modifiche gratuite invece di due</li>
           </ul>
-          <a class="link-freccia" href="/preventivo?offerta=1">Prendi l’offerta →</a>
+          <a class="link-freccia" href="/preventivo/?offerta=1">Prendi l’offerta →</a>
         </div>
       </div>
       <div class="prezzi-riga-finale" data-reveal>
         <p class="prezzo-nota" style="margin:0">Hosting completamente gratuito, configurazione del dominio gratis. A noi, nessun canone obbligatorio, 30€ di acconto compresi.</p>
-        <a class="link-freccia" href="/prezzi">Tutti i dettagli in Prezzi →</a>
+        <a class="link-freccia" href="/prezzi/">Tutti i dettagli in Prezzi →</a>
       </div>
     </div>
   </section>
@@ -251,7 +251,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
         nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
       />
       <div id="h-domande"><ElencoDomande faqs={homeFaqs} /></div>
-      <p class="stacco-16" data-reveal><a class="link-freccia" href="/faq">Tutte le domande →</a></p>
+      <p class="stacco-16" data-reveal><a class="link-freccia" href="/faq/">Tutte le domande →</a></p>
     </div>
   </section>
 
@@ -265,7 +265,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
           <p>Raccontaci in poche righe cosa fai. Ti rispondiamo con un’indicazione chiara sui prossimi passi.</p>
         </div>
         <div class="cta-azioni">
-          <a class="btn btn-mattone" href="/preventivo">Fai il preventivo</a>
+          <a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a>
           <a class="btn btn-wa" data-wa="Ciao Trebla! Ti racconto cosa fa la mia attività." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a>
         </div>
       </div>

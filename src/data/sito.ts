@@ -4,7 +4,7 @@
 export const site = {
   name: 'Trebla',
   // PUBLIC_SITE_URL sovrascrive il dominio (deploy su dominio proprio).
-  url: import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.vercel.app',
+  url: import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.pages.dev',
   lang: 'it',
   locale: 'it_IT',
   description:
@@ -15,5 +15,9 @@ export const site = {
 export function canonicalUrl(path: string) {
   const base = site.url.replace(/\/$/, '');
   const clean = path.startsWith('/') ? path : `/${path}`;
-  return `${base}${clean}`;
+  // Cloudflare Pages serve le pagine come directory: `/servizi/` risponde 200,
+  // `/servizi` risponde 308. Canonical, og:url e sitemap usano la forma con slash.
+  // `/404` è l'eccezione: è la pagina di errore, noindex.
+  const canonico = clean === '/' || clean === '/404' ? clean : `${clean.replace(/\/$/, '')}/`;
+  return `${base}${canonico}`;
 }

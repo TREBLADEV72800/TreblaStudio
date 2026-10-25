@@ -11,9 +11,9 @@ sistema esistente con scelte deliberate e verificabili.
 
 ## 0. Contesto progetto (leggi prima di toccare codice)
 
-- Stack: Astro 4, sito statico, deploy Vercel (`treblastudio.vercel.app`).
+- Stack: Astro 4, sito statico, deploy Cloudflare Pages (`treblastudio.pages.dev`).
   Comandi: `npm run check`, `npm run build`, push su `main`,
-  `vercel --prod --yes`.
+  `npm run deploy` (build + `wrangler pages deploy`).
 - Sistema visivo: "Quaderno di bottega". Token in `src/styles/variabili.css`:
   carta, inchiostro, mattone, linee ledger da 1px, serif Fraunces per i
   titoli, Archivo per il corpo, IBM Plex Mono per prezzi ed etichette.

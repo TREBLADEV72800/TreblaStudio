@@ -1,4 +1,5 @@
-.vercel
+.wrangler
+.dev.vars
 dist
 node_modules
 .next
@@ -8,3 +9,6 @@ SISTEMA.md
 SISTEMA.txt
 
 piketelabel/
+
+.env*
+!.env.example

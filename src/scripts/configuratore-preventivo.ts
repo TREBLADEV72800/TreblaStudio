@@ -796,7 +796,7 @@ function renderizza() {
     priv.appendChild(cb);
     const span = el('span', '', 'Ho letto e accetto i termini e le condizioni: ');
     const link = el('a', 'link-freccia', 'Termini e condizioni');
-    link.href = '/note-legali#termini';
+    link.href = '/note-legali/#termini';
     span.appendChild(link);
     span.appendChild(document.createTextNode('. *'));
     priv.appendChild(span);

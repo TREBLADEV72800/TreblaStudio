@@ -13,15 +13,15 @@ Trebla è uno studio web indipendente ad Asti, Italia. Realizza siti web chiari 
 
 ## Pagine
 
-- [Home](https://treblastudio.vercel.app/)
-- [Servizi](https://treblastudio.vercel.app/servizi)
-- [Prezzi](https://treblastudio.vercel.app/prezzi)
-- [Preventivo in 2 minuti](https://treblastudio.vercel.app/preventivo)
-- [Lo studio](https://treblastudio.vercel.app/chi-siamo)
-- [Contatti](https://treblastudio.vercel.app/contatti)
-- [Domande frequenti](https://treblastudio.vercel.app/faq)
-- [Note legali](https://treblastudio.vercel.app/note-legali)
+- [Home](https://treblastudio.pages.dev/)
+- [Servizi](https://treblastudio.pages.dev/servizi/)
+- [Prezzi](https://treblastudio.pages.dev/prezzi/)
+- [Preventivo in 2 minuti](https://treblastudio.pages.dev/preventivo/)
+- [Lo studio](https://treblastudio.pages.dev/chi-siamo/)
+- [Contatti](https://treblastudio.pages.dev/contatti/)
+- [Domande frequenti](https://treblastudio.pages.dev/faq/)
+- [Note legali](https://treblastudio.pages.dev/note-legali/)
 
 ## Contatti
 
-Tramite [pagina contatti](https://treblastudio.vercel.app/contatti) o WhatsApp dal sito. Sede: Asti, su appuntamento.
+Tramite [pagina contatti](https://treblastudio.pages.dev/contatti/) o WhatsApp dal sito. Sede: Asti, su appuntamento.

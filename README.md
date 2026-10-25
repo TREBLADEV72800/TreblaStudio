@@ -1,6 +1,6 @@
 # Trebla Studio — Astro
 
-Sito statico in italiano (Astro, `output: static`), responsive e live su https://treblastudio.vercel.app.
+Sito statico in italiano (Astro, `output: static`), responsive e live su https://treblastudio.pages.dev.
 
 ## Avvio
 
@@ -14,8 +14,23 @@ npm run dev
 ```bash
 npm run check   # astro check: deve stare a 0 errori
 npm run build
-vercel --prod --yes
+npm run deploy  # build + wrangler pages deploy
 ```
+
+Deploy Cloudflare Pages: progetto `treblastudio`, output `dist`.
+`public/_redirects` e `public/_headers` vengono copiati nel build e letti da
+Pages. URL di produzione: https://treblastudio.pages.dev
+
+Le pagine sono servite con lo slash finale (`/servizi/`, `/preventivo/`):
+canonical, sitemap e link interni usano quella forma. `/servizi` risponde 308.
+
+Il progetto Pages esiste già. Se va ricreato una volta sola:
+`npx wrangler pages project create treblastudio --production-branch main --force`
+(senza `--force` la CLI delega a Workers e non crea `*.pages.dev`).
+
+Il deploy automatico è in `.github/workflows/deploy-pages.yml`: ogni push su
+`main` esegue check, build e `wrangler pages deploy`. Richiede il secret GitHub
+`CLOUDFLARE_API_TOKEN` (token Cloudflare con permesso Cloudflare Pages: Edit).
 
 ## Struttura
 
