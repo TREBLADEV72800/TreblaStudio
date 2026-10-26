@@ -14,10 +14,11 @@ interface Props {
   description: string;
   canonical: string;
   noindex?: boolean | undefined;
+  preloadLogo?: boolean | undefined;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[] | undefined;
 }
 
-const { title, description, canonical, noindex = false, jsonLd } = Astro.props;
+const { title, description, canonical, noindex = false, preloadLogo = true, jsonLd } = Astro.props;
 
 const canonicalHref = canonicalUrl(canonical);
 // "Trebla · Trebla" non deve esistere: se il titolo già contiene il nome, sta com'è.
@@ -139,7 +140,7 @@ const fontCss = (
 <link rel="preload" href={archivo400} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={archivo700} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={plex700} as="font" type="font/woff2" crossorigin />
-<link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />
+{preloadLogo && <link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />}
 <style set:html={fontCss}></style>
 <meta name="theme-color" content="#1d1712" />
 <script type="application/ld+json" set:html={JSON.stringify([...baseLd, ...paginaLd, ...extraLd])} />

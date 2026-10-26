@@ -91,7 +91,7 @@ const active = (href: string) =>
         btn?.focus();
       }
       if (e.key === 'Tab' && aperto && menu) {
-        const voci = Array.from(menu.querySelectorAll('a'));
+        const voci = [btn, ...Array.from(menu.querySelectorAll('a'))].filter(Boolean);
         const prima = voci[0];
         const ultima = voci[voci.length - 1];
         if (!prima || !ultima) return;

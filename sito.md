@@ -66,9 +66,9 @@ Queste regole spiegano il perché di molte scelte. Se una modifica le viola, pro
 3. **Contatti mai in chiaro nell'HTML.** Numero WhatsApp ed email sono frammenti in `src/data/contatti.ts`. Vengono assemblati a runtime da `ContattiDinamici.astro` e dal configuratore. Non scrivere `mailto:`, `tel:` o `wa.me/` con valori reali nel markup.
 4. **Script di base inline.** Menu, reveal, contatti e torna-su sono `<script is:inline>` con JS puro. Non convertirli in script processati da Astro: creerebbero chunk esterni e catene di caricamento sulle pagine normali.
 5. **Tracking in due copie gemelle.** La funzione `traccia` esiste in `ContattiDinamici.astro` e in `configuratore-preventivo.ts`. Se cambi una, cambia l'altra. Solo `dataLayer`, eventi `trebla_*`, niente pixel o analytics esterni.
-6. **Offerta Tutto incluso.** Nel configuratore la struttura `offerta` vale 590€, include tutte le funzioni, tutti gli extra, tutte le pagine, foto scattate da Trebla, logo nuovo o rinnovato e 3 modifiche gratuite. Con l'offerta il logo non va riproposto a pagamento.
+6. **Offerta Tutto incluso.** Nel configuratore la struttura `offerta` vale 490€, include tutte le funzioni, tutti gli extra, tutte le pagine, foto scattate da Trebla, logo nuovo o rinnovato e 3 modifiche gratuite. Con l'offerta il logo non va riproposto a pagamento.
 7. **Font solo woff2.** `MetaDocumento.astro` importa cinque file woff2 e scrive `@font-face` a mano. Non importare i CSS di Fontsource: trascinano anche `.woff` e appesantiscono il build.
-8. **Copy italiano, concreto, senza trattino lungo.** Non usare il trattino lungo nei contenuti del sito. Titoli SEO senza punto finale; l'H1 della home chiude con un punto per scelta editoriale. Prezzi con `€` attaccato al numero (`300€`), tranne la cifra finale della stima che resta staccata (`€ 590`).
+8. **Copy italiano, concreto, senza trattino lungo.** Non usare il trattino lungo nei contenuti del sito. Titoli SEO senza punto finale; l'H1 della home chiude con un punto per scelta editoriale. Prezzi con `€` attaccato al numero (`200€`), tranne la cifra finale della stima che resta staccata (`€ 490`).
 9. **URL pubblici stabili.** Non cambiare `/servizi`, `/prezzi`, `/chi-siamo`, `/preventivo`, `/contatti`, `/faq`, `/note-legali`. I nomi dei file interni possono essere descrittivi, gli slug pubblici no. Cloudflare Pages li serve con lo slash finale (`/servizi/`, `/prezzi/`): canonical, sitemap e link interni usano quella forma.
 10. **Dominio build-time.** `PUBLIC_SITE_URL` viene letto in build da `astro.config.mjs` e `src/data/sito.ts`. Canonical, sitemap e JSON-LD dipendono da quel valore: dopo averlo cambiato serve un nuovo deploy.
 11. **Build pulita con 9 pagine.** Se il build non arriva a 9 pagine HTML, manca una route o una pagina è stata rotta.
@@ -194,7 +194,7 @@ export const site = {
   url: import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://treblastudio.pages.dev',
   lang: 'it',
   locale: 'it_IT',
-  description: 'Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da 300€, senza canone obbligatorio.',
+  description: 'Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da 200€, senza canone obbligatorio.',
   twitterCard: 'summary_large_image',
 };
 
@@ -250,8 +250,8 @@ Regole:
 
 | Export | Tipo | Valore |
 |---|---|---|
-| `BASE_PRICES` | oggetto | `singola: 300`, `multi: 400` |
-| `OFFERTA_SITO` | oggetto | `nome: 'Offerta Tutto incluso'`, `prezzo: 590`, `revisioni: 3` |
+| `BASE_PRICES` | oggetto | `singola: 200`, `multi: 300` |
+| `OFFERTA_SITO` | oggetto | `nome: 'Offerta Tutto incluso'`, `prezzo: 490`, `revisioni: 3` |
 | `SITE_EXTRAS` | `Voce[]` | 5 funzioni del sito, tutte a 0€ (incluse) |
 | `SOCIAL_OPTIONS` | `Voce[]` | 3 voci generiche: profili 20€, video 20€, storie 10€ |
 | `DESIGN_OPTIONS` | `Voce[]` | 8 voci generiche da 10€ o 20€ |
@@ -291,7 +291,7 @@ Regole:
 - Le voci generiche possono essere filtrate se una voce su misura copre lo stesso concetto.
 - `OFFERTA_SITO.revisioni` è l'unico dato sulle revisioni. Le 2 revisioni dei pacchetti base sono solo nel copy, non in una costante: se cambi la policy, cerca `due revisioni`, `2 revisioni`, `due giri`, `revisioni` in pagine, FAQ, note legali e `llms.txt`.
 - L'anticipo di 30€ e l'opzione delle 3 rate non sono costanti: sono scritti nel copy del configuratore, delle FAQ e delle note legali. Cerca `30€` e `3 rate` prima di cambiarli.
-- La cifra finale della stima usa `€ ${stima()}` con lo spazio, per leggibilità. I prezzi nel corpo usano `300€`, `+20€`, `incluso`.
+- La cifra finale della stima usa `€ ${stima()}` con lo spazio, per leggibilità. I prezzi nel corpo usano `200€`, `+20€`, `incluso`.
 
 ### 4.4 `src/data/configuratore.ts`
 
@@ -362,7 +362,7 @@ export interface Faq {
 
 Ci sono 12 FAQ. Le domande esatte sono:
 
-1. Offerta Tutto incluso da 590€?
+1. Offerta Tutto incluso da 490€?
 2. Quanto costa un sito?
 3. In quanto tempo è online?
 4. Come funziona, in pratica?
@@ -447,7 +447,7 @@ File: `src/pages/index.astro`.
 
 Titolo: `Siti web chiari per attività locali ad Asti | Trebla` (52 caratteri).
 
-Description: `Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e artigiani. Prezzi da 300€, senza canone obbligatorio. Preventivo in 2 minuti.` (143 caratteri).
+Description: `Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e artigiani. Prezzi da 200€, senza canone obbligatorio. Preventivo in 2 minuti.` (143 caratteri).
 
 Struttura:
 
@@ -456,7 +456,7 @@ Struttura:
 3. `01 · Benefici`, 4 righe numerate.
 4. `02 · Cosa facciamo`, 3 indici: Sito web, Grafiche, Social media.
 5. `03 · Come funziona`, 5 passi del metodo.
-6. `04 · Prezzi`, 3 card: 300€, da 400€, 590€.
+6. `04 · Prezzi`, 3 card: 200€, da 300€, 490€.
 7. `05 · Lo studio`, Albert e Gabriel.
 8. `06 · Domande`, 5 FAQ selezionate.
 9. `07 · Contatto`, CTA preventivo + WhatsApp.
@@ -477,13 +477,13 @@ File: `src/pages/servizi/index.astro`.
 
 Titolo: `Servizi: siti web, grafiche e social ad Asti | Trebla` (53).
 
-Description: `Sito web da 300€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve.` (136).
+Description: `Sito web da 200€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve.` (136).
 
 Contenuto:
 
 - H1 `Tre cose, fatte sul serio`.
 - Tre articoli con ancore:
-  - `#sito`: sito web, 300€ pagina singola, 400€ più pagine.
+  - `#sito`: sito web, 200€ pagina singola, 300€ più pagine.
   - `#grafiche`: solo design, logo +20€, biglietti +10€, volantini +20€. Non stampano nulla.
   - `#social`: profili, foto, video, grafiche, pubblicazioni. Niente follower comprati o viralità garantita.
 - CTA trasversale al preventivo.
@@ -493,19 +493,19 @@ Contenuto:
 
 File: `src/pages/prezzi/index.astro`.
 
-Titolo: `Prezzi: siti web da 300€, senza canone | Trebla` (47).
+Titolo: `Prezzi: siti web da 200€, senza canone | Trebla` (47).
 
-Description: `Pagina singola 300€, sito a più pagine 400€, offerta Tutto incluso 590€. Due revisioni incluse, nessun canone, il sito è tuo.` (125).
+Description: `Pagina singola 200€, sito a più pagine 300€, offerta Tutto incluso 490€. Due revisioni incluse, nessun canone, il sito è tuo.` (125).
 
 Contenuto:
 
 - H1 `Due prezzi di partenza Niente sorprese`, con `#titolo-prezzi`.
-- Due card base: Pagina singola 300€, Sito a più pagine 400€.
-- Una card offerta con id `#offerta`, prezzo da `OFFERTA_SITO.prezzo`, 590€.
+- Due card base: Pagina singola 200€, Sito a più pagine 300€.
+- Una card offerta con id `#offerta`, prezzo da `OFFERTA_SITO.prezzo`, 490€.
 - Condizioni in 4 righe: sito tuo, due revisioni, tempi concordati, modifiche dopo.
 - Extra grafiche da `DESIGN_OPTIONS` e social da `SOCIAL_OPTIONS`, con prezzi generati dai dati.
 - Link di condivisione WhatsApp hardcoded con `treblastudio.pages.dev`: da aggiornare se cambia dominio.
-- JSON-LD `Service` con tre `Offer`: 300, 400, 590. I primi due sono stringhe hardcoded, il terzo usa `OFFERTA_SITO.prezzo`.
+- JSON-LD `Service` con tre `Offer`: 200, 300, 490. I prezzi vengono da `BASE_PRICES` e `OFFERTA_SITO.prezzo`.
 
 ### 5.5 Preventivo `/preventivo`
 
@@ -867,7 +867,7 @@ Regole del flusso:
 | `tipo` | Che tipo di attività è? | Pulsanti del settore + Altro; i tipi normali avanzano al click | `tipo`, `tipoAltro` | Tipo obbligatorio; con Altro serve descrizione di almeno 2 caratteri |
 | `altro-descrivi` | Descrivi la tua azienda | Input testo, max 80 | `tipoAltro` | Almeno 2 caratteri |
 | `servizi` | Di cosa hai bisogno? | Checkbox: Sito web, Grafiche, Social media | `servizi` | Almeno uno |
-| `sito` | Com'è fatto il sito? | Radio: Pagina singola 300€, Più pagine 400€, Offerta Tutto incluso 590€ | `struttura` | Obbligatoria |
+| `sito` | Com'è fatto il sito? | Radio: Pagina singola 200€, Più pagine 300€, Offerta Tutto incluso 490€ | `struttura` | Obbligatoria |
 | `funzioni` | Funzioni per il tipo | Checkbox dalle voci su misura | `funzioni` | Facoltativo |
 | `funzioni-extra` | Funzioni extra per il sito? | Checkbox da `SITE_EXTRAS` filtrato | `funzioni` | Facoltativo |
 | `pagine` | Quali pagine vuoi nel sito? | Checkbox da `pageOptions` | `pagine` | Facoltativo |
@@ -892,9 +892,9 @@ Formula:
 
 ```text
 se sito:
-  se offerta: 590
+  se offerta: 490
   altrimenti:
-    300 se singola, 400 se multi
+    200 se singola, 300 se multi
     + somma prezzi funzioni scelte
     + somma prezzi pagine scelte
     + prezzo foto scelto
@@ -912,7 +912,7 @@ Dettagli:
 - I materiali grafici sono 10 o 20.
 - I video sono 20 l'uno, massimo 30.
 - `euro(0)` restituisce `incluso`; `euro(20)` restituisce `+20€`.
-- Il totale finale è mostrato come `€ 590`, con lo spazio.
+- Il totale finale è mostrato come `€ 490`, con lo spazio.
 - Con l'offerta, il logo è escluso dalle grafiche visibili perché già incluso.
 
 ### 7.6 Riepilogo e invio
@@ -1058,9 +1058,9 @@ Se aggiungi un'opzione a un passo esistente:
 
 | Rotta | Title | Caratteri | Description | Caratteri | Robots |
 |---|---|---|---|---|---|
-| `/` | Siti web chiari per attività locali ad Asti \| Trebla | 52 | Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e artigiani. Prezzi da 300€, senza canone obbligatorio. Preventivo in 2 minuti. | 143 | index, follow |
-| `/servizi` | Servizi: siti web, grafiche e social ad Asti \| Trebla | 53 | Sito web da 300€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve. | 136 | index, follow |
-| `/prezzi` | Prezzi: siti web da 300€, senza canone \| Trebla | 47 | Pagina singola 300€, sito a più pagine 400€, offerta Tutto incluso 590€. Due revisioni incluse, nessun canone, il sito è tuo. | 125 | index, follow |
+| `/` | Siti web chiari per attività locali ad Asti \| Trebla | 52 | Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e artigiani. Prezzi da 200€, senza canone obbligatorio. Preventivo in 2 minuti. | 143 | index, follow |
+| `/servizi` | Servizi: siti web, grafiche e social ad Asti \| Trebla | 53 | Sito web da 200€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve. | 136 | index, follow |
+| `/prezzi` | Prezzi: siti web da 200€, senza canone \| Trebla | 47 | Pagina singola 200€, sito a più pagine 300€, offerta Tutto incluso 490€. Due revisioni incluse, nessun canone, il sito è tuo. | 125 | index, follow |
 | `/preventivo` | Preventivo sito web in 2 minuti \| Trebla | 40 | Configura il sito della tua attività e vedi subito la stima: tipo di attività, funzioni, pagine, foto e social. Senza impegno. | 126 | index, follow |
 | `/chi-siamo` | Chi siamo: Albert e Gabriel, studio web ad Asti \| Trebla | 56 | Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social. Un lavoro pubblicato: Pikete Label. | 126 | index, follow |
 | `/contatti` | Contatti: WhatsApp, email e studio ad Asti \| Trebla | 51 | Scrivici su WhatsApp o via email. Ti risponde una persona, in genere entro la giornata. Studio ad Asti, su appuntamento. | 120 | index, follow |
@@ -1081,7 +1081,7 @@ Se cambi un title o una description, aggiorna questo file. Se aggiungi una pagin
 Poi:
 
 - `WebPage` per ogni pagina indicizzabile: `@id` `<canonical>#pagina`, URL, name, description, inLanguage, isPartOf `#sito`, about `#studio`, publisher `#studio`.
-- `/prezzi` aggiunge `Service` con nome, URL `${site.url}/prezzi`, provider `#studio`, areaServed Asti, tre offerte: 300, 400, 590.
+- `/prezzi` aggiunge `Service` con nome, URL `${site.url}/prezzi`, provider `#studio`, areaServed Asti, tre offerte: 200, 300, 490.
 - `/faq` aggiunge `FAQPage` con `mainEntity` costruito da `FAQS`.
 
 Non aggiungere `Review`, `AggregateRating`, `LocalBusiness` con indirizzo inventato o `BreadcrumbList` se non hai i dati reali.
@@ -1393,7 +1393,7 @@ Dopo un deploy che tocca codice o contenuti:
 
 1. Home: title, canonical, H1, menu mobile, CTA.
 2. `/servizi`: tre articoli e ancore.
-3. `/prezzi`: 300, 400, 590, JSON-LD `Service`.
+3. `/prezzi`: 200, 300, 490, JSON-LD `Service`.
 4. `/preventivo`: flusso completo, `?offerta=1`, `?servizi=sito,grafiche,social`, invio WhatsApp/email, privacy.
 5. `/chi-siamo`: link Pikete Label.
 6. `/contatti`: link WhatsApp, email, telefono.
@@ -1428,16 +1428,15 @@ Una modifica solo a `sito.md`, `README.md` o `comecreare.md` non cambia il sito 
 2. Aggiorna `src/data/configuratore.ts` solo se il prezzo è di una voce su misura.
 3. Cerca il vecchio prezzo in tutto il repository:
    ```powershell
-   rg "300€|400€|590€|30€|20€|10€"
+   rg "200€|300€|490€|30€|20€|10€"
    ```
 4. Aggiorna il copy hardcoded in:
    - `src/pages/index.astro`
    - `src/pages/servizi/index.astro`
-   - `src/pages/prezzi/index.astro`
    - `src/pages/faq/index.astro` e `src/data/domande-frequenti.ts`
    - `src/pages/note-legali/index.astro`
    - `public/llms.txt`
-5. Aggiorna il JSON-LD `Service` in `src/pages/prezzi/index.astro` (i 300 e 400 sono stringhe hardcoded).
+5. Verifica che JSON-LD `Service` e link WhatsApp di Prezzi leggano `BASE_PRICES` e `OFFERTA_SITO.prezzo`.
 6. Verifica il wizard: `/preventivo` e `/preventivo?offerta=1`.
 7. Build, deploy, controllo live.
 
@@ -1523,7 +1522,7 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 
 1. Modifica `src/pages/note-legali/index.astro`.
 2. Aggiorna la data "Ultimo aggiornamento".
-3. Ricorda che la pagina è `noindex, nofollow` e non usa `MetaDocumento`.
+3. Ricorda che la pagina è `noindex, nofollow`: usa `MetaDocumento` per font e meta, ma resta fuori dalla sitemap.
 4. Verifica i link `/note-legali#privacy`, `#cookie`, `#termini`.
 5. Verifica che il configuratore linki ancora `/note-legali#termini`.
 6. Build e deploy.
@@ -1537,9 +1536,9 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 3. **`treblastudio.it` non è attivo.** Non usarlo in canonical, sitemap, JSON-LD o `llms.txt`.
 4. **`llms.txt` ha URL assoluti.** Non è generato: va aggiornato a mano se cambia il dominio.
 5. **Il link di condivisione in Prezzi è hardcoded.** Cerca `treblastudio.pages.dev` prima di cambiare dominio.
-6. **I prezzi nel copy sono hardcoded.** `BASE_PRICES` non alimenta automaticamente home, servizi, FAQ e note legali. Cerca i numeri.
-7. **Il JSON-LD `Service` ha 300 e 400 hardcoded.** L'offerta usa `OFFERTA_SITO.prezzo`, gli altri no.
-8. **`note-legali` non usa `MetaDocumento`.** Non aspettarti canonical, OG o JSON-LD lì.
+6. **I prezzi nel copy sono in parte hardcoded.** La pagina Prezzi usa `BASE_PRICES` e `OFFERTA_SITO`; home, servizi, FAQ, note legali e `llms.txt` no. Cerca i numeri.
+7. **Il JSON-LD `Service` legge `BASE_PRICES`.** Se cambi i prezzi in `prezzi.ts` si aggiorna da solo: non rimettere stringhe fisse.
+8. **`note-legali` è noindex.** Usa `MetaDocumento` per font e meta, ma resta fuori dalla sitemap e non va indicizzata.
 9. **`404` ha canonical `/404` ma è noindex.** È voluto.
 10. **`/preventivo` non ha header e footer.** Non aggiungerli senza una decisione di design.
 11. **`?offerta=1` salta servizi e sito.** Non aggiungere passi che presuppongono una struttura scelta.
@@ -1563,8 +1562,7 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 
 Queste non vanno corrette senza richiesta esplicita, ma vanno sapute:
 
-- `public/llms.txt` dice "Sito web pagina singola: da €300"; il sito pubblico dice 300€ esatti.
-- La card multipagina della home dice "da 400€"; la pagina Prezzi dice 400€.
+- La card multipagina della home dice "da 300€"; la pagina Prezzi dice 300€.
 - L'opzione foto in `configuratore.ts` dice "Servono le foto (le scattate voi)"; il resto del sito dice "le scattiamo noi".
 - La skill anti-ai-slop cita il push su `main` tra i comandi; il deploy reale è il push su `main` (GitHub Actions), oppure `npm run deploy` in locale.
 
@@ -1579,9 +1577,9 @@ Se il titolare chiede di allineare il copy, correggi questi punti e aggiorna que
 - Niente superlativi vuoti, promesse di viralità, numeri inventati.
 - Niente trattino lungo nei contenuti.
 - Titoli SEO e titoli di sezione senza punto finale; l'H1 della home è l'eccezione.
-- Prezzi con `€` attaccato: `300€`, `+20€`, `incluso`.
-- La cifra finale della stima resta `€ 590`, con lo spazio.
-- "Da 300€" solo se il prezzo è davvero una soglia. La pagina singola è 300€ esatti.
+- Prezzi con `€` attaccato: `200€`, `+20€`, `incluso`.
+- La cifra finale della stima resta `€ 490`, con lo spazio.
+- "Da 200€" solo se il prezzo è davvero una soglia. La pagina singola è 200€ esatti.
 - "Offerta Tutto incluso" è il nome completo; non abbreviarlo in modi diversi.
 - "Asti" è il territorio. Non inventare indirizzi o zone.
 - I mockup sono esempi, non clienti.

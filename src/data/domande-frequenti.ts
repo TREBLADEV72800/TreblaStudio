@@ -7,13 +7,13 @@ export interface Faq {
 
 export const FAQS: Faq[] = [
   {
-    q: 'Offerta Tutto incluso da 590€?',
+    q: 'Offerta Tutto incluso da 490€?',
     a: 'Sito a più pagine completo (tutte le funzioni, tutti gli extra, tutte le pagine), foto scattate da noi ad Asti, logo nuovo o rinnovato e 3 modifiche gratuite, anticipo di 30€ compreso nella stima. La scegli nel preventivo alla voce struttura del sito.',
     cta: [{ href: '/preventivo/?offerta=1', label: 'Approfitta dell’offerta →' }],
   },
   {
     q: 'Quanto costa un sito?',
-    a: 'Pagina singola 300€, sito a più pagine da 400€. Le funzioni del sito, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting, sono comprese. Grafiche, social e foto hanno un prezzo a parte, sempre concordato prima di iniziare.',
+    a: 'Pagina singola 200€, sito a più pagine da 300€. Le funzioni del sito, come prenotazioni su WhatsApp, vetrina ordinabile e copywriting, sono comprese. Grafiche, social e foto hanno un prezzo a parte, sempre concordato prima di iniziare.',
     cta: [{ href: '/preventivo/', label: 'Fai il preventivo in 2 minuti →' }],
   },
   {

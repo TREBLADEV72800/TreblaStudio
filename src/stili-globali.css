@@ -31,8 +31,8 @@ body {
 
 img, svg, video { max-inline-size: 100%; }
 
-h1, h2, h3, h4 { text-wrap: balance; }
-p { text-wrap: pretty; }
+h1, h2, h3, h4 { text-wrap: balance; overflow-wrap: anywhere; }
+p { text-wrap: pretty; overflow-wrap: break-word; }
 
 a { color: inherit; }
 
@@ -111,10 +111,6 @@ a { color: inherit; }
   font-size: 1rem;
   line-height: 1.6;
 }
-/* Lavori: titolo intero su una riga su PC */
-@media (min-width: 900px) {
-  #lavori .capitolo h2 { white-space: nowrap; }
-}
 
 /* ---------- 4. Intestazione ---------- */
 .sopra {
@@ -131,6 +127,9 @@ a { color: inherit; }
   min-block-size: 62px;
   inline-size: min(var(--larghezza), 100% - var(--margine) * 2);
   margin-inline: auto;
+  /* La riga resta sopra l'overlay del menu: logo e chiusura sempre raggiungibili. */
+  position: relative;
+  z-index: 2;
 }
 @media (min-width: 960px) {
   .sopra-riga { gap: 16px; min-block-size: 70px; }
@@ -161,7 +160,7 @@ a { color: inherit; }
   align-items: center;
   min-block-size: 44px;
   text-decoration: none;
-  font: 600 calc(1.05rem + 5px)/1.2 var(--serif);
+  font: 600 1rem/1.2 var(--serif);
   letter-spacing: -0.01em;
   padding: 8px 10px;
   border-radius: 6px;
@@ -169,7 +168,7 @@ a { color: inherit; }
   white-space: nowrap;
 }
 @media (min-width: 1100px) {
-  .nav a { font-size: 1rem; padding: 10px 14px; }
+  .nav a { padding: 10px 14px; }
 }
 .nav a:hover { background: var(--carta-2); }
 .nav a[aria-current="page"] { color: var(--mattone); font-weight: 700; }
@@ -218,7 +217,7 @@ a { color: inherit; }
   position: fixed;
   inset: 0;
   top: 0;
-  z-index: 99;
+  z-index: 1;
   background: var(--carta);
   /* Spinge i link sotto l'header (62px mobile / 70px tablet) senza fessure */
   padding: 78px var(--margine) calc(28px + env(safe-area-inset-bottom));
@@ -260,12 +259,18 @@ body.menu-aperto {
   margin-block-start: 22px;
   padding: 15px 26px;
 }
-/* Telefoni in landscape / schermi bassi: voci compatte per stare in altezza.
-   Sta dopo le regole base, cosi non servono gli !important. */
-@media (max-height: 500px) and (orientation: landscape) {
-  .nav-mobile.aperto { padding-top: 72px; }
-  .nav-mobile a { font-size: 1.35rem; padding: 8px 0; }
-  .nav-mobile a.btn { margin-block-start: 12px; padding: 12px 20px; }
+/* Telefoni in landscape / schermi bassi: due colonne compatte, così tutte
+   le voci restano visibili senza dover scorrere un menu alto quanto lo schermo. */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 959px) {
+  .nav-mobile.aperto {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    column-gap: 24px;
+    padding-top: 64px;
+  }
+  .nav-mobile a { font-size: 1.15rem; min-block-size: 44px; padding: 6px 0; }
+  .nav-mobile a.btn { grid-column: 1 / -1; margin-block-start: 10px; padding: 12px 20px; }
 }
 
 /* ---------- 5. Bottoni ---------- */
@@ -282,6 +287,8 @@ body.menu-aperto {
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
   transition: background var(--transizione), color var(--transizione), transform 0.12s ease;
 }
 .btn:active { transform: scale(0.98); }
@@ -371,7 +378,7 @@ body.menu-aperto {
   margin: 0;
 }
 .scheda-tipo {
-  font: 400 0.72rem/1.5 var(--mono);
+  font: 400 0.75rem/1.5 var(--mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mattone);
@@ -482,7 +489,7 @@ body.menu-aperto {
 /* Il "da" è un prefisso, non parte della cifra: sta più piccolo. */
 #h-prezzi .prezzo-da { font-size: 0.42em; letter-spacing: 0; margin-inline-end: 0.06em; }
 .prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
-.prezzi-riga-finale .link-freccia { margin-inline-start: auto; white-space: nowrap; }
+.prezzi-riga-finale .link-freccia { margin-inline-start: auto; }
 @media (max-width: 899px) {
   .prezzi-riga-finale .prezzo-nota { display: none; }
   .prezzi-riga-finale .link-freccia { margin-inline-start: 0; }
@@ -547,7 +554,7 @@ body.menu-aperto {
 #h-servizi .indice-testo strong { color: var(--inchiostro); }
 #h-servizi .indice-lista { font-size: 0.95rem; line-height: 1.7; margin: 14px 0 0; max-inline-size: 60ch; }
 #h-servizi .indice-lista .indice-k {
-  font: 400 0.7rem/1.7 var(--mono);
+  font: 400 0.75rem/1.7 var(--mono);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--morbido);
@@ -594,14 +601,14 @@ body.menu-aperto {
   color: var(--morbido);
 }
 .servizio-prezzo b { color: var(--mattone); font-weight: 700; }
-.servizio-prezzo .pz { white-space: nowrap; }
+.servizio-prezzo .pz { display: inline-block; }
 .servizio-testo p { margin: 0 0 10px; color: var(--morbido); max-inline-size: 52ch; }
 .servizio-testo p strong { color: var(--inchiostro); }
 .due-colonne { display: grid; gap: 12px 32px; grid-template-columns: 1fr; margin: 12px 0; }
 .due-colonne > div { min-inline-size: 0; }
 @media (min-width: 640px) { .due-colonne { grid-template-columns: 1fr 1fr; } }
 .due-colonne h4 {
-  font: 700 0.72rem/1.4 var(--mono);
+  font: 700 0.75rem/1.4 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--morbido);
@@ -668,7 +675,7 @@ body.menu-aperto {
 }
 .prezzo-evidenza { background: var(--notte); color: var(--notte-carta); }
 .prezzo-kicker {
-  font: 700 0.72rem/1.4 var(--mono);
+  font: 700 0.75rem/1.4 var(--mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--mattone);
@@ -760,7 +767,7 @@ body.menu-aperto {
 }
 .lavoro:hover { background: var(--carta-2); }
 .lavoro-kicker {
-  font: 700 0.72rem/1.4 var(--mono);
+  font: 700 0.75rem/1.4 var(--mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--mattone);
@@ -788,7 +795,7 @@ body.menu-aperto {
   gap: 6px;
   padding: 10px 12px;
   border-block-end: 1px solid var(--linea-scura);
-  font: 400 0.7rem var(--mono);
+  font: 400 0.75rem var(--mono);
   color: var(--notte-morbido);
 }
 .lavoro-mock-barra i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--linea-scura); }
@@ -827,10 +834,6 @@ body.menu-aperto {
 .faq .risposta { padding: 0 4px 16px; color: var(--morbido); max-inline-size: none; }
 .faq .risposta p { margin: 0; text-wrap: wrap; }
 .faq-titolo-riga { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
-/* Home: titolo domande sempre su una riga su PC */
-@media (min-width: 900px) {
-  section[aria-labelledby="t-domande"] .capitolo h2 { white-space: nowrap; }
-}
 .faq-titolo-riga .btn { margin-inline-start: auto; }
 .solo-pc { display: none; }
 @media (min-width: 900px) { .solo-pc { display: inline-flex; } }
@@ -864,7 +867,7 @@ body.menu-aperto {
 }
 @media (min-width: 860px) { .piede-riga { grid-template-columns: 1.2fr 1fr; } }
 .piede h2 {
-  font: 700 0.7rem/1.4 var(--mono);
+  font: 700 0.75rem/1.4 var(--mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--notte-morbido);
@@ -881,6 +884,7 @@ body.menu-aperto {
   min-block-size: 24px;
 }
 .piede nav a:hover, .piede-contatti a:hover { color: var(--mattone-chiaro); }
+.piede-contatti a { overflow-wrap: anywhere; }
 .piede-contatti p { margin: 0 0 8px; color: var(--notte-morbido); font-size: 0.9rem; }
 .piede-fondo {
   display: flex;
@@ -893,7 +897,7 @@ body.menu-aperto {
   font: 400 0.75rem/1.6 var(--mono);
   color: var(--notte-morbido);
 }
-.piede-fondo nav { display: flex; flex-direction: row; gap: 18px; }
+.piede-fondo nav { display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px 18px; }
 .piede-fondo a {
   color: var(--notte-morbido);
   display: inline-flex;
@@ -920,7 +924,7 @@ body.menu-aperto {
 .pagina-titolo h1 em { font-style: italic; font-weight: 400; color: var(--mattone); }
 /* Prezzi: titolo intero su una riga su PC, avvolto su mobile */
 @media (min-width: 900px) {
-  #titolo-prezzi { max-inline-size: none; white-space: nowrap; font-size: clamp(2rem, 4.4vw, 3.2rem); }
+  #titolo-prezzi { max-inline-size: none; font-size: clamp(2rem, 4.4vw, 3.2rem); }
 }
 .pagina-titolo .lead { font-size: var(--t-lead); color: var(--morbido); max-inline-size: 54ch; margin: 14px 0 0; }
 .prosa { max-inline-size: 68ch; margin-block-start: 24px; }
@@ -1051,6 +1055,7 @@ body.menu-aperto {
 }
 .wizard-barra-interna {
   inline-size: min(var(--larghezza), 100%);
+  max-inline-size: 920px;
   margin-inline: auto;
   display: flex;
   align-items: center;
@@ -1067,7 +1072,7 @@ body.menu-aperto {
   color: var(--inchiostro);
 }
 .wizard-indietro:hover { border-color: var(--inchiostro); }
-.wizard-avanti { flex: 1 1 auto; }
+.wizard-avanti { flex: 1 1 auto; min-inline-size: 0; }
 /* Niente zoom da doppio tocco sui tasti del configuratore */
 .wizard-indietro, .wizard-avanti, .opzione { touch-action: manipulation; }
 .wizard-riepilogo { border-block-start: 1px solid var(--inchiostro); margin-block-start: 18px; }
@@ -1080,7 +1085,7 @@ body.menu-aperto {
   border-block-end: 1px solid var(--linea);
   font-size: 0.97rem;
 }
-.wizard-riga dt { flex: none; font: 700 0.7rem/1.5 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--morbido); }
+.wizard-riga dt { flex: none; font: 700 0.75rem/1.5 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--morbido); }
 .wizard-riga dd { margin: 0; text-align: end; font-weight: 600; overflow-wrap: anywhere; }
 .wizard-totale-finale {
   background: var(--notte);
@@ -1089,7 +1094,7 @@ body.menu-aperto {
   padding: clamp(24px, 4vw, 36px);
   margin-block-start: 24px;
 }
-.wizard-totale-finale .k { font: 700 0.72rem var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--notte-morbido); margin: 0; }
+.wizard-totale-finale .k { font: 700 0.75rem var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--notte-morbido); margin: 0; }
 .wizard-totale-finale .v { font: 600 clamp(2.4rem, 6vw, 3.4rem)/1 var(--serif); margin: 10px 0 6px; }
 .wizard-totale-finale .d { color: var(--notte-morbido); font-size: 0.92rem; line-height: 1.45; margin: 0 0 8px; }
 .wizard-totale-finale .btn { display: flex; width: 100%; margin-top: 12px; }
@@ -1104,6 +1109,11 @@ body.menu-aperto {
 
 [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
 [data-reveal].visibile { opacity: 1; transform: none; }
+
+@media (min-width: 1800px) {
+  /* Schermi molto larghi: la pagina respira senza diventare una striscia. */
+  :root { --larghezza: 1320px; }
+}
 
 /* ---------- 19. Movimento ridotto ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -1121,6 +1131,7 @@ body.menu-aperto {
   .sopra-riga .btn { display: none; }
   .hero-azioni .btn { flex: 1 1 100%; }
   .cta-azioni .btn { flex: 1 1 100%; }
+  .contatto-cella .btn { inline-size: 100%; }
   .wizard-barra-interna { gap: 10px; }
   .wizard-indietro { padding: 12px 14px; }
 }
@@ -1128,6 +1139,23 @@ body.menu-aperto {
 @media (max-width: 380px) {
   .sopra-riga { gap: 10px; min-block-size: 58px; }
   .marchio img { height: 34px; max-inline-size: 120px; }
+}
+@media (max-width: 340px) {
+  /* Il tasto più lungo resta comodo e, se va a capo, lo fa in modo ordinato. */
+  .hero-azioni .btn { padding-inline: 14px; font-size: 0.92rem; }
+}
+/* Telefoni orizzontali: la testata e la hero non devono mangiarsi tutta l'altezza.
+   I due pulsanti restano affiancati, non impilati come in verticale.
+   Solo sotto i 960px: una finestra desktop bassa non è un telefono. */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 959px) {
+  .sopra-riga { min-block-size: 52px; }
+  .marchio img { height: 32px; }
+  .hero { padding-block: 10px 16px; }
+  .hero h1 { font-size: clamp(1.7rem, 5.1vw, 2.15rem); line-height: 1.02; }
+  .hero-lead { font-size: 0.9rem; line-height: 1.45; margin-block-start: 8px; }
+  .hero-azioni { margin-block-start: 10px; gap: 8px; }
+  .hero-azioni .btn { flex: 0 1 auto; min-block-size: 44px; padding: 9px 15px; font-size: 0.88rem; }
+  .hero-firma { margin-block-start: 6px; font-size: 0.75rem; }
 }
 
 /* ---------- 21. Sicurezza layout e stampa ---------- */

@@ -2,24 +2,33 @@
 // Pagina note legali: fuori da LayoutPagina per restare essenziale, ma dentro il
 // design system: stessi token, stesso anello di focus, stessi contatti.
 import '../../styles/variabili.css';
+import MetaDocumento from '../../components/MetaDocumento.astro';
 import ContattiDinamici from '../../components/ContattiDinamici.astro';
 import { site } from '../../data/sito';
 
 const stile = `
-body{margin:0;background:var(--carta);color:var(--inchiostro);font:16px/1.65 system-ui,sans-serif;padding:24px 18px 64px;overflow-x:clip}
-main{max-width:65ch;margin:auto}
-h1{font-size:1.8rem;line-height:1.15;margin:.4em 0 .6em}
-h2{font-size:1.4rem;margin:2em 0 .4em}
-h3{font-size:1.1rem;margin:1.4em 0 .3em}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--carta);color:var(--inchiostro);font:400 1.0625rem/1.65 var(--sans);padding:clamp(24px,5vw,48px) clamp(18px,5vw,32px) clamp(56px,8vw,88px);overflow-x:clip}
+main{max-inline-size:65ch;margin-inline:auto}
+a{color:var(--mattone);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere}
+a:hover{color:var(--mattone-fondo)}
+.ritorno{display:inline-flex;align-items:center;min-block-size:44px;color:var(--mattone);font:700 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.ritorno:hover{color:var(--mattone-fondo);text-decoration:underline;text-underline-offset:4px}
+h1,h2,h3{text-wrap:balance;overflow-wrap:anywhere}
+h1{font:600 clamp(2.1rem,7vw,3rem)/1.05 var(--serif);letter-spacing:-.02em;margin:.5em 0 .55em}
+h2{font:600 clamp(1.45rem,4vw,1.9rem)/1.12 var(--serif);letter-spacing:-.01em;margin:2.2em 0 .5em;padding-block-start:.7em;border-block-start:1px solid var(--linea)}
+h3{font:600 1.15rem/1.25 var(--serif);margin:1.6em 0 .35em}
 p,li{color:var(--linea-scura)}
-a{color:var(--mattone)}
-section{scroll-margin-top:20px}
-nav{margin:1em 0 2em}
-nav a{margin-right:16px}
-nav a,main>p>a{position:relative}
-nav a::after,main>p>a::after{content:'';position:absolute;inset:-6px -4px}
+p{margin:.7em 0}
+ul{padding-inline-start:1.25em}
+li+li{margin-block-start:.3em}
+nav{display:flex;flex-wrap:wrap;gap:4px 20px;margin:0 0 2em;font:700 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+nav a{display:inline-flex;align-items:center;min-block-size:44px;text-decoration:none}
+nav a:hover{text-decoration:underline;text-underline-offset:4px}
+section{scroll-margin-top:24px}
 :focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 ::selection{background:var(--mattone);color:var(--carta)}
+@media (max-width:380px){body{padding-inline:16px}h1{font-size:2rem}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 `;
 ---
@@ -27,16 +36,18 @@ nav a::after,main>p>a::after{content:'';position:absolute;inset:-6px -4px}
 <!doctype html>
 <html lang={site.lang}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Note legali | Trebla</title>
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <MetaDocumento
+      title="Note legali | Trebla"
+      description="Privacy, cookie e termini di Trebla, studio indipendente ad Asti."
+      canonical="/note-legali"
+      noindex
+      preloadLogo={false}
+    />
     <style set:html={stile} />
   </head>
   <body>
     <main>
-      <p><a href="/">← Trebla</a></p>
+      <a class="ritorno" href="/">← Trebla</a>
       <h1>Note legali</h1>
       <nav aria-label="Sezioni legali">
         <a href="#privacy">Privacy</a>
@@ -81,7 +92,7 @@ nav a::after,main>p>a::after{content:'';position:absolute;inset:-6px -4px}
         <h3>Il saldo</h3>
         <p>Il resto lo paghi alla consegna, quando il lavoro è pronto e approvato da te. Se ti serve, il saldo si può dividere in 3 rate: le scadenze le concordiamo prima e le scriviamo nella proposta. Finché il saldo non è completo, il sito non viene pubblicato e i file restano nostri.</p>
         <h3>Le revisioni</h3>
-        <p>Prima della pubblicazione sono inclusi due giri di correzioni, 3 modifiche gratuite se hai scelto l’Offerta Tutto incluso da 590€. Una revisione è un giro completo di correzioni alla bozza, non una riprogettazione da zero. Revisioni in più o modifiche dopo la pubblicazione si concordano prima, con prezzo scritto.</p>
+        <p>Prima della pubblicazione sono inclusi due giri di correzioni, 3 modifiche gratuite se hai scelto l’Offerta Tutto incluso da 490€. Una revisione è un giro completo di correzioni alla bozza, non una riprogettazione da zero. Revisioni in più o modifiche dopo la pubblicazione si concordano prima, con prezzo scritto.</p>
         <h3>I tempi</h3>
         <p>La data di consegna te la diciamo dopo aver visto i materiali ed è indicativa: se testi, foto o risposte arrivano in ritardo, la consegna slitta dello stesso tempo. Non rispondiamo dei ritardi dei fornitori esterni, come registro domini o altri servizi esterni.</p>
         <h3>I materiali che ci dai</h3>

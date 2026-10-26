@@ -1,13 +1,20 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
 import TestataSezione from '../../components/TestataSezione.astro';
-import { SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
+import { BASE_PRICES, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
 import { site } from '../../data/sito';
+
+const titolo = `Prezzi: siti web da ${BASE_PRICES.singola}€, senza canone | Trebla`;
+const descrizione = `Pagina singola ${BASE_PRICES.singola}€, sito a più pagine ${BASE_PRICES.multi}€, offerta Tutto incluso ${OFFERTA_SITO.prezzo}€. Due revisioni incluse, nessun canone, il sito è tuo.`;
+const urlOfferta = 'https://treblastudio.pages.dev/prezzi/#offerta';
+const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
+  `Trebla: sito completo a ${OFFERTA_SITO.prezzo}€, con foto, logo e ${OFFERTA_SITO.revisioni} modifiche gratuite ${urlOfferta}`,
+)}`;
 ---
 
 <LayoutPagina
-  title="Prezzi: siti web da 300€, senza canone | Trebla"
-  description="Pagina singola 300€, sito a più pagine 400€, offerta Tutto incluso 590€. Due revisioni incluse, nessun canone, il sito è tuo."
+  title={titolo}
+  description={descrizione}
   canonical="/prezzi"
   jsonLd={{
     '@context': 'https://schema.org',
@@ -17,8 +24,8 @@ import { site } from '../../data/sito';
     provider: { '@id': `${site.url}/#studio` },
     areaServed: { '@type': 'City', name: 'Asti' },
     offers: [
-      { '@type': 'Offer', name: 'Pagina singola', price: '300', priceCurrency: 'EUR' },
-      { '@type': 'Offer', name: 'Sito a più pagine', price: '400', priceCurrency: 'EUR' },
+      { '@type': 'Offer', name: 'Pagina singola', price: String(BASE_PRICES.singola), priceCurrency: 'EUR' },
+      { '@type': 'Offer', name: 'Sito a più pagine', price: String(BASE_PRICES.multi), priceCurrency: 'EUR' },
       { '@type': 'Offer', name: 'Offerta Tutto incluso', price: String(OFFERTA_SITO.prezzo), priceCurrency: 'EUR' },
     ],
   }}
@@ -35,7 +42,7 @@ import { site } from '../../data/sito';
         <div class="prezzo">
           <p class="prezzo-kicker">Per iniziare</p>
           <h2 class="prezzo-titolo">Pagina singola</h2>
-          <p class="prezzo-cifra">300€</p>
+          <p class="prezzo-cifra">{BASE_PRICES.singola}€</p>
           <ul>
             <li>Tutto l’essenziale in una pagina che scorre</li>
             <li>Chi sei, cosa fai, dove sei, come contattarti</li>
@@ -46,7 +53,7 @@ import { site } from '../../data/sito';
         <div class="prezzo prezzo-evidenza">
           <p class="prezzo-kicker">Il completo</p>
           <h2 class="prezzo-titolo">Sito a più pagine</h2>
-          <p class="prezzo-cifra">400€</p>
+          <p class="prezzo-cifra">{BASE_PRICES.multi}€</p>
           <ul>
             <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
             <li>Menu, prenotazioni, eventi se ti servono</li>
@@ -70,7 +77,7 @@ import { site } from '../../data/sito';
           <div class="hero-azioni stacco-16">
             <a class="btn btn-mattone" href="/preventivo/?offerta=1">Prendi l’offerta</a>
           </div>
-          <p class="prezzo-nota"><a class="link-freccia" href="https://wa.me/?text=Trebla%3A%20sito%20completo%20a%20590%E2%82%AC%2C%20con%20foto%2C%20logo%20e%203%20modifiche%20gratuite%20https%3A%2F%2Ftreblastudio.pages.dev%2Fprezzi%2F%23offerta" target="_blank" rel="noopener noreferrer">Girala a chi gli serve →</a></p>
+          <p class="prezzo-nota"><a class="link-freccia" href={condivisioneOfferta} target="_blank" rel="noopener noreferrer">Girala a chi gli serve →</a></p>
       </div>
       <div class="hero-azioni stacco-16" data-reveal>
         <a class="btn btn-mattone" href="/preventivo/">Configura il tuo prezzo</a>

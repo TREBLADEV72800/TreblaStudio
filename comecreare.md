@@ -49,8 +49,8 @@ onesto e riconoscibile. Niente template travestiti.
 ## 3. Contenuti e tono
 
 - Italiano semplice e concreto. Mai il trattino lungo —.
-- Titoli senza punto finale. Prezzi con € attaccato (300€), tranne la
-  cifra finale della stima che resta staccata (€ 590).
+- Titoli senza punto finale. Prezzi con € attaccato (200€), tranne la
+  cifra finale della stima che resta staccata (€ 490).
 - Solo dati veri in `src/data/` (prezzi, faq, configuratore): mai clienti,
   recensioni, classifiche ("il più scelto") o numeri inventati.
 - **Una sola fonte per i prezzi.** `prezzi.ts` è il catalogo commerciale

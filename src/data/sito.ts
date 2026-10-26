@@ -8,7 +8,7 @@ export const site = {
   lang: 'it',
   locale: 'it_IT',
   description:
-    'Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da 300€, senza canone obbligatorio.',
+    'Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da 200€, senza canone obbligatorio.',
   twitterCard: 'summary_large_image' as const,
 };
 
