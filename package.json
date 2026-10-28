@@ -8,6 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "slop": "node scripts/audit-slop.mjs",
+    "verify": "npm run check && npm run build && npm run slop",
     "deploy": "npm run build && wrangler pages deploy dist --project-name treblastudio --branch main",
     "deploy:preview": "npm run build && wrangler pages deploy dist --project-name treblastudio",
     "deploy:test": "npm run build && wrangler pages deploy dist --project-name treblastudio --branch test"

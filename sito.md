@@ -53,6 +53,8 @@ Comandi principali:
 | `npm run check` | Controllo tipi | Può restare appeso dopo aver stampato 0 errori: non è un errore del codice |
 | `npm run deploy` | Deploy in produzione | Build + `wrangler pages deploy` su Cloudflare Pages; il push su Git non deploya da solo |
 | `npm run deploy:test` | Deploy sull'ambiente di test | Build + deploy sul branch `test`, pubblicato su `https://test.treblastudio.pages.dev` |
+| `npm run slop` | Controllo anti-AI-slop | Analizza `dist/`: 0 bloccanti e punteggio ≤ 10, altrimenti esce con 1 |
+| `npm run verify` | Verifica completa | `check` + `build` + `slop` in sequenza |
 
 `npm run check` è utile ma non è la verifica che sblocca la consegna. La verifica affidabile è `npm run build`. Se `check` resta appeso dopo l'output corretto, non uccidere processi a caso e non dichiarare errori inesistenti.
 
@@ -76,6 +78,7 @@ Queste regole spiegano il perché di molte scelte. Se una modifica le viola, pro
 12. **Non reinventare il design.** Prima di una modifica UI leggi la skill anti-ai-slop. Il sistema è "Quaderno di bottega": carta, inchiostro, mattone, righe da 1px, Fraunces, Archivo, IBM Plex Mono.
 13. **Accessibilità e movimento ridotto.** Focus visibile, contrasto AA, landmark, testi alternativi, `prefers-reduced-motion` ovunque. Non rimuovere outline o fallback.
 14. **Deploy solo dopo verifica.** Modifica codice: build, deploy, controllo live. Modifica solo documentazione: nessun deploy necessario.
+15. **Niente AI-slop.** Lo slop non è l'uso dell'AI: è l'assenza di scelte. Prima di ogni modifica a UI o copy leggi `.opencode/skills/anti-ai-slop/SKILL.md` (catalogo esteso in `riferimenti/segnali-2026.md`). Dopo il build esegui `npm run slop`: servono 0 bloccanti e punteggio ≤ 10 su 30, altrimenti non si consegna. Il controllo meccanico non sostituisce i cinque test manuali del §6 della skill.
 
 ---
 
@@ -1430,6 +1433,22 @@ Le preview Cloudflare Pages sono pubbliche su URL `*.pages.dev` del deployment.
 ### 12.5 Docs-only
 
 Una modifica solo a `sito.md`, `README.md` o `comecreare.md` non cambia il sito e non richiede deploy. Non deployare per far vedere un file Markdown che non è in `public/`.
+
+### 12.6 Audit anti-slop
+
+```powershell
+npm run build
+npm run slop
+```
+
+- `scripts/audit-slop.mjs` analizza `dist/`, non i sorgenti: controlla quello che l'utente riceve davvero.
+- Cerca trattino lungo, `href="#"` non riempiti a runtime, Lorem ipsum, emoji, font e palette da template, glassmorphism, claim inventati, immagini senza alt, gerarchia dei titoli, lingua, title e description duplicati, paragrafi identici tra pagine, ritmo delle frasi, densità di liste, punti esclamativi, gergo inglese e formule vuote italiane.
+- Soglia: **0 bloccanti** e **punteggio ≤ 10 su 30**. Sopra, il comando esce con codice 1.
+- Le formule vuote citate o negate non vengono segnalate: «non ha bisogno di un “ecosistema digitale”» è una posizione, non un riempitivo.
+- Le risposte FAQ dentro `<details>` sono escluse dal controllo dei duplicati: ripeterle in home e in `/faq/` è una scelta editoriale.
+- Il controllo non vede composizione, foto, tono e veridicità delle fonti. Per quello servono i cinque test manuali della skill.
+- `npm run verify` esegue `check`, `build` e `slop` in sequenza.
+- Sul branch `test` il workflow `.github/workflows/deploy-test.yml` esegue `npm run slop` prima del deploy: se il controllo fallisce, il sito di test non viene aggiornato.
 
 ---
 

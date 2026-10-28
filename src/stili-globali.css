@@ -607,7 +607,7 @@ body.menu-aperto {
 .due-colonne { display: grid; gap: 12px 32px; grid-template-columns: 1fr; margin: 12px 0; }
 .due-colonne > div { min-inline-size: 0; }
 @media (min-width: 640px) { .due-colonne { grid-template-columns: 1fr 1fr; } }
-.due-colonne h4 {
+.due-colonne h3 {
   font: 700 0.75rem/1.4 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
