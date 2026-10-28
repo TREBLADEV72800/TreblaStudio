@@ -52,6 +52,7 @@ Comandi principali:
 | `npm run preview` | Controllo del build statico | Serve `dist/` in locale |
 | `npm run check` | Controllo tipi | Può restare appeso dopo aver stampato 0 errori: non è un errore del codice |
 | `npm run deploy` | Deploy in produzione | Build + `wrangler pages deploy` su Cloudflare Pages; il push su Git non deploya da solo |
+| `npm run deploy:test` | Deploy sull'ambiente di test | Build + deploy sul branch `test`, pubblicato su `https://test.treblastudio.pages.dev` |
 
 `npm run check` è utile ma non è la verifica che sblocca la consegna. La verifica affidabile è `npm run build`. Se `check` resta appeso dopo l'output corretto, non uccidere processi a caso e non dichiarare errori inesistenti.
 
@@ -1386,6 +1387,18 @@ Una volta impostato il secret, ogni push su `main` deploya in produzione con Git
 - Il token si crea da [My Profile → API Tokens](https://dash.cloudflare.com/profile/api-tokens); il secret si imposta in repository → **Settings → Secrets and variables → Actions → New repository secret**.
 - Per ruotare o revocare il token: Cloudflare → My Profile → API Tokens.
 - Il deploy manuale resta disponibile con `npm run deploy`.
+
+#### 12.3.2 Ambiente di test `test.treblastudio.pages.dev`
+
+`pages.dev` è un dominio di Cloudflare: non si può aggiungere come dominio custom, ma ogni branch deployato ottiene l'alias `<branch>.<progetto>.pages.dev`. L'ambiente di test è quindi l'alias del branch `test`.
+
+- URL: `https://test.treblastudio.pages.dev`.
+- Deploy manuale: `npm run deploy:test` (build + `wrangler pages deploy dist --project-name treblastudio --branch test`).
+- Deploy automatico: push sul branch `test`, workflow `.github/workflows/deploy-test.yml`.
+- Il branch `test` va tenuto allineato a `main`: `git checkout test && git merge main`, poi push.
+- `main` resta la produzione su `https://treblastudio.pages.dev`; il branch `test` non la tocca.
+- È una preview Cloudflare Pages: risponde con `X-Robots-Tag: noindex` e non è protetta da password.
+- `PUBLIC_SITE_URL` resta quella di produzione, quindi canonical, sitemap e JSON-LD del test puntano a `treblastudio.pages.dev`. Se serve disaccoppiarlo, va passato un `PUBLIC_SITE_URL` diverso solo al workflow di test.
 
 ### 12.4 Controlli live
 

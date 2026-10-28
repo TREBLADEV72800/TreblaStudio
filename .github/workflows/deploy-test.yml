@@ -1,0 +1,46 @@
+name: Deploy Cloudflare Pages (test)
+
+on:
+  push:
+    branches: [test]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-test
+  cancel-in-progress: true
+
+env:
+  CLOUDFLARE_ACCOUNT_ID: 384f57dcfcbabf74d7869d18319d56e7
+
+jobs:
+  deploy:
+    name: Build e deploy test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Dipendenze
+        run: npm ci
+
+      - name: Controlli Astro
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy su Cloudflare Pages (branch test)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx wrangler pages deploy dist --project-name treblastudio --branch test
