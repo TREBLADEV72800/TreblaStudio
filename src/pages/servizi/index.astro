@@ -1,9 +1,5 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
-import { etichettaCapitolo } from '../../data/capitoli';
-import { BASE_PRICES } from '../../data/prezzi';
-
-const capitolo = etichettaCapitolo(Astro.url.pathname);
 ---
 
 <LayoutPagina
@@ -13,7 +9,6 @@ const capitolo = etichettaCapitolo(Astro.url.pathname);
 >
   <div class="involucro">
     <section class="pagina-titolo" aria-labelledby="titolo">
-      <p class="capitolo-numero">{capitolo}</p>
       <h1 id="titolo">Tre cose, <em>fatte sul serio</em></h1>
       <p class="lead">Non un catalogo infinito e non una pagina sola: sistemiamo testi, contatti, menu, mappe e prenotazioni. Il sito al centro, il resto solo se ti serve davvero.</p>
       <div class="hero-azioni">
@@ -25,7 +20,7 @@ const capitolo = etichettaCapitolo(Astro.url.pathname);
       <article class="servizio" id="sito">
         <div class="servizio-testa">
           <h2 class="servizio-titolo">Sito web</h2>
-          <span class="servizio-prezzo"><span class="pz"><b>{BASE_PRICES.singola}€</b> · pagina singola</span> · <span class="pz"><b>{BASE_PRICES.multi}€</b> · più pagine</span></span>
+          <span class="servizio-prezzo"><span class="pz"><b>200€</b> · pagina singola</span> · <span class="pz"><b>300€</b> · più pagine</span></span>
         </div>
         <div class="servizio-testo servizio-corpo">
           <p>Il tuo indirizzo su internet. <strong>Chi ti cerca trova orari giusti, menu leggibile e un modo per contattarti</strong>, dal telefono, in pochi secondi.</p>

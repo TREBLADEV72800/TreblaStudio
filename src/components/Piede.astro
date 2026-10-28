@@ -1,12 +1,8 @@
 ---
-import { capitoloDi, TOTALE_CAPITOLI } from '../data/capitoli';
-
 // Anno e mese di aggiornamento: calcolati a build, non a runtime.
 const adesso = new Date();
 const anno = adesso.getFullYear();
 const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
-const capitolo = capitoloDi(Astro.url.pathname);
-const totaleCapitoli = String(TOTALE_CAPITOLI).padStart(2, '0');
 ---
 
 <footer class="piede">
@@ -28,7 +24,6 @@ const totaleCapitoli = String(TOTALE_CAPITOLI).padStart(2, '0');
       </div>
     </div>
     <div class="piede-fondo">
-      {capitolo && <span class="piede-capitolo">Cap. {capitolo.numero}/{totaleCapitoli} · {capitolo.titolo}</span>}
       <span>© {anno} Trebla · Asti · Aggiornato a {aggiornato}</span>
       <nav aria-label="Note legali">
         <a href="/note-legali/#privacy">Privacy</a>

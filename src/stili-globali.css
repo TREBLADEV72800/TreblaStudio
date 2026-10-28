@@ -45,7 +45,7 @@ a { color: inherit; }
 }
 /* Sul notte il mattone non regge il contrasto: serve il mattone chiaro. */
 .piede,
-.prospetto-offerta,
+.prezzo-evidenza,
 .wizard-totale-finale,
 .wizard-barra-fissa { --focus: var(--mattone-chiaro); }
 
@@ -300,8 +300,41 @@ body.menu-aperto {
 .btn-wa:hover { background: var(--wa-fondo); }
 .btn-piccolo { min-block-size: 46px; padding: 10px 18px; font-size: 0.92rem; }
 
-/* ---------- 6. Apertura della home ---------- */
-/* Azioni e firma restano condivise: le usano anche le pagine interne. */
+/* ---------- 6. Hero ---------- */
+.hero { padding-block: clamp(24px, 4vw, 44px) clamp(36px, 5vw, 64px); }
+.hero-griglia {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1000px) {
+  .hero-griglia {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+}
+.hero h1 {
+  font: 600 clamp(1.9rem, 8.2vw, 2.9rem)/1.05 var(--serif);
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-wrap: balance;
+}
+@media (min-width: 640px) and (max-width: 999px) {
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 3.4rem); }
+}
+@media (min-width: 1000px) {
+  .hero h1 { font-size: clamp(2.4rem, calc(5.2vw - 0.6rem), 3.9rem); }
+}
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--mattone); font-size: calc(1em + 2px); }
+.hero-lead {
+  font-size: var(--t-lead);
+  line-height: 1.6;
+  color: var(--morbido);
+  max-inline-size: 46ch;
+  margin: 18px 0 0;
+}
+.hero-lead strong { color: var(--inchiostro); font-weight: 700; }
 .hero-azioni { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 22px; }
 .hero-firma {
   margin: 16px 0 0;
@@ -313,162 +346,6 @@ body.menu-aperto {
 .hero-firma a { position: relative; }
 .hero-firma a::after { content: ''; position: absolute; inset: -6px -4px; }
 
-/* L'apertura non è una hero a due colonne: è la prima pagina del quaderno.
-   Testatina, titolo, indice della pagina, poi il mockup come figura. */
-.apertura { padding-block: clamp(18px, 3vw, 30px) clamp(32px, 5vw, 56px); }
-.apertura-testa {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 6px 24px;
-  padding-block-end: 10px;
-  border-block-end: 1px solid var(--inchiostro);
-  font: 400 0.72rem/1.5 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--morbido);
-}
-.apertura-testa p { margin: 0; }
-.apertura-testa p:last-child { color: var(--mattone); }
-.apertura-corpo {
-  display: grid;
-  gap: 28px;
-  padding-block-start: clamp(24px, 4vw, 44px);
-}
-@media (min-width: 960px) {
-  .apertura-corpo {
-    grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.9fr);
-    gap: clamp(32px, 6vw, 88px);
-    align-items: start;
-  }
-}
-.apertura h1 {
-  font: 600 clamp(2.35rem, 7.6vw, 5.2rem)/0.96 var(--serif);
-  letter-spacing: -0.035em;
-  margin: 0;
-  max-inline-size: 15ch;
-  text-wrap: balance;
-}
-.apertura h1 em { font-style: italic; font-weight: 400; color: var(--mattone); }
-/* I ritorni a capo del titolo servono da tablet in su: sotto, il testo
-   si avvolge da solo e non lascia righe di due parole. */
-.apertura-a-capo { display: none; }
-@media (min-width: 640px) { .apertura-a-capo { display: inline; } }
-.apertura-lead {
-  font-size: var(--t-lead);
-  line-height: 1.6;
-  color: var(--morbido);
-  max-inline-size: 48ch;
-  margin: 22px 0 0;
-}
-.apertura-lead strong { color: var(--inchiostro); font-weight: 700; }
-.apertura-azioni {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 24px;
-  margin-block-start: 26px;
-}
-.apertura-link {
-  font: 700 0.95rem/1.2 var(--sans);
-  color: var(--mattone);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
-}
-.apertura-link:hover { color: var(--mattone-fondo); }
-/* Timbro: un gesto solo, ma è il nostro. */
-.timbro {
-  display: inline-block;
-  margin-block-start: 22px;
-  padding: 7px 12px 6px;
-  border: 1px solid var(--mattone);
-  outline: 1px solid var(--mattone);
-  outline-offset: 3px;
-  color: var(--mattone);
-  font: 700 0.62rem/1.2 var(--mono);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transform: rotate(-3.5deg);
-  white-space: nowrap;
-}
-/* Indice della pagina: un sommario, non un menu. */
-.apertura-indice {
-  border-block-start: 1px solid var(--inchiostro);
-  padding-block-start: 4px;
-}
-.apertura-indice-titolo {
-  margin: 10px 0 4px;
-  font: 700 0.68rem/1.4 var(--mono);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--morbido);
-}
-.apertura-indice ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
-}
-.apertura-indice li {
-  min-inline-size: 0;
-  border-block-end: 1px solid var(--linea);
-}
-.apertura-indice a {
-  display: flex;
-  align-items: baseline;
-  gap: 9px;
-  min-block-size: 42px;
-  padding: 8px 0;
-  text-decoration: none;
-  font: 600 0.98rem/1.25 var(--serif);
-  letter-spacing: -0.005em;
-}
-.apertura-indice a span {
-  flex: none;
-  font: 400 0.68rem/1 var(--mono);
-  letter-spacing: 0.08em;
-  color: var(--mattone);
-}
-.apertura-indice a:hover { color: var(--mattone); }
-@media (min-width: 960px) {
-  .apertura-indice {
-    border-inline-start: 1px solid var(--linea);
-    padding-inline-start: clamp(20px, 3vw, 34px);
-  }
-  .apertura-indice ol { grid-template-columns: 1fr; column-gap: 0; }
-}
-/* Il mockup scende sotto il testo e diventa una figura dichiarata. */
-.apertura-figura {
-  display: grid;
-  gap: 12px;
-  margin: clamp(30px, 5vw, 52px) 0 0;
-}
-@media (min-width: 760px) {
-  .apertura-figura {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: end;
-    gap: clamp(24px, 5vw, 64px);
-  }
-}
-.apertura-figura .scheda { inline-size: min(100%, 560px); justify-self: start; }
-.apertura-figura figcaption {
-  max-inline-size: 36ch;
-  padding-block-start: 10px;
-  border-block-start: 1px solid var(--linea);
-  font: 400 0.78rem/1.6 var(--mono);
-  color: var(--morbido);
-}
-.apertura-figura-num {
-  display: block;
-  margin-block-end: 4px;
-  color: var(--mattone);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 /* Scheda «come ti vede un cliente» — mockup in puro CSS, contenuto reale */
 .scheda {
   border: 1px solid var(--inchiostro);
@@ -476,6 +353,9 @@ body.menu-aperto {
   background: var(--carta-3);
   overflow: hidden;
   box-shadow: 6px 6px 0 var(--carta-2);
+}
+@media (max-width: 999px) {
+  .scheda { display: none; }
 }
 .scheda-barra {
   display: flex;
@@ -528,10 +408,6 @@ body.menu-aperto {
   padding: 10px 16px;
 }
 .scheda-tasti span.solid { background: var(--inchiostro); color: var(--carta); }
-@media (max-width: 480px) {
-  .scheda-corpo { padding: 18px 16px 20px; }
-  .scheda-tasti span { padding: 8px 12px; }
-}
 
 /* ---------- 7. Ticker dei settori ---------- */
 .ticker {
@@ -590,6 +466,34 @@ body.menu-aperto {
 .righe li > .righe-num { grid-row: span 2; }
 
 /* ---------- 8b. Home: chiusura ---------- */
+/* Home: i tre prezzi stanno insieme in un blocco unico */
+@media (min-width: 900px) { #h-prezzi.prezzi-griglia { grid-template-columns: 0.9fr 1fr 1.1fr; } }
+#h-prezzi > .prezzo:first-child .prezzo-cifra { font-size: calc(clamp(2.6rem, 5vw, 3.8rem) - 1px); }
+.piano-per { color: var(--morbido); font-size: 0.95rem; margin: 10px 0 0; }
+.prezzo-evidenza .piano-per { color: var(--notte-morbido); }
+#h-prezzi .prezzo { display: flex; flex-direction: column; padding-block: calc(clamp(20px, 3vw, 32px) - 5px); }
+#h-prezzi .link-freccia { margin-top: auto; padding-top: 16px; }
+#h-prezzi .prezzo-evidenza .link-freccia { color: var(--mattone-chiaro); }
+/* Mobile: card compatte */
+@media (max-width: 899px) {
+  #h-prezzi .prezzo { padding: 16px; }
+  #h-prezzi .prezzo-kicker { margin: 0 0 8px; }
+  #h-prezzi .prezzo-cifra { margin: 10px 0 2px; }
+  #h-prezzi .prezzo ul { margin-top: 10px; }
+  #h-prezzi .prezzo ul li { padding: 6px 0 6px 18px; }
+}
+/* Home: kicker, titolo e cifra attaccati, senza righe vuote in mezzo. */
+#h-prezzi .prezzo-kicker { margin: 0 0 4px; }
+#h-prezzi .prezzo h3 { margin: 0; }
+#h-prezzi .prezzo-cifra { margin: 2px 0 0; }
+/* Il "da" è un prefisso, non parte della cifra: sta più piccolo. */
+#h-prezzi .prezzo-da { font-size: 0.42em; letter-spacing: 0; margin-inline-end: 0.06em; }
+.prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
+.prezzi-riga-finale .link-freccia { margin-inline-start: auto; }
+@media (max-width: 899px) {
+  .prezzi-riga-finale .prezzo-nota { display: none; }
+  .prezzi-riga-finale .link-freccia { margin-inline-start: 0; }
+}
 .cta-finale {
   border: 1px solid var(--inchiostro);
   border-radius: 16px;
@@ -752,210 +656,53 @@ body.menu-aperto {
 .metodo h3 { flex: 1 1 auto; font: 600 1.25rem/1.2 var(--serif); margin: 0; }
 .metodo p { flex: 1 1 100%; margin: 4px 0 0; color: var(--morbido); font-size: 0.98rem; }
 
-/* ---------- 11. Prospetto prezzi (tabella da quaderno) ---------- */
-.kicker {
+/* ---------- 11. Prezzi ---------- */
+.prezzi-griglia {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--inchiostro);
+  border-radius: var(--raggio);
+  overflow: hidden;
+  background: var(--carta-3);
+}
+@media (min-width: 860px) { .prezzi-griglia { grid-template-columns: 1fr 1fr; } }
+.prezzo {
+  padding: clamp(20px, 3vw, 32px);
+}
+.prezzo + .prezzo { border-block-start: 1px solid var(--inchiostro); }
+@media (min-width: 860px) {
+  .prezzo + .prezzo { border-block-start: 0; border-inline-start: 1px solid var(--inchiostro); }
+}
+.prezzo-evidenza { background: var(--notte); color: var(--notte-carta); }
+.prezzo-kicker {
   font: 700 0.75rem/1.4 var(--mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--mattone);
   margin: 0 0 12px;
 }
-.nota-prezzo {
-  margin: 14px 0 0;
-  color: var(--morbido);
-  font-size: 0.92rem;
-  line-height: 1.6;
+.prezzo-evidenza .prezzo-kicker { color: var(--mattone-chiaro); }
+.prezzo-titolo { font: 600 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--serif); margin: 0; }
+.prezzo-cifra {
+  font: 600 clamp(2.6rem, 5vw, 3.8rem)/1 var(--serif);
+  letter-spacing: -0.02em;
+  margin: 14px 0 4px;
 }
-.prospetto {
-  inline-size: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--inchiostro);
-  background: var(--carta-3);
-  font-variant-numeric: tabular-nums;
-}
-.prospetto-caption {
-  caption-side: top;
-  text-align: left;
-  padding: 0 0 10px;
-  font: 700 0.72rem/1.5 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--morbido);
-}
-.prospetto thead th {
-  padding: 10px clamp(12px, 2vw, 20px);
-  border-block-end: 1px solid var(--inchiostro);
-  background: var(--carta-2);
-  font: 700 0.68rem/1.4 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--morbido);
-  text-align: left;
-}
-.prospetto thead th:last-child { text-align: right; }
-.prospetto .col-voce { inline-size: 27%; }
-.prospetto .col-include { inline-size: 43%; }
-.prospetto .col-per { inline-size: 40%; }
-.prospetto .col-prezzo { inline-size: 30%; }
-.prospetto-gruppo th {
-  padding: 8px clamp(12px, 2vw, 20px);
-  border-block-end: 1px solid var(--linea);
-  background: var(--carta-2);
-  font: 700 0.68rem/1.4 var(--mono);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--mattone);
-  text-align: left;
-}
-.prospetto tbody + tbody .prospetto-gruppo th { border-block-start: 1px solid var(--inchiostro); }
-.prospetto-riga > * {
-  padding: clamp(18px, 2.4vw, 28px) clamp(12px, 2vw, 20px);
-  border-block-end: 1px solid var(--linea);
-  vertical-align: top;
-  text-align: left;
-}
-.prospetto-riga:last-child > * { border-block-end: 0; }
-.prospetto-etichetta {
-  display: block;
-  margin-block-end: 6px;
-  font: 700 0.68rem/1.4 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--mattone);
-}
-.prospetto-nome {
-  display: block;
-  font: 600 clamp(1.4rem, 2.2vw, 1.8rem)/1.1 var(--serif);
-  letter-spacing: -0.01em;
-}
-span.prospetto-per {
-  display: block;
-  margin-block-start: 10px;
-  color: var(--morbido);
-  font-size: 0.92rem;
-  line-height: 1.55;
-  max-inline-size: 34ch;
-}
-td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55; }
-.prospetto-include ul { list-style: none; margin: 0; padding: 0; }
-.prospetto-include li {
+.prezzo ul { list-style: none; margin: 14px 0 0; padding: 0; }
+.prezzo-evidenza ul { color: var(--notte-morbido); }
+.prezzo ul li {
+  padding: 7px 0 7px 20px;
   position: relative;
-  padding: 0 0 0 16px;
-  font-size: 0.95rem;
-  line-height: 1.55;
+  border-block-start: 1px solid var(--linea);
+  font-size: 0.97rem;
 }
-.prospetto-include li + li { margin-block-start: 7px; }
-.prospetto-include li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  inline-size: 5px;
-  block-size: 5px;
-  background: var(--mattone);
-}
-.prospetto-prezzo-cella { text-align: right; }
-.prospetto-prezzo {
-  display: block;
-  font: 600 clamp(1.9rem, 3.6vw, 2.7rem)/1 var(--mono);
-  letter-spacing: -0.04em;
-  color: var(--inchiostro);
-}
-.prospetto-da {
-  font-size: 0.4em;
-  letter-spacing: 0.04em;
-  margin-inline-end: 0.1em;
-  vertical-align: 0.55em;
-  text-transform: uppercase;
-}
-.prospetto-unita {
-  display: block;
-  margin-block-start: 6px;
-  font: 400 0.7rem/1.4 var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--morbido);
-}
-.prospetto-prezzo-cella .link-freccia { display: inline-block; margin-block-start: 14px; }
-.prospetto-azioni {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px 16px;
-  margin-block-start: 16px;
-}
-.prospetto-azioni .btn { min-block-size: 46px; padding: 10px 18px; font-size: 0.9rem; }
-.prospetto-azioni .link-freccia { font-size: 0.86rem; }
-.prospetto-offerta > * {
-  background: var(--notte);
-  color: var(--notte-carta);
-  border-block-end-color: var(--linea-scura);
-}
-.prospetto tbody .prospetto-offerta > * { border-block-start: 1px solid var(--linea-scura); }
-.prospetto-offerta .prospetto-etichetta { color: var(--mattone-chiaro); }
-.prospetto-offerta .prospetto-prezzo { color: var(--notte-carta); }
-.prospetto-offerta .prospetto-per,
-.prospetto-offerta .prospetto-unita,
-.prospetto-offerta .nota-prezzo { color: var(--notte-morbido); }
-.prospetto-offerta .prospetto-include li::before { background: var(--mattone-chiaro); }
-.prospetto-offerta .link-freccia { color: var(--mattone-chiaro); }
-.prospetto-offerta .link-freccia:hover { color: var(--notte-carta); }
-.prospetto-nota td {
-  padding: 12px clamp(12px, 2vw, 20px);
-  border-block-end: 1px solid var(--linea);
-  background: var(--carta-2);
-  color: var(--morbido);
-  font-size: 0.86rem;
-  line-height: 1.6;
-}
-.prospetto-compatto .prospetto-riga > * { padding-block: 14px; }
-.prospetto-compatto .prospetto-etichetta { margin-block-end: 3px; font-size: 0.64rem; }
-.prospetto-compatto .prospetto-nome { font-size: clamp(1.2rem, 1.8vw, 1.45rem); }
-.prospetto-compatto .prospetto-prezzo { font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
-.prospetto-compatto .prospetto-prezzo-cella .link-freccia { margin-block-start: 6px; }
-.prospetto-compatto .prospetto-unita { margin-block-start: 3px; }
-
-@media (max-width: 759px) {
-  /* Su telefono la tabella diventa una pila di righe: stesso contenuto,
-     stessa gerarchia, nessuno scorrimento orizzontale. */
-  .prospetto, .prospetto thead, .prospetto tbody, .prospetto tr, .prospetto th, .prospetto td { display: block; }
-  .prospetto { border: 0; background: transparent; }
-  .prospetto thead { display: none; }
-  .prospetto-caption { display: block; padding: 0 0 8px; }
-  .prospetto-gruppo th {
-    margin-block-start: 18px;
-    border: 1px solid var(--inchiostro);
-  }
-  .prospetto tbody:first-of-type .prospetto-gruppo th { margin-block-start: 0; }
-  .prospetto tbody + tbody .prospetto-gruppo th { border-block-start: 1px solid var(--inchiostro); }
-  .prospetto-riga {
-    border: 1px solid var(--inchiostro);
-    border-block-start: 0;
-    background: var(--carta-3);
-  }
-  .prospetto-riga > * { border: 0; padding: 12px clamp(14px, 4vw, 20px); }
-  .prospetto-riga > .prospetto-voce { padding-block-start: 16px; }
-  .prospetto-prezzo-cella {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: baseline;
-    gap: 3px 10px;
-    padding-block: 12px 16px;
-    border-block-start: 1px solid var(--linea);
-    text-align: left;
-  }
-  .prospetto-prezzo { font-size: 1.8rem; }
-  .prospetto-unita { margin: 0; }
-  .prospetto-prezzo-cella .link-freccia { grid-column: 1 / -1; margin-block-start: 4px; }
-  .prospetto-offerta .prospetto-azioni { grid-column: 1 / -1; }
-  .prospetto-azioni { justify-content: flex-start; margin-block-start: 10px; }
-  .prospetto-offerta { border-color: var(--inchiostro); }
-  .prospetto-offerta > .prospetto-prezzo-cella { border-block-start-color: var(--linea-scura); }
-  .prospetto-nota td { border: 1px solid var(--inchiostro); border-block-start: 0; }
-  .prospetto-compatto .prospetto-nome { font-size: 1.2rem; }
-  .prospetto-compatto .prospetto-prezzo { font-size: 1.55rem; }
-}
+.prezzo-evidenza ul li { border-color: var(--linea-scura); }
+.prezzo ul li::before { content: "✓"; position: absolute; left: 0; color: var(--mattone); font-weight: 700; }
+.prezzo-evidenza ul li::before { color: var(--mattone-chiaro); }
+.prezzo-nota { margin: 16px 0 0; color: var(--morbido); font-size: 0.92rem; }
+.prezzo-evidenza .prezzo-nota { color: var(--notte-morbido); }
+/* Card singola a tutta larghezza (offerta): niente griglia, niente buchi */
+.offerta-solo { border: 1px solid var(--inchiostro); border-radius: var(--raggio); margin-block-start: 22px; }
 
 .extra-lista { list-style: none; margin: 18px 0 0; padding: 0; }
 .extra-lista li {
@@ -967,7 +714,7 @@ td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55;
   border-block-start: 1px solid var(--linea);
   font-size: 0.98rem;
 }
-.extra-lista .extra-prezzo {
+.extra-lista .prezzo-extra {
   flex: none;
   font: 700 0.85rem var(--mono);
   color: var(--mattone);
@@ -975,7 +722,7 @@ td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55;
 }
 
 /* ---------- 12. Azioni CTA ---------- */
-.cta-azioni { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 22px; }
+.hero-azioni, .cta-azioni { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 22px; }
 
 /* ---------- 13. Studio ---------- */
 .persone { display: grid; gap: 0; border-block-start: 1px solid var(--inchiostro); }
@@ -1158,7 +905,6 @@ td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55;
   min-block-size: 24px;
 }
 .piede-fondo a:hover { color: var(--notte-carta); }
-.piede-capitolo { color: var(--notte-carta); font-weight: 700; }
 .piede-torna { margin: 10px 0 0; }
 .piede-torna .link-freccia { color: var(--mattone-chiaro); }
 
@@ -1384,7 +1130,6 @@ td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55;
   body { font-size: 1rem; }
   .sopra-riga .btn { display: none; }
   .hero-azioni .btn { flex: 1 1 100%; }
-  .apertura-azioni .btn { flex: 1 1 100%; }
   .cta-azioni .btn { flex: 1 1 100%; }
   .contatto-cella .btn { inline-size: 100%; }
   .wizard-barra-interna { gap: 10px; }
@@ -1399,20 +1144,17 @@ td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55;
   /* Il tasto più lungo resta comodo e, se va a capo, lo fa in modo ordinato. */
   .hero-azioni .btn { padding-inline: 14px; font-size: 0.92rem; }
 }
-/* Telefoni orizzontali: la testata e l'apertura non devono mangiarsi tutta
-   l'altezza. I pulsanti restano affiancati, non impilati come in verticale.
+/* Telefoni orizzontali: la testata e la hero non devono mangiarsi tutta l'altezza.
+   I due pulsanti restano affiancati, non impilati come in verticale.
    Solo sotto i 960px: una finestra desktop bassa non è un telefono. */
 @media (max-height: 500px) and (orientation: landscape) and (max-width: 959px) {
   .sopra-riga { min-block-size: 52px; }
   .marchio img { height: 32px; }
-  .apertura { padding-block: 10px 16px; }
-  .apertura-corpo { padding-block-start: 14px; gap: 16px; }
-  .apertura h1 { font-size: clamp(1.8rem, 5vw, 2.3rem); line-height: 1; }
-  .apertura-lead { font-size: 0.9rem; line-height: 1.45; margin-block-start: 8px; }
-  .apertura-azioni { margin-block-start: 10px; gap: 8px; }
-  .apertura-azioni .btn { flex: 0 1 auto; min-block-size: 44px; padding: 9px 15px; font-size: 0.88rem; }
-  .timbro { margin-block-start: 10px; }
-  .apertura-indice a { min-block-size: 36px; padding-block: 4px; }
+  .hero { padding-block: 10px 16px; }
+  .hero h1 { font-size: clamp(1.7rem, 5.1vw, 2.15rem); line-height: 1.02; }
+  .hero-lead { font-size: 0.9rem; line-height: 1.45; margin-block-start: 8px; }
+  .hero-azioni { margin-block-start: 10px; gap: 8px; }
+  .hero-azioni .btn { flex: 0 1 auto; min-block-size: 44px; padding: 9px 15px; font-size: 0.88rem; }
   .hero-firma { margin-block-start: 6px; font-size: 0.75rem; }
 }
 
@@ -1421,5 +1163,5 @@ td.prospetto-per { color: var(--morbido); font-size: 0.95rem; line-height: 1.55;
   .sopra, .piede, .ticker, .hero-azioni, .cta-azioni, .btn, .nav-mobile, .menu-bottone, .salto, .wizard-barra-fissa { display: none !important; }
   body { background: #fff; }
   [data-reveal] { opacity: 1 !important; transform: none !important; }
-  .faq details, .prospetto-riga { break-inside: avoid; }
+  .faq details, .prezzo { break-inside: avoid; }
 }

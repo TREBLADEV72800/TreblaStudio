@@ -423,25 +423,6 @@ Regole:
 - Nel configuratore c'è una regola extra: se le funzioni del tipo contengono `prenot` o `ordin`, il concetto `prenotazioni` è considerato coperto e la voce generica `Prenotazioni e ordini su WhatsApp` non viene mostrata.
 - Se aggiungi una voce generica con un concetto già coperto, non comparirà. È voluto: una voce, un prezzo.
 
-### 4.7 `src/data/capitoli.ts`
-
-Fonte unica della numerazione editoriale: `CAPITOLI`, `TOTALE_CAPITOLI`, `capitoloDi()` e `etichettaCapitolo()`.
-
-| N. | Titolo | Percorso |
-|---|---|---|
-| 01 | Home | `/` |
-| 02 | Servizi | `/servizi/` |
-| 03 | Prezzi | `/prezzi/` |
-| 04 | Studio | `/chi-siamo/` |
-| 05 | Domande | `/faq/` |
-| 06 | Contatti | `/contatti/` |
-| 07 | Note legali | `/note-legali/` |
-
-- Le pagine interne mostrano `Cap. xx · Titolo` come kicker sopra l'H1.
-- Il piè di pagina mostra `Cap. xx/07 · Titolo`.
-- La 404 usa `Fuori capitolo · 404` e non ha riga di capitolo nel footer.
-- Aggiungendo una pagina alla navigazione, aggiorna `CAPITOLI` e il numero nel testata/footer arriva da solo. Non scrivere `Cap.` a mano nelle pagine.
-
 ---
 
 ## 5. Rotte e pagine
@@ -474,20 +455,19 @@ Description: `Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e 
 
 Struttura:
 
-1. Apertura `.apertura`: testatina `Trebla · Studio web ad Asti` + `Cap. 01 · Home`, H1 `Un sito chiaro per far scegliere la tua attività.`, lead, una CTA primaria, un link testo ai servizi, timbro `Asti · bottega web`, indice `In questa pagina` e, sotto, il mockup scheda attività dentro `<figure>` con didascalia `Fig. 01`.
+1. Hero con H1 `Un sito chiaro per far scegliere la tua attività.` (con punto finale nell'ultima riga) e mockup scheda attività.
 2. Ticker settori, decorativo, con copia `aria-hidden` per l'animazione.
 3. `01 · Benefici`, 4 righe numerate.
 4. `02 · Cosa facciamo`, 3 indici: Sito web, Grafiche, Social media.
 5. `03 · Come funziona`, 5 passi del metodo.
-6. `04 · Prezzi`, prospetto compatto `.prospetto.prospetto-compatto` con tre righe: 200€, da 300€, 490€. Importi da `BASE_PRICES` e `OFFERTA_SITO.prezzo`.
+6. `04 · Prezzi`, 3 card: 200€, da 300€, 490€.
 7. `05 · Lo studio`, Albert e Gabriel.
 8. `06 · Domande`, 5 FAQ selezionate.
 9. `07 · Contatto`, CTA preventivo + WhatsApp.
 
 Ancore e ID importanti:
 
-- `#titolo`: H1 dell'apertura.
-- L'indice dell'apertura punta a `#t-benefici`, `#t-servizi`, `#t-metodo`, `#t-prezzi`, `#t-studio`, `#t-domande`, `#t-contatto`.
+- `#titolo`: H1 della hero.
 - `#h-benefici`, `#h-servizi`, `#h-metodo`, `#h-prezzi`, `#h-studio`, `#h-domande`, `#h-contatto`: contenitori delle sezioni.
 - `#t-benefici`, `#t-servizi`, `#t-metodo`, `#t-prezzi`, `#t-studio`, `#t-domande`, `#t-contatto`: heading passati a `TestataSezione`.
 - `#h-servizi` è usato dal CSS `.sezione:has(#h-servizi)` per togliere il padding finale. Non rimuoverlo senza aggiornare il CSS.
@@ -524,9 +504,8 @@ Description: `Pagina singola 200€, sito a più pagine 300€, offerta Tutto in
 Contenuto:
 
 - H1 `Due prezzi di partenza Niente sorprese`, con `#titolo-prezzi`.
-- Un solo `<table class="prospetto">` con `<caption>` e due `<tbody>`: gruppo `Sito` (Pagina singola 200€, Sito a più pagine 300€) e gruppo `Offerta`.
-- La riga dell'offerta ha `id="offerta"`, prezzo da `OFFERTA_SITO.prezzo` (490€), CTA preventivo e link di condivisione WhatsApp.
-- Sotto i 760px la tabella si impila: `thead` nascosto, ogni riga diventa un blocco con bordo, nessuno scorrimento orizzontale.
+- Due card base: Pagina singola 200€, Sito a più pagine 300€.
+- Una card offerta con id `#offerta`, prezzo da `OFFERTA_SITO.prezzo`, 490€.
 - Condizioni in 4 righe: sito tuo, due revisioni, tempi concordati, modifiche dopo.
 - Extra grafiche da `DESIGN_OPTIONS` e social da `SOCIAL_OPTIONS`, con prezzi generati dai dati.
 - Link di condivisione WhatsApp hardcoded con `treblastudio.pages.dev`: da aggiornare se cambia dominio.
@@ -735,7 +714,6 @@ Nessuna pagina normale deve avere altri script esterni. Se aggiungi JS, valuta s
 - Footer `.piede`.
 - Logo `trebla-logo-transparent.png`, alt `Trebla`, `loading="lazy"`.
 - Anno e mese calcolati a build con `new Date()`.
-- Riga di capitolo `Cap. xx/07 · Titolo`, calcolata da `src/data/capitoli.ts` in base a `Astro.url.pathname`; sulle pagine fuori elenco (404) la riga non compare.
 - Contatti: WhatsApp, telefono, email, "Asti, su appuntamento."
 - Link legali: Privacy, Cookie, Termini verso `/note-legali#...`.
 - Torna su `#torna-su` con scroll smooth, disattivato con `prefers-reduced-motion`.
@@ -1172,7 +1150,7 @@ File: `src/styles/variabili.css`.
 | `--raggio` | `12px` | Raggio bottoni e card |
 | `--transizione` | `0.18s ease` | Transizioni brevi |
 
-Su fondo scuro `--focus` viene sovrascritto con `--mattone-chiaro` su `.piede`, `.prospetto-offerta`, `.wizard-totale-finale`, `.wizard-barra-fissa`.
+Su fondo scuro `--focus` viene sovrascritto con `--mattone-chiaro` su `.piede`, `.prezzo-evidenza`, `.wizard-totale-finale`, `.wizard-barra-fissa`.
 
 ### 9.2 `src/stili-globali.css`
 
@@ -1183,14 +1161,14 @@ Sezioni, nell'ordine dei commenti:
 3. Struttura: `.involucro`, `.sezione`, `.sezione-flush`, `.capitolo`.
 4. Intestazione: header sticky, nav, menu mobile.
 5. Bottoni: `.btn`, `.btn-mattone`, `.btn-fantasma`, `.btn-wa`, `.btn-piccolo`, `.link-freccia`.
-6. Apertura della home: testatina, titolo, indice, timbro, figura.
+6. Hero: griglia, titolo, lead, mockup scheda.
 7. Ticker dei settori.
 8. Righe editoriali.
 8b. Chiusura home.
 9. Servizi: titolo e contenuto.
 9b. Servizi in home: indice editoriale.
 10. Metodo.
-11. Prospetto prezzi (tabella da quaderno).
+11. Prezzi.
 12. Azioni CTA.
 13. Studio.
 14. FAQ.
@@ -1212,13 +1190,13 @@ Classi chiave:
 | `.sezione-flush` | Nessun padding superiore |
 | `.capitolo` | Testata con numero, titolo e nota |
 | `.pagina-titolo` | Testata delle pagine interne |
-| `.apertura`, `.apertura-testa`, `.apertura-corpo`, `.apertura-indice`, `.apertura-figura`, `.timbro` | Apertura della home |
-| `.scheda` | Mockup attività nella figura della home |
+| `.hero`, `.hero-griglia`, `.hero-azioni`, `.hero-lead` | Home |
+| `.scheda` | Mockup attività nella hero |
 | `.ticker`, `.ticker-pista` | Striscia settori |
 | `.righe`, `.righe-num` | Liste editoriali numerate |
 | `.indice`, `.indice-corpo`, `.indice-lista` | Servizi in home |
 | `.metodo` | Passi del metodo |
-| `.prospetto`, `.prospetto-riga`, `.prospetto-gruppo`, `.prospetto-offerta`, `.prospetto-compatto` | Prospetto prezzi |
+| `.prezzi-griglia`, `.prezzo`, `.prezzo-evidenza`, `.prezzo-cifra` | Prezzi |
 | `.persone`, `.persona` | Studio |
 | `.faq`, `.risposta` | FAQ |
 | `.piede`, `.piede-riga`, `.piede-fondo` | Footer |
@@ -1616,7 +1594,7 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 
 Queste non vanno corrette senza richiesta esplicita, ma vanno sapute:
 
-- La riga multipagina della home dice "da 300€"; la pagina Prezzi dice 300€.
+- La card multipagina della home dice "da 300€"; la pagina Prezzi dice 300€.
 - L'opzione foto in `configuratore.ts` dice "Servono le foto (le scattate voi)"; il resto del sito dice "le scattiamo noi".
 - La skill anti-ai-slop cita il push su `main` tra i comandi; il deploy reale è il push su `main` (GitHub Actions), oppure `npm run deploy` in locale.
 
