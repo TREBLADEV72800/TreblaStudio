@@ -3,6 +3,10 @@ import LayoutPagina from '../layouts/LayoutPagina.astro';
 import TestataSezione from '../components/TestataSezione.astro';
 import ElencoDomande from '../components/ElencoDomande.astro';
 import { FAQS } from '../data/domande-frequenti';
+import { BASE_PRICES, OFFERTA_SITO } from '../data/prezzi';
+import { etichettaCapitolo } from '../data/capitoli';
+
+const capitolo = etichettaCapitolo(Astro.url.pathname);
 
 const settori = [
   'Ristoranti', 'Bar', 'Pizzerie', 'B&B', 'Barbieri', 'Saloni', 'Centri estetici',
@@ -31,27 +35,47 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
   description="Studio web ad Asti: siti chiari e veloci per ristoranti, negozi e artigiani. Prezzi da 200€, senza canone obbligatorio. Preventivo in 2 minuti."
   canonical="/"
 >
-  <!-- HERO -->
+  <!-- APERTURA -->
   <div class="involucro">
-    <section class="hero" aria-labelledby="titolo">
-      <div class="hero-griglia">
-        <div>
-          <h1 id="titolo">Un sito chiaro<br />per far scegliere<br /><em>la tua attività.</em></h1>
-          <p class="hero-lead">
+    <section class="apertura" aria-labelledby="titolo">
+      <div class="apertura-testa">
+        <p>Trebla · Studio web ad Asti</p>
+        <p>{capitolo}</p>
+      </div>
+      <div class="apertura-corpo">
+        <div class="apertura-testo">
+          <h1 id="titolo">Un sito chiaro<br class="apertura-a-capo" /> per far scegliere<br class="apertura-a-capo" /> <em>la tua attività.</em></h1>
+          <p class="apertura-lead">
             Siti web completi e veloci per <strong>attività locali ad Asti e dintorni</strong>:
             prezzi chiari, un referente diretto e i contatti sempre a portata di mano.
           </p>
-          <div class="hero-azioni">
+          <div class="apertura-azioni">
             <a class="btn btn-mattone" href="/preventivo/">Fai il preventivo in 2 minuti</a>
-            <a class="btn btn-fantasma" href="/servizi/">Scopri i servizi</a>
+            <a class="apertura-link" href="/servizi/">Guarda i servizi →</a>
           </div>
+          <span class="timbro" aria-hidden="true">Asti · bottega web</span>
         </div>
 
-        <aside class="scheda" aria-label="Esempio: come ti vede un cliente con un sito Trebla">
+        <nav class="apertura-indice" aria-label="In questa pagina">
+          <p class="apertura-indice-titolo">In questa pagina</p>
+          <ol>
+            <li><a href="#t-benefici"><span>01</span> Benefici</a></li>
+            <li><a href="#t-servizi"><span>02</span> Cosa facciamo</a></li>
+            <li><a href="#t-metodo"><span>03</span> Come funziona</a></li>
+            <li><a href="#t-prezzi"><span>04</span> Prezzi</a></li>
+            <li><a href="#t-studio"><span>05</span> Lo studio</a></li>
+            <li><a href="#t-domande"><span>06</span> Domande</a></li>
+            <li><a href="#t-contatto"><span>07</span> Contatto</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <figure class="apertura-figura">
+        <div class="scheda">
           <div class="scheda-barra" aria-hidden="true"><i></i><i></i><i></i><span>la-tua-trattoria.it</span></div>
           <div class="scheda-corpo">
             <p class="scheda-tipo">Trattoria · Asti</p>
-            <h2 class="scheda-nome">La tua trattoria</h2>
+            <p class="scheda-nome">La tua trattoria</p>
             <ul class="scheda-righe">
               <li><span class="ok" aria-hidden="true">✓</span><span>Menù del giorno leggibile<small>Prezzi chiari, niente PDF da scaricare</small></span></li>
               <li><span class="ok" aria-hidden="true">✓</span><span>Aperto ora · fino alle 22:30<small>Via Roma 1 · in centro</small></span></li>
@@ -59,8 +83,12 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
             </ul>
             <div class="scheda-tasti" aria-hidden="true"><span class="solid">Prenota</span><span>Menù</span><span>Come arrivare</span></div>
           </div>
-        </aside>
-      </div>
+        </div>
+        <figcaption>
+          <span class="apertura-figura-num">Fig. 01</span>
+          Mockup di un sito per una trattoria: menù, orari e contatti nello stesso posto. Non è un cliente.
+        </figcaption>
+      </figure>
     </section>
   </div>
 
@@ -105,7 +133,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
         <article class="indice" data-reveal>
           <div class="indice-corpo">
             <h3>Sito web</h3>
-            <p class="indice-meta">da <b>200€</b> · pagina singola · <b>300€</b> · più pagine</p>
+            <p class="indice-meta">da <b>{BASE_PRICES.singola}€</b> · pagina singola · <b>{BASE_PRICES.multi}€</b> · più pagine</p>
             <p class="indice-testo">Il punto di partenza per farti trovare e contattare. <strong>Una pagina che spiega tutto</strong> o un sito completo.</p>
             <p class="indice-lista"><span class="indice-k">Inclusi</span>Testi essenziali preparati insieme a te · Telefono, WhatsApp e mappa · Foto e menu sistemati · Privacy e cookie inclusi</p>
             <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Gergo tecnico · Ore della tua giornata · Canone obbligatorio</p>
@@ -167,49 +195,68 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
         numero="04 · Prezzi"
         titolo="Scegli da <em>dove partire</em>"
       />
-      <div class="prezzi-griglia" id="h-prezzi" data-reveal>
-        <div class="prezzo">
-          <p class="prezzo-kicker">Per iniziare</p>
-          <h3>Pagina singola</h3>
-          <p class="prezzo-cifra">200€</p>
-          <p class="piano-per">Per artigiani, professionisti e botteghe che devono farsi trovare e contattare.</p>
-          <ul>
-            <li>Tutto l’essenziale in una pagina che scorre</li>
-            <li>Telefono, WhatsApp e mappa in vista</li>
-            <li>Privacy e cookie inclusi</li>
-          </ul>
-          <a class="link-freccia" href="/preventivo/">Configura la singola →</a>
-        </div>
-        <div class="prezzo">
-          <p class="prezzo-kicker">Il completo</p>
-          <h3>Sito a più pagine</h3>
-          <p class="prezzo-cifra"><span class="prezzo-da">da</span> 300€</p>
-          <p class="piano-per">Per ristoranti, B&amp;B, saloni e negozi con tanto da mostrare.</p>
-          <ul>
-            <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
-            <li>Menu, prenotazioni, eventi se ti servono</li>
-            <li>Telefono, WhatsApp e mappa in vista</li>
-          </ul>
-          <a class="link-freccia" href="/preventivo/">Configura il multipagina →</a>
-        </div>
-        <div class="prezzo prezzo-evidenza">
-          <p class="prezzo-kicker">Tutto incluso</p>
-          <h3>Offerta</h3>
-          <p class="prezzo-cifra">490€</p>
-          <p class="piano-per">Per chi vuole tutto senza pensarci.</p>
-          <ul>
-            <li>Sito a più pagine completo, tutti gli extra</li>
-            <li>Foto scattate da noi ad Asti</li>
-            <li>Logo nuovo o rinnovato</li>
-            <li>3 modifiche gratuite invece di due</li>
-          </ul>
-          <a class="link-freccia" href="/preventivo/?offerta=1">Prendi l’offerta →</a>
-        </div>
-      </div>
-      <div class="prezzi-riga-finale" data-reveal>
-        <p class="prezzo-nota" style="margin:0">Hosting completamente gratuito, configurazione del dominio gratis. A noi, nessun canone obbligatorio, 30€ di acconto compresi.</p>
-        <a class="link-freccia" href="/prezzi/">Tutti i dettagli in Prezzi →</a>
-      </div>
+      <table class="prospetto prospetto-compatto" id="h-prezzi" data-reveal>
+        <caption class="prospetto-caption">Prospetto · prezzi una tantum, in euro</caption>
+        <colgroup>
+          <col class="col-voce" />
+          <col class="col-per" />
+          <col class="col-prezzo" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">Voce</th>
+            <th scope="col">Per chi</th>
+            <th scope="col">Prezzo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="prospetto-gruppo">
+            <th colspan="3" scope="rowgroup">Sito</th>
+          </tr>
+          <tr class="prospetto-riga">
+            <th scope="row" class="prospetto-voce">
+              <span class="prospetto-etichetta">01 · Per iniziare</span>
+              <span class="prospetto-nome">Pagina singola</span>
+            </th>
+            <td class="prospetto-per">Artigiani, professionisti e botteghe che devono farsi trovare e contattare.</td>
+            <td class="prospetto-prezzo-cella">
+              <span class="prospetto-prezzo">{BASE_PRICES.singola}€</span>
+              <span class="prospetto-unita">una tantum</span>
+              <a class="link-freccia" href="/preventivo/">Configura →</a>
+            </td>
+          </tr>
+          <tr class="prospetto-riga">
+            <th scope="row" class="prospetto-voce">
+              <span class="prospetto-etichetta">02 · Il completo</span>
+              <span class="prospetto-nome">Sito a più pagine</span>
+            </th>
+            <td class="prospetto-per">Ristoranti, B&amp;B, saloni e negozi con tanto da mostrare.</td>
+            <td class="prospetto-prezzo-cella">
+              <span class="prospetto-prezzo"><span class="prospetto-da">da</span>{BASE_PRICES.multi}€</span>
+              <span class="prospetto-unita">una tantum</span>
+              <a class="link-freccia" href="/preventivo/">Configura →</a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr class="prospetto-gruppo">
+            <th colspan="3" scope="rowgroup">Offerta</th>
+          </tr>
+          <tr class="prospetto-riga prospetto-offerta">
+            <th scope="row" class="prospetto-voce">
+              <span class="prospetto-etichetta">03 · Tutto incluso</span>
+              <span class="prospetto-nome">Tutto incluso</span>
+            </th>
+            <td class="prospetto-per">Sito completo, foto scattate da noi, logo e {OFFERTA_SITO.revisioni} modifiche gratuite.</td>
+            <td class="prospetto-prezzo-cella">
+              <span class="prospetto-prezzo">{OFFERTA_SITO.prezzo}€</span>
+              <span class="prospetto-unita">una tantum</span>
+              <a class="link-freccia" href="/preventivo/?offerta=1">Prendi l’offerta →</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="nota-prezzo" data-reveal>Hosting completamente gratuito, configurazione del dominio gratis. A noi, nessun canone obbligatorio, 30€ di acconto compresi. <a class="link-freccia" href="/prezzi/">Tutti i dettagli in Prezzi →</a></p>
     </div>
   </section>
 
@@ -260,7 +307,7 @@ const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME
     <div class="involucro">
       <div class="cta-finale" id="h-contatto" data-reveal>
         <div>
-          <p class="prezzo-kicker">Iniziamo</p>
+          <p class="kicker">Iniziamo</p>
           <h2 id="t-contatto">Cominciamo da quello che serve <em>alla tua attività.</em></h2>
           <p>Raccontaci in poche righe cosa fai. Ti rispondiamo con un’indicazione chiara sui prossimi passi.</p>
         </div>

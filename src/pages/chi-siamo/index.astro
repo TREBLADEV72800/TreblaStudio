@@ -1,6 +1,9 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
 import TestataSezione from '../../components/TestataSezione.astro';
+import { etichettaCapitolo } from '../../data/capitoli';
+
+const capitolo = etichettaCapitolo(Astro.url.pathname);
 ---
 
 <LayoutPagina
@@ -10,7 +13,7 @@ import TestataSezione from '../../components/TestataSezione.astro';
 >
   <div class="involucro">
     <section class="pagina-titolo" aria-labelledby="titolo">
-      <p class="capitolo-numero">Lo studio</p>
+      <p class="capitolo-numero">{capitolo}</p>
       <h1 id="titolo">Due persone,<br /><em>un metodo chiaro</em></h1>
       <p class="lead">Siamo ad Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo un sito che ti somiglia, senza farti perdere giornate.</p>
     </section>

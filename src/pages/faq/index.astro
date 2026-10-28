@@ -2,6 +2,9 @@
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
 import ElencoDomande from '../../components/ElencoDomande.astro';
 import { FAQS } from '../../data/domande-frequenti';
+import { etichettaCapitolo } from '../../data/capitoli';
+
+const capitolo = etichettaCapitolo(Astro.url.pathname);
 ---
 
 <LayoutPagina
@@ -20,6 +23,7 @@ import { FAQS } from '../../data/domande-frequenti';
 >
   <div class="involucro">
     <section class="pagina-titolo" style="padding-block-start:clamp(10px,2vw,20px)" aria-labelledby="titolo">
+      <p class="capitolo-numero">{capitolo}</p>
       <div class="faq-titolo-riga">
       <h1 id="titolo" style="max-inline-size:none;font-size:calc(clamp(1.9rem,8.5vw,5.2rem) - 5px);margin:0">Domande <em>frequenti</em></h1>
       <a class="btn btn-fantasma solo-pc" href="/contatti/">Oppure parliamone</a>

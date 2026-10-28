@@ -2,8 +2,10 @@
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
 import TestataSezione from '../../components/TestataSezione.astro';
 import { BASE_PRICES, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
+import { etichettaCapitolo } from '../../data/capitoli';
 import { site } from '../../data/sito';
 
+const capitolo = etichettaCapitolo(Astro.url.pathname);
 const titolo = `Prezzi: siti web da ${BASE_PRICES.singola}€, senza canone | Trebla`;
 const descrizione = `Pagina singola ${BASE_PRICES.singola}€, sito a più pagine ${BASE_PRICES.multi}€, offerta Tutto incluso ${OFFERTA_SITO.prezzo}€. Due revisioni incluse, nessun canone, il sito è tuo.`;
 const urlOfferta = 'https://treblastudio.pages.dev/prezzi/#offerta';
@@ -32,57 +34,105 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
 >
   <div class="involucro">
     <section class="pagina-titolo" aria-labelledby="titolo-prezzi">
-      <p class="capitolo-numero">Prezzi</p>
+      <p class="capitolo-numero">{capitolo}</p>
       <h1 id="titolo-prezzi">Due prezzi di partenza <em>Niente sorprese</em></h1>
       <p class="lead">Tutto per andare online. Gli extra li vedi prima nel preventivo.</p>
     </section>
 
-    <section class="sezione sezione-flush" aria-label="Prezzi base">
-      <div class="prezzi-griglia">
-        <div class="prezzo">
-          <p class="prezzo-kicker">Per iniziare</p>
-          <h2 class="prezzo-titolo">Pagina singola</h2>
-          <p class="prezzo-cifra">{BASE_PRICES.singola}€</p>
-          <ul>
-            <li>Tutto l’essenziale in una pagina che scorre</li>
-            <li>Chi sei, cosa fai, dove sei, come contattarti</li>
-            <li>Telefono, WhatsApp e mappa in vista</li>
-          </ul>
-          <p class="prezzo-nota">Perfetta per: artigiani, professionisti, piccole botteghe che devono farsi trovare e contattare. Se ti servono sezioni separate, serve il multipagina.</p>
-        </div>
-        <div class="prezzo prezzo-evidenza">
-          <p class="prezzo-kicker">Il completo</p>
-          <h2 class="prezzo-titolo">Sito a più pagine</h2>
-          <p class="prezzo-cifra">{BASE_PRICES.multi}€</p>
-          <ul>
-            <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
-            <li>Menu, prenotazioni, eventi se ti servono</li>
-            <li>Telefono, WhatsApp e mappa in vista</li>
-          </ul>
-          <p class="prezzo-nota">Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</p>
-        </div>
-      </div>
-      <p class="prezzo-nota" data-reveal style="margin:14px 0 0">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+20€) o partire da zero.</p>
-      <div class="prezzo prezzo-evidenza offerta-solo" id="offerta" data-reveal>
-          <p class="prezzo-kicker">Offerta</p>
-          <h2 class="prezzo-titolo">{OFFERTA_SITO.nome}</h2>
-          <p class="prezzo-cifra">{OFFERTA_SITO.prezzo}€</p>
-          <ul>
-            <li>Sito a più pagine completo: tutte le funzioni, tutti gli extra, tutte le pagine</li>
-            <li>Foto scattate da noi ad Asti</li>
-            <li>Logo nuovo o rinnovato</li>
-            <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
-          </ul>
-          <p class="prezzo-nota">Anticipo di 30€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
-          <div class="hero-azioni stacco-16">
-            <a class="btn btn-mattone" href="/preventivo/?offerta=1">Prendi l’offerta</a>
-          </div>
-          <p class="prezzo-nota"><a class="link-freccia" href={condivisioneOfferta} target="_blank" rel="noopener noreferrer">Girala a chi gli serve →</a></p>
-      </div>
+    <section class="sezione sezione-flush" aria-label="Prospetto prezzi">
+      <table class="prospetto">
+        <caption class="prospetto-caption">Prospetto prezzi · una tantum, in euro</caption>
+        <colgroup>
+          <col class="col-voce" />
+          <col class="col-include" />
+          <col class="col-prezzo" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">Voce</th>
+            <th scope="col">Cosa comprende</th>
+            <th scope="col">Prezzo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="prospetto-gruppo">
+            <th colspan="3" scope="rowgroup">Sito</th>
+          </tr>
+          <tr class="prospetto-riga">
+            <th scope="row" class="prospetto-voce">
+              <span class="prospetto-etichetta">01 · Per iniziare</span>
+              <span class="prospetto-nome">Pagina singola</span>
+              <span class="prospetto-per">Perfetta per: artigiani, professionisti, piccole botteghe che devono farsi trovare e contattare. Se ti servono sezioni separate, serve il multipagina.</span>
+            </th>
+            <td class="prospetto-include">
+              <ul>
+                <li>Tutto l’essenziale in una pagina che scorre</li>
+                <li>Chi sei, cosa fai, dove sei, come contattarti</li>
+                <li>Telefono, WhatsApp e mappa in vista</li>
+              </ul>
+            </td>
+            <td class="prospetto-prezzo-cella">
+              <span class="prospetto-prezzo">{BASE_PRICES.singola}€</span>
+              <span class="prospetto-unita">una tantum</span>
+              <a class="link-freccia" href="/preventivo/">Configura la singola →</a>
+            </td>
+          </tr>
+          <tr class="prospetto-riga">
+            <th scope="row" class="prospetto-voce">
+              <span class="prospetto-etichetta">02 · Il completo</span>
+              <span class="prospetto-nome">Sito a più pagine</span>
+              <span class="prospetto-per">Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</span>
+            </th>
+            <td class="prospetto-include">
+              <ul>
+                <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
+                <li>Menu, prenotazioni, eventi se ti servono</li>
+                <li>Telefono, WhatsApp e mappa in vista</li>
+              </ul>
+            </td>
+            <td class="prospetto-prezzo-cella">
+              <span class="prospetto-prezzo"><span class="prospetto-da">da</span>{BASE_PRICES.multi}€</span>
+              <span class="prospetto-unita">una tantum</span>
+              <a class="link-freccia" href="/preventivo/">Configura il multipagina →</a>
+            </td>
+          </tr>
+          <tr class="prospetto-nota">
+            <td colspan="3">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+20€) o partire da zero.</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr class="prospetto-gruppo">
+            <th colspan="3" scope="rowgroup">Offerta</th>
+          </tr>
+          <tr class="prospetto-riga prospetto-offerta" id="offerta">
+            <th scope="row" class="prospetto-voce">
+              <span class="prospetto-etichetta">03 · Tutto incluso</span>
+              <span class="prospetto-nome">Tutto incluso</span>
+            </th>
+            <td class="prospetto-include">
+              <ul>
+                <li>Sito a più pagine completo: tutte le funzioni, tutti gli extra, tutte le pagine</li>
+                <li>Foto scattate da noi ad Asti</li>
+                <li>Logo nuovo o rinnovato</li>
+                <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
+              </ul>
+              <p class="nota-prezzo">Anticipo di 30€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
+            </td>
+            <td class="prospetto-prezzo-cella">
+              <span class="prospetto-prezzo">{OFFERTA_SITO.prezzo}€</span>
+              <span class="prospetto-unita">una tantum</span>
+              <div class="prospetto-azioni">
+                <a class="btn btn-mattone" href="/preventivo/?offerta=1">Prendi l’offerta</a>
+                <a class="link-freccia" href={condivisioneOfferta} target="_blank" rel="noopener noreferrer">Girala a chi gli serve →</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <div class="hero-azioni stacco-16" data-reveal>
         <a class="btn btn-mattone" href="/preventivo/">Configura il tuo prezzo</a>
       </div>
-      <p class="prezzo-nota" data-reveal>Nessun pagamento e nessun obbligo per chiedere la stima.</p>
+      <p class="nota-prezzo" data-reveal>Nessun pagamento e nessun obbligo per chiedere la stima.</p>
     </section>
 
     <section class="sezione" aria-label="Condizioni">
@@ -109,16 +159,16 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
         nota="Grafiche, social e foto hanno un prezzo a parte. Le funzioni del sito sono incluse."
       />
       <h3 class="extra-titolo">Per le grafiche</h3>
-      <p class="prezzo-nota" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
+      <p class="nota-prezzo" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
       <ul class="extra-lista">
         {DESIGN_OPTIONS.map((e) => (
-          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>
+          <li><span>{e.name}</span><span class="extra-prezzo">+{e.price}€</span></li>
         ))}
       </ul>
       <h3 class="extra-titolo">Per i social media</h3>
       <ul class="extra-lista">
         {SOCIAL_OPTIONS.map((e) => (
-          <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>
+          <li><span>{e.name}</span><span class="extra-prezzo">+{e.price}€</span></li>
         ))}
       </ul>
     </section>
