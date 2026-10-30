@@ -24,8 +24,8 @@ Riferimento esteso con il catalogo completo dei segnali 2026:
   Comandi: `npm run check`, `npm run build`, `npm run slop`,
   `npm run deploy`, `npm run deploy:test`.
 - Sistema visivo: "Quaderno di bottega". Token in `src/styles/variabili.css`:
-  carta, inchiostro, mattone, linee ledger da 1px, serif Fraunces per i
-  titoli, Archivo per il corpo, IBM Plex Mono per prezzi ed etichette.
+  carta, inchiostro, petrolio, mattone, linee ledger da 1px, serif Fraunces
+  per i titoli, Archivo per il corpo, IBM Plex Mono per prezzi ed etichette.
 - Contenuti reali in `src/data/` (prezzi, domande frequenti, configuratore, sito):
   sono l'unica fonte di verità. Prezzi con € attaccato al numero.
   `prezzi.ts` è il catalogo commerciale, `configuratore.ts` solo le voci
@@ -134,8 +134,10 @@ Regole aggiuntive:
 
 ## 4. Design: come si resta riconoscibili
 
-- Il sistema è il quaderno: carta, inchiostro, mattone, righe ledger,
-  numerazione, tabelle, timbri. Non è un tema, è un modo di impaginare.
+- Il sistema è il quaderno: carta, inchiostro, petrolio, mattone, righe
+  ledger, numerazione, tabelle, timbri. Non è un tema, è un modo di impaginare.
+- Il petrolio segnala informazione, link e stati attivi; il mattone resta
+  alle azioni (CTA, errori). Non invertire i ruoli.
 - La gerarchia viene dal contenuto: titoli, occhielli, note a margine,
   prezzi in mono. Non da card e pill.
 - Un solo gesto decorativo per pagina. Se ce ne sono tre, non ce n'è nessuno.

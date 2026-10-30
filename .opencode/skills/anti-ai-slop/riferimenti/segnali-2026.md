@@ -39,8 +39,8 @@ arriva Geist. La lista dei font "giusti" cambia ogni sei mesi.
 
 Quindi la regola non è "usa un altro font". È: **il sistema visivo deve
 nascere dal contenuto e dal mestiere**, non dalla moda. Per Trebla è il
-quaderno di bottega: carta, inchiostro, mattone, righe da 1px, numerazione,
-tabelle, timbri. Non lo si cambia per sembrare aggiornati.
+quaderno di bottega: carta, inchiostro, petrolio, mattone, righe da 1px,
+numerazione, tabelle, timbri. Non lo si cambia per sembrare aggiornati.
 
 ### 1.3 Cosa guardare invece
 

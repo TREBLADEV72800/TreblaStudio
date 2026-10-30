@@ -117,8 +117,8 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
 .canale:hover { background: var(--carta-2); }
 .canale svg { flex: none; inline-size: 30px; block-size: 30px; }
 .canale span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.canale[aria-pressed="true"] { background: var(--carta-2); border-color: var(--mattone); box-shadow: inset 0 0 0 1px var(--mattone); color: var(--mattone-fondo); }
-.canale:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
+.canale[aria-pressed="true"] { background: var(--carta-2); border-color: var(--petrolio); box-shadow: inset 0 0 0 1px var(--petrolio); color: var(--petrolio-fondo); }
+.canale:focus-visible { outline: 2px solid var(--petrolio); outline-offset: 2px; }
 @media (max-width: 480px) {
   .canale { gap: 6px; padding: 10px 6px; font-size: 0.85rem; }
   .canale svg { inline-size: 24px; block-size: 24px; }
@@ -157,7 +157,7 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
 }
 .video-qta button:hover:not(:disabled) { background: var(--carta-2); }
 .video-qta button:disabled { opacity: 0.4; cursor: default; }
-.video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
+.video-qta button:focus-visible { outline: 2px solid var(--petrolio); outline-offset: 2px; }
 .video-qta-num { flex: 1 1 auto; text-align: center; }
 
 /* ---------- Torna alla home dal configuratore ---------- */

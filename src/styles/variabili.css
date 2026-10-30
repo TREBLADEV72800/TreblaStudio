@@ -1,24 +1,30 @@
-/* Token del design system: carta, inchiostro, mattone, linee.
+/* Token del design system: carta, inchiostro, petrolio, mattone, linee.
+   La carta e l'inchiostro reggono la lettura; il petrolio segnala
+   informazioni e collegamenti; il mattone resta alle azioni.
    Un posto solo: stili-globali.css li importa, note-legali li usa da solo. */
 :root {
-  --carta: #f7f2e8;
-  --carta-2: #efe7d3;
-  --carta-3: #fffdf7;
-  --inchiostro: #1d1712;
-  --morbido: #6c6054;
-  --linea: #d9cdb9;
-  --linea-scura: #3a3129;
-  --mattone: #b23a12;
-  --mattone-fondo: #932d0c;
-  --mattone-chiaro: #e89a6b;
-  --notte: #201913;
-  --notte-carta: #f4eee1;
-  --notte-morbido: #b7ab98;
+  --carta: #f7f5ef;
+  --carta-2: #ece9df;
+  --carta-3: #fffefa;
+  --inchiostro: #17202a;
+  --morbido: #5f6773;
+  --linea: #d9d4c8;
+  --linea-scura: #2c3844;
+  --petrolio: #0e5b56;
+  --petrolio-fondo: #0a4743;
+  --petrolio-chiaro: #86c9c3;
+  --mattone: #b4471f;
+  --mattone-fondo: #8f3315;
+  --notte: #121b24;
+  --notte-carta: #f3efe4;
+  --notte-morbido: #b2bac3;
   --wa: #157f3d;
   --wa-fondo: #0f5f2d;
 
-  /* Anello di focus: sul chiaro regge il mattone, sul notte serve il chiaro. */
-  --focus: var(--mattone);
+  /* 60% carta, 30% inchiostro, 10% accenti: il petrolio porta informazione
+     e navigazione, il mattone resta solo alle azioni (CTA, errori).
+     Anello di focus: sul chiaro regge il petrolio, sul notte serve il chiaro. */
+  --focus: var(--petrolio);
 
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Archivo", -apple-system, "Segoe UI", Roboto, sans-serif;

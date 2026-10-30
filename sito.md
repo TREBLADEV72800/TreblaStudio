@@ -75,7 +75,7 @@ Queste regole spiegano il perché di molte scelte. Se una modifica le viola, pro
 9. **URL pubblici stabili.** Non cambiare `/servizi`, `/prezzi`, `/chi-siamo`, `/preventivo`, `/contatti`, `/faq`, `/note-legali`. I nomi dei file interni possono essere descrittivi, gli slug pubblici no. Cloudflare Pages li serve con lo slash finale (`/servizi/`, `/prezzi/`): canonical, sitemap e link interni usano quella forma.
 10. **Dominio build-time.** `PUBLIC_SITE_URL` viene letto in build da `astro.config.mjs` e `src/data/sito.ts`. Canonical, sitemap e JSON-LD dipendono da quel valore: dopo averlo cambiato serve un nuovo deploy.
 11. **Build pulita con 9 pagine.** Se il build non arriva a 9 pagine HTML, manca una route o una pagina è stata rotta.
-12. **Non reinventare il design.** Prima di una modifica UI leggi la skill anti-ai-slop. Il sistema è "Quaderno di bottega": carta, inchiostro, mattone, righe da 1px, Fraunces, Archivo, IBM Plex Mono.
+12. **Non reinventare il design.** Prima di una modifica UI leggi la skill anti-ai-slop. Il sistema è "Quaderno di bottega": carta, inchiostro, petrolio, mattone, righe da 1px, Fraunces, Archivo, IBM Plex Mono.
 13. **Accessibilità e movimento ridotto.** Focus visibile, contrasto AA, landmark, testi alternativi, `prefers-reduced-motion` ovunque. Non rimuovere outline o fallback.
 14. **Deploy solo dopo verifica.** Modifica codice: build, deploy, controllo live. Modifica solo documentazione: nessun deploy necessario.
 15. **Niente AI-slop.** Lo slop non è l'uso dell'AI: è l'assenza di scelte. Prima di ogni modifica a UI o copy leggi `.opencode/skills/anti-ai-slop/SKILL.md` (catalogo esteso in `riferimenti/segnali-2026.md`). Dopo il build esegui `npm run slop`: servono 0 bloccanti e punteggio ≤ 10 su 30, altrimenti non si consegna. Il controllo meccanico non sostituisce i cinque test manuali del §6 della skill.
@@ -1121,22 +1121,24 @@ File: `src/styles/variabili.css`.
 
 | Token | Valore | Uso |
 |---|---|---|
-| `--carta` | `#f7f2e8` | Sfondo principale |
-| `--carta-2` | `#efe7d3` | Sfondo hover, righe |
-| `--carta-3` | `#fffdf7` | Superfici chiare |
-| `--inchiostro` | `#1d1712` | Testo e linee forti |
-| `--morbido` | `#6c6054` | Testo secondario |
-| `--linea` | `#d9cdb9` | Linee leggere |
-| `--linea-scura` | `#3a3129` | Bordi scuri |
-| `--mattone` | `#b23a12` | Accento principale |
-| `--mattone-fondo` | `#932d0c` | Accento scuro |
-| `--mattone-chiaro` | `#e89a6b` | Focus su fondo scuro |
-| `--notte` | `#201913` | Footer, card scure |
-| `--notte-carta` | `#f4eee1` | Testo su notte |
-| `--notte-morbido` | `#b7ab98` | Testo secondario su notte |
+| `--carta` | `#f7f5ef` | Sfondo principale |
+| `--carta-2` | `#ece9df` | Sfondo hover, righe |
+| `--carta-3` | `#fffefa` | Superfici chiare |
+| `--inchiostro` | `#17202a` | Testo e linee forti |
+| `--morbido` | `#5f6773` | Testo secondario |
+| `--linea` | `#d9d4c8` | Linee leggere |
+| `--linea-scura` | `#2c3844` | Bordi scuri |
+| `--petrolio` | `#0e5b56` | Link, numeri, kicker, stati attivi |
+| `--petrolio-fondo` | `#0a4743` | Hover e selezione |
+| `--petrolio-chiaro` | `#86c9c3` | Petrolio su fondo scuro |
+| `--mattone` | `#b4471f` | Solo azioni: CTA primaria |
+| `--mattone-fondo` | `#8f3315` | Hover CTA ed errori |
+| `--notte` | `#121b24` | Footer, card scure |
+| `--notte-carta` | `#f3efe4` | Testo su notte |
+| `--notte-morbido` | `#b2bac3` | Testo secondario su notte |
 | `--wa` | `#157f3d` | WhatsApp |
 | `--wa-fondo` | `#0f5f2d` | WhatsApp scuro |
-| `--focus` | `var(--mattone)` | Anello di focus |
+| `--focus` | `var(--petrolio)` | Anello di focus |
 | `--serif` | Fraunces, Georgia, serif | Titoli |
 | `--sans` | Archivo, system-ui, sans-serif | Corpo |
 | `--mono` | IBM Plex Mono, monospace | Prezzi, etichette |
@@ -1150,7 +1152,7 @@ File: `src/styles/variabili.css`.
 | `--raggio` | `12px` | Raggio bottoni e card |
 | `--transizione` | `0.18s ease` | Transizioni brevi |
 
-Su fondo scuro `--focus` viene sovrascritto con `--mattone-chiaro` su `.piede`, `.prezzo-evidenza`, `.wizard-totale-finale`, `.wizard-barra-fissa`.
+Su fondo scuro `--focus` viene sovrascritto con `--petrolio-chiaro` su `.piede`, `.prezzo-evidenza` e `.wizard-totale-finale`. La barra fissa del configuratore resta chiara e tiene il petrolio scuro.
 
 ### 9.2 `src/stili-globali.css`
 
@@ -1299,7 +1301,7 @@ Il markup header e footer dichiara `width="1360" height="768"`, stesso rapporto 
 - Un solo H1 per pagina.
 - `TestataSezione` genera H2; le card usano H2 o H3 in base alla gerarchia.
 - Focus visible: `outline: 2px solid var(--focus)` con offset 3px.
-- Su fondo scuro il focus usa `--mattone-chiaro`.
+- Su fondo scuro il focus usa `--petrolio-chiaro`.
 - Menu mobile: focus trap, Escape, blocco scroll, ripristino posizione.
 - Wizard:
   - Il titolo del passo riceve il focus e non mostra outline.

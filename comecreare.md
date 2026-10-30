@@ -33,7 +33,7 @@ onesto e riconoscibile. Niente template travestiti.
 
 ## 2. Design system "Quaderno di bottega"
 
-- Token CSS in un solo file: carta, inchiostro, mattone, linea, raggio.
+- Token CSS in un solo file: carta, inchiostro, petrolio, mattone, linea, raggio.
 - Titoli serif (Fraunces), corpo sans (Archivo), prezzi ed etichette mono.
 - Righe ledger con bordi inchiostro da 1px, niente ombre morbide,
   niente gradienti, niente glass, niente neon.
