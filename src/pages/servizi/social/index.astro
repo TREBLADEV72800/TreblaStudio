@@ -1,0 +1,23 @@
+---
+import LayoutPagina from '../../../layouts/LayoutPagina.astro';
+import { SOCIAL_OPTIONS } from '../../../data/prezzi';
+import { site } from '../../../data/sito';
+
+const domande = [
+  ['Quanto costa?', 'Profili sistemati da zero e video brevi costano 20€ ciascuno; le grafiche per post e storie costano 10€.'],
+  ['Garantite nuovi follower?', 'No. Non compriamo follower e non promettiamo viralità o risultati che dipendono dalle piattaforme.'],
+  ['Quali canali seguite?', 'Nel configuratore puoi selezionare Instagram, Facebook e TikTok. Definiamo insieme contenuti e cadenza.'],
+  ['Devo fornire foto e video?', 'Concordiamo i materiali necessari prima del lavoro. La produzione continuativa non è compresa automaticamente.'],
+];
+---
+<LayoutPagina title="Gestione social e contenuti ad Asti | Trebla" description="Profili, brevi video e grafiche social con prezzi chiari. Servizio per attività di Asti, senza promesse di follower o viralità." canonical="/servizi/social" jsonLd={[
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Servizi', item: `${site.url}/servizi/` }, { '@type': 'ListItem', position: 3, name: 'Social', item: `${site.url}/servizi/social/` }] },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Contenuti per social media', provider: { '@id': `${site.url}/#studio` }, areaServed: { '@type': 'City', name: 'Asti' }, offers: SOCIAL_OPTIONS.map((e) => ({ '@type': 'Offer', name: e.name, price: String(e.price), priceCurrency: 'EUR' })) },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: domande.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+]}>
+<div class="involucro">
+  <section class="pagina-titolo" aria-labelledby="titolo"><p class="capitolo-numero">Servizio · 03</p><h1 id="titolo">Social <em>con una direzione</em></h1><p class="lead">Sistemiamo i profili e prepariamo contenuti concordati. Senza promesse di follower o viralità.</p><div class="hero-azioni"><a class="btn btn-mattone" href="/preventivo/">Scegli i contenuti</a><a class="btn btn-fantasma" data-wa="Ciao Trebla, vorrei informazioni sui social." target="_blank" rel="noopener noreferrer" href="#">Chiedi su WhatsApp</a></div></section>
+  <section class="sezione sezione-flush"><div class="prosa"><h2>Cosa include</h2><ul>{SOCIAL_OPTIONS.map((e) => <li>{e.name}: {e.price}€</li>)}</ul><p>Canali disponibili nel preventivo: Instagram, Facebook e TikTok. La cadenza e i materiali si concordano prima.</p><h2>Cosa non include</h2><p>Follower acquistati, garanzie di visualizzazioni o vendite, campagne pubblicitarie a pagamento e una produzione continuativa non concordata.</p><h2>Per chi è</h2><p>Per attività che hanno già chiaro cosa vogliono comunicare e cercano aiuto per impostare i profili o preparare contenuti.</p><h2>Prezzi e tempi</h2><p>Le voci costano da 10€ a 20€ ciascuna. Quantità, calendario e consegna vengono definiti nella proposta.</p><h2>Domande frequenti</h2>{domande.map(([q,a]) => <details><summary>{q}</summary><div class="risposta"><p>{a}</p></div></details>)}</div></section>
+  <section class="sezione"><div class="cta-finale"><div><p class="prezzo-kicker">Prossimo passo</p><h2>Scegli cosa <em>ti serve davvero</em></h2><p>Costruiamo una proposta con voci e tempi concordati.</p></div><div class="cta-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-wa" data-wa="Ciao Trebla, vorrei un preventivo per i social." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></div></div></section>
+</div>
+</LayoutPagina>

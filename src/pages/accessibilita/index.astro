@@ -1,0 +1,7 @@
+---
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import { site } from '../../data/sito';
+---
+<LayoutPagina title="Accessibilità del sito | Trebla Asti" description="Informazioni sulle scelte di accessibilità adottate nel sito Trebla e sui limiti da segnalare." canonical="/accessibilita" jsonLd={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Accessibilità', item: `${site.url}/accessibilita/` }] }}>
+<div class="involucro"><section class="pagina-titolo" aria-labelledby="titolo"><p class="capitolo-numero">Accessibilità</p><h1 id="titolo">Un sito da <em>usare con chiarezza</em></h1><p class="lead">Questa pagina descrive le scelte presenti nel sito. Non è una certificazione di conformità.</p></section><section class="sezione sezione-flush"><div class="prosa"><h2>Accorgimenti presenti</h2><p>Il sito usa struttura semantica, link saltabile al contenuto, focus visibile, etichette per i controlli e contenuti leggibili senza animazioni quando è attiva la preferenza di movimento ridotto. Le pagine sono progettate per funzionare con tastiera e schermi piccoli.</p><h2>Limiti e segnalazioni</h2><p>Non è stata svolta una verifica certificata rispetto a uno standard di conformità. Se incontri una barriera, puoi segnalarcela tramite la <a href="/contatti/">pagina contatti</a>, indicando la pagina e il problema.</p></div></section></div>
+</LayoutPagina>

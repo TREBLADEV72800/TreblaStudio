@@ -1,0 +1,23 @@
+---
+import LayoutPagina from '../../../layouts/LayoutPagina.astro';
+import { DESIGN_OPTIONS } from '../../../data/prezzi';
+import { site } from '../../../data/sito';
+
+const domande = [
+  ['Quanto costano le grafiche?', 'Il prezzo dipende dal materiale. Per esempio, un logo costa 20€, un biglietto 10€, un volantino o menu 20€.'],
+  ['Stampate i materiali?', 'No. Prepariamo i file grafici pronti per la stampa, poi scegli tu dove stamparli.'],
+  ['Posso chiedere solo un logo?', 'Sì, puoi scegliere le singole voci nel preventivo senza acquistare un sito.'],
+  ['Quando ricevo i file?', 'Definiamo tempi e consegna nella proposta, dopo aver chiarito i materiali e cosa serve.'],
+];
+---
+<LayoutPagina title="Grafiche e identità visiva ad Asti | Trebla" description="Logo, biglietti, volantini e menu: prezzi chiari per materiali grafici coordinati. Trebla lavora ad Asti e consegna file pronti per la stampa." canonical="/servizi/grafiche" jsonLd={[
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Servizi', item: `${site.url}/servizi/` }, { '@type': 'ListItem', position: 3, name: 'Grafiche', item: `${site.url}/servizi/grafiche/` }] },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Design grafico', provider: { '@id': `${site.url}/#studio` }, areaServed: { '@type': 'City', name: 'Asti' }, offers: DESIGN_OPTIONS.map((e) => ({ '@type': 'Offer', name: e.name, price: String(e.price), priceCurrency: 'EUR' })) },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: domande.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+]}>
+<div class="involucro">
+  <section class="pagina-titolo" aria-labelledby="titolo"><p class="capitolo-numero">Servizio · 02</p><h1 id="titolo">Grafiche <em>per farti riconoscere</em></h1><p class="lead">Logo, biglietti e materiali coordinati con il sito. Scegli le voci che servono, senza pacchetti obbligatori.</p><div class="hero-azioni"><a class="btn btn-mattone" href="/preventivo/">Scegli le grafiche</a><a class="btn btn-fantasma" data-wa="Ciao Trebla, vorrei informazioni sulle grafiche." target="_blank" rel="noopener noreferrer" href="#">Chiedi su WhatsApp</a></div></section>
+  <section class="sezione sezione-flush"><div class="prosa"><h2>Cosa possiamo preparare</h2><ul>{DESIGN_OPTIONS.map((e) => <li>{e.name}: {e.price}€</li>)}</ul><p>Consegniamo i file grafici. La stampa non è inclusa.</p><h2>Cosa non include</h2><p>Stampa, produzione di materiali fisici e revisioni senza limite. Definiamo i file e le correzioni comprese prima di iniziare.</p><h2>Per chi è</h2><p>Per attività che vogliono mantenere lo stesso aspetto su sito, biglietti, menu o materiali promozionali.</p><h2>Prezzo e tempi</h2><p>Le singole voci costano 10€ o 20€, in base al materiale. Tempi e consegna sono concordati nella proposta.</p><h2>Domande frequenti</h2>{domande.map(([q,a]) => <details><summary>{q}</summary><div class="risposta"><p>{a}</p></div></details>)}</div></section>
+  <section class="sezione"><div class="cta-finale"><div><p class="prezzo-kicker">Prossimo passo</p><h2>Partiamo dal materiale <em>che ti serve</em></h2><p>Seleziona le grafiche nel preventivo oppure scrivici.</p></div><div class="cta-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-wa" data-wa="Ciao Trebla, vorrei un preventivo per delle grafiche." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></div></div></section>
+</div>
+</LayoutPagina>

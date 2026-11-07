@@ -12,6 +12,7 @@ interface Props {
   canonical?: string | undefined;
   noindex?: boolean | undefined;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[] | undefined;
+  ogImage?: string | undefined;
 }
 
 const {
@@ -20,13 +21,14 @@ const {
   canonical = '/',
   noindex = false,
   jsonLd,
+  ogImage,
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={site.lang}>
   <head>
-    <MetaDocumento title={title} description={description} canonical={canonical} noindex={noindex} jsonLd={jsonLd} />
+    <MetaDocumento title={title} description={description} canonical={canonical} noindex={noindex} jsonLd={jsonLd} ogImage={ogImage} />
   </head>
   <body>
     <a class="salto" href="#contenuto">Salta al contenuto</a>

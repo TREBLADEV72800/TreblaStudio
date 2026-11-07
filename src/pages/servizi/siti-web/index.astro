@@ -1,0 +1,23 @@
+---
+import LayoutPagina from '../../../layouts/LayoutPagina.astro';
+import { BASE_PRICES, OFFERTA_SITO } from '../../../data/prezzi';
+import { site } from '../../../data/sito';
+
+const domande = [
+  ['Quanto costa?', `Una pagina costa ${BASE_PRICES.singola}€, un sito a più pagine ${BASE_PRICES.multi}€. L’Offerta Tutto incluso costa ${OFFERTA_SITO.prezzo}€.`],
+  ['Quanto tempo serve?', 'Dopo aver visto i materiali concordiamo una data. In genere il lavoro richiede una decina di giorni.'],
+  ['Posso aggiornare i contenuti?', 'Al momento gli aggiornamenti vengono gestiti insieme a noi. Se vuoi cambiare un testo o una foto, concordiamo prima il lavoro e il costo.'],
+  ['Il sito rimane mio?', 'Sì. A saldo completo il sito è tuo e non paghi un canone obbligatorio a Trebla.'],
+];
+---
+<LayoutPagina title="Realizzazione siti web ad Asti: prezzi chiari | Trebla" description="Siti vetrina per attività di Asti: testi, contatti, mappe, privacy e hosting inclusi. Prezzi da 200€, tempi concordati e nessun canone Trebla." canonical="/servizi/siti-web" jsonLd={[
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Servizi', item: `${site.url}/servizi/` }, { '@type': 'ListItem', position: 3, name: 'Siti web', item: `${site.url}/servizi/siti-web/` }] },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Realizzazione siti web', provider: { '@id': `${site.url}/#studio` }, areaServed: { '@type': 'City', name: 'Asti' }, offers: [{ '@type': 'Offer', name: 'Pagina singola', price: String(BASE_PRICES.singola), priceCurrency: 'EUR' }, { '@type': 'Offer', name: 'Sito a più pagine', price: String(BASE_PRICES.multi), priceCurrency: 'EUR' }, { '@type': 'Offer', name: OFFERTA_SITO.nome, price: String(OFFERTA_SITO.prezzo), priceCurrency: 'EUR' }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: domande.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+]}>
+<div class="involucro">
+  <section class="pagina-titolo" aria-labelledby="titolo"><p class="capitolo-numero">Servizio · 01</p><h1 id="titolo">Un sito web <em>chiaro e tuo</em></h1><p class="lead">Una pagina singola da {BASE_PRICES.singola}€ o un sito a più pagine da {BASE_PRICES.multi}€. Per farti trovare, spiegare cosa fai e rendere semplici i contatti.</p><div class="hero-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-fantasma" data-wa="Ciao Trebla, vorrei informazioni sul servizio siti web." target="_blank" rel="noopener noreferrer" href="#">Chiedi su WhatsApp</a></div></section>
+  <section class="sezione sezione-flush"><div class="prosa"><h2>Cosa include</h2><ul><li>Testi essenziali preparati insieme a te</li><li>Telefono, WhatsApp, mappa e informazioni utili</li><li>Privacy, cookie, hosting gratuito e configurazione dominio</li><li>Due revisioni prima della pubblicazione</li><li>Prenotazioni WhatsApp, versione inglese essenziale e SEO locale disponibili senza sovrapprezzo</li></ul><h2>Cosa resta fuori</h2><p>Domini a pagamento e servizi di terze parti, funzionalità con login o pagamenti online, manutenzione continuativa e modifiche dopo la pubblicazione. Ogni eventuale costo esterno viene chiarito prima.</p><h2>Per chi è</h2><p>Per attività locali che vogliono presentarsi bene da telefono e ricevere richieste senza costringere le persone a cercare le informazioni.</p><h2>Prezzo e tempi</h2><p>La pagina singola costa {BASE_PRICES.singola}€, il sito a più pagine {BASE_PRICES.multi}€. L’Offerta Tutto incluso costa {OFFERTA_SITO.prezzo}€. In genere una decina di giorni dalla raccolta dei materiali; la data viene concordata prima.</p><h2>Domande frequenti</h2>{domande.map(([q,a]) => <details><summary>{q}</summary><div class="risposta"><p>{a}</p></div></details>)}</div></section>
+  <section class="sezione"><div class="cta-finale"><div><p class="prezzo-kicker">Prossimo passo</p><h2>Mettiamo in chiaro <em>costi e tempi</em></h2><p>Compila il preventivo o raccontaci il progetto su WhatsApp.</p></div><div class="cta-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-wa" data-wa="Ciao Trebla, vorrei un preventivo per un sito web." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></div></div></section>
+</div>
+</LayoutPagina>
