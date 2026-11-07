@@ -10,7 +10,7 @@ const domande = [
   ['Il sito rimane mio?', 'Sì. A saldo completo il sito è tuo e non paghi un canone obbligatorio a Trebla.'],
 ];
 ---
-<LayoutPagina title="Realizzazione siti web ad Asti: prezzi chiari | Trebla" description="Siti vetrina per attività di Asti: testi, contatti, mappe, privacy e hosting inclusi. Prezzi da 200€, tempi concordati e nessun canone Trebla." canonical="/servizi/siti-web" jsonLd={[
+<LayoutPagina title="Realizzazione siti web ad Asti: prezzi chiari | Trebla" description={`Siti vetrina per attività di Asti: testi, contatti, mappe, privacy e hosting inclusi. Prezzi da ${BASE_PRICES.singola}€, tempi concordati e nessun canone Trebla.`} canonical="/servizi/siti-web" jsonLd={[
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Servizi', item: `${site.url}/servizi/` }, { '@type': 'ListItem', position: 3, name: 'Siti web', item: `${site.url}/servizi/siti-web/` }] },
   { '@context': 'https://schema.org', '@type': 'Service', name: 'Realizzazione siti web', provider: { '@id': `${site.url}/#studio` }, areaServed: { '@type': 'City', name: 'Asti' }, offers: [{ '@type': 'Offer', name: 'Pagina singola', price: String(BASE_PRICES.singola), priceCurrency: 'EUR' }, { '@type': 'Offer', name: 'Sito a più pagine', price: String(BASE_PRICES.multi), priceCurrency: 'EUR' }, { '@type': 'Offer', name: OFFERTA_SITO.nome, price: String(OFFERTA_SITO.prezzo), priceCurrency: 'EUR' }] },
   { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: domande.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },

@@ -23,15 +23,32 @@ function chiave(nome: string): string {
  */
 export const CONCETTI: Record<string, string> = {
   'biglietti da visita': 'biglietti',
-  'menu cartaceo coordinato': 'volantini',
+  'biglietti da visita pronti per la stampa': 'biglietti',
+  'biglietti professionali': 'biglietti',
+  'biglietti artigiano': 'biglietti',
+  'biglietti fotografici': 'biglietti',
+  'menu asporto coordinato': 'menu-stampato',
+  'menu pizzeria coordinato': 'menu-stampato',
+  'menu gusti coordinato': 'menu-stampato',
+  'menu agriturismo coordinato': 'menu-stampato',
+  'volantini locandine o menu cartaceo': 'menu-stampato',
+  'menu cartaceo coordinato': 'menu-stampato',
   'creazione o rinnovamento del logo': 'logo',
   'creazione profili da zero': 'profili',
   'creazione filmati e brevi video': 'video',
   'grafiche personalizzate per le storie': 'storie',
+  'logo creato o rinnovato': 'logo',
 };
 
 export function concetto(v: Voce): string | undefined {
-  return v.concept ?? CONCETTI[chiave(v.name)];
+  if (v.concept) return v.concept;
+  const k = chiave(v.name);
+  if (CONCETTI[k]) return CONCETTI[k];
+  // Le opzioni verticali possono chiamare "stories" lo stesso lavoro della
+  // voce generica "grafiche per post e storie".
+  if (/(^| )(stories|storie)( |$)/.test(k)) return 'storie';
+  if (/(^| )locandine( |$)/.test(k)) return 'menu-stampato';
+  return undefined;
 }
 
 /**

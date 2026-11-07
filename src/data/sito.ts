@@ -1,5 +1,6 @@
 // Dati reali Trebla: non inventare nulla fuori da qui.
 // I contatti stanno in src/data/contatti.ts, i prezzi in src/data/prezzi.ts.
+import { BASE_PRICES } from './prezzi';
 
 export const site = {
   name: 'Trebla',
@@ -8,7 +9,7 @@ export const site = {
   lang: 'it',
   locale: 'it_IT',
   description:
-    'Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da 200€, senza canone obbligatorio.',
+    `Trebla è uno studio indipendente ad Asti. Costruiamo siti web chiari per piccole attività: ristoranti, negozi, artigiani, professionisti. Da ${BASE_PRICES.singola}€, senza canone obbligatorio.`,
   twitterCard: 'summary_large_image' as const,
 };
 

@@ -1,7 +1,8 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
 import TestataSezione from '../../components/TestataSezione.astro';
-import { BASE_PRICES, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO } from '../../data/prezzi';
+import { ANTICIPO, BASE_PRICES, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
+import { photoPrices } from '../../data/configuratore';
 import { site } from '../../data/sito';
 
 const titolo = `Prezzi: siti web da ${BASE_PRICES.singola}€, senza canone | Trebla`;
@@ -62,18 +63,18 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
           <p class="prezzo-nota">Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</p>
         </div>
       </div>
-      <p class="prezzo-nota" data-reveal style="margin:14px 0 0">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+20€) o partire da zero.</p>
+      <p class="prezzo-nota" data-reveal style="margin:14px 0 0">Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Le sezioni e il numero di pagine si definiscono nella proposta. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+{photoPrices['Servono le foto (le scattate voi)']}€) o scegliere l’opzione “Parto da zero” (+{photoPrices['Parto da zero']}€), da precisare insieme prima dell’avvio.</p>
       <div class="prezzo prezzo-evidenza offerta-solo" id="offerta" data-reveal>
           <p class="prezzo-kicker">Offerta</p>
           <h2 class="prezzo-titolo">{OFFERTA_SITO.nome}</h2>
           <p class="prezzo-cifra">{OFFERTA_SITO.prezzo}€</p>
           <ul>
-            <li>Sito a più pagine completo: tutte le funzioni, tutti gli extra, tutte le pagine</li>
+            <li>Sito a più pagine con funzioni incluse e pagine concordate</li>
             <li>Foto scattate da noi ad Asti</li>
             <li>Logo nuovo o rinnovato</li>
             <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
           </ul>
-          <p class="prezzo-nota">Anticipo di 30€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
+          <p class="prezzo-nota">Anticipo di {ANTICIPO}€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
           <div class="hero-azioni stacco-16">
             <a class="btn btn-mattone" href="/preventivo/?offerta=1">Prendi l’offerta</a>
           </div>
@@ -82,7 +83,7 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
       <div class="hero-azioni stacco-16" data-reveal>
         <a class="btn btn-mattone" href="/preventivo/">Configura il tuo prezzo</a>
       </div>
-      <p class="prezzo-nota" data-reveal>Nessun pagamento e nessun obbligo per chiedere la stima.</p>
+      <p class="prezzo-nota" data-reveal>Nessun pagamento e nessun obbligo per chiedere la stima. Il prezzo multipagina copre le pagine e le sezioni concordate nella proposta.</p>
     </section>
 
     <section class="sezione" aria-label="Condizioni">
@@ -105,17 +106,17 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
     <section class="sezione" aria-label="Confronto inclusioni pacchetti">
       <TestataSezione numero="Incluso" titolo="Cosa ricevi <em>in ogni pacchetto</em>" nota="Il contenuto cambia con il numero di pagine e gli extra scelti." />
       <ul class="extra-lista">
-        <li><span>Testi essenziali preparati insieme</span><span>Singola · Multipagina · Tutto incluso</span></li>
-        <li><span>Hosting gratuito e configurazione del dominio</span><span>Singola · Multipagina · Tutto incluso</span></li>
-        <li><span>Privacy, cookie e contatti ben visibili</span><span>Singola · Multipagina · Tutto incluso</span></li>
-        <li><span>Due revisioni prima della pubblicazione</span><span>Singola · Multipagina</span></li>
-        <li><span>{OFFERTA_SITO.revisioni} modifiche gratuite, logo e foto scattate da noi ad Asti</span><span>Tutto incluso</span></li>
+        <li><span>Testi essenziali preparati insieme</span><span>Tutti i pacchetti</span></li>
+        <li><span>Hosting gratuito e configurazione del dominio</span><span>Tutti i pacchetti</span></li>
+        <li><span>Privacy, cookie e contatti ben visibili</span><span>Tutti i pacchetti</span></li>
+        <li><span>Due revisioni prima della pubblicazione</span><span>Pagina singola · Multipagina</span></li>
+        <li><span>{OFFERTA_SITO.revisioni} modifiche gratuite, logo e foto scattate da noi ad Asti</span><span>{OFFERTA_SITO.nome}</span></li>
       </ul>
       <div class="prosa">
         <h2>Cosa non è incluso</h2>
-        <p>Stampa dei materiali grafici, domini o servizi esterni a pagamento, campagne pubblicitarie, accessi utente, pagamenti online, manutenzione continuativa e modifiche non comprese. Le voci aggiuntive sono elencate nel preventivo prima dell’avvio.</p>
+        <p>La stampa e la produzione fisica dei materiali grafici, domini o servizi esterni a pagamento, campagne pubblicitarie, accessi utente, pagamenti online, manutenzione continuativa e modifiche non comprese. Grafiche e contenuti social si pagano per voce selezionata, non sono inclusi nell’Offerta Tutto incluso né sono un canone mensile. Le voci aggiuntive sono elencate nel preventivo prima dell’avvio.</p>
         <h2>Pagamento e fatturazione</h2>
-        <p>Per iniziare è previsto un anticipo di 30€, compreso nel totale. Il saldo si paga alla consegna o in tre rate concordate. Modalità e dati di fatturazione vengono indicati nella proposta prima della conferma.</p>
+        <p>Per iniziare è previsto un anticipo di {ANTICIPO}€, compreso nel totale. Il saldo si paga alla consegna o in {RATE_SALDO} rate concordate. Modalità e dati di fatturazione vengono indicati nella proposta prima della conferma.</p>
       </div>
     </section>
 
@@ -126,13 +127,14 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
         nota="Grafiche, social e foto hanno un prezzo a parte. Le funzioni del sito sono incluse."
       />
       <h3 class="extra-titolo">Per le grafiche</h3>
-      <p class="prezzo-nota" style="margin:0 0 8px">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, file pronti da portare dove vuoi.</p>
+      <p class="prezzo-nota" style="margin:0 0 8px">I prezzi sono per singola voce. Prepariamo il progetto grafico e i file, non stampiamo né produciamo gli oggetti.</p>
       <ul class="extra-lista">
         {DESIGN_OPTIONS.map((e) => (
           <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>
         ))}
       </ul>
       <h3 class="extra-titolo">Per i social media</h3>
+      <p class="prezzo-nota" style="margin:0 0 8px">Prezzi per singola voce selezionata, non per un piano mensile. Quantità, materiali e calendario sono definiti nella proposta.</p>
       <ul class="extra-lista">
         {SOCIAL_OPTIONS.map((e) => (
           <li><span>{e.name}</span><span class="prezzo-extra">+{e.price}€</span></li>

@@ -20,6 +20,9 @@ export const OFFERTA_SITO = {
   revisioni: 3,
 } as const;
 
+export const ANTICIPO = 30;
+export const RATE_SALDO = 3;
+
 export type Extra = Voce;
 
 export const SITE_EXTRAS: Extra[] = [
@@ -30,16 +33,18 @@ export const SITE_EXTRAS: Extra[] = [
   { name: 'Feed Instagram integrato nel sito', price: 0, concept: 'feed' },
 ];
 
+export const SOCIAL_VIDEO_PRICE = 20;
+
 export const SOCIAL_OPTIONS: Extra[] = [
   { name: 'Profili sistemati da zero', price: 20, concept: 'profili' },
-  { name: 'Filmati e brevi video', price: 20, concept: 'video' },
+  { name: 'Filmati e brevi video', price: SOCIAL_VIDEO_PRICE, concept: 'video' },
   { name: 'Grafiche per post e storie', price: 10, concept: 'storie' },
 ];
 
 export const DESIGN_OPTIONS: Extra[] = [
   { name: 'Logo creato o rinnovato', price: 20, concept: 'logo' },
   { name: 'Biglietti da visita pronti per la stampa', price: 10, concept: 'biglietti' },
-  { name: 'Volantini, locandine o menu cartaceo', price: 20, concept: 'volantini' },
+  { name: 'Volantini, locandine o menu cartaceo', price: 20, concept: 'menu-stampato' },
   { name: 'Grafiche promozionali per il web', price: 10, concept: 'promo-web' },
   { name: 'Identità completa: colori + font + regole', price: 20, concept: 'identita' },
   { name: 'Modelli post social coordinati', price: 20, concept: 'modelli' },
@@ -49,7 +54,8 @@ export const DESIGN_OPTIONS: Extra[] = [
 
 export const CHANNELS = ['Instagram', 'Facebook', 'TikTok'] as const;
 
-export const VIDEO_PRICE = 20;
+// Il contatore video e la voce video singola condividono lo stesso prezzo.
+export const VIDEO_PRICE = SOCIAL_VIDEO_PRICE;
 
 export const GOALS = [
   'Farmi trovare su Google e in zona',

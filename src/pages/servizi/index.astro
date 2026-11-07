@@ -1,10 +1,11 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
 ---
 
 <LayoutPagina
   title="Servizi: siti web, grafiche e social ad Asti | Trebla"
-  description="Sito web da 200€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve."
+  description={`Sito web da ${BASE_PRICES.singola}€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve.`}
   canonical="/servizi"
 >
   <div class="involucro">
@@ -20,7 +21,7 @@ import LayoutPagina from '../../layouts/LayoutPagina.astro';
       <article class="servizio" id="sito">
         <div class="servizio-testa">
           <h2 class="servizio-titolo">Sito web</h2>
-          <span class="servizio-prezzo"><span class="pz"><b>200€</b> · pagina singola</span> · <span class="pz"><b>300€</b> · più pagine</span></span>
+          <span class="servizio-prezzo"><span class="pz"><b>{BASE_PRICES.singola}€</b> · pagina singola</span> · <span class="pz"><b>{BASE_PRICES.multi}€</b> · più pagine</span></span>
         </div>
         <div class="servizio-testo servizio-corpo">
           <p>Il tuo indirizzo su internet. <strong>Chi ti cerca trova orari giusti, menu leggibile e un modo per contattarti</strong>, dal telefono, in pochi secondi.</p>
@@ -41,7 +42,7 @@ import LayoutPagina from '../../layouts/LayoutPagina.astro';
         <div class="servizio-testo servizio-corpo">
           <p>La stessa faccia ovunque: <strong>sito, vetrina, biglietti da visita, menu cartaceo</strong>. Così chi ti ha visto online ti riconosce quando passa davanti.</p>
           <div class="due-colonne">
-            <div><h4>Cosa c’è dentro</h4><ul><li>Logo creato o rinnovato · +20€</li><li>Biglietti da visita pronti per la stampa · +10€</li><li>Volantini, locandine, menu · +20€</li></ul></div>
+            <div><h4>Cosa c’è dentro</h4><ul>{DESIGN_OPTIONS.slice(0, 3).map((e) => <li>{e.name} · +{e.price}€</li>)}</ul></div>
             <div class="col-no"><h4>Cosa evitiamo</h4><ul><li>Effetti alla moda che invecchiano</li><li>File che solo noi possiamo aprire</li><li>Stampa di qualsiasi materiale</li></ul></div>
           </div>
           <p class="servizio-nota">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, ti consegniamo i file pronti da portare dove vuoi.</p>
@@ -55,9 +56,9 @@ import LayoutPagina from '../../layouts/LayoutPagina.astro';
           <span class="servizio-prezzo">solo se ti serve · <b>su preventivo</b></span>
         </div>
         <div class="servizio-testo servizio-corpo">
-          <p>Ha senso <strong>dopo</strong> avere un sito a posto: i social portano gente, il sito la accoglie. Profili in ordine e contenuti regolari, senza rubarti le serate.</p>
+          <p>Ha senso <strong>dopo</strong> avere un sito a posto: i social portano persone, il sito le accoglie. Impostiamo i profili e concordiamo contenuti e frequenza prima di iniziare.</p>
           <div class="due-colonne">
-            <div><h4>Cosa c’è dentro</h4><ul><li>Profili sistemati da zero</li><li>Foto, brevi video, grafiche</li><li>Pubblicazioni regolari concordate</li></ul></div>
+            <div><h4>Cosa possiamo preparare</h4><ul><li>Profili sistemati da zero</li><li>Foto, brevi video e grafiche</li><li>Frequenza concordata nella proposta</li></ul></div>
             <div class="col-no"><h4>Cosa non promettiamo</h4><ul><li>Follower comprati</li><li>Viralità garantita</li></ul></div>
           </div>
           <a class="link-freccia" href="/servizi/social/">Dettagli del servizio →</a>
