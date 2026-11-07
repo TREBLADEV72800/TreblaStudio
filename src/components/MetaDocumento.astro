@@ -16,9 +16,10 @@ interface Props {
   noindex?: boolean | undefined;
   preloadLogo?: boolean | undefined;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[] | undefined;
+  ogImage?: string | undefined;
 }
 
-const { title, description, canonical, noindex = false, preloadLogo = true, jsonLd } = Astro.props;
+const { title, description, canonical, noindex = false, preloadLogo = true, jsonLd, ogImage = '/og-trebla.jpg' } = Astro.props;
 
 const canonicalHref = canonicalUrl(canonical);
 // "Trebla · Trebla" non deve esistere: se il titolo già contiene il nome, sta com'è.
@@ -124,13 +125,13 @@ const fontCss = (
 <meta property="og:title" content={titleFull} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalHref} />
-<meta property="og:image" content={`${site.url}/og-trebla.jpg`} />
+<meta property="og:image" content={`${site.url}${ogImage}`} />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Trebla, studio web ad Asti" />
+<meta property="og:image:alt" content={ogImage === '/og-trebla.jpg' ? 'Trebla, studio web ad Asti' : 'Pikete Label, progetto web realizzato da Trebla'} />
 <meta name="twitter:card" content={site.twitterCard} />
-<meta name="twitter:image" content={`${site.url}/og-trebla.jpg`} />
+<meta name="twitter:image" content={`${site.url}${ogImage}`} />
 <meta name="twitter:title" content={titleFull} />
 <meta name="twitter:description" content={description} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

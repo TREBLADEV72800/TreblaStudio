@@ -1,7 +1,10 @@
 import { site } from '../data/sito';
 
 // Forma con slash finale: è quella che Cloudflare Pages serve con 200.
-const pagine = ['/', '/servizi/', '/prezzi/', '/preventivo/', '/chi-siamo/', '/contatti/', '/faq/'];
+const pagine = [
+  '/', '/servizi/', '/servizi/siti-web/', '/servizi/grafiche/', '/servizi/social/',
+  '/lavori/', '/metodo/', '/garanzie/', '/accessibilita/', '/prezzi/', '/preventivo/', '/chi-siamo/', '/contatti/', '/faq/',
+];
 
 export function GET() {
   const oggi = new Date().toISOString().split('T')[0];

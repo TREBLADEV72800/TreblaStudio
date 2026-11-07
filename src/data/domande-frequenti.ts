@@ -58,6 +58,54 @@ export const FAQS: Faq[] = [
     a: 'Operiamo solo ad Asti: veniamo sul posto, in città.',
   },
   {
+    q: 'Posso aggiornare da solo il sito?',
+    a: 'Il sito attuale è statico e non include un pannello di gestione. Gli aggiornamenti li concordiamo e li realizziamo noi, comunicando prima l’eventuale costo.',
+  },
+  {
+    q: 'Il dominio resta di mia proprietà?',
+    a: 'Sì. La configurazione è inclusa, ma il dominio va registrato a tuo nome. Se ha un costo, il pagamento è al registrar scelto da te.',
+  },
+  {
+    q: 'Quante revisioni sono incluse?',
+    a: 'Due giri di correzioni prima della pubblicazione. L’Offerta Tutto incluso comprende tre modifiche gratuite. Altri interventi si concordano prima.',
+  },
+  {
+    q: 'Offrite manutenzione continuativa?',
+    a: 'Non c’è un piano di manutenzione obbligatorio. Se vuoi aggiornamenti o assistenza, descrivici l’intervento e ti comunichiamo il costo prima di procedere.',
+  },
+  {
+    q: 'Potete rifare un sito che esiste già?',
+    a: 'Sì, possiamo valutare un restyling. Prima controlliamo il sito, i contenuti da mantenere e gli accessi disponibili, poi prepariamo una proposta con prezzo e tempi.',
+  },
+  {
+    q: 'Ricevo fattura?',
+    a: 'La modalità di fatturazione e i dati fiscali vengono indicati nella proposta. Prima di confermare il lavoro puoi chiederci ogni dettaglio amministrativo.',
+  },
+  {
+    q: 'Il sito è accessibile?',
+    a: 'Progettiamo pagine leggibili e navigabili, con attenzione a contrasto, tastiera e movimento ridotto. Non dichiariamo una certificazione di conformità: dipende anche dai contenuti e dalle verifiche sul progetto.',
+  },
+  {
+    q: 'Il sito usa cookie?',
+    a: 'Il sito Trebla non usa cookie di profilazione o strumenti pubblicitari. Per il tuo sito valutiamo insieme le funzioni inserite e gli eventuali servizi esterni, così da descriverli correttamente nell’informativa.',
+  },
+  {
+    q: 'In quali zone lavorate?',
+    a: 'Lavoriamo ad Asti e veniamo sul posto in città, su appuntamento. Per attività fuori Asti verifichiamo il progetto prima di confermare.',
+  },
+  {
+    q: 'Quanto costa una grafica?',
+    a: 'Le voci del catalogo costano 10€ o 20€: per esempio biglietti 10€, logo 20€, volantini o menu 20€. La stampa non è inclusa.',
+  },
+  {
+    q: 'I social garantiscono follower o vendite?',
+    a: 'No. Prepariamo profili e contenuti, ma non promettiamo follower, visualizzazioni o vendite: dipendono da fattori che non controlliamo.',
+  },
+  {
+    q: 'Posso chiedere solo grafiche o social?',
+    a: 'Sì. Puoi selezionare le voci che ti servono nel preventivo, senza acquistare un sito.',
+  },
+  {
     q: 'Fate siti con login o pagamenti online?',
     a: 'No. Non facciamo siti con accessi utenti, aree riservate o pagamenti online: facciamo siti vetrina chiari per farti trovare e contattare. Se ti serve vendere online, te lo diciamo subito e non ti facciamo perdere tempo.',
   },

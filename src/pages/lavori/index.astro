@@ -1,0 +1,49 @@
+---
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataSezione from '../../components/TestataSezione.astro';
+
+const base = 'https://piketelabel.vercel.app';
+---
+
+<LayoutPagina
+  title="Lavori: il sito di Pikete Label | Trebla Asti"
+  description="Un progetto web pubblicato da Trebla ad Asti: il sito vetrina e catalogo artisti di Pikete Label. Guarda il lavoro e visita il sito."
+  canonical="/lavori"
+  ogImage="/og-pikete-label.jpg"
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://treblastudio.pages.dev/' },
+      { '@type': 'ListItem', position: 2, name: 'Lavori', item: 'https://treblastudio.pages.dev/lavori/' },
+    ],
+  }}
+>
+  <div class="involucro">
+    <section class="pagina-titolo" aria-labelledby="titolo">
+      <p class="capitolo-numero">Lavori · 01</p>
+      <h1 id="titolo">Un progetto <em>pubblicato</em></h1>
+      <p class="lead">Mostriamo il lavoro che possiamo verificare. Al momento è online il sito di Pikete Label, etichetta musicale astigiana.</p>
+    </section>
+
+    <section class="sezione sezione-flush" aria-labelledby="pikete">
+      <TestataSezione id="pikete" numero="Caso reale" titolo="Pikete <em>Label</em>" nota="Etichetta musicale · Asti" />
+      <div class="prosa">
+        <h2>Il progetto</h2>
+        <p>Abbiamo realizzato un sito vetrina con catalogo artisti. Trebla ha seguito design, sviluppo e gestione del sito, insieme all’etichetta.</p>
+        <h2>Intervento</h2>
+        <p>Il sito è responsive e presenta l’etichetta e il suo catalogo in una struttura consultabile da telefono e computer. Gli aggiornamenti vengono gestiti insieme all’etichetta.</p>
+        <h2>Risultato verificabile</h2>
+        <p>Il risultato è il sito pubblicato e consultabile. Non pubblichiamo metriche di visite o conversioni perché non abbiamo dati verificati da condividere.</p>
+        <p><a class="btn btn-fantasma" href={base} target="_blank" rel="noopener noreferrer">Visita piketelabel.vercel.app</a></p>
+      </div>
+      <p class="prezzo-nota">Le immagini del progetto non sono incluse in questa scheda: aggiungeremo screenshot reali dopo averli preparati e verificati.</p>
+    </section>
+    <section class="sezione">
+      <div class="cta-finale">
+        <div><p class="prezzo-kicker">Il tuo progetto</p><h2>Parliamo del sito <em>che serve a te</em></h2><p>Raccontaci l’attività e ti rispondiamo con un prezzo e tempi concordati.</p></div>
+        <div class="cta-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-fantasma" href="/contatti/">Contattaci</a></div>
+      </div>
+    </section>
+  </div>
+</LayoutPagina>
