@@ -251,7 +251,7 @@ Regole:
 
 | Export | Tipo | Valore |
 |---|---|---|
-| `BASE_PRICES` | oggetto | `singola: 200`, `multi: 300` |
+| `BASE_PRICES` | oggetto | `singola: 200`, `multi: 399` |
 | `OFFERTA_SITO` | oggetto | `nome: 'Offerta Tutto incluso'`, `prezzo: 490`, `revisioni: 3` |
 | `SITE_EXTRAS` | `Voce[]` | 5 funzioni del sito, tutte a 0€ (incluse) |
 | `SOCIAL_OPTIONS` | `Voce[]` | 3 voci generiche: profili 20€, video 20€, storie 10€ |
@@ -895,7 +895,7 @@ Formula:
 se sito:
   se offerta: 490
   altrimenti:
-    200 se singola, 300 se multi
+    200 se singola, 399 se multi
     + somma prezzi funzioni scelte
     + somma prezzi pagine scelte
     + prezzo foto scelto
@@ -1575,7 +1575,7 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 
 Queste non vanno corrette senza richiesta esplicita, ma vanno sapute:
 
-- La card multipagina della home dice "da 300€"; la pagina Prezzi dice 300€.
+- La card multipagina della home dice "da 399€"; la pagina Prezzi dice 399€.
 - L'opzione foto in `configuratore.ts` dice "Servono le foto (le scattate voi)"; il resto del sito dice "le scattiamo noi".
 - La skill anti-ai-slop cita il push su `main` tra i comandi; il deploy reale è il push su `main` (GitHub Actions), oppure `npm run deploy` in locale.
 

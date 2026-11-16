@@ -1,5 +1,5 @@
 // Prezzi reali, coerenti con l'offerta Trebla.
-// Base sito: pagina singola 200€ · multipagina 300€ · 2 revisioni incluse · nessun canone obbligatorio.
+// Base sito: pagina singola 200€ · multipagina 399€ · 2 revisioni incluse · nessun canone obbligatorio.
 // Offerta Tutto incluso 490€: sito completo + logo + 3 modifiche gratuite.
 //
 // Questo file è il catalogo commerciale canonico: vale per le pagine pubbliche
@@ -11,7 +11,7 @@ import type { Voce } from '../lib/catalogo';
 
 export const BASE_PRICES = {
   singola: 200,
-  multi: 300,
+  multi: 399,
 } as const;
 
 export const OFFERTA_SITO = {
