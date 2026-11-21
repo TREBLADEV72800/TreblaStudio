@@ -55,17 +55,17 @@ import ContattiRiga from '../../components/pagine/contatti-riga.astro';
     <div class="contenitore contatti-prosa">
       <div class="contatti-prosa__colonna">
         <Prosa>
-          <h3>Da dove vuoi partire?</h3>
+          <h2 class="contatti-prosa__titolo">Da dove vuoi partire?</h2>
           <p>Puoi <a href="/preventivo/">preparare una stima</a> o dare un’occhiata ai <a href="/prezzi/">prezzi</a>. Il modulo non è disponibile senza un servizio di invio esterno: WhatsApp, email e telefono sono i canali diretti.</p>
-          <h3>Domanda veloce</h3>
+          <h2 class="contatti-prosa__titolo">Domanda veloce</h2>
           <p>Non sai quali materiali servono? Va bene scriverci anche solo il nome dell’attività e cosa vorresti sistemare.</p>
         </Prosa>
       </div>
       <div class="contatti-prosa__colonna">
         <Prosa>
-          <h3>Prima di scriverci</h3>
+          <h2 class="contatti-prosa__titolo">Prima di scriverci</h2>
           <p>Se vuoi arrivare con le idee chiare, <a href="/preventivo/">fai il preventivo in 2 minuti</a>: rispondi a poche domande e arrivi da noi con già un prezzo indicativo in mano. Altrimenti raccontaci tutto a voce: va bene lo stesso.</p>
-          <h3>Dove siamo</h3>
+          <h2 class="contatti-prosa__titolo">Dove siamo</h2>
           <p>Asti, su appuntamento. Veniamo sul posto, in città. Preferisci chiamare? <a data-tel href="#">Chiama</a>.</p>
         </Prosa>
       </div>
@@ -128,6 +128,21 @@ import ContattiRiga from '../../components/pagine/contatti-riga.astro';
   .contatti-prosa :global(.prosa p),
   .contatti-prosa :global(.prosa li) {
     color: var(--inchiostro);
+  }
+
+  /* I sottotitoli sono h2 (la pagina passa da H1 a H2), ma si vedono come prima: h3, Archivo 600, frase normale.
+     Il selettore batte quello di Prosa, che dà all'h2 lo stile display (64%, 800, maiuscolo). */
+  .contatti-prosa :global(.prosa .contatti-prosa__titolo) {
+    margin-block: var(--s-7) var(--s-3);
+    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--inchiostro);
+  }
+
+  /* Il primo titolo di ogni colonna non ha margine sopra, come prima. */
+  .contatti-prosa :global(.prosa > .contatti-prosa__titolo:first-child) {
+    margin-block-start: 0;
   }
 
   @media (min-width: 960px) {
