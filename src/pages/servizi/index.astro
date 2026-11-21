@@ -1,5 +1,9 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataPagina from '../../components/TestataPagina.astro';
+import TitoloRivelato from '../../components/ui/TitoloRivelato.astro';
+import Bottone from '../../components/ui/Bottone.astro';
+import Freccia from '../../components/ui/Freccia.astro';
 import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
 ---
 
@@ -8,62 +12,252 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
   description={`Sito web da ${BASE_PRICES.singola}€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve.`}
   canonical="/servizi"
 >
-  <div class="involucro">
-    <section class="pagina-titolo" aria-labelledby="titolo">
-      <h1 id="titolo">Tre cose, <em>fatte sul serio</em></h1>
-      <p class="lead">Non un catalogo infinito e non una pagina sola: sistemiamo testi, contatti, menu, mappe e prenotazioni. Il sito al centro, il resto solo se ti serve davvero.</p>
-      <div class="hero-azioni">
-        <a class="btn btn-mattone" href="/preventivo/">Fai il preventivo in 2 minuti</a>
+  <TestataPagina
+    titolo="Tre cose, | fatte sul serio"
+    tenue="fatte sul serio"
+    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Servizi' }]}
+  >
+    <p slot="lead">Non un catalogo infinito e non una pagina sola: sistemiamo testi, contatti, menu, mappe e prenotazioni. Il sito al centro, il resto solo se ti serve davvero.</p>
+    <Bottone href="/preventivo/" testo="Fai il preventivo in 2 minuti" />
+  </TestataPagina>
+
+  <article class="sv-blocco" id="sito" aria-labelledby="t-sito">
+    <div class="contenitore sv-blocco__griglia">
+      <div class="sv-blocco__testa">
+        <p class="sv-blocco__indice">01</p>
+        <TitoloRivelato tag="h2" id="t-sito" testo="Sito web" taglia="h2-s" classe="sv-blocco__nome" />
       </div>
-    </section>
-
-    <section class="sezione sezione-flush" aria-label="Dettaglio servizi">
-      <article class="servizio" id="sito">
-        <div class="servizio-testa">
-          <h2 class="servizio-titolo">Sito web</h2>
-          <span class="servizio-prezzo"><span class="pz"><b>{BASE_PRICES.singola}€</b> · pagina singola</span> · <span class="pz"><b>{BASE_PRICES.multi}€</b> · più pagine</span></span>
-        </div>
-        <div class="servizio-testo servizio-corpo">
-          <p>Il tuo indirizzo su internet. <strong>Chi ti cerca trova orari giusti, menu leggibile e un modo per contattarti</strong>, dal telefono, in pochi secondi.</p>
-          <div class="due-colonne">
-            <div><h4>Cosa c’è dentro</h4><ul><li>Impostazione e testi fatti insieme</li><li>Telefono, WhatsApp, mappa, orari</li><li>Menu, galleria, prenotazioni se servono</li><li>Privacy e cookie a norma, inclusi</li></ul></div>
-            <div><h4>Incluso nel prezzo</h4><ul><li>Prenotazioni WhatsApp</li><li>Copywriting completo</li><li>Google Business + mappe</li></ul></div>
+      <div class="sv-blocco__corpo" data-reveal>
+        <p class="sv-blocco__meta"><b>{BASE_PRICES.singola}€</b> · pagina singola · <b>{BASE_PRICES.multi}€</b> · più pagine</p>
+        <p class="sv-blocco__testo">Il tuo indirizzo su internet. <strong>Chi ti cerca trova orari giusti, menu leggibile e un modo per contattarti</strong>, dal telefono, in pochi secondi.</p>
+        <div class="sv-blocco__liste">
+          <div>
+            <h3>Cosa c’è dentro</h3>
+            <ul>
+              <li>Impostazione e testi fatti insieme</li>
+              <li>Telefono, WhatsApp, mappa, orari</li>
+              <li>Menu, galleria, prenotazioni se servono</li>
+              <li>Privacy e cookie a norma, inclusi</li>
+            </ul>
           </div>
-          <p class="servizio-nota">Esempi tipici: menu PDF che diventa pagina leggibile, scheda Google incompleta riordinata, numero nascosto sostituito da tasti di contatto.</p>
-          <a class="link-freccia" href="/servizi/siti-web/">Dettagli del servizio →</a>
-        </div>
-      </article>
-
-      <article class="servizio" id="grafiche">
-        <div class="servizio-testa">
-          <h2 class="servizio-titolo">Grafiche</h2>
-          <span class="servizio-prezzo">solo se ti serve · <b>su preventivo</b></span>
-        </div>
-        <div class="servizio-testo servizio-corpo">
-          <p>La stessa faccia ovunque: <strong>sito, vetrina, biglietti da visita, menu cartaceo</strong>. Così chi ti ha visto online ti riconosce quando passa davanti.</p>
-          <div class="due-colonne">
-            <div><h4>Cosa c’è dentro</h4><ul>{DESIGN_OPTIONS.slice(0, 3).map((e) => <li>{e.name} · +{e.price}€</li>)}</ul></div>
-            <div class="col-no"><h4>Cosa evitiamo</h4><ul><li>Effetti alla moda che invecchiano</li><li>File che solo noi possiamo aprire</li><li>Stampa di qualsiasi materiale</li></ul></div>
+          <div>
+            <h3>Incluso nel prezzo</h3>
+            <ul>
+              <li>Prenotazioni WhatsApp</li>
+              <li>Copywriting completo</li>
+              <li>Google Business + mappe</li>
+            </ul>
           </div>
-          <p class="servizio-nota">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, ti consegniamo i file pronti da portare dove vuoi.</p>
-          <a class="link-freccia" href="/servizi/grafiche/">Dettagli del servizio →</a>
         </div>
-      </article>
+        <p class="sv-blocco__nota">Esempi tipici: menu PDF che diventa pagina leggibile, scheda Google incompleta riordinata, numero nascosto sostituito da tasti di contatto.</p>
+        <a class="link-sottolineato sv-blocco__link" href="/servizi/siti-web/" data-cursore="Apri">Dettagli del servizio<Freccia /></a>
+      </div>
+    </div>
+  </article>
 
-      <article class="servizio" id="social">
-        <div class="servizio-testa">
-          <h2 class="servizio-titolo">Social media</h2>
-          <span class="servizio-prezzo">solo se ti serve · <b>su preventivo</b></span>
-        </div>
-        <div class="servizio-testo servizio-corpo">
-          <p>Ha senso <strong>dopo</strong> avere un sito a posto: i social portano persone, il sito le accoglie. Impostiamo i profili e concordiamo contenuti e frequenza prima di iniziare.</p>
-          <div class="due-colonne">
-            <div><h4>Cosa possiamo preparare</h4><ul><li>Profili sistemati da zero</li><li>Foto, brevi video e grafiche</li><li>Frequenza concordata nella proposta</li></ul></div>
-            <div class="col-no"><h4>Cosa non promettiamo</h4><ul><li>Follower comprati</li><li>Viralità garantita</li></ul></div>
+  <article class="sv-blocco fascia-scura" id="grafiche" aria-labelledby="t-grafiche">
+    <div class="contenitore sv-blocco__griglia">
+      <div class="sv-blocco__testa">
+        <p class="sv-blocco__indice">02</p>
+        <TitoloRivelato tag="h2" id="t-grafiche" testo="Grafiche" taglia="h2-s" classe="sv-blocco__nome" />
+      </div>
+      <div class="sv-blocco__corpo" data-reveal>
+        <p class="sv-blocco__meta">solo se ti serve · <b>su preventivo</b></p>
+        <p class="sv-blocco__testo">La stessa faccia ovunque: <strong>sito, vetrina, biglietti da visita, menu cartaceo</strong>. Così chi ti ha visto online ti riconosce quando passa davanti.</p>
+        <div class="sv-blocco__liste">
+          <div>
+            <h3>Cosa c’è dentro</h3>
+            <ul>{DESIGN_OPTIONS.slice(0, 3).map((e) => <li>{e.name} · +{e.price}€</li>)}</ul>
           </div>
-          <a class="link-freccia" href="/servizi/social/">Dettagli del servizio →</a>
+          <div class="sv-blocco__no">
+            <h3>Cosa evitiamo</h3>
+            <ul>
+              <li>Effetti alla moda che invecchiano</li>
+              <li>File che solo noi possiamo aprire</li>
+              <li>Stampa di qualsiasi materiale</li>
+            </ul>
+          </div>
         </div>
-      </article>
-    </section>
-  </div>
+        <p class="sv-blocco__nota">Solo design: non stampiamo né carte, né brochure, né maglie, né niente, ti consegniamo i file pronti da portare dove vuoi.</p>
+        <a class="link-sottolineato sv-blocco__link" href="/servizi/grafiche/" data-cursore="Apri">Dettagli del servizio<Freccia /></a>
+      </div>
+    </div>
+  </article>
+
+  <article class="sv-blocco" id="social" aria-labelledby="t-social">
+    <div class="contenitore sv-blocco__griglia">
+      <div class="sv-blocco__testa">
+        <p class="sv-blocco__indice">03</p>
+        <TitoloRivelato tag="h2" id="t-social" testo="Social media" taglia="h2-s" classe="sv-blocco__nome" />
+      </div>
+      <div class="sv-blocco__corpo" data-reveal>
+        <p class="sv-blocco__meta">solo se ti serve · <b>su preventivo</b></p>
+        <p class="sv-blocco__testo">Ha senso <strong>dopo</strong> avere un sito a posto: i social portano persone, il sito le accoglie. Impostiamo i profili e concordiamo contenuti e frequenza prima di iniziare.</p>
+        <div class="sv-blocco__liste">
+          <div>
+            <h3>Cosa possiamo preparare</h3>
+            <ul>
+              <li>Profili sistemati da zero</li>
+              <li>Foto, brevi video e grafiche</li>
+              <li>Frequenza concordata nella proposta</li>
+            </ul>
+          </div>
+          <div class="sv-blocco__no">
+            <h3>Cosa non promettiamo</h3>
+            <ul>
+              <li>Follower comprati</li>
+              <li>Viralità garantita</li>
+            </ul>
+          </div>
+        </div>
+        <a class="link-sottolineato sv-blocco__link" href="/servizi/social/" data-cursore="Apri">Dettagli del servizio<Freccia /></a>
+      </div>
+    </div>
+  </article>
 </LayoutPagina>
+
+<style>
+  /* Tre blocchi editoriali separati da filetti. Mobile: una colonna. Da 960px: indice e nome
+     nelle colonne 1-4, testo e liste nelle colonne 6-12. Da 640px le liste stanno affiancate. */
+  .sv-blocco {
+    padding-block: var(--sezione);
+    border-block-start: 1px solid var(--linea);
+    --forte: var(--inchiostro);
+  }
+
+  .sv-blocco.fascia-scura {
+    --forte: var(--carta);
+  }
+
+  .sv-blocco__griglia {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  .sv-blocco__indice {
+    margin: 0;
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.08em;
+    color: var(--morbido);
+  }
+
+  .sv-blocco__testa {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+
+  .sv-blocco :global(.sv-blocco__nome) {
+    max-inline-size: none;
+  }
+
+  .sv-blocco__meta {
+    max-inline-size: none;
+    margin: 0 0 var(--s-4);
+    font: 400 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .sv-blocco__meta b {
+    font-weight: 500;
+    color: var(--forte);
+  }
+
+  .sv-blocco__testo {
+    max-inline-size: 52ch;
+    margin: 0;
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+  }
+
+  .sv-blocco__testo strong {
+    font-weight: 600;
+  }
+
+  .sv-blocco__liste {
+    display: grid;
+    gap: var(--s-6) var(--gap);
+    margin-block-start: var(--s-6);
+  }
+
+  @media (min-width: 640px) {
+    .sv-blocco__liste {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Sottotitoli delle liste: h3 con lo stile di etichetta mono (non il titolo di Archivo). */
+  .sv-blocco__liste h3 {
+    margin: 0 0 var(--s-2);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .sv-blocco__liste ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--linea);
+  }
+
+  /* Voci con filetto e trattino mattone (in "Esclusi" il trattino sta sul tono morbido). */
+  .sv-blocco__liste li {
+    position: relative;
+    margin: 0;
+    padding: var(--s-3) 0 var(--s-3) 20px;
+    border-block-end: 1px solid var(--linea);
+    font: 400 var(--fs-body) / 1.45 var(--font-testo);
+  }
+
+  .sv-blocco__liste li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(var(--s-3) + 0.725em - 1px);
+    inline-size: 10px;
+    block-size: 2px;
+    background: var(--mattone);
+  }
+
+  .sv-blocco__no li {
+    color: var(--morbido);
+  }
+
+  .sv-blocco__no li::before {
+    background: var(--morbido);
+  }
+
+  .sv-blocco__nota {
+    max-inline-size: 52ch;
+    margin: var(--s-5) 0 0;
+    font: 400 var(--fs-small) / 1.45 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .sv-blocco__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-block-start: var(--s-6);
+    color: inherit;
+  }
+
+  @media (min-width: 960px) {
+    .sv-blocco__griglia {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+    }
+
+    .sv-blocco__testa {
+      grid-column: 1 / span 4;
+    }
+
+    .sv-blocco__corpo {
+      grid-column: 6 / span 7;
+    }
+  }
+</style>
