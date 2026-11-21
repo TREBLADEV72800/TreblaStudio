@@ -122,7 +122,7 @@ p {
   overflow-wrap: break-word;
 }
 
-/* Classe display da applicare a qualunque elemento (numeri di prezzo, wordmark, voci di menu). */
+/* Classe display da applicare a qualunque elemento (numeri di prezzo, voci di menu). */
 .display {
   font-family: var(--font-display);
   font-stretch: 64%;
