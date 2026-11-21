@@ -20,10 +20,9 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
     <Bottone href="/preventivo/" testo="Fai il preventivo" />
   </TestataPagina>
 
-  <article class="sv-blocco" id="sito" aria-labelledby="t-sito">
+  <article class="sezione sv-blocco" id="sito" aria-labelledby="t-sito">
     <div class="contenitore sv-blocco__griglia">
       <div class="sv-blocco__testa">
-        <p class="etichetta">Base</p>
         <TitoloRivelato tag="h2" id="t-sito" testo="Sito web" taglia="h2-s" classe="sv-blocco__nome" />
       </div>
       <div class="sv-blocco__corpo">
@@ -63,10 +62,9 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
     </div>
   </article>
 
-  <article class="sv-blocco" id="grafiche" aria-labelledby="t-grafiche">
+  <article class="sezione sv-blocco" id="grafiche" aria-labelledby="t-grafiche">
     <div class="contenitore sv-blocco__griglia">
       <div class="sv-blocco__testa">
-        <p class="etichetta">Solo se ti serve</p>
         <TitoloRivelato tag="h2" id="t-grafiche" testo="Grafiche" taglia="h2-s" classe="sv-blocco__nome" />
       </div>
       <div class="sv-blocco__corpo">
@@ -91,10 +89,9 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
     </div>
   </article>
 
-  <article class="sv-blocco" id="social" aria-labelledby="t-social">
+  <article class="sezione sv-blocco" id="social" aria-labelledby="t-social">
     <div class="contenitore sv-blocco__griglia">
       <div class="sv-blocco__testa">
-        <p class="etichetta">Solo se ti serve</p>
         <TitoloRivelato tag="h2" id="t-social" testo="Social media" taglia="h2-s" classe="sv-blocco__nome" />
       </div>
       <div class="sv-blocco__corpo">
@@ -139,18 +136,9 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
 </LayoutPagina>
 
 <style>
-  /* Tre blocchi, uno per servizio, ciascuno con un solo filetto in testa. Da 960px: titolo e
-     etichetta nelle colonne 1-4, testo e liste nelle colonne 6-12. Sotto 640px le liste sono in colonna. */
-  .sv-blocco {
-    padding-block: var(--sezione);
-    border-block-start: 1px solid var(--linea);
-  }
-
-  /* Il primo blocco sta sotto la testata, che ha già il suo filetto: niente filetto doppio. */
-  .sv-blocco:first-of-type {
-    border-block-start: 0;
-  }
-
+  /* Tre blocchi, uno per servizio. Il ritmo tra loro è la classe .sezione (un solo --sezione, niente
+     filetto: i filetti stanno solo tra le voci di un elenco). Da 960px: titolo nelle colonne 1-4,
+     testo e liste nelle colonne 6-12. Sotto 640px le liste sono in colonna. */
   .sv-blocco__griglia {
     display: grid;
     gap: var(--s-5);
