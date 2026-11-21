@@ -1,0 +1,20 @@
+---
+// Striscia dei settori: il testo è ripetuto due volte per il loop, la seconda copia è nascosta ai lettori di schermo.
+
+const settori = [
+  'Ristoranti', 'Bar', 'Pizzerie', 'B&B', 'Barbieri', 'Saloni', 'Centri estetici',
+  'Negozi', 'Artigiani', 'Officine', 'Professionisti', 'Associazioni',
+];
+
+---
+
+  <div class="ticker" aria-label="Per chi lavoriamo">
+    <div class="ticker-pista">
+      {settori.map((s) => <span>{s}</span>)}
+      {settori.map((s) => <span aria-hidden="true">{s}</span>)}
+    </div>
+  </div>
+
+<style>
+  /* stili della sezione: ondata 2 */
+</style>

@@ -1,0 +1,92 @@
+---
+// Titolo display che si rivela parola per parola dentro una maschera.
+// testo: stringa piana. Il carattere "|" forza un a capo (<br>) e non compare nel testo letto.
+// accento: sottostringa in mattone (solo hero e fascia di chiusura).
+// tenue: sottostringa in morbido (secondo tono dei titoli a due toni). Niente corsivo.
+// immediato: anima al caricamento (A1). Altrimenti ha data-reveal e anima quando entra in vista.
+// taglia: dimensione. Se manca: h1 = hero, h2 = h2, h3 e p = h3.
+type Tag = 'h1' | 'h2' | 'h3' | 'p';
+type Taglia = 'hero' | 'h2' | 'h2-s' | 'h3';
+type Tipo = 'base' | 'accento' | 'tenue';
+type Pezzo = { t: string; k: Tipo };
+type Token = { t: string; k: Tipo; i: number }; // i = -1 per gli spazi tra le parole
+
+interface Props {
+  tag?: Tag | undefined;
+  testo: string;
+  accento?: string | undefined;
+  tenue?: string | undefined;
+  immediato?: boolean | undefined;
+  taglia?: Taglia | undefined;
+  classe?: string | undefined;
+  id?: string | undefined;
+}
+
+const { tag = 'h2', testo, accento, tenue, immediato = false, classe, id } = Astro.props;
+const taglia: Taglia = Astro.props.taglia ?? (tag === 'h1' ? 'hero' : tag === 'h2' ? 'h2' : 'h3');
+const Tag = tag;
+
+// Divide il pezzo base in tre: prima, sottostringa, dopo. Solo la prima occorrenza.
+function segmenta(pezzi: Pezzo[], sub: string | undefined, k: Tipo): Pezzo[] {
+  if (!sub) return pezzi;
+  let trovato = false;
+  const out: Pezzo[] = [];
+  for (const p of pezzi) {
+    const i = !trovato && p.k === 'base' ? p.t.indexOf(sub) : -1;
+    if (i < 0) {
+      out.push(p);
+      continue;
+    }
+    trovato = true;
+    if (i > 0) out.push({ t: p.t.slice(0, i), k: 'base' });
+    out.push({ t: sub, k });
+    const dopo = p.t.slice(i + sub.length);
+    if (dopo) out.push({ t: dopo, k: 'base' });
+  }
+  if (!trovato) throw new Error(`TitoloRivelato: "${sub}" non compare nel testo`);
+  return out;
+}
+
+const pezzi = segmenta(segmenta([{ t: testo, k: 'base' }], tenue, 'tenue'), accento, 'accento');
+
+// Righe (dal "|") e token (parole numerate per lo stagger, spazi senza indice).
+const righe: Token[][] = [[]];
+let n = 0;
+for (const p of pezzi) {
+  p.t.split('|').forEach((parte, idx) => {
+    if (idx > 0) righe.push([]);
+    const riga = righe[righe.length - 1]!;
+    for (const tok of parte.split(/(\s+)/)) {
+      if (!tok) continue;
+      if (/^\s+$/.test(tok)) riga.push({ t: tok, k: 'base', i: -1 });
+      else riga.push({ t: tok, k: p.k, i: n++ });
+    }
+  });
+}
+// Niente spazi a inizio e fine riga (restano quelli che separano le parole).
+for (const riga of righe) {
+  while (riga.length && riga[0]!.i === -1) riga.shift();
+  while (riga.length && riga[riga.length - 1]!.i === -1) riga.pop();
+}
+---
+
+<Tag
+  id={id}
+  class:list={['titolo-rivelato', 'display', `titolo-rivelato--${taglia}`, immediato && 'titolo-rivelato--immediato', classe]}
+  data-reveal={immediato ? undefined : ''}
+>
+  {
+    righe.map((riga, r) => (
+      <>
+        {r > 0 && <br />}
+        {riga.map((tok) =>
+          tok.i < 0 ? (
+            tok.t
+          ) : (
+            <span class="parola"><span class={tok.k === 'base' ? 'parola__in' : `parola__in titolo__${tok.k}`} style={`--i:${tok.i}`}>{tok.t}</span></span>
+          )
+        )}
+      </>
+    ))
+  }
+</Tag>

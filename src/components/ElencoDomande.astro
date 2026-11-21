@@ -8,11 +8,11 @@ interface Props {
 const { faqs } = Astro.props;
 ---
 
-<div class="faq" data-reveal>
+<div class="fisarmonica" data-reveal>
   {faqs.map((f) => (
     <details>
       <summary>{f.q}</summary>
-      <div class="risposta">
+      <div class="fisarmonica__corpo">
         <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-freccia" href={c.href}>{c.label}</a></span>))}</>)}</p>
       </div>
     </details>

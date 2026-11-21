@@ -1,0 +1,63 @@
+---
+import TestataSezione from '../TestataSezione.astro';
+import { ANTICIPO, BASE_PRICES, OFFERTA_SITO } from '../../data/prezzi';
+
+---
+
+  <!-- 04 · PREZZI -->
+  <section class="sezione" aria-labelledby="t-prezzi">
+    <div class="involucro">
+      <TestataSezione
+        id="t-prezzi"
+        numero="04 · Prezzi"
+        titolo="Scegli da <em>dove partire</em>"
+      />
+      <div class="prezzi-griglia" id="h-prezzi" data-reveal>
+        <div class="prezzo">
+          <p class="prezzo-kicker">Per iniziare</p>
+          <h3>Pagina singola</h3>
+          <p class="prezzo-cifra">{BASE_PRICES.singola}€</p>
+          <p class="piano-per">Per artigiani, professionisti e botteghe che devono farsi trovare e contattare.</p>
+          <ul>
+            <li>Tutto l’essenziale in una pagina che scorre</li>
+            <li>Telefono, WhatsApp e mappa in vista</li>
+            <li>Privacy e cookie inclusi</li>
+          </ul>
+          <a class="link-freccia" href="/preventivo/">Configura la singola →</a>
+        </div>
+        <div class="prezzo">
+          <p class="prezzo-kicker">Il completo</p>
+          <h3>Sito a più pagine</h3>
+          <p class="prezzo-cifra">{BASE_PRICES.multi}€</p>
+          <p class="piano-per">Per ristoranti, B&amp;B, saloni e negozi con tanto da mostrare.</p>
+          <ul>
+            <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
+            <li>Menu, prenotazioni, eventi se ti servono</li>
+            <li>Telefono, WhatsApp e mappa in vista</li>
+          </ul>
+          <a class="link-freccia" href="/preventivo/">Configura il multipagina →</a>
+        </div>
+        <div class="prezzo prezzo-evidenza">
+          <p class="prezzo-kicker">Tutto incluso</p>
+          <h3>Offerta</h3>
+          <p class="prezzo-cifra">{OFFERTA_SITO.prezzo}€</p>
+          <p class="piano-per">Sito completo, foto e logo con prezzo definito prima.</p>
+          <ul>
+            <li>Sito a più pagine con funzioni incluse e pagine concordate</li>
+            <li>Foto scattate da noi ad Asti</li>
+            <li>Logo nuovo o rinnovato</li>
+            <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
+          </ul>
+          <a class="link-freccia" href="/preventivo/?offerta=1">Prendi l’offerta →</a>
+        </div>
+      </div>
+      <div class="prezzi-riga-finale" data-reveal>
+        <p class="prezzo-nota" style="margin:0">Hosting completamente gratuito, configurazione del dominio gratis. A noi, nessun canone obbligatorio, {ANTICIPO}€ di acconto compresi.</p>
+        <a class="link-freccia" href="/prezzi/">Tutti i dettagli in Prezzi →</a>
+      </div>
+    </div>
+  </section>
+
+<style>
+  /* stili della sezione: ondata 2 */
+</style>

@@ -45,9 +45,9 @@ Il deploy automatico è in `.github/workflows/deploy-pages.yml`: ogni push su
   `Piede`, `ContattiDinamici` (link e tracking), `ElencoDomande`,
   `TestataSezione`.
 - `src/layouts/LayoutPagina.astro` — pagina normale.
-- `src/stili-globali.css`, `src/styles/variabili.css`,
-  `src/styles/configuratore.css` — design system, token condivisi e CSS del
-  configuratore.
+- `src/styles/tokens.css`, `base.css`, `layout.css`, `componenti.css`, `movimento.css`,
+  `legacy.css` (congelato) e `src/styles/configuratore.css` — design system, token
+  condivisi e CSS del configuratore.
 - `src/pages/` — route.
 - `public/` — asset.
 

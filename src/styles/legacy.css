@@ -1,61 +1,9 @@
 /* ============================================================
+   LEGACY: CSS congelato, da svuotare a fine redesign. Non aggiungere qui nulla di nuovo.
    TREBLA — «Quaderno di bottega»
    Sistema editoriale: carta · inchiostro · mattone.
    Una sola regola: ogni elemento deve avere una ragione.
    ============================================================ */
-
-/* ---------- 1. Variabili ---------- */
-@import './styles/variabili.css';
-
-/* ---------- 2. Base ---------- */
-*,
-*::before,
-*::after { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
-  overflow-x: clip;
-  /* Ancoraggio sotto la testata sticky: segue l'altezza reale, non un numero sparso. */
-  scroll-padding-top: calc(70px + 24px);
-}
-
-body {
-  margin: 0;
-  background: var(--carta);
-  color: var(--inchiostro);
-  font: 400 1.0625rem/1.65 var(--sans);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: clip;
-}
-
-img, svg, video { max-inline-size: 100%; }
-
-h1, h2, h3, h4 { text-wrap: balance; overflow-wrap: anywhere; }
-p { text-wrap: pretty; overflow-wrap: break-word; }
-
-a { color: inherit; }
-
-::selection { background: var(--mattone); color: var(--carta); }
-
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-/* Sul notte il mattone non regge il contrasto: serve il mattone chiaro. */
-.piede,
-.prezzo-evidenza,
-.wizard-totale-finale,
-.wizard-barra-fissa { --focus: var(--mattone-chiaro); }
-
-.salto {
-  position: absolute; left: -9999px; top: 0;
-  background: var(--inchiostro); color: var(--carta);
-  padding: 10px 16px; border-radius: 6px; z-index: 200;
-  font: 400 0.9rem var(--sans); text-decoration: none;
-}
-.salto:focus { left: 12px; top: 12px; }
 
 /* ---------- 3. Struttura ---------- */
 .involucro {
@@ -486,8 +434,6 @@ body.menu-aperto {
 #h-prezzi .prezzo-kicker { margin: 0 0 4px; }
 #h-prezzi .prezzo h3 { margin: 0; }
 #h-prezzi .prezzo-cifra { margin: 2px 0 0; }
-/* Il "da" è un prefisso, non parte della cifra: sta più piccolo. */
-#h-prezzi .prezzo-da { font-size: 0.42em; letter-spacing: 0; margin-inline-end: 0.06em; }
 .prezzi-riga-finale { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 16px 0 0; }
 .prezzi-riga-finale .link-freccia { margin-inline-start: auto; }
 @media (max-width: 899px) {
@@ -755,60 +701,6 @@ body.menu-aperto {
 }
 .persona p { margin: 0; color: var(--morbido); max-inline-size: 44ch; }
 
-.lavoro {
-  display: block;
-  margin-block-start: 28px;
-  border: 1px solid var(--inchiostro);
-  border-radius: var(--raggio);
-  padding: clamp(20px, 3vw, 28px);
-  text-decoration: none;
-  background: var(--carta-3);
-  transition: background var(--transizione);
-}
-.lavoro:hover { background: var(--carta-2); }
-.lavoro-kicker {
-  font: 700 0.75rem/1.4 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--mattone);
-  margin: 0 0 10px;
-}
-.lavoro-titolo { font: 600 clamp(1.6rem, 3.4vw, 2.4rem)/1.05 var(--serif); margin: 0; }
-.lavoro-testo { min-inline-size: 0; }
-.lavoro p { color: var(--morbido); margin: 10px 0 0; max-inline-size: 60ch; }
-.lavoro .link-freccia { display: inline-block; margin-block-start: 12px; }
-/* Lavoro: testo + anteprima astratta in puro CSS */
-.lavoro { display: grid; gap: 20px; }
-@media (min-width: 860px) {
-  .lavoro { grid-template-columns: 1.1fr minmax(0, 1fr); align-items: center; gap: clamp(20px, 3vw, 36px); }
-}
-.lavoro-mock {
-  border: 1px solid var(--inchiostro);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--notte);
-  transition: transform var(--transizione);
-}
-.lavoro-mock-barra {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 12px;
-  border-block-end: 1px solid var(--linea-scura);
-  font: 400 0.75rem var(--mono);
-  color: var(--notte-morbido);
-}
-.lavoro-mock-barra i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--linea-scura); }
-.lavoro-mock-barra i:first-of-type { background: var(--mattone-chiaro); }
-.lavoro-mock-barra span { margin-inline-start: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lavoro-mock-corpo { padding: 16px; display: grid; gap: 10px; }
-.lm-titolo { display: block; block-size: 16px; inline-size: 55%; border-radius: 4px; background: var(--mattone-chiaro); }
-.lm-riga { display: flex; align-items: center; gap: 10px; }
-.lm-riga i { flex: none; inline-size: 34px; block-size: 34px; border-radius: 6px; background: var(--linea-scura); }
-.lm-riga b { display: block; block-size: 10px; flex: 1 1 auto; border-radius: 4px; background: var(--linea-scura); opacity: 0.65; }
-@media (hover: hover) {
-  .lavoro:hover .lavoro-mock { transform: translateY(-3px); }
-}
 
 /* ---------- 14. FAQ ---------- */
 .faq details { border-block-start: 1px solid var(--inchiostro); }

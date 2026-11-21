@@ -1,0 +1,38 @@
+---
+// Benefici: quattro punti concreti, numerati in ordine.
+
+const benefici = [
+  { t: 'Si trova subito l’essenziale', d: 'Chi sei, dove sei, quando sei aperto. Senza scavare nei menu.' },
+  { t: 'Menu e servizi leggibili', d: 'Prezzi chiari dal telefono, senza scaricare PDF. Anche con poco campo.' },
+  { t: 'Contatti in un tocco', d: 'Telefono, WhatsApp, mappa e prenotazioni sempre in vista.' },
+  { t: 'Ordine anche fuori dal sito', d: 'Google Business e mappe sistemati: orari e indicazioni giusti ovunque.' },
+];
+
+import TestataSezione from '../TestataSezione.astro';
+
+---
+
+  <!-- 01 · BENEFICI -->
+  <section class="sezione" aria-labelledby="t-benefici">
+    <div class="involucro">
+      <TestataSezione
+        id="t-benefici"
+        numero="01 · Benefici"
+        titolo="Cosa cambia <em>in pratica</em>"
+        nota="Niente promesse: quattro cose concrete che il sito fa per te."
+      />
+      <ol class="righe" id="h-benefici">
+        {benefici.map((b, i) => (
+          <li data-reveal>
+            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{b.t}</h3>
+            <p>{b.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+<style>
+  /* stili della sezione: ondata 2 */
+</style>

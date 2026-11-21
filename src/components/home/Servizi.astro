@@ -1,0 +1,58 @@
+---
+import TestataSezione from '../TestataSezione.astro';
+
+import { BASE_PRICES } from '../../data/prezzi';
+
+---
+
+  <!-- 02 · SERVIZI -->
+  <section class="sezione" aria-labelledby="t-servizi">
+    <div class="involucro">
+      <TestataSezione
+        id="t-servizi"
+        numero="02 · Cosa facciamo"
+        titolo="Il sito al centro, <em>il resto intorno</em>"
+        nota="Parti da quello che ti serve ora. Il resto si aggiunge quando vuoi."
+      />
+      <div id="h-servizi">
+        <article class="indice" data-reveal>
+          <div class="indice-corpo">
+            <h3>Sito web</h3>
+            <p class="indice-meta"><b>{BASE_PRICES.singola}€</b> · pagina singola · <b>{BASE_PRICES.multi}€</b> · più pagine</p>
+            <p class="indice-testo">Il punto di partenza per farti trovare e contattare. <strong>Una pagina che spiega tutto</strong> o un sito completo.</p>
+            <p class="indice-lista"><span class="indice-k">Inclusi</span>Testi essenziali preparati insieme a te · Telefono, WhatsApp e mappa · Foto e menu sistemati · Privacy e cookie inclusi</p>
+            <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Gergo tecnico · Ore della tua giornata · Canone obbligatorio</p>
+            <a class="link-freccia" href="/servizi/siti-web/">Il sito nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+          </div>
+          <span class="indice-freccia" aria-hidden="true">→</span>
+        </article>
+        <article class="indice" data-reveal>
+          <div class="indice-corpo">
+            <h3>Grafiche</h3>
+            <p class="indice-meta">solo se ti serve · <b>su preventivo</b></p>
+            <p class="indice-testo"><strong>La stessa faccia ovunque</strong>: dal sito al biglietto da visita, dal menu cartaceo alla vetrina.</p>
+            <p class="indice-lista"><span class="indice-k">Inclusi</span>Logo creato o rinnovato · Biglietti da visita, volantini, menu · File pronti per la stampa</p>
+            <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Restyling ogni sei mesi · Stampa di qualsiasi materiale</p>
+            <p class="indice-nota">Solo design: non stampiamo niente, ti consegniamo i file da portare dove vuoi.</p>
+            <a class="link-freccia" href="/servizi/grafiche/">Le grafiche nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+          </div>
+          <span class="indice-freccia" aria-hidden="true">→</span>
+        </article>
+        <article class="indice" data-reveal>
+          <div class="indice-corpo">
+            <h3>Social media</h3>
+            <p class="indice-meta">solo se ti serve · <b>su preventivo</b></p>
+            <p class="indice-testo"><strong>Profili ordinati e contenuti concordati</strong>, con prezzi per singola voce e senza canone mensile implicito.</p>
+            <p class="indice-lista"><span class="indice-k">Possibili</span>Profili · Foto e video · Grafiche per contenuti</p>
+            <p class="indice-lista indice-no"><span class="indice-k">Esclusi</span>Follower comprati · Promesse di viralità</p>
+            <a class="link-freccia" href="/servizi/social/">I social nel dettaglio <span class="freccia" aria-hidden="true">→</span></a>
+          </div>
+          <span class="indice-freccia" aria-hidden="true">→</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+<style>
+  /* stili della sezione: ondata 2 */
+</style>

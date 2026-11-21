@@ -1,0 +1,139 @@
+/* ============================================================
+   MOVIMENTO: reveal [data-reveal], parole in maschera, keyframes comuni,
+   blocco completo per prefers-reduced-motion.
+
+   Fallback senza JS (metodo scelto: classe "js" su <html>):
+   - lo script inline in MetaDocumento aggiunge class="js" a <html>;
+   - lo stato nascosto (opacity 0, parole sotto la maschera) vale solo
+     con html.js: senza JS tutto è visibile e fermo;
+   - html:not(.js) forza [data-reveal] visibile anche contro il CSS legacy.
+   Il JS (LayoutPagina) aggiunge la classe "visibile" quando l'elemento entra in vista.
+   Animazioni solo su transform e opacity.
+   ============================================================ */
+
+/* ---------- Keyframes comuni ---------- */
+@keyframes sali {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sali-corto {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes parola-sali {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+/* Ingresso con fade-up (A1 per etichetta e CTA). Il ritardo arriva da --d. */
+.entra {
+  animation: sali var(--t-4) var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* ---------- Reveal allo scroll (A2) ---------- */
+.js [data-reveal] {
+  transition: opacity var(--t-4) var(--ease-out) var(--d, 0ms),
+    transform var(--t-4) var(--ease-out) var(--d, 0ms);
+}
+
+.js [data-reveal]:not(.visibile) {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+.js [data-reveal].visibile {
+  opacity: 1;
+  transform: none;
+}
+
+/* Senza JS: niente stato nascosto. Vale anche per il CSS legacy che nasconde [data-reveal]. */
+html:not(.js) [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Il titolo rivelato non sfuma come blocco: a salire sono le sue parole. */
+.js .titolo-rivelato[data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* ---------- Parole in maschera (A1) ----------
+   Ogni parola sta in un .parola (maschera con overflow hidden).
+   Il padding verticale evita che si taglino le discendenti (g, p, q, y). */
+.parola {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-block: 0.1em;
+  margin-block: -0.1em;
+}
+
+.parola__in {
+  display: inline-block;
+}
+
+/* Immediato (hero): parte al caricamento, senza JS. */
+.titolo-rivelato--immediato .parola__in {
+  animation: parola-sali var(--t-5) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger-parola));
+}
+
+/* Allo scroll: nascoste solo con JS, salgono quando il titolo diventa visibile. */
+.js .titolo-rivelato[data-reveal] .parola__in {
+  transform: translate3d(0, 105%, 0);
+  transition: transform var(--t-5) var(--ease-out) calc(var(--i, 0) * var(--stagger-parola));
+}
+
+.js .titolo-rivelato[data-reveal].visibile .parola__in {
+  transform: none;
+}
+
+/* ---------- Movimento ridotto ----------
+   Contenuto visibile e fermo: niente animazioni, niente transizioni, niente reveal. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal],
+  .parola__in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

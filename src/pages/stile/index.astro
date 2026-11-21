@@ -1,0 +1,205 @@
+---
+// Vetrina dei componenti del redesign. Temporanea: serve a provare i componenti,
+// è noindex, non è nella sitemap e nessuna pagina la linka. Va rimossa a fine lavoro.
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import Bottone from '../../components/ui/Bottone.astro';
+import TitoloRivelato from '../../components/ui/TitoloRivelato.astro';
+import TestataSezione from '../../components/TestataSezione.astro';
+import ElencoDomande from '../../components/ElencoDomande.astro';
+import { FAQS } from '../../data/domande-frequenti';
+
+const palette: [string, string, string, string][] = [
+  ['carta', '#EEECE7', 'var(--carta)', 'inchiostro'],
+  ['carta-2', '#E3E0D9', 'var(--carta-2)', 'inchiostro'],
+  ['inchiostro', '#141210', 'var(--inchiostro)', 'carta'],
+  ['grafite', '#1F1C19', 'var(--grafite)', 'carta'],
+  ['morbido', '#5E5A53', 'var(--morbido)', 'carta'],
+  ['morbido-scuro', '#A39E95', 'var(--morbido-scuro)', 'inchiostro'],
+  ['mattone', '#E8401C', 'var(--mattone)', 'inchiostro'],
+  ['mattone-testo', '#B23A12', 'var(--mattone-testo)', 'carta'],
+  ['verde', '#157F3D', 'var(--verde)', 'carta'],
+];
+
+const scala: [string, string, string][] = [
+  ['fs-hero', 'var(--fs-hero)', 'Aa Hero'],
+  ['fs-h2', 'var(--fs-h2)', 'Titolo H2'],
+  ['fs-h2-s', 'var(--fs-h2-s)', 'Titolo H2 piccolo'],
+  ['fs-h3', 'var(--fs-h3)', 'Titolo H3 Archivo 600'],
+  ['fs-lead', 'var(--fs-lead)', 'Lead: testo introduttivo di sezione.'],
+  ['fs-body', 'var(--fs-body)', 'Testo: Archivo 400, lh 1.55, massimo 62 caratteri per riga.'],
+  ['fs-small', 'var(--fs-small)', 'Testo piccolo: note e didascalie.'],
+  ['fs-label', 'var(--fs-label)', 'Etichetta mono 500 maiuscolo'],
+  ['fs-micro', 'var(--fs-micro)', 'Micro mono 400 maiuscolo'],
+];
+---
+
+<LayoutPagina
+  title="Vetrina componenti"
+  description="Vetrina interna dei componenti del redesign."
+  canonical="/stile/"
+  noindex
+>
+  <main class="vetrina sezione">
+    <div class="contenitore">
+      <section class="vetrina-blocco">
+        <p class="etichetta">Palette</p>
+        <div class="vetrina-palette">
+          {palette.map(([nome, hex, css, testo]) => (
+            <div class="vetrina-campione" style={`background:${css};color:var(--${testo})`}>
+              <span>{nome}</span>
+              <span>{hex}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Scala tipografica</p>
+        {scala.map(([nome, valore, esempio]) => (
+          <div class="vetrina-scala">
+            <span class="etichetta">{nome}</span>
+            <p class={nome.startsWith('fs-h') || nome === 'fs-hero' ? 'display' : undefined} style={`font-size:${valore}`}>{esempio}</p>
+          </div>
+        ))}
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Bottoni</p>
+        <div class="vetrina-riga">
+          <Bottone href="#" variante="primario" testo="Fai il preventivo" />
+          <Bottone href="#" variante="secondario" testo="Scopri i servizi" />
+          <Bottone href="#" variante="wa" testo="Scrivici su WhatsApp" />
+        </div>
+      </section>
+
+      <section class="vetrina-blocco fascia-scura vetrina-fascia">
+        <p class="etichetta">Su fascia scura</p>
+        <div class="vetrina-riga">
+          <Bottone href="#" variante="chiaro" testo="Leggi di più" />
+          <a class="link-sottolineato" href="#">Link sottolineato</a>
+          <a class="link-roll" href="#"><span class="link-roll__testo" data-testo="Servizi">Servizi</span></a>
+        </div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Link</p>
+        <div class="vetrina-riga">
+          <a class="link-sottolineato" href="#">Link sottolineato</a>
+          <a class="link-roll" href="#"><span class="link-roll__testo" data-testo="Servizi">Servizi</span></a>
+        </div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Etichette, puntini, chip</p>
+        <div class="vetrina-riga">
+          <span class="etichetta"><span class="puntino puntino--mattone" aria-hidden="true"></span>Mattone</span>
+          <span class="etichetta"><span class="puntino puntino--verde puntino--pulse" aria-hidden="true"></span>Disponibili ora</span>
+          <span class="etichetta"><span class="puntino puntino--inchiostro" aria-hidden="true"></span>Inchiostro</span>
+        </div>
+        <div class="vetrina-riga">
+          <span class="chip">Ristoranti</span>
+          <span class="chip">Barbieri</span>
+          <span class="chip">Negozi</span>
+        </div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Titolo rivelato</p>
+        <TitoloRivelato tag="h2" taglia="h2-s" immediato testo="Parole che salgono|dalla maschera" tenue="dalla maschera" />
+        <TitoloRivelato tag="h2" taglia="h2-s" testo="Titolo allo scroll|con il secondo tono" tenue="con il secondo tono" />
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Testata di sezione (chiara)</p>
+        <TestataSezione numero="01 · Benefici" titolo="Cosa cambia <em>in pratica</em>" nota="Niente promesse: quattro cose concrete che il sito fa per te." />
+      </section>
+
+      <section class="vetrina-blocco fascia-scura vetrina-fascia">
+        <p class="etichetta">Testata di sezione (scura)</p>
+        <TestataSezione scuro numero="02 · Cosa facciamo" titolo="Il sito al centro, <em>il resto intorno</em>" nota="Parti da quello che ti serve ora." />
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Fisarmonica</p>
+        <ElencoDomande faqs={FAQS.slice(0, 2)} />
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Scheda e filetto</p>
+        <div class="scheda">
+          <p class="etichetta">Scheda con bordo da 1px</p>
+          <p>Contenuto della scheda, a bordo vivo.</p>
+        </div>
+        <div class="filetto" style="margin-block-start: 24px"></div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Griglia (4, 6, 12 colonne)</p>
+        <div class="griglia vetrina-griglia">
+          <div class="col-largo">col-largo</div>
+          <div class="col-stretto">col-stretto</div>
+          <div class="col-meta">col-meta</div>
+          <div class="col-meta">col-meta</div>
+          <div class="col-tutte">col-tutte</div>
+        </div>
+      </section>
+    </div>
+  </main>
+</LayoutPagina>
+
+<style>
+  .vetrina-blocco {
+    padding-block: var(--s-7);
+    border-block-start: 1px solid var(--linea);
+  }
+  .vetrina-blocco > .etichetta {
+    margin-block-end: var(--s-5);
+  }
+  .vetrina-fascia {
+    padding-inline: var(--s-5);
+  }
+  .vetrina-palette {
+    display: grid;
+    gap: var(--s-3);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 640px) {
+    .vetrina-palette {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .vetrina-campione {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-block-size: 96px;
+    padding: var(--s-3);
+    border: 1px solid var(--linea);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .vetrina-scala {
+    display: grid;
+    gap: var(--s-2);
+    padding-block: var(--s-3);
+    border-block-start: 1px solid var(--linea);
+  }
+  .vetrina-scala p {
+    margin: 0;
+    max-inline-size: none;
+  }
+  .vetrina-riga {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    align-items: center;
+    margin-block: var(--s-4);
+  }
+  .vetrina-griglia > div {
+    padding: var(--s-3);
+    border: 1px solid var(--linea);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    text-transform: uppercase;
+  }
+</style>

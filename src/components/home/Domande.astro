@@ -1,0 +1,32 @@
+---
+import TestataSezione from '../TestataSezione.astro';
+import ElencoDomande from '../ElencoDomande.astro';
+import { FAQS } from '../../data/domande-frequenti';
+
+const HOME_FAQS = [
+  'Quanto costa un sito?',
+  'In quanto tempo è online?',
+  'Non ho foto né testi. È un problema?',
+  'Devo pagare un canone ogni anno?',
+  'Come funziona, in pratica?',
+];
+const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME_FAQS.indexOf(a.q) - HOME_FAQS.indexOf(b.q));
+---
+
+  <!-- 06 · DOMANDE -->
+  <section class="sezione" aria-labelledby="t-domande">
+    <div class="involucro">
+      <TestataSezione
+        id="t-domande"
+        numero="06 · Domande"
+        titolo="Quelle che ci fanno <em>sempre</em>"
+        nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
+      />
+      <div id="h-domande"><ElencoDomande faqs={homeFaqs} /></div>
+      <p class="stacco-16" data-reveal><a class="link-freccia" href="/faq/">Tutte le domande →</a></p>
+    </div>
+  </section>
+
+<style>
+  /* stili della sezione: ondata 2 */
+</style>

@@ -1,0 +1,107 @@
+/* ============================================================
+   LAYOUT: contenitore, griglia a 4/6/12 colonne, sezioni, fasce, filetti.
+   Breakpoint solo min-width: 640px e 960px (1280px riservato).
+   ============================================================ */
+
+/* Contenitore: solo il margine laterale. La larghezza massima la dà --pad. */
+.contenitore {
+  padding-inline: var(--pad);
+}
+
+/* Griglia: 4 colonne sotto 640px, 6 da 640px, 12 da 960px. */
+.griglia {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .griglia {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .griglia {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* Utility di colonna: solo le quattro che servono. */
+
+/* Tutta la larghezza, a ogni breakpoint. */
+.col-tutte {
+  grid-column: 1 / -1;
+}
+
+/* Metà griglia: 2 su 4, 3 su 6, 6 su 12. */
+.col-meta {
+  grid-column: span 2;
+}
+
+@media (min-width: 640px) {
+  .col-meta {
+    grid-column: span 3;
+  }
+}
+
+@media (min-width: 960px) {
+  .col-meta {
+    grid-column: span 6;
+  }
+}
+
+/* Colonna larga: due terzi da 960px, piena prima. */
+.col-largo {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 960px) {
+  .col-largo {
+    grid-column: span 8;
+  }
+}
+
+/* Colonna stretta: metà da 640px, un terzo da 960px (con .col-largo fa 12). */
+.col-stretto {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 640px) {
+  .col-stretto {
+    grid-column: span 3;
+  }
+}
+
+@media (min-width: 960px) {
+  .col-stretto {
+    grid-column: span 4;
+  }
+}
+
+/* Sezione: solo il padding verticale. */
+.sezione {
+  padding-block: var(--sezione);
+}
+
+/* Fasce scure: ridefiniscono filetti, testo secondario e focus per la superficie scura. */
+.fascia-scura,
+.fascia-grafite {
+  --linea: var(--linea-scura);
+  --morbido: var(--morbido-scuro);
+  --focus: var(--mattone);
+  color: var(--carta);
+}
+
+.fascia-scura {
+  background: var(--inchiostro);
+}
+
+.fascia-grafite {
+  background: var(--grafite);
+}
+
+/* Filetto da 1px: separa le righe e apre le testate di sezione. */
+.filetto {
+  border-block-start: 1px solid var(--linea);
+}

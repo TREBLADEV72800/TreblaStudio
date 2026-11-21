@@ -1,0 +1,102 @@
+/* ============================================================
+   TOKEN del design system Trebla (redesign 2026).
+   Fonte: scratchpad DESIGN_SYSTEM.md. Un posto solo per i valori:
+   nessun altro file dichiara colori, scale o durate.
+   Breakpoint: solo min-width a 640, 960 e 1280px.
+   ============================================================ */
+:root {
+  /* ---------- Colori ---------- */
+  --carta: #EEECE7;          /* fondo principale */
+  --carta-2: #E3E0D9;        /* superfici, hover leggeri */
+  --inchiostro: #141210;     /* testo, fasce scure */
+  --grafite: #1F1C19;        /* fascia di chiusura */
+  --morbido: #5E5A53;        /* testo secondario su carta (5,8:1) */
+  --morbido-scuro: #A39E95;  /* testo secondario su scuro (7,0:1) */
+  --linea: rgba(20, 18, 16, 0.14);       /* filetti su carta */
+  --linea-scura: rgba(238, 236, 231, 0.16); /* filetti su scuro */
+  --mattone: #E8401C;        /* accento: CTA, display grandi, puntini. MAI testo piccolo */
+  --mattone-testo: #B23A12;  /* accento per testo piccolo su carta (5,1:1) */
+  --verde: #157F3D;          /* WhatsApp, puntino "disponibili" */
+
+  /* ---------- Font ---------- */
+  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --font-testo: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---------- Scala tipografica ---------- */
+  --fs-hero: clamp(60px, min(12vw, 17svh), 196px);   /* lh .88 */
+  --fs-h2: clamp(44px, 7.6vw, 124px);                /* lh .9 */
+  --fs-h2-s: clamp(36px, 4.8vw, 72px);               /* lh .92: sottosezioni e pagine interne */
+  --fs-h3: clamp(21px, 1.7vw, 28px);                 /* Archivo 600, lh 1.15, ls -0.02em */
+  --fs-lead: clamp(18px, 1.5vw, 22px);               /* lh 1.45, max 52ch */
+  --fs-body: 16px;                                   /* lh 1.55, max 62ch */
+  --fs-small: 14px;                                  /* lh 1.45 */
+  --fs-label: 12px;                                  /* mono 500, ls .08em */
+  --fs-micro: 10.5px;                                /* mono 400, ls .1em */
+  --fs-wordmark: clamp(110px, 26vw, 440px);
+
+  /* ---------- Spaziature e griglia ---------- */
+  --pad: max(clamp(16px, 2.6vw, 40px), calc((100vw - 1680px) / 2)); /* margine laterale */
+  --gap: clamp(16px, 1.7vw, 24px);
+  --sezione: clamp(64px, 8.4vw, 128px);              /* padding verticale delle sezioni */
+  --hh: 64px;                                        /* altezza header sotto 960px */
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+
+  /* ---------- Movimento ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* reveal e ingressi */
+  --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);    /* sottolineature e roll */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* menu e transizioni tra pagine */
+  --ease-std: cubic-bezier(0.4, 0, 0.2, 1);       /* cambi di colore */
+
+  --t-1: 150ms;
+  --t-2: 300ms;
+  --t-3: 600ms;
+  --t-4: 900ms;
+  --t-5: 1100ms;
+
+  --stagger-parola: 60ms;
+  --stagger-elemento: 80ms;
+}
+
+@media (min-width: 960px) {
+  :root {
+    --fs-body: 17px;
+    --hh: 72px;
+  }
+}
+
+/* LEGACY: da rimuovere a fine redesign.
+   Il vecchio CSS (src/styles/legacy.css) usa ancora questi nomi:
+   li riporto sui valori nuovi, così le pagine non legacy restano leggibili. */
+:root {
+  --carta-3: var(--carta);
+  --mattone-fondo: var(--mattone-testo);
+  --mattone-chiaro: var(--mattone);
+  --notte: var(--inchiostro);
+  --notte-carta: var(--carta);
+  --notte-morbido: var(--morbido-scuro);
+  --wa: var(--verde);
+  --wa-fondo: var(--inchiostro);
+  --focus: var(--mattone-testo);
+  --sans: var(--font-testo);
+  --serif: var(--font-testo);
+  --mono: var(--font-mono);
+  --t-display: var(--fs-h2);
+  --t-h2: var(--fs-h2-s);
+  --t-h3: var(--fs-h3);
+  --t-lead: var(--fs-lead);
+  --larghezza: 1160px;
+  --margine: var(--pad);
+  --raggio: 0px;
+  --transizione: var(--t-1) var(--ease-std);
+}

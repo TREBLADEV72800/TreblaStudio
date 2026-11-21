@@ -1,0 +1,183 @@
+/* ============================================================
+   BASE: reset moderno, body, tipografia di base, focus, salto.
+   Caricato dopo tokens.css, prima di layout e componenti.
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Niente grassetto o corsivo sintetici: il corsivo è vietato dal design system. */
+  font-synthesis: none;
+  overflow-x: clip;
+  /* Ancoraggio sotto l'header sticky, che segue --hh. */
+  scroll-padding-top: calc(var(--hh) + 24px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--carta);
+  color: var(--inchiostro);
+  font: 400 var(--fs-body) / 1.55 var(--font-testo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* Margini a zero sugli elementi di testo: lo spazio lo danno i componenti e la griglia. */
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+/* Media a blocco: niente spazio fantasma sotto le immagini. Gli SVG inline restano come sono. */
+img,
+picture,
+video,
+canvas {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/* I controlli dei form ereditano il font del sito. */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------- Tipografia di base ---------- */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  font-weight: 400;
+}
+
+/* H1 e H2 sono display: Archivo largo, 800, maiuscolo. */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-stretch: 64%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+}
+
+h1 {
+  font-size: var(--fs-hero);
+  line-height: 0.88;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+  letter-spacing: -0.02em;
+}
+
+h4 {
+  font: 600 1rem / 1.3 var(--font-testo);
+}
+
+p {
+  max-inline-size: 62ch;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+/* Classe display da applicare a qualunque elemento (numeri di prezzo, wordmark, voci di menu). */
+.display {
+  font-family: var(--font-display);
+  font-stretch: 64%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+}
+
+.display--hero {
+  font-size: var(--fs-hero);
+}
+
+.display--h2 {
+  font-size: var(--fs-h2);
+  line-height: 0.9;
+}
+
+.display--h2-s {
+  font-size: var(--fs-h2-s);
+  line-height: 0.92;
+}
+
+::selection {
+  background: var(--mattone);
+  color: var(--inchiostro);
+}
+
+/* ---------- Focus ---------- */
+:focus-visible {
+  outline: 2px solid var(--focus, var(--mattone-testo));
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* LEGACY: da togliere a fine redesign. Sulle superfici scure il focus è il mattone chiaro. */
+.piede,
+.prezzo-evidenza,
+.wizard-totale-finale,
+.wizard-barra-fissa {
+  --focus: var(--mattone);
+}
+
+/* ---------- Salto al contenuto ---------- */
+.salto {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: var(--inchiostro);
+  color: var(--carta);
+  font: 400 0.9rem / 1.2 var(--font-testo);
+  text-decoration: none;
+}
+
+.salto:focus {
+  left: 12px;
+  top: 12px;
+}
