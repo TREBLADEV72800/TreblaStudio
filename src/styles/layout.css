@@ -79,10 +79,20 @@
   }
 }
 
-/* Sezione: solo il padding verticale, sempre uguale (--sezione) sopra e sotto.
-   Nessuna regola sulle sezioni consecutive: il ritmo è lo stesso in tutte le pagine. */
+/* Sezione: solo il padding verticale, sempre uguale (--sezione) sopra e sotto. */
 .sezione {
   padding-block: var(--sezione);
+}
+
+/* Due sezioni di carta una dopo l'altra: lo spazio tra loro è un solo --sezione, non due.
+   Le fasce scure e grafite mantengono il padding su entrambi i lati. */
+.sezione:not(.fascia-scura):not(.fascia-grafite) + .sezione:not(.fascia-scura):not(.fascia-grafite) {
+  padding-block-start: 0;
+}
+
+/* Senza quel padding, il margine alto del primo elemento uscirebbe dalla sezione: lo si azzera. */
+.sezione:not(.fascia-scura):not(.fascia-grafite) + .sezione:not(.fascia-scura):not(.fascia-grafite) :first-child {
+  margin-block-start: 0;
 }
 
 /* Fasce scure e grafite: ridefiniscono filetti, testo secondario e focus per la superficie scura.

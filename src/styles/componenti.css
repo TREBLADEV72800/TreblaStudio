@@ -353,7 +353,7 @@
 }
 
 /* ---------- Etichetta ----------
-   Testo di supporto, frase normale: Archivo 600 14px, morbido. Nessun puntino, nessun maiuscolo. */
+   Testo di supporto, frase normale: Archivo 600 14px, morbido. Nessun segno decorativo, nessun maiuscolo. */
 .etichetta {
   display: block;
   margin: 0;

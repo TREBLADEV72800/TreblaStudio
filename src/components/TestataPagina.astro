@@ -1,13 +1,14 @@
 ---
 // Testata comune delle pagine interne: percorso, H1 display che si rivela, lead e contenuti extra.
 // titolo: testo dell'H1. Il "|" forza un a capo (come in TitoloRivelato).
-// tenue: accettata per compatibilità; il titolo ha un solo tono.
 // percorso: voci del percorso. La prima è di norma { testo: 'Home', href: '/' }.
 //   L'ultima è la pagina corrente: senza link, aria-current="page".
 // codice: testo semplice sopra l'H1, morbido 14px (es. "Errore 404").
-// etichetta: ignorata. Il design non ha più etichette con puntino sopra l'H1; usare codice.
+// etichetta: ignorata. Il design non ha più etichette sopra l'H1; usare codice.
 // taglia: dimensione dell'H1 (h2 di default, oppure hero).
-// Slot "lead": paragrafo introduttivo (HTML ammesso). Slot default: contenuto sotto il lead.
+// Slot "lead": paragrafo introduttivo (HTML ammesso). Slot "oggetto": illustrazione o esempio della pagina.
+// Da 960px sta nelle colonne 8-12, accanto al titolo; sotto 960px va sotto il lead.
+// Slot default: contenuto sotto il lead (azioni, bottoni).
 import TitoloRivelato from './ui/TitoloRivelato.astro';
 
 interface Voce {
@@ -17,7 +18,6 @@ interface Voce {
 
 interface Props {
   titolo: string;
-  tenue?: string | undefined;
   percorso?: Voce[] | undefined;
   codice?: string | undefined;
   /** Ignorata: vedi nota sopra. */
@@ -26,15 +26,16 @@ interface Props {
   taglia?: 'h2' | 'hero' | undefined;
 }
 
-const { titolo, tenue, percorso, codice, id } = Astro.props;
+const { titolo, percorso, codice, id } = Astro.props;
 const taglia = Astro.props.taglia ?? 'h2';
 const haPercorso = !!percorso && percorso.length > 0;
 const ultima = haPercorso ? percorso.length - 1 : -1;
 const haLead = Astro.slots.has('lead');
+const haOggetto = Astro.slots.has('oggetto');
 const haExtra = Astro.slots.has('default');
 ---
 
-<header class="tp contenitore">
+<header class:list={['tp', 'contenitore', { 'tp--oggetto': haOggetto }]}>
   {
     haPercorso && (
       <nav class="tp__percorso" aria-label="Percorso di navigazione">
@@ -62,7 +63,6 @@ const haExtra = Astro.slots.has('default');
     tag="h1"
     immediato
     testo={titolo}
-    tenue={tenue}
     taglia={taglia}
     id={id}
     classe={taglia === 'h2' ? 'tp__titolo tp__titolo--h2' : 'tp__titolo'}
@@ -72,6 +72,14 @@ const haExtra = Astro.slots.has('default');
     haLead && (
       <div class="tp__lead entra" style="--d:calc(var(--t-1) * 2)">
         <slot name="lead" />
+      </div>
+    )
+  }
+
+  {
+    haOggetto && (
+      <div class="tp__oggetto">
+        <slot name="oggetto" />
       </div>
     )
   }
@@ -165,6 +173,16 @@ const haExtra = Astro.slots.has('default');
     margin-block-start: var(--s-6);
   }
 
+  /* Con oggetto le azioni hanno un solo contenitore a blocco: occupano la larghezza della colonna. */
+  .tp--oggetto .tp__extra {
+    display: block;
+  }
+
+  /* L'oggetto: il wrapper non ha box, così il figlio è una voce diretta della griglia. */
+  .tp__oggetto {
+    display: contents;
+  }
+
   @media (min-width: 960px) {
     .tp {
       display: grid;
@@ -182,6 +200,34 @@ const haExtra = Astro.slots.has('default');
     .tp__extra {
       grid-column: 7 / -1;
       justify-self: end;
+    }
+
+    /* Con oggetto: il titolo sta nelle colonne 1-7, l'oggetto nelle colonne 8-12 accanto al titolo.
+       Lead e azioni vanno sotto, a sinistra. order fissa l'ordine di collocamento della griglia
+       (la griglia sparsa non torna indietro): prima titolo e oggetto, poi lead e azioni. */
+    .tp--oggetto :global(.tp__titolo) {
+      grid-column: 1 / span 7;
+    }
+
+    /* L'oggetto è figlio diretto della griglia: il suo wrapper non ha box (display: contents). */
+    .tp--oggetto .tp__oggetto > :global(*) {
+      grid-column: 8 / -1;
+      grid-row: span 2;
+      justify-self: end;
+      align-self: center;
+    }
+
+    .tp--oggetto .tp__lead {
+      grid-column: 1 / span 6;
+      justify-self: start;
+      margin-block-start: var(--s-5);
+      order: 1;
+    }
+
+    .tp--oggetto .tp__extra {
+      grid-column: 1 / span 7;
+      justify-self: stretch;
+      order: 2;
     }
   }
 </style>

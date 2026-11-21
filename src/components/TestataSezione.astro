@@ -2,7 +2,7 @@
 // Testata di sezione: solo l'H2 display che si rivela e, se c'è, una nota breve.
 // Da 960px la nota sta a destra del titolo. Niente numero, niente etichetta, niente filetto.
 // numero ed etichetta sono accettate ma ignorate: le pagine non ancora migrate le passano ancora.
-// tenue e il <em> del titolo: il titolo ha un solo tono, quindi non cambiano nulla.
+// Il <em> del titolo non cambia il colore: il titolo ha un solo tono.
 // scuro: versione per fascia scura.
 import TitoloRivelato from './ui/TitoloRivelato.astro';
 
@@ -15,19 +15,16 @@ interface Props {
   nota?: string | undefined;
   /** Id del titolo: serve a legare la sezione al suo heading (aria-labelledby). */
   id?: string | undefined;
-  /** Accettata per compatibilità: il titolo ha un solo tono. */
-  tenue?: string | undefined;
   /** Versione per fascia scura. */
   scuro?: boolean | undefined;
 }
 
 const { titolo, nota, id, scuro = false } = Astro.props;
-const tenue = Astro.props.tenue ?? titolo.match(/<em>(.*?)<\/em>/)?.[1];
 const testo = titolo.replace(/<\/?em>/g, '');
 ---
 
 <div class:list={['testata', scuro && 'testata--scuro']}>
-  <TitoloRivelato tag="h2" testo={testo} tenue={tenue} id={id} classe="testata__titolo" />
+  <TitoloRivelato tag="h2" testo={testo} id={id} classe="testata__titolo" />
   {nota && <p class="testata__nota">{nota}</p>}
 </div>
 

@@ -13,7 +13,7 @@ const garanzie = 'Il sito è tuo. Nessun canone obbligatorio. Due revisioni incl
 ---
 
 <section class="hero contenitore" aria-labelledby="titolo">
-  <h1 id="titolo" class="hero__titolo titolo-rivelato titolo-rivelato--hero titolo-rivelato--immediato display"><span class="parola"><span class="parola__in" style="--i: 0">Un</span></span> <span class="parola"><span class="parola__in" style="--i: 1">sito</span></span> <span class="parola"><span class="parola__in" style="--i: 2">chiaro</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 3">per</span></span> <span class="parola"><span class="parola__in" style="--i: 4">far</span></span> <span class="parola"><span class="parola__in" style="--i: 5">scegliere</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 6">la</span></span> <span class="parola"><span class="parola__in" style="--i: 7">tua</span></span> <span class="hero__ciclo" aria-hidden="true">{ciclo.map((parola, i) => (<span class="hero__parola" style={`--i: ${i}`} data-p={parola}></span>))}</span><span class="hero__solo-lettori">attività.</span></h1>
+  <h1 id="titolo" class="hero__titolo titolo-rivelato titolo-rivelato--hero titolo-rivelato--immediato display"><span class="parola"><span class="parola__in" style="--i: 0">Un</span></span> <span class="parola"><span class="parola__in" style="--i: 1">sito</span></span> <span class="parola"><span class="parola__in" style="--i: 2">chiaro</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 3">per</span></span> <span class="parola"><span class="parola__in" style="--i: 4">far</span></span> <span class="parola"><span class="parola__in" style="--i: 5">scegliere</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 6">la</span></span> <span class="parola"><span class="parola__in" style="--i: 7">tua</span></span> <span class="hero__ciclo" aria-hidden="true">{ciclo.map((parola, i) => (<span class="hero__parola" style={`--i: ${i}`} data-p={parola}></span>))}</span><span class="sr-solo">attività.</span></h1>
 
   <div class="hero__sotto">
     <p class="hero__lead">Siti web completi e veloci per attività locali ad Asti e dintorni: prezzi chiari, un referente diretto e i contatti sempre a portata di mano.</p>
@@ -101,18 +101,6 @@ const garanzie = 'Il sito è tuo. Nessun canone obbligatorio. Due revisioni incl
     }
   }
 
-  /* Testo per screen reader e SEO: la frase intera resta nel DOM, nascosta a vista. */
-  .hero__solo-lettori {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
 
   /* ---------- Sotto l'H1: lead a sinistra, CTA a destra ---------- */
   .hero__sotto {

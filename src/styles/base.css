@@ -194,3 +194,16 @@ p {
     background: #fff;
   }
 }
+
+/* Testo per gli screen reader: fuori vista, ma nel DOM. Classe unica per tutto il sito. */
+.sr-solo {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

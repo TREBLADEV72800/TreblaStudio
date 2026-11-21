@@ -187,11 +187,14 @@ const prezzoOpzione = (lista: Voce[], n: string) => trova(lista, n)?.price ?? 0;
 const conPrezzoLista = (lista: Voce[], nomi: string[]) => nomi
   .map((n) => `${n}: ${euro(prezzoOpzione(lista, n))}`);
 const conPrezzoVoci = (lista: Voce[], nomi: string[]) => conPrezzoLista(lista, nomi).join(', ');
-// Foto: la descrizione tra parentesi non si ripete nel prezzo: "Servono le foto: +20€".
+// Foto: il valore dice chi scatta le foto, senza ripetere il nome del campo.
+// "Le scattate voi: +20€", "Ho già le foto: incluso", "Parto da zero: +10€".
 const fotoEtichetta = (n: string) => {
   const p = C.photoPrices[n] ?? 0;
-  const base = n.replace(/\s*\([^)]*\)\s*$/, '');
-  return p ? `${base}: ${euro(p)}` : base;
+  const parentesi = n.match(/\(([^)]*)\)\s*$/);
+  const base = parentesi?.[1] ?? n;
+  const etichetta = base.charAt(0).toUpperCase() + base.slice(1);
+  return `${etichetta}: ${p ? euro(p) : 'incluso'}`;
 };
 // Una sola frase per la privacy: la usano il bottone bloccato e l'errore.
 const MSG_PRIVACY = 'Accetta i termini per inviare la richiesta.';

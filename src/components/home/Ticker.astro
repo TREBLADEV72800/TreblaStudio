@@ -8,7 +8,7 @@ const settori = [
 ];
 ---
 
-<section class="fascia-scura sezione ticker" aria-label="Per chi lavoriamo">
+<section class="fascia-scura ticker" aria-label="Per chi lavoriamo">
   <div class="ticker__finestra">
     <div class="ticker__pista">
       <ul class="ticker__lista">
@@ -22,9 +22,9 @@ const settori = [
 </section>
 
 <style>
-  /* Durata di un giro: 36 volte --t-5, circa 40 s. Derivata dai token, nessun valore scritto a mano. */
+  /* Fascia di passaggio, non una sezione: padding proporzionato, non il ritmo delle sezioni. */
   .ticker {
-    --giro: calc(var(--t-5) * 36);
+    padding-block: var(--s-6);
   }
 
   .ticker__finestra {
@@ -35,7 +35,7 @@ const settori = [
     display: flex;
     inline-size: max-content;
     will-change: transform;
-    animation: ticker var(--giro) linear infinite;
+    animation: ticker var(--t-scorrimento) linear infinite;
   }
 
   /* Pausa al passaggio del mouse: il movimento resta sotto controllo di chi legge. */

@@ -242,16 +242,6 @@ html:not(.js) .wizard-indietro { display: none; }
   }
 }
 
-/* Testo per lo screen reader: fuori vista, ma nel DOM (legenda della struttura, input delle scelte). */
-.sr-solo {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
 /* Singola opzione: una riga o una tessera (label con checkbox/radio, oppure button con aria-pressed). */
 .cfg-schermo .opzione {
   position: relative;

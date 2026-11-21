@@ -23,7 +23,23 @@ const pacchetti = [
 ] as const;
 
 // Le voci in riga. true = incluso, false = non incluso, stringa = valore.
+// Cosa comprende, una lista per colonna (testi del proprietario). Il "Tutto incluso" non ha una lista propria.
+const comprende: string[][] = [
+  [
+    'Tutto l’essenziale in una pagina che scorre',
+    'Chi sei, cosa fai, dove sei, come contattarti',
+    'Telefono, WhatsApp e mappa in vista',
+  ],
+  [
+    'Storia, servizi, galleria, contatti: ognuno al suo posto',
+    'Menu, prenotazioni, eventi se ti servono',
+    'Telefono, WhatsApp e mappa in vista',
+  ],
+  [],
+];
+
 const confronto: { voce: string; valori: [boolean | string, boolean | string, boolean | string] }[] = [
+  { voce: 'Privacy, cookie e contatti ben visibili', valori: [true, true, true] },
   { voce: 'Sito a più pagine', valori: [false, true, true] },
   { voce: 'Revisioni incluse', valori: ['2', '2', '3'] },
   { voce: 'Foto scattate da noi ad Asti', valori: [false, false, true] },
@@ -65,10 +81,10 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
       />
 
       <table class="pm">
-        <caption class="solo-lettori">Confronto dei tre pacchetti: prezzo, anticipo e cosa include ciascuno</caption>
+        <caption class="sr-solo">Confronto dei tre pacchetti: prezzo, anticipo e cosa include ciascuno</caption>
         <thead>
           <tr>
-            <th scope="col" class="pm__voce"><span class="solo-lettori">Cosa include</span></th>
+            <th scope="col" class="pm__voce"><span class="sr-solo">Cosa include</span></th>
             {
               pacchetti.map((p) => (
                 <th scope="col" class:list={['pm__col', p.forte && 'pm--forte']}>
@@ -81,6 +97,20 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
           </tr>
         </thead>
         <tbody>
+          <tr class="pm__comprende">
+            <th scope="row" class="pm__voce">Cosa comprende</th>
+            {
+              comprende.map((voci, i) => (
+                <td class:list={['pm__cella', i === 2 && 'pm--forte']}>
+                  {voci.length > 0 && (
+                    <ul class="pm__elenco">
+                      {voci.map((voce) => <li>{voce}</li>)}
+                    </ul>
+                  )}
+                </td>
+              ))
+            }
+          </tr>
           {
             confronto.map((riga) => (
               <tr>
@@ -203,19 +233,6 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
 </LayoutPagina>
 
 <style>
-  /* Testo per gli screen reader, invisibile a schermo. */
-  .solo-lettori {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
-  }
-
   /* ---------- Matrice di confronto: tre pacchetti in colonna, voci in riga.
      Su 390px le colonne sono strette ma la tabella sta nel contenitore, senza scroll. ---------- */
   .pm {
@@ -310,6 +327,19 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
   .pm__segno--no {
     font: 400 var(--fs-h3) / 1 var(--font-testo);
     color: var(--morbido);
+  }
+
+  /* Cosa comprende: elenco breve sotto l'intestazione di colonna, testo piccolo. */
+  .pm__elenco {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
+    text-align: left;
+  }
+
+  .pm__elenco li + li {
+    margin-block-start: var(--s-2);
   }
 
   .pm__valore {
