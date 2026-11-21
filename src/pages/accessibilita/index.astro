@@ -18,39 +18,88 @@ import { site } from '../../data/sito';
     ],
   }}
 >
-  <TestataPagina
-    titolo="Un sito da usare con chiarezza"
-    tenue="usare con chiarezza"
-    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Accessibilità' }]}
-  >
+  <TestataPagina titolo="Un sito da usare con chiarezza" percorso={[{ testo: 'Home', href: '/' }, { testo: 'Accessibilità' }]}>
     <p slot="lead">Questa pagina descrive le scelte presenti nel sito. Non è una certificazione di conformità.</p>
   </TestataPagina>
 
-  <section class="acc-sez">
-    <div class="contenitore acc-testo">
-      <Prosa>
-        <h2>Accorgimenti presenti</h2>
-        <p>Il sito usa struttura semantica, link saltabile al contenuto, focus visibile, etichette per i controlli e contenuti leggibili senza animazioni quando è attiva la preferenza di movimento ridotto. Le pagine sono progettate per funzionare con tastiera e schermi piccoli.</p>
-        <h2>Limiti e segnalazioni</h2>
-        <p>Non è stata svolta una verifica certificata rispetto a uno standard di conformità. Se incontri una barriera, puoi segnalarcela tramite la <a href="/contatti/">pagina contatti</a>, indicando la pagina e il problema.</p>
-      </Prosa>
+  <section class="sezione">
+    <div class="contenitore acc-corpo-pagina">
+      <div class="acc-riga">
+        <h2 class="display acc-titolo">Accorgimenti presenti</h2>
+        <div class="acc-testo">
+          <Prosa>
+            <ul>
+              <li>Struttura semantica</li>
+              <li>Link saltabile al contenuto</li>
+              <li>Focus visibile</li>
+              <li>Etichette per i controlli</li>
+              <li>Contenuti leggibili senza animazioni quando è attiva la preferenza di movimento ridotto</li>
+              <li>Pagine progettate per funzionare con tastiera e schermi piccoli</li>
+            </ul>
+          </Prosa>
+        </div>
+      </div>
+
+      <div class="acc-riga">
+        <h2 class="display acc-titolo">Limiti e segnalazioni</h2>
+        <div class="acc-testo">
+          <Prosa>
+            <p>Non è stata svolta una verifica certificata rispetto a uno standard di conformità. Se incontri una barriera, puoi segnalarcela tramite la <a href="/contatti/">pagina contatti</a>, indicando la pagina e il problema.</p>
+          </Prosa>
+        </div>
+      </div>
     </div>
   </section>
 </LayoutPagina>
 
 <style>
-  /* Prosa dà al contenitore un margine alto e ai paragrafi il colore morbido.
-     Questa pagina vuole testo inchiostro e nessun margine di contenitore. */
-  .acc-sez {
-    padding-block: var(--sezione);
+  /* Stessa griglia di note-legali: il testo va nelle colonne 5-11 da 960px, i titoli nelle colonne 1-4.
+     Sotto 960px tutto in colonna: titolo, poi testo. */
+  .acc-corpo-pagina {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .acc-riga {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  .acc-titolo {
+    margin: 0;
+    font-size: var(--fs-h2-xs);
+    line-height: 0.92;
+    color: var(--inchiostro);
   }
 
   .acc-testo :global(.prosa) {
     margin-block-start: 0;
   }
 
+  /* Prosa dà ai paragrafi e agli elementi il colore morbido: questa pagina vuole testo inchiostro. */
   .acc-testo :global(.prosa p),
   .acc-testo :global(.prosa li) {
     color: var(--inchiostro);
+  }
+
+  /* Elenco con filetti sopra e sotto e tra le voci. Il trattino di Prosa resta morbido. */
+  .acc-testo :global(.prosa ul) {
+    border-block: 1px solid var(--linea);
+  }
+
+  @media (min-width: 960px) {
+    .acc-riga {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+    }
+
+    .acc-titolo {
+      grid-column: 1 / span 4;
+    }
+
+    .acc-testo {
+      grid-column: 5 / span 7;
+    }
   }
 </style>

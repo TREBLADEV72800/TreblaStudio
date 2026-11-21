@@ -10,34 +10,30 @@ import Bottone from '../../components/ui/Bottone.astro';
   description="Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social."
   canonical="/chi-siamo"
 >
-  <TestataPagina
-    titolo="Due persone, |un metodo chiaro"
-    tenue="un metodo chiaro"
-    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Studio' }]}
-  >
+  <TestataPagina titolo="Due persone, |un metodo chiaro" percorso={[{ testo: 'Home', href: '/' }, { testo: 'Chi siamo' }]}>
     <p slot="lead">Siamo ad Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo un sito che ti somiglia, senza farti perdere giornate.</p>
   </TestataPagina>
 
-  <section class="chi-sez" aria-label="Il team">
-    <div class="contenitore chi-persone" data-reveal-gruppo>
-      <div class="chi-persona" data-reveal>
+  <section class="sezione" aria-label="Il team">
+    <div class="contenitore chi-persone">
+      <div class="chi-persona">
         <div class="chi-persona__chi">
-          <h2 class="chi-persona__nome">Albert</h2>
-          <p class="chi-persona__ruolo">Sviluppo · progetto</p>
+          <h2 class="display display--h2-s chi-persona__nome">Albert</h2>
+          <p class="chi-persona__ruolo">Sviluppo e progetto</p>
         </div>
         <p class="chi-persona__testo">Scrive il codice, pubblica il sito e segue il progetto dall’inizio alla fine. È lui che ti risponde quando scrivi: niente passaggi di mano.</p>
       </div>
-      <div class="chi-persona" data-reveal>
+      <div class="chi-persona">
         <div class="chi-persona__chi">
-          <h2 class="chi-persona__nome">Gabriel</h2>
-          <p class="chi-persona__ruolo">Design · social</p>
+          <h2 class="display display--h2-s chi-persona__nome">Gabriel</h2>
+          <p class="chi-persona__ruolo">Design e social</p>
         </div>
         <p class="chi-persona__testo">Disegna l’aspetto e prepara i contenuti: grafiche, foto, social. Se il sito sembra curato, è perché l’ha guardato lui prima di te.</p>
       </div>
     </div>
   </section>
 
-  <section class="chi-sez chi-sez--filetto">
+  <section class="sezione">
     <div class="contenitore chi-testo">
       <Prosa>
         <h2>Come la pensiamo</h2>
@@ -47,8 +43,8 @@ import Bottone from '../../components/ui/Bottone.astro';
     </div>
   </section>
 
-  <section class="fascia-grafite chi-chiusura">
-    <div class="contenitore chi-chiusura__riga">
+  <section class="fascia-grafite sezione">
+    <div class="contenitore chi-chiusura">
       <Bottone
         href="#"
         variante="wa"
@@ -56,25 +52,14 @@ import Bottone from '../../components/ui/Bottone.astro';
         data-wa="Ciao Trebla! Vorrei qualcosa per la mia attività."
         target="_blank"
         rel="noopener noreferrer"
-        data-cursore="Scrivi"
       />
-      <p class="chi-chiusura__mail"><a class="link-sottolineato" data-mail data-mostra href="#">email</a></p>
+      <p class="chi-chiusura__mail"><a class="link-sottolineato" data-mail data-mostra href="#">Scrivi un’email</a></p>
     </div>
   </section>
 </LayoutPagina>
 
 <style>
-  /* Sezioni: padding con il token --sezione. Non si usa .sezione: la regola .sezione + .sezione
-     (layout.css) azzera il padding alto della sezione che segue un'altra .sezione. */
-  .chi-sez {
-    padding-block: var(--sezione);
-  }
-
-  .chi-sez--filetto {
-    border-block-start: 1px solid var(--linea);
-  }
-
-  /* Persone: righe con filetto, come la sezione Studio della home.
+  /* Persone: righe con filetto, come una lista di due voci.
      Da 960px il nome sta nelle colonne 1-6, il testo nelle colonne 8-12. */
   .chi-persone {
     display: grid;
@@ -93,24 +78,19 @@ import Bottone from '../../components/ui/Bottone.astro';
 
   .chi-persona__nome {
     margin: 0;
-    font: 800 var(--fs-h2-s) / 0.9 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
     color: var(--inchiostro);
   }
 
+  /* Ruolo: Archivo 600, frase normale, morbido. Non è un'etichetta mono. */
   .chi-persona__ruolo {
     margin: var(--s-3) 0 0;
-    max-inline-size: none;
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 600 var(--fs-body) / 1.4 var(--font-ui);
     color: var(--morbido);
   }
 
   .chi-persona__testo {
     max-inline-size: 48ch;
+    margin: 0;
     font: 400 var(--fs-body) / 1.55 var(--font-testo);
     color: var(--inchiostro);
   }
@@ -145,12 +125,8 @@ import Bottone from '../../components/ui/Bottone.astro';
     color: var(--inchiostro);
   }
 
-  /* Chiusura compatta su fascia grafite: WhatsApp e email. */
+  /* Chiusura su fascia grafite: WhatsApp e email, sulla stessa riga da 640px. */
   .chi-chiusura {
-    padding-block: clamp(40px, 5vw, 72px);
-  }
-
-  .chi-chiusura__riga {
     display: flex;
     flex-wrap: wrap;
     align-items: center;

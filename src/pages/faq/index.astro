@@ -2,8 +2,11 @@
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
 import TestataPagina from '../../components/TestataPagina.astro';
 import ElencoDomande from '../../components/ElencoDomande.astro';
+import TitoloRivelato from '../../components/ui/TitoloRivelato.astro';
 import Bottone from '../../components/ui/Bottone.astro';
-import { FAQS } from '../../data/domande-frequenti';
+import { FAQS, GRUPPI_FAQ } from '../../data/domande-frequenti';
+
+const gruppi = GRUPPI_FAQ.map((g) => ({ ...g, faqs: FAQS.filter((f) => f.gruppo === g.id) }));
 ---
 
 <LayoutPagina
@@ -20,46 +23,78 @@ import { FAQS } from '../../data/domande-frequenti';
     })),
   }}
 >
-  <TestataPagina
-    titolo="Domande frequenti"
-    tenue="frequenti"
-    percorso={[{ testo: 'Home', href: '/' }, { testo: 'FAQ' }]}
-  >
-    <Bottone href="/contatti/" variante="secondario" testo="Oppure parliamone" />
+  <TestataPagina titolo="Domande frequenti" percorso={[{ testo: 'Home', href: '/' }, { testo: 'FAQ' }]}>
+    <Bottone href="/contatti/" variante="secondario" testo="Scrivici" />
   </TestataPagina>
 
-  <section class="faq-sez" aria-label="Tutte le domande">
+  <section class="sezione" aria-label="Tutte le domande">
     <div class="contenitore faq-corpo">
-      <div class="faq-corpo__etichetta">
-        <p class="etichetta">{FAQS.length} domande</p>
-      </div>
+      <nav class="faq-indice" aria-label="Gruppi di domande">
+        <ul>
+          {gruppi.map((g) => (
+            <li><a class="link-sottolineato" href={`#${g.id}`}>{g.titolo}</a></li>
+          ))}
+        </ul>
+      </nav>
+
       <div class="faq-corpo__lista">
-        <ElencoDomande faqs={FAQS} />
+        {
+          gruppi.map((g) => (
+            <div class="faq-gruppo">
+              <TitoloRivelato tag="h2" testo={g.titolo} id={g.id} classe="faq-gruppo__titolo" />
+              <ElencoDomande faqs={g.faqs} />
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <section class="fascia-grafite faq-chiusura">
+  <section class="fascia-grafite sezione">
     <div class="contenitore">
-      <Bottone href="/preventivo/" variante="primario" testo="Fai il preventivo in 2 minuti" />
+      <Bottone href="/preventivo/" variante="primario" testo="Fai il preventivo" />
     </div>
   </section>
 </LayoutPagina>
 
 <style>
-  /* Padding con il token --sezione (la regola .sezione + .sezione azzera il padding alto delle sezioni adiacenti). */
-  .faq-sez {
-    padding-block: var(--sezione);
-  }
-
-  /* Mobile: etichetta sopra, elenco sotto. Da 960px: etichetta sticky nelle colonne 1-4, elenco nelle colonne 5-12. */
+  /* Mobile: indice in linea sopra, gruppi sotto. Da 960px: indice sticky nelle colonne 1-4,
+     gruppi nelle colonne 5-12. L'indice sta dove prima c'era "24 domande". */
   .faq-corpo {
     display: grid;
-    gap: var(--s-5);
+    gap: var(--s-7);
   }
 
-  .faq-corpo__etichetta {
-    align-self: start;
+  .faq-indice ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .faq-indice a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 24px;
+    font: 600 var(--fs-ui) / 1.4 var(--font-ui);
+    color: var(--inchiostro);
+  }
+
+  /* Ogni gruppo: il titolo in display a --fs-h2-xs; l'ancora sta sotto l'header. */
+  .faq-gruppo {
+    scroll-margin-top: calc(var(--hh) + 24px);
+  }
+
+  .faq-gruppo + .faq-gruppo {
+    margin-block-start: clamp(56px, 6vw, 96px);
+  }
+
+  .faq-gruppo :global(.faq-gruppo__titolo) {
+    margin: 0 0 var(--s-5);
+    font-size: var(--fs-h2-xs);
+    line-height: 0.92;
   }
 
   @media (min-width: 960px) {
@@ -69,18 +104,32 @@ import { FAQS } from '../../data/domande-frequenti';
       align-items: start;
     }
 
-    .faq-corpo__etichetta {
+    .faq-indice {
       grid-column: 1 / span 4;
       position: sticky;
       top: calc(var(--hh) + 32px);
     }
 
+    .faq-indice ul {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .faq-indice li {
+      border-block-end: 1px solid var(--linea);
+    }
+
+    .faq-indice li:first-child {
+      border-block-start: 1px solid var(--linea);
+    }
+
+    .faq-indice a {
+      display: flex;
+      padding-block: var(--s-4);
+    }
+
     .faq-corpo__lista {
       grid-column: 5 / -1;
     }
-  }
-
-  .faq-chiusura {
-    padding-block: clamp(40px, 5vw, 72px);
   }
 </style>
