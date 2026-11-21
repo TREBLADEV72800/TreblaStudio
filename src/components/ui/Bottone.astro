@@ -1,24 +1,31 @@
 ---
-// Bottone pill con freccia in un cerchio. Gli attributi extra (data-wa, data-track, target, rel...)
-// passano all'<a> così come sono.
-// Il cerchio ha due frecce sovrapposte: la prima esce in hover, la copia rientra (vedi componenti.css).
+// Bottone pill. Gli attributi extra (data-wa, data-track, target, rel...) passano all'<a> così come sono.
+// freccia: freccia nel cerchio. Default: sì sul primario, no sulle altre varianti.
+// Per un primario senza freccia (header, menu) passare freccia={false}.
+// La freccia è un'icona SVG: il testo non contiene mai "→".
 import Freccia from './Freccia.astro';
 
 interface Props {
   href: string;
   variante?: 'primario' | 'secondario' | 'chiaro' | 'wa' | undefined;
   testo: string;
+  freccia?: boolean | undefined;
   classe?: string | undefined;
   [attr: string]: unknown;
 }
 
-const { href, variante = 'primario', testo, classe, ...resto } = Astro.props;
+const { href, variante = 'primario', testo, freccia, classe, ...resto } = Astro.props;
+const conFreccia = freccia ?? variante === 'primario';
 ---
 
-<a class:list={['btn', `btn--${variante}`, classe]} href={href} {...resto}>
+<a class:list={['btn', `btn--${variante}`, conFreccia && 'btn--con-freccia', classe]} href={href} {...resto}>
   <span class="btn__testo">{testo}</span>
-  <span class="btn__icona">
-    <Freccia classe="btn__freccia" />
-    <Freccia classe="btn__freccia btn__freccia--copia" />
-  </span>
+  {
+    conFreccia && (
+      <span class="btn__icona">
+        <Freccia classe="btn__freccia" />
+        <Freccia classe="btn__freccia btn__freccia--copia" />
+      </span>
+    )
+  }
 </a>

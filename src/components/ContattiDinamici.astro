@@ -14,6 +14,8 @@ const payload = JSON.stringify(contatti).replace(/</g, '\\u003c');
     const fonte = document.getElementById('trebla-contatti');
     const parti = fonte ? JSON.parse(fonte.textContent || '{}') : {};
     const wa = (parti.whatsapp || []).join('');
+    // Numero leggibile, solo a runtime: nell'HTML statico il link telefono dice soltanto "Chiama".
+    const waLeggibile = (parti.whatsapp || []).join(' ');
     const mail = (parti.email || []).join('');
 
     document.querySelectorAll('a[data-wa]').forEach((a) => {
@@ -22,6 +24,7 @@ const payload = JSON.stringify(contatti).replace(/</g, '\\u003c');
     });
     document.querySelectorAll('a[data-tel]').forEach((a) => {
       a.href = 'tel:+' + wa;
+      if (a.hasAttribute('data-mostra')) a.textContent = 'Chiama +' + waLeggibile;
     });
     document.querySelectorAll('a[data-mail]').forEach((a) => {
       const s = a.getAttribute('data-soggetto');

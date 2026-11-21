@@ -1,8 +1,8 @@
 ---
 // Titolo display che si rivela parola per parola dentro una maschera.
 // testo: stringa piana. Il carattere "|" forza un a capo (<br>) e non compare nel testo letto.
-// accento: sottostringa in mattone (solo hero e fascia di chiusura).
-// tenue: sottostringa in morbido (secondo tono dei titoli a due toni). Niente corsivo.
+// accento e tenue: accettate per le pagine non ancora migrate, ma il titolo ha un solo tono:
+// il testo resta com'è, senza colore né stile diverso. Da rimuovere nelle pagine.
 // immediato: anima al caricamento (A1). Altrimenti ha data-reveal e anima quando entra in vista.
 // taglia: dimensione. Se manca: h1 = hero, h2 = h2, h3 e p = h3.
 type Tag = 'h1' | 'h2' | 'h3' | 'p';
@@ -86,7 +86,7 @@ righe.forEach((riga, r) => {
           tok.i < 0 ? (
             tok.t
           ) : (
-            <span class="parola"><span class={tok.k === 'base' ? 'parola__in' : `parola__in titolo__${tok.k}`} style={`--i:${tok.i}`}>{tok.t}</span></span>
+            <span class="parola"><span class="parola__in" style={`--i:${tok.i}`}>{tok.t}</span></span>
           )
         )}
       </>

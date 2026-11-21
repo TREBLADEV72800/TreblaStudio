@@ -40,13 +40,13 @@ const {
     <main id="contenuto"><slot /></main>
     <Piede />
     <ContattiDinamici />
-    <div class="avanzamento" aria-hidden="true"></div>
     <div class="cursore" aria-hidden="true"><span class="cursore__etichetta"></span></div>
     <script is:inline>
       // Movimento globale: un solo script per il sito. is:inline: JS puro, niente chunk.
-      // 1. Reveal allo scroll (A2). [data-reveal] diventa "visibile" una sola volta.
-      //    Nei contenitori [data-reveal-gruppo] i figli ricevono --d: 80ms per passo, max 8 passi.
-      //    Gli elementi già sopra il viewport (ancora, refresh a metà pagina) risultano visibili.
+      // 1. Reveal allo scroll dei soli titoli (.titolo-rivelato[data-reveal]): diventano "visibile" una sola volta.
+      //    Gli altri [data-reveal] non sono toccati: restano sempre visibili.
+      //    Nei contenitori [data-reveal-gruppo] i titoli ricevono --d: --stagger-elemento per passo, max 8 passi.
+      //    I titoli già sopra il viewport (ancora, refresh a metà pagina) risultano visibili.
       // 2. Cursore che segue (A13): più sotto, solo con hover fine e senza reduced motion.
       (function () {
         var riduci = false;
@@ -56,7 +56,7 @@ const {
           riduci = true;
         }
 
-        var reveal = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+        var reveal = Array.prototype.slice.call(document.querySelectorAll('.titolo-rivelato[data-reveal]'));
         var attesa = null;
         var osservatore = null;
         var inCoda = 0;
@@ -92,8 +92,8 @@ const {
 
         try {
           document.querySelectorAll('[data-reveal-gruppo]').forEach(function (gruppo) {
-            gruppo.querySelectorAll('[data-reveal]').forEach(function (el, i) {
-              el.style.setProperty('--d', Math.min(i, 8) * 80 + 'ms');
+            gruppo.querySelectorAll('.titolo-rivelato[data-reveal]').forEach(function (el, i) {
+              el.style.setProperty('--d', 'calc(' + Math.min(i, 8) + ' * var(--stagger-elemento))');
             });
           });
 

@@ -1,69 +1,121 @@
-# Design system Trebla (redesign 2026)
+# Design system Trebla (rifinitura 2026)
 
-Principio: struttura rigorosa (griglia, filetti da 1px, metadati in mono maiuscolo, un solo accento, niente ombre) unita a una tipografia display gigante e a un movimento curato (fasce scure alternate, titoli che si rivelano parola per parola, micro-interazioni, transizioni tra pagine). Nessuna foto: il design è tipografico.
+Principio: tipografia di una sola famiglia (Archivo variabile), un gesto audace (la parola che cicla nella hero) e tutto il resto quieto. Struttura rigorosa, senza decorazioni che non portano informazione. Nessuna foto: il design è tipografico. Il piano completo e le ragioni sono in `PIANO-RIFINITURA.md`.
 
-## Colori (token su :root)
-- --carta #EEECE7: fondo principale
-- --carta-2 #E3E0D9: superfici, hover leggeri
-- --inchiostro #141210: testo, fasce scure
-- --grafite #1F1C19: fascia di chiusura
-- --morbido #5E5A53: testo secondario su carta (5,8:1)
-- --morbido-scuro #A39E95: testo secondario su scuro (7,0:1)
-- --linea rgba(20,18,16,.14): filetti su carta
-- --linea-scura rgba(238,236,231,.16): filetti su scuro
-- --mattone #E8401C: accento. Fondo dei CTA (con testo inchiostro), testi display grandi (da 24px in su), puntini, barre. MAI per testo piccolo su carta
-- --mattone-testo #B23A12: accento per testo piccolo su carta (5,1:1)
-- --verde #157F3D: WhatsApp, puntino "disponibili"
-Regole: niente gradienti, niente box-shadow, niente blur. Angoli vivi (radius 0) su card e superfici; forma a pillola (999px) solo per bottoni e chip. Accento al massimo una volta per schermata. Le fasce scure (inchiostro e grafite) si alternano a quelle color carta.
+## Colori (token su :root in src/styles/tokens.css)
+
+| Token | Valore | Uso |
+|---|---|---|
+| `--carta` | #EEECE7 | fondo principale |
+| `--carta-2` | #E3E0D9 | fondo secondario, hover |
+| `--inchiostro` | #141210 | testo, fasce scure, sottolineature della voce corrente |
+| `--grafite` | #1F1C19 | fascia di chiusura e footer |
+| `--morbido` | #5E5A53 | testo secondario su carta (5,8:1) |
+| `--morbido-scuro` | #A39E95 | testo secondario su scuro (7,0:1) |
+| `--linea` | rgba(20,18,16,.14) | filetti tra le voci di un elenco, su carta |
+| `--linea-scura` | rgba(238,236,231,.16) | filetti su scuro |
+| `--mattone` | #E8401C | SOLO riempimento del bottone primario e parola che cicla nella hero |
+| `--mattone-testo` | #B23A12 | SOLO anello di focus su superfici chiare |
+| `--verde` | #157F3D | SOLO WhatsApp |
+| `--su-verde` | #FFFFFF | testo sul verde WhatsApp |
+
+Regole:
+- Il mattone non va mai su puntini, trattini, numeri, bordi, separatori o testo.
+- Il verde è solo del bottone WhatsApp.
+- Niente gradienti, niente box-shadow, niente blur.
+- Le fasce scure (`.fascia-scura`, inchiostro; `.fascia-grafite`, grafite) ridefiniscono filetti, testo secondario e focus. Il footer è grafite.
 
 ## Tipografia
-- Display: Archivo variabile con asse larghezza. font-stretch 64%, font-weight 800, MAIUSCOLO, line-height .88, letter-spacing -0.01em. Serve per H1, H2, numeri di prezzo, voci grandi di menu e footer, marquee, wordmark.
-- Testo: Archivo a larghezza 100%, pesi 400, 500 e 600.
-- Mono: IBM Plex Mono 400 e 500, MAIUSCOLO, per etichette, numeri di sezione, metadati, nav, chip.
-- Scala:
-  - --fs-hero clamp(60px, min(12vw, 17svh), 196px), lh .88
-  - --fs-h2 clamp(44px, 7.6vw, 124px), lh .9
-  - --fs-h2-s clamp(36px, 4.8vw, 72px), lh .92 (sottosezioni e pagine interne)
-  - --fs-h3 clamp(21px, 1.7vw, 28px), Archivo 600, lh 1.15, ls -0.02em
-  - --fs-lead clamp(18px, 1.5vw, 22px), lh 1.45, max 52ch
-  - --fs-body 16px → 17px da 960px, lh 1.55, max 62ch
-  - --fs-small 14px, lh 1.45
-  - --fs-label 12px mono 500, ls .08em
-  - --fs-micro 10.5px mono 400, ls .1em
-  - --fs-wordmark clamp(110px, 26vw, 440px)
-- Titoli: di default in un solo colore. Gli H2 lunghi possono essere a due toni (prima parte inchiostro, seconda morbido). L'accento mattone nei titoli SOLO nella hero e nella fascia di chiusura. VIETATO il corsivo e la formula "ultima parte del titolo in corsivo colorato". Fraunces è eliminato.
 
-## Spaziature e griglia
-- --pad: max(clamp(16px, 2.6vw, 40px), (100vw - 1680px) / 2), margine laterale
-- --gap: clamp(16px, 1.7vw, 24px)
-- Griglia: 4 colonne sotto 640px, 6 colonne da 640px, 12 colonne da 960px
-- --sezione: clamp(64px, 8.4vw, 128px), padding verticale delle sezioni
-- Scala: --s-1 4px, --s-2 8px, --s-3 12px, --s-4 16px, --s-5 24px, --s-6 32px, --s-7 48px, --s-8 64px, --s-9 96px, --s-10 128px
-- Header: --hh 72px (64px sotto 960px)
+Una sola famiglia: Archivo variabile (`--font-display`, `--font-testo`, `--font-ui`). IBM Plex Mono è eliminato.
+
+Ruoli:
+- **Display**: font-stretch 64%, peso 800, maiuscolo (scelta del proprietario), interlinea 0.88-0.92. Solo per: hero (`.display--hero`), H1 di pagina, H2 di sezione (`.display--h2`, `.display--h2-s`), prezzi grandi (`.display--prezzo`), wordmark.
+- **Testo**: font-stretch 100%, peso 400, frase normale. Corpo 16px, 17px da 960px, interlinea 1.55. Lead 18/21px, interlinea 1.45. Small 14px.
+- **Interfaccia** (nav, bottoni, breadcrumb, menu): Archivo 600, `--fs-ui` 15px, frase normale, nessun letter-spacing, MAI maiuscolo. Il breadcrumb è 14px (`--fs-small`).
+- **Etichette** (`.etichetta`): Archivo 600, 14px, frase normale, morbido. Nessun puntino.
+- **H3**: Archivo 600, da 21 a 24px (`--fs-h3`).
+- **Cifre dei prezzi**: `tabular-nums lining-nums`.
+- **Misura**: p e liste al massimo 34em (circa 70-75 caratteri).
+
+Scala (token):
+- `--fs-hero` clamp(60px, min(12vw, 17svh), 196px), lh .88
+- `--fs-h2` clamp(44px, 7.6vw, 124px), lh .9
+- `--fs-h2-s` clamp(30px, 4.8vw, 72px), lh .92 (sottosezioni e pagine interne)
+- `--fs-h2-xs` clamp(26px, 2.4vw, 40px), lh .92 (h2 dentro la prosa)
+- `--fs-prezzo` clamp(56px, 7vw, 120px), lh .88
+- `--fs-h3` clamp(21px, 1.7vw, 24px), Archivo 600
+- `--fs-lead` clamp(18px, 1.5vw, 21px), lh 1.45
+- `--fs-body` 16px, 17px da 960px, lh 1.55
+- `--fs-ui` 15px
+- `--fs-small` 14px, lh 1.4
+- `--fs-wordmark` clamp(110px, 26vw, 440px)
+
+## Impaginazione
+
+- Tutto allineato a sinistra, griglia a 12 colonne (4 sotto 640px, 6 da 640px, 12 da 960px).
+- **Testata di sezione** (`TestataSezione`): solo l'H2, più una nota breve a destra su desktop. Niente eyebrow, niente numero, niente filetto in testa.
+- **Un solo ritmo**: `.sezione` ha sempre `padding-block: var(--sezione)`, sopra e sotto, in tutte le pagine e in tutte le fasce (chiare, scure, grafite).
+- Numeri solo dove c'è una sequenza vera: metodo e configuratore.
+- Spaziature: `--pad` (margine laterale), `--gap`, `--sezione`, scala `--s-1` … `--s-10`. Header `--hh` 64px (72px da 960px).
+
+## Bottoni
+
+Componente `Bottone` (src/components/ui/Bottone.astro), testo Archivo 600, frase normale.
+- Varianti: `primario` (mattone), `secondario` (bordo inchiostro 1px), `chiaro` (per le fasce scure), `wa` (verde, testo `--su-verde`).
+- **Freccia**: prop `freccia`. Default sì sul primario, no sulle altre varianti. Per un primario senza freccia (header, menu) passare `freccia={false}`.
+- Il testo del bottone non contiene mai "→".
+- Il focus da tastiera mostra lo stato dell'hover, su ogni dispositivo.
+
+## Link
+
+- Link di testo (`.link-sottolineato`): sottolineatura, mai una freccia.
+- Nelle risposte e nella prosa: link sottolineati in inchiostro. L'hover ispessisce la sottolineatura.
+- Nav dell'header: roll del testo (`.link-roll`). La voce corrente ha una sottolineatura inchiostro di 2px.
+- Footer: un solo hover per link, la sottolineatura che entra da sinistra.
+
+## Frasi e azioni
+
+Un nome per ogni azione, frasi brevi, niente frecce nel testo:
+- "Fai il preventivo"
+- "Scrivici su WhatsApp"
+- "Vedi i prezzi"
+- "Leggi le domande frequenti"
+- "Scrivi un'email"
+- "Chiama"
+
+Nel piede e nei contatti: "Chiama +39 …" compare solo a runtime (ContattiDinamici). Nell'HTML statico il link dice "Chiama". L'email è mostrata come indirizzo a runtime; nell'HTML statico dice "Scrivi un'email".
+
+## Componenti di struttura
+
+- **Intestazione**: logo a sinistra; nav Servizi, Metodo, Prezzi, Chi siamo, Domande, Contatti; bottone "Fai il preventivo" senza freccia. Sotto 960px: bottone Menu che apre il pannello, senza numeri.
+- **Piede**: fascia grafite. Blocchi "Studio", "Pagine", "Contatti", "Note legali". Riga finale con copyright su due righe e "Torna su" come link di testo. Wordmark statico.
+- **Testata di pagina** (`TestataPagina`): percorso in Archivo 14px (con `aria-label` "Percorso di navigazione"), prop `codice` facoltativa (testo morbido 14px sopra l'H1), H1 display.
+- **Prosa** (`Prosa`): p e liste 34em, h2 display a `--fs-h2-xs`, h3 Archivo 600, trattini degli elenchi morbidi, tabelle con `.num` a cifre tabulari.
+- **Domande** (`ElencoDomande`): fisarmonica con filetti, "+" di due linee che ruota. Nessuno spostamento all'hover.
+- **Titolo rivelato** (`TitoloRivelato`): un solo tono. Le prop `tenue` e `accento` sono accettate ma non cambiano il colore.
 
 ## Movimento
-- --ease-out cubic-bezier(.16,1,.3,1): reveal e ingressi
-- --ease-expo cubic-bezier(.19,1,.22,1): sottolineature e roll
-- --ease-in-out cubic-bezier(.65,0,.35,1): menu e transizioni tra pagine
-- --ease-std cubic-bezier(.4,0,.2,1): cambi di colore
-- Durate: --t-1 150ms, --t-2 300ms, --t-3 600ms, --t-4 900ms, --t-5 1100ms. Stagger 60ms tra parole, 80ms tra elementi.
 
-## Catalogo animazioni (solo transform/opacity; con reduced motion tutto visibile e fermo)
-- A1 Ingresso hero: le parole dell'H1 salgono da una maschera (translateY 105% → 0), --t-5 --ease-out, stagger 60ms. CSS puro, parte al caricamento. Il lead non è animato. Etichetta e CTA: fade-up 24px, --t-4, con ritardo 300-500ms.
-- A2 Reveal allo scroll [data-reveal]: opacity 0 → 1 e translateY 24px → 0, --t-4 --ease-out, ritardo var(--d). Un titolo rivelato dentro [data-reveal] anima le parole come A1.
-- A4 Marquee: 2 righe in direzioni opposte, inclinazione fino a ±5° in base alla velocità di scroll, pausa fuori schermo.
-- A5 Header: si nasconde scorrendo verso il basso (translateY -100%) e riappare scorrendo verso l'alto; il fondo color carta appare (opacity) dopo 40px.
-- A6 Barra di avanzamento: 2px mattone in alto, scaleX con animation-timeline: scroll().
-- A7 Menu mobile: il pannello inchiostro scende (translateY -100% → 0), --t-4 --ease-in-out; le voci display salgono dalla maschera con stagger 60ms.
-- A8 Hover sulla nav: il testo "rotola" (due copie, translateY -100%), --t-3 --ease-expo.
-- A9 Hover sui bottoni pill: un velo entra da sinistra (scaleX 0 → 1), il testo cambia colore, la freccia esce in alto a destra e rientra dal basso a sinistra.
-- A10 Hover sui link testuali: doppia sottolineatura; quella di riposo esce a destra (scaleX → 0, origine destra), la nuova entra da sinistra, --t-3 --ease-expo.
-- A11 Hover sulle righe (servizi): riempimento mattone dal basso (scaleY), testo inchiostro, indice +12px, il "+" ruota di 45°.
-- A12 Hover sulle card dei prezzi: bordo → mattone (--t-2 --ease-std), la freccia si sposta di 4px.
-- A13 Cursore che segue (solo hover:hover e pointer:fine): cerchio di 84px inchiostro con etichetta mono, visibile solo sopra [data-cursore="Etichetta"], con lerp 0,18. Altrove resta il cursore nativo.
-- A14 Accordion: details/summary; il "+" ruota di 45° (--t-2); il contenuto fa fade-up di 12px (--t-3) all'apertura; l'altezza cambia istantaneamente.
-- A15 Transizioni tra pagine: View Transitions cross-document in CSS. La pagina uscente va in opacity 0 e translateY -3vh (350ms); quella entrante passa da translateY 6vh a 0 e da opacity 0 a 1 (600ms --ease-out); l'header resta fermo.
-- A16 Puntino "pulse": scala da 1 a 2,2 e opacity da .5 a 0, in 2s, all'infinito.
+Solo `transform` e `opacity`. Il colore può cambiare in transizione (`--ease-std`). Con `prefers-reduced-motion: reduce` tutto è visibile e fermo.
 
-## Componenti condivisi
-Bottone pill (primario, secondario, chiaro su scuro, WhatsApp) con freccia in un cerchio; link sottolineato; link roll; etichetta mono con puntino; chip; testata di sezione (numero mono più etichetta più filetto più H2 display); titolo rivelato (parole in maschera); accordion; scheda con bordo da 1px; fascia scura e fascia grafite.
+Restano:
+- Ingresso della hero e delle testate (`.entra`), fade-up.
+- Parole dei titoli in maschera: all'avvio (`titolo-rivelato--immediato`) o allo scroll (`data-reveal` sul titolo, classe `visibile` aggiunta dallo script).
+- Parola che cicla nella hero (a carico della hero).
+- Menu mobile: pannello che scende, voci che salgono.
+- View Transitions tra pagine.
+- Hover dei bottoni (velo che entra da sinistra).
+- Cursore personalizzato: solo sugli elementi con `data-cursore` e con puntatore fine.
+
+Spariscono: reveal sui blocchi (`[data-reveal]` su non-titoli è inerte), puntino pulsante, barra di avanzamento, animazione delle lettere del wordmark, skew del marquee.
+
+Durate: solo token. `--t-1` 150ms, `--t-2` 300ms, `--t-3` 600ms, `--t-4` 900ms, `--t-5` 1100ms. Specifiche: `--t-velo`, `--t-colore`, `--t-header`, `--t-menu`, `--t-menu-chiudi`, `--t-parola`, `--t-cursore`, `--t-uscita`, `--t-ritardo-vt`, `--t-ritardo-menu`, `--t-ritardo-menu-cta`. Sfasamenti: `--stagger-parola` 60ms, `--stagger-elemento` 80ms, `--stagger-chiusura` 25ms.
+
+Curve: `--ease-out` (ingressi, reveal), `--ease-expo` (sottolineature e roll), `--ease-in-out` (menu, pagine), `--ease-std` (cambi di colore).
+
+## Qualità
+
+- Base di qualità: 390px senza scroll orizzontale, focus visibile sempre, reduced motion, contrasti AA.
+- Focus: anello `--focus` (mattone-testo su chiaro, mattone su scuro), 2px, sfalsato di 3px.
+- Il contenuto non è mai nascosto da CSS: un elemento senza JS è sempre leggibile.

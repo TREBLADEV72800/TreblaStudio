@@ -4,8 +4,6 @@
 // `site.name` resta qui per OG/JSON-LD; nel `<title>` basta la stringa 'Trebla'.
 import { site, canonicalUrl } from '../data/sito';
 import archivoVariabile from '@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2?url';
-import plex400 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url';
-import plex500 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -94,12 +92,8 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 // @font-face solo woff2: gli import CSS di fontsource trascinavano anche i .woff nel build.
 const FONT_RANGE =
   'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
-// Archivo variabile: un solo file con gli assi wght (100-900) e wdth (62-125), così font-stretch funziona.
-const fontCss = [
-  `@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('${archivoVariabile}') format('woff2');unicode-range:${FONT_RANGE}}`,
-  `@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('${plex400}') format('woff2');unicode-range:${FONT_RANGE}}`,
-  `@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('${plex500}') format('woff2');unicode-range:${FONT_RANGE}}`,
-].join('');
+// Una sola famiglia: Archivo variabile, con gli assi wght (100-900) e wdth (62-125), così font-stretch funziona.
+const fontCss = `@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('${archivoVariabile}') format('woff2');unicode-range:${FONT_RANGE}}`;
 ---
 
 <meta charset="UTF-8" />
@@ -130,7 +124,6 @@ const fontCss = [
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href={archivoVariabile} as="font" type="font/woff2" crossorigin />
-<link rel="preload" href={plex500} as="font" type="font/woff2" crossorigin />
 {preloadLogo && <link rel="preload" as="image" href="/trebla-logo.webp" fetchpriority="high" />}
 <style set:html={fontCss}></style>
 <meta name="theme-color" content="#141210" />

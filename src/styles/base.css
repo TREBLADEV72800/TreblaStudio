@@ -105,17 +105,19 @@ h2 {
   font-size: var(--fs-h2);
 }
 
+/* H3 e H4 sono testo di interfaccia: Archivo 600, frase normale. */
 h3 {
   font: 600 var(--fs-h3) / 1.15 var(--font-testo);
   letter-spacing: -0.02em;
 }
 
 h4 {
-  font: 600 1rem / 1.3 var(--font-testo);
+  font: 600 var(--fs-body) / 1.3 var(--font-testo);
 }
 
+/* Una sola misura per la prosa: 34em, circa 70-75 caratteri. */
 p {
-  max-inline-size: 62ch;
+  max-inline-size: 34em;
   text-wrap: pretty;
   overflow-wrap: break-word;
 }
@@ -144,14 +146,22 @@ p {
   line-height: 0.92;
 }
 
+/* Prezzi grandi: oggetto tipografico. Cifre a larghezza fissa e allineate alla base. */
+.display--prezzo {
+  font-size: var(--fs-prezzo);
+  line-height: 0.88;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
 ::selection {
   background: var(--mattone);
   color: var(--inchiostro);
 }
 
-/* ---------- Focus ---------- */
+/* ---------- Focus ----------
+   Sempre visibile, con qualunque puntatore: non sta dentro @media (hover: hover). */
 :focus-visible {
-  outline: 2px solid var(--focus, var(--mattone-testo));
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -163,10 +173,9 @@ p {
   top: 0;
   z-index: 200;
   padding: 10px 16px;
-  border-radius: 6px;
   background: var(--inchiostro);
   color: var(--carta);
-  font: 400 0.9rem / 1.2 var(--font-testo);
+  font: 600 var(--fs-ui) / 1.2 var(--font-ui);
   text-decoration: none;
 }
 

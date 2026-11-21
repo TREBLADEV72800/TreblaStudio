@@ -1,46 +1,51 @@
 /* ============================================================
-   TOKEN del design system Trebla (redesign 2026).
-   Fonte: scratchpad DESIGN_SYSTEM.md. Un posto solo per i valori:
-   nessun altro file dichiara colori, scale o durate.
+   TOKEN del design system Trebla (rifinitura 2026).
+   Fonte: docs/redesign/DESIGN_SYSTEM.md e PIANO-RIFINITURA.md.
+   Un posto solo per i valori: nessun altro file dichiara colori, scale o durate.
    Breakpoint: solo min-width a 640, 960 e 1280px.
    ============================================================ */
 :root {
   /* ---------- Colori ---------- */
   --carta: #EEECE7;          /* fondo principale */
-  --carta-2: #E3E0D9;        /* superfici, hover leggeri */
+  --carta-2: #E3E0D9;        /* fondo secondario, hover */
   --inchiostro: #141210;     /* testo, fasce scure */
-  --grafite: #1F1C19;        /* fascia di chiusura */
+  --grafite: #1F1C19;        /* fascia di chiusura e footer */
   --morbido: #5E5A53;        /* testo secondario su carta (5,8:1) */
   --morbido-scuro: #A39E95;  /* testo secondario su scuro (7,0:1) */
-  --linea: rgba(20, 18, 16, 0.14);       /* filetti su carta */
+  --linea: rgba(20, 18, 16, 0.14);          /* filetti tra le voci di un elenco, su carta */
   --linea-scura: rgba(238, 236, 231, 0.16); /* filetti su scuro */
-  --mattone: #E8401C;        /* accento: CTA, display grandi, puntini. MAI testo piccolo */
-  --mattone-testo: #B23A12;  /* accento per testo piccolo su carta (5,1:1) */
-  --verde: #157F3D;          /* WhatsApp, puntino "disponibili" */
-  --focus: var(--mattone-testo); /* anello di focus su superfici chiare; sulle scure si ridefinisce */
+  --mattone: #E8401C;        /* SOLO riempimento del bottone primario e parola che cicla nella hero */
+  --mattone-testo: #B23A12;  /* SOLO anello di focus su superfici chiare */
+  --verde: #157F3D;          /* SOLO WhatsApp */
+  --su-verde: #FFFFFF;       /* testo sul verde WhatsApp */
+  --focus: var(--mattone-testo); /* anello di focus; le fasce scure lo ridefiniscono */
 
-  /* ---------- Font ---------- */
-  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  /* ---------- Font: una sola famiglia, Archivo variabile ---------- */
+  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;  /* display: stretch 64%, 800, maiuscolo */
   --font-testo: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* interfaccia: stretch 100%, 600 */
+  /* TEMPORANEO: da rimuovere in integrazione quando non ci sono più usi */
+  --font-mono: var(--font-testo);
 
   /* ---------- Scala tipografica ---------- */
-  --fs-hero: clamp(60px, min(12vw, 17svh), 196px);   /* lh .88 */
-  --fs-h2: clamp(44px, 7.6vw, 124px);                /* lh .9 */
-  --fs-h2-s: clamp(36px, 4.8vw, 72px);               /* lh .92: sottosezioni e pagine interne */
-  --fs-h3: clamp(21px, 1.7vw, 28px);                 /* Archivo 600, lh 1.15, ls -0.02em */
-  --fs-lead: clamp(18px, 1.5vw, 22px);               /* lh 1.45, max 52ch */
-  --fs-body: 16px;                                   /* lh 1.55, max 62ch */
-  --fs-small: 14px;                                  /* lh 1.45 */
-  --fs-label: 12px;                                  /* mono 500, ls .08em */
-  --fs-micro: 10.5px;                                /* mono 400, ls .1em */
-  --fs-cursore: 11px;                                /* etichetta del cursore: mono 500 maiuscolo */
+  --fs-hero: clamp(60px, min(12vw, 17svh), 196px);   /* display, lh .88 */
+  --fs-h2: clamp(44px, 7.6vw, 124px);                /* display, lh .9 */
+  --fs-h2-s: clamp(30px, 4.8vw, 72px);               /* display, lh .92: sottosezioni e pagine interne */
+  --fs-h2-xs: clamp(26px, 2.4vw, 40px);              /* display, h2 dentro la prosa */
+  --fs-prezzo: clamp(56px, 7vw, 120px);              /* display, prezzi grandi, lh .88 */
+  --fs-h3: clamp(21px, 1.7vw, 24px);                 /* Archivo 600, lh 1.15 */
+  --fs-lead: clamp(18px, 1.5vw, 21px);               /* testo, lh 1.45 */
+  --fs-body: 16px;                                   /* testo, lh 1.55; 17px da 960px */
+  --fs-ui: 15px;                                     /* interfaccia: nav, bottoni, Archivo 600 */
+  --fs-small: 14px;                                  /* small, breadcrumb, etichette, lh 1.4 */
+  /* TEMPORANEO: alias di --fs-small per le pagine non ancora migrate. Da rimuovere in integrazione. */
+  --fs-label: var(--fs-small);
   --fs-wordmark: clamp(110px, 26vw, 440px);
 
   /* ---------- Spaziature e griglia ---------- */
   --pad: max(clamp(16px, 2.6vw, 40px), calc((100vw - 1680px) / 2)); /* margine laterale */
   --gap: clamp(16px, 1.7vw, 24px);
-  --sezione: clamp(64px, 8.4vw, 128px);              /* padding verticale delle sezioni */
+  --sezione: clamp(64px, 8.4vw, 128px);              /* padding verticale di OGNI sezione: un solo ritmo */
   --hh: 64px;                                        /* altezza header sotto 960px */
 
   --s-1: 4px;
@@ -55,19 +60,34 @@
   --s-10: 128px;
 
   /* ---------- Movimento ---------- */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* reveal e ingressi */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* reveal, ingressi, velo dei bottoni */
   --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);    /* sottolineature e roll */
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* menu e transizioni tra pagine */
   --ease-std: cubic-bezier(0.4, 0, 0.2, 1);       /* cambi di colore */
 
+  /* Durate generali: --t-1 micro, --t-2 hover e icone, --t-3 roll e pagine, --t-4 ingressi, --t-5 parole dei titoli. */
   --t-1: 150ms;
   --t-2: 300ms;
   --t-3: 600ms;
   --t-4: 900ms;
   --t-5: 1100ms;
+  /* Durate specifiche per componente. */
+  --t-velo: 500ms;           /* velo e cerchio dei bottoni */
+  --t-colore: 200ms;         /* testo del bottone a metà del velo (con ritardo --t-1) */
+  --t-header: 450ms;         /* header che si nasconde e riappare */
+  --t-menu: 700ms;           /* apertura del menu mobile */
+  --t-menu-chiudi: 500ms;    /* chiusura del menu mobile */
+  --t-parola: 600ms;         /* voci del menu che salgono */
+  --t-cursore: 400ms;        /* cursore che appare e cresce */
+  --t-uscita: 350ms;         /* pagina che esce (View Transitions) */
+  --t-ritardo-vt: 120ms;     /* ritardo della pagina che entra */
+  --t-ritardo-menu: 200ms;   /* ritardo delle voci all'apertura del menu */
+  --t-ritardo-menu-cta: 560ms; /* ritardo del bottone nel menu */
 
+  /* Sfasamenti. */
   --stagger-parola: 60ms;
-  --stagger-elemento: 80ms;
+  --stagger-elemento: 80ms;  /* gruppi [data-reveal-gruppo] dei titoli */
+  --stagger-chiusura: 25ms;  /* voci del menu che scendono in chiusura */
 }
 
 @media (min-width: 960px) {
