@@ -1,20 +1,76 @@
 ---
 import type { Faq } from '../data/domande-frequenti';
+import Freccia from './ui/Freccia.astro';
 
 interface Props {
   faqs: Faq[];
 }
 
 const { faqs } = Astro.props;
+// Le etichette dei link finiscono con una freccia nel testo: qui la freccia la disegna l'icona SVG.
+const etichetta = (t: string) => t.replace(/\s*→\s*$/, '');
 ---
 
-<div class="faq" data-reveal>
+<div class="fisarmonica" data-reveal>
   {faqs.map((f) => (
     <details>
-      <summary>{f.q}</summary>
-      <div class="risposta">
-        <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-freccia" href={c.href}>{c.label}</a></span>))}</>)}</p>
+      <summary><span class="fisarmonica__domanda">{f.q}</span></summary>
+      <div class="fisarmonica__corpo">
+        <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-sottolineato" href={c.href}>{etichetta(c.label)}<Freccia /></a></span>))}</>)}</p>
       </div>
     </details>
   ))}
 </div>
+
+<style>
+  /* Fisarmonica: righe con filetto, domanda in Archivo 500, risposta in --morbido con max 62ch.
+     Il "+" e il fade-up dell'apertura arrivano da componenti.css (A14). */
+  .fisarmonica {
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .fisarmonica details {
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .fisarmonica summary {
+    padding-block: var(--s-5);
+    padding-inline-end: var(--s-7);
+    font: 500 var(--fs-h3) / 1.2 var(--font-testo);
+    letter-spacing: -0.02em;
+  }
+
+  .fisarmonica__domanda {
+    display: inline-block;
+    transition: transform var(--t-2) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .fisarmonica summary:hover .fisarmonica__domanda {
+      transform: translate3d(var(--s-3), 0, 0);
+    }
+  }
+
+  .fisarmonica__corpo {
+    padding-block: 0 var(--s-5);
+  }
+
+  .fisarmonica__corpo p {
+    max-inline-size: 62ch;
+    margin: 0;
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .fisarmonica__corpo a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--inchiostro);
+  }
+
+  .fisarmonica__corpo :global(.icona-freccia) {
+    inline-size: 14px;
+    block-size: 14px;
+  }
+</style>

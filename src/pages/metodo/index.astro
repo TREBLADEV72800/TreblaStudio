@@ -1,12 +1,192 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataPagina from '../../components/TestataPagina.astro';
 import TestataSezione from '../../components/TestataSezione.astro';
+import Prosa from '../../components/Prosa.astro';
+import Corpo from '../../components/pagine/Corpo.astro';
+import CtaChiusura from '../../components/pagine/CtaChiusura.astro';
+import Bottone from '../../components/ui/Bottone.astro';
 import { site } from '../../data/sito';
+
+const passi = [
+  { t: 'Ci racconti l’attività', d: 'Usa il preventivo o scrivici. Bastano le informazioni che hai già.' },
+  { t: 'Ricevi una proposta', d: 'Definiamo cosa realizziamo, il prezzo e una data in base ai materiali. Decidi tu se partire.' },
+  { t: 'Prepariamo il sito', d: 'Lavoriamo su contenuti, struttura e design. Ti chiediamo le informazioni mancanti, non una giornata di riunioni.' },
+  { t: 'Rivedi la bozza', d: 'Due giri di revisioni sono inclusi nei pacchetti base. L’Offerta Tutto incluso ne prevede tre.' },
+  { t: 'Pubblichiamo', d: 'Completato il saldo, mettiamo il sito online e ti spieghiamo come contattarci per eventuali aggiornamenti.' },
+];
 ---
-<LayoutPagina title="Metodo: come realizziamo un sito ad Asti | Trebla" description="Dal primo confronto alla pubblicazione: passaggi, tempi, revisioni e materiali per lavorare con Trebla ad Asti." canonical="/metodo" jsonLd={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Metodo', item: `${site.url}/metodo/` }] }}>
-<div class="involucro">
-  <section class="pagina-titolo" aria-labelledby="titolo"><p class="capitolo-numero">Il metodo</p><h1 id="titolo">Un percorso <em>senza sorprese</em></h1><p class="lead">Prezzo e tempi prima di iniziare. Una persona ti segue, tu rivedi il lavoro prima della pubblicazione.</p></section>
-  <section class="sezione sezione-flush"><TestataSezione numero="01 · I passaggi" titolo="Dalla prima idea <em>al sito online</em>" /><ol class="metodo"><li><h3>Ci racconti l’attività</h3><p>Usa il preventivo o scrivici. Bastano le informazioni che hai già.</p></li><li><h3>Ricevi una proposta</h3><p>Definiamo cosa realizziamo, il prezzo e una data in base ai materiali. Decidi tu se partire.</p></li><li><h3>Prepariamo il sito</h3><p>Lavoriamo su contenuti, struttura e design. Ti chiediamo le informazioni mancanti, non una giornata di riunioni.</p></li><li><h3>Rivedi la bozza</h3><p>Due giri di revisioni sono inclusi nei pacchetti base. L’Offerta Tutto incluso ne prevede tre.</p></li><li><h3>Pubblichiamo</h3><p>Completato il saldo, mettiamo il sito online e ti spieghiamo come contattarci per eventuali aggiornamenti.</p></li></ol></section>
-  <section class="sezione"><div class="prosa"><h2>Tempi</h2><p>In genere il progetto richiede una decina di giorni dopo aver raccolto i materiali. Confermiamo la data nella proposta, perché dipende da cosa è già pronto e da cosa va preparato insieme.</p><h2>Cosa ci serve da te</h2><p>Nome e descrizione dell’attività, servizi o menu, orari, contatti e indicazioni sulle foto. Se non hai testi o immagini pronti, partiamo da una conversazione e definiamo insieme il materiale.</p><h2>Chi fa cosa</h2><p>Albert segue sviluppo, progetto e pubblicazione. Gabriel cura design, grafiche, foto e social. Tu verifichi che testi e informazioni descrivano correttamente la tua attività e approvi la bozza.</p><p><a href="/prezzi/">Consulta i prezzi</a> o <a href="/faq/">leggi le risposte alle domande comuni</a>.</p></div></section>
-  <section class="sezione"><div class="cta-finale"><div><p class="prezzo-kicker">Quando vuoi</p><h2>Cominciamo da <em>una proposta chiara</em></h2><p>Il preventivo non comporta pagamenti né obblighi.</p></div><div class="cta-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-wa" data-wa="Ciao Trebla, vorrei parlare del metodo di lavoro." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></div></div></section>
-</div></LayoutPagina>
+
+<LayoutPagina
+  title="Metodo: come realizziamo un sito ad Asti | Trebla"
+  description="Dal primo confronto alla pubblicazione: passaggi, tempi, revisioni e materiali per lavorare con Trebla ad Asti."
+  canonical="/metodo"
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Metodo', item: `${site.url}/metodo/` }] }}
+>
+  <TestataPagina
+    titolo="Un percorso | senza sorprese"
+    tenue="senza sorprese"
+    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Metodo' }]}
+  >
+    <p slot="lead">Prezzo e tempi prima di iniziare. Una persona ti segue, tu rivedi il lavoro prima della pubblicazione.</p>
+  </TestataPagina>
+
+  <section class="sezione">
+    <div class="contenitore">
+      <TestataSezione numero="01 · I passaggi" titolo="Dalla prima idea <em>al sito online</em>" />
+      <ol class="me-lista" data-reveal-gruppo>
+        {passi.map((p, i) => (
+          <li class="me-passo" data-reveal>
+            <span class="me-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="sezione">
+    <Corpo etichetta="Il metodo">
+      <Prosa>
+        <h2>Tempi</h2>
+        <p>In genere il progetto richiede una decina di giorni dopo aver raccolto i materiali. Confermiamo la data nella proposta, perché dipende da cosa è già pronto e da cosa va preparato insieme.</p>
+        <h2>Cosa ci serve da te</h2>
+        <p>Nome e descrizione dell’attività, servizi o menu, orari, contatti e indicazioni sulle foto. Se non hai testi o immagini pronti, partiamo da una conversazione e definiamo insieme il materiale.</p>
+        <h2>Chi fa cosa</h2>
+        <p>Albert segue sviluppo, progetto e pubblicazione. Gabriel cura design, grafiche, foto e social. Tu verifichi che testi e informazioni descrivano correttamente la tua attività e approvi la bozza.</p>
+        <p><a href="/prezzi/">Consulta i prezzi</a> o <a href="/faq/">leggi le risposte alle domande comuni</a>.</p>
+      </Prosa>
+    </Corpo>
+  </section>
+
+  <CtaChiusura
+    id="t-chiusura"
+    etichetta="Quando vuoi"
+    titolo="Cominciamo da una proposta chiara"
+    tenue="una proposta chiara"
+    testo="Il preventivo non comporta pagamenti né obblighi."
+  >
+    <Bottone href="/preventivo/" testo="Fai il preventivo" />
+    <Bottone
+      href="#"
+      variante="wa"
+      testo="WhatsApp"
+      data-wa="Ciao Trebla, vorrei parlare del metodo di lavoro."
+      target="_blank"
+      rel="noopener noreferrer"
+    />
+  </CtaChiusura>
+</LayoutPagina>
+
+<style>
+  /* Passi: come la home (numero display mattone, filetto sopra). 1 colonna, 2 da 640px,
+     righe orizzontali da 960px (numero, titolo, testo), 5 colonne da 1280px. */
+  .me-lista {
+    display: grid;
+    gap: var(--s-7) var(--gap);
+    grid-template-columns: minmax(0, 1fr);
+    margin: var(--s-7) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .me-lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .me-lista {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .me-lista {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0 var(--gap);
+    }
+  }
+
+  .me-passo {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .me-num {
+    font: 800 clamp(64px, 7vw, 88px) / 0.88 var(--font-display);
+    font-stretch: 64%;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--mattone);
+  }
+
+  .me-passo h3 {
+    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+    letter-spacing: -0.02em;
+    color: var(--inchiostro);
+  }
+
+  .me-passo p {
+    max-inline-size: 36ch;
+    margin: 0;
+    color: var(--morbido);
+  }
+
+  @media (min-width: 960px) {
+    .me-passo {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+      padding-block: var(--s-6);
+    }
+
+    .me-passo:last-child {
+      border-block-end: 1px solid var(--linea);
+    }
+
+    .me-num {
+      grid-column: 1 / span 2;
+      grid-row: 1;
+    }
+
+    .me-passo h3 {
+      grid-column: 3 / span 4;
+      grid-row: 1;
+    }
+
+    .me-passo p {
+      grid-column: 7 / span 6;
+      grid-row: 1;
+      max-inline-size: 48ch;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .me-passo {
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: var(--s-5) 0;
+    }
+
+    .me-passo:last-child {
+      border-block-end: 0;
+    }
+
+    .me-num,
+    .me-passo h3,
+    .me-passo p {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .me-passo p {
+      max-inline-size: 36ch;
+    }
+  }
+</style>

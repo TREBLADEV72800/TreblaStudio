@@ -1,0 +1,24 @@
+---
+// Bottone pill con freccia in un cerchio. Gli attributi extra (data-wa, data-track, target, rel...)
+// passano all'<a> così come sono.
+// Il cerchio ha due frecce sovrapposte: la prima esce in hover, la copia rientra (vedi componenti.css).
+import Freccia from './Freccia.astro';
+
+interface Props {
+  href: string;
+  variante?: 'primario' | 'secondario' | 'chiaro' | 'wa' | undefined;
+  testo: string;
+  classe?: string | undefined;
+  [attr: string]: unknown;
+}
+
+const { href, variante = 'primario', testo, classe, ...resto } = Astro.props;
+---
+
+<a class:list={['btn', `btn--${variante}`, classe]} href={href} {...resto}>
+  <span class="btn__testo">{testo}</span>
+  <span class="btn__icona">
+    <Freccia classe="btn__freccia" />
+    <Freccia classe="btn__freccia btn__freccia--copia" />
+  </span>
+</a>

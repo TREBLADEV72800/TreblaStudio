@@ -1,0 +1,402 @@
+---
+import TestataSezione from '../TestataSezione.astro';
+import Freccia from '../ui/Freccia.astro';
+import { BASE_PRICES } from '../../data/prezzi';
+---
+
+<!-- 02 · SERVIZI -->
+<section class="fascia-scura home-servizi" aria-labelledby="t-servizi">
+  <div class="contenitore home-servizi__griglia">
+    <div class="home-servizi__testata">
+      <TestataSezione
+        id="t-servizi"
+        scuro
+        numero="02 · Cosa facciamo"
+        titolo="Il sito al centro, <em>il resto intorno</em>"
+        nota="Parti da quello che ti serve ora. Il resto si aggiunge quando vuoi."
+      />
+    </div>
+
+    <div class="home-servizi__lista" id="h-servizi">
+      <details class="home-servizi__voce" open>
+        <summary class="home-servizi__riga" data-cursore="Apri">
+          <span class="home-servizi__indice">01</span>
+          <h3 class="home-servizi__nome">Sito web</h3>
+          <span class="home-servizi__prezzo">{BASE_PRICES.singola}€</span>
+          <span class="home-servizi__piu" aria-hidden="true"></span>
+        </summary>
+        <div class="home-servizi__corpo">
+          <p class="home-servizi__meta"><b>{BASE_PRICES.singola}€</b> · pagina singola · <b>{BASE_PRICES.multi}€</b> · più pagine</p>
+          <p class="home-servizi__testo">Il punto di partenza per farti trovare e contattare. <strong>Una pagina che spiega tutto</strong> o un sito completo.</p>
+          <div class="home-servizi__liste">
+            <div>
+              <p class="home-servizi__etichetta">Inclusi</p>
+              <ul>
+                <li>Testi essenziali preparati insieme a te</li>
+                <li>Telefono, WhatsApp e mappa</li>
+                <li>Foto e menu sistemati</li>
+                <li>Privacy e cookie inclusi</li>
+              </ul>
+            </div>
+            <div class="home-servizi__no">
+              <p class="home-servizi__etichetta">Esclusi</p>
+              <ul>
+                <li>Gergo tecnico</li>
+                <li>Ore della tua giornata</li>
+                <li>Canone obbligatorio</li>
+              </ul>
+            </div>
+          </div>
+          <a class="link-sottolineato home-servizi__link" href="/servizi/siti-web/">Il sito nel dettaglio<Freccia /></a>
+        </div>
+      </details>
+
+      <details class="home-servizi__voce">
+        <summary class="home-servizi__riga" data-cursore="Apri">
+          <span class="home-servizi__indice">02</span>
+          <h3 class="home-servizi__nome">Grafiche</h3>
+          <span class="home-servizi__prezzo">su preventivo</span>
+          <span class="home-servizi__piu" aria-hidden="true"></span>
+        </summary>
+        <div class="home-servizi__corpo">
+          <p class="home-servizi__meta">solo se ti serve · <b>su preventivo</b></p>
+          <p class="home-servizi__testo"><strong>La stessa faccia ovunque</strong>: dal sito al biglietto da visita, dal menu cartaceo alla vetrina.</p>
+          <div class="home-servizi__liste">
+            <div>
+              <p class="home-servizi__etichetta">Inclusi</p>
+              <ul>
+                <li>Logo creato o rinnovato</li>
+                <li>Biglietti da visita, volantini, menu</li>
+                <li>File pronti per la stampa</li>
+              </ul>
+            </div>
+            <div class="home-servizi__no">
+              <p class="home-servizi__etichetta">Esclusi</p>
+              <ul>
+                <li>Restyling ogni sei mesi</li>
+                <li>Stampa di qualsiasi materiale</li>
+              </ul>
+            </div>
+          </div>
+          <p class="home-servizi__nota">Solo design: non stampiamo niente, ti consegniamo i file da portare dove vuoi.</p>
+          <a class="link-sottolineato home-servizi__link" href="/servizi/grafiche/">Le grafiche nel dettaglio<Freccia /></a>
+        </div>
+      </details>
+
+      <details class="home-servizi__voce">
+        <summary class="home-servizi__riga" data-cursore="Apri">
+          <span class="home-servizi__indice">03</span>
+          <h3 class="home-servizi__nome">Social media</h3>
+          <span class="home-servizi__prezzo">su preventivo</span>
+          <span class="home-servizi__piu" aria-hidden="true"></span>
+        </summary>
+        <div class="home-servizi__corpo">
+          <p class="home-servizi__meta">solo se ti serve · <b>su preventivo</b></p>
+          <p class="home-servizi__testo"><strong>Profili ordinati e contenuti concordati</strong>, con prezzi per singola voce e senza canone mensile implicito.</p>
+          <div class="home-servizi__liste">
+            <div>
+              <p class="home-servizi__etichetta">Possibili</p>
+              <ul>
+                <li>Profili</li>
+                <li>Foto e video</li>
+                <li>Grafiche per contenuti</li>
+              </ul>
+            </div>
+            <div class="home-servizi__no">
+              <p class="home-servizi__etichetta">Esclusi</p>
+              <ul>
+                <li>Follower comprati</li>
+                <li>Promesse di viralità</li>
+              </ul>
+            </div>
+          </div>
+          <a class="link-sottolineato home-servizi__link" href="/servizi/social/">I social nel dettaglio<Freccia /></a>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Servizi, fascia inchiostro. Da 960px la testata resta ferma a sinistra (colonne 1-5)
+     e l'elenco scorre a destra (colonne 6-12). */
+  .home-servizi {
+    padding-block: var(--sezione);
+  }
+
+  .home-servizi__griglia {
+    display: grid;
+    gap: var(--s-7);
+  }
+
+  .home-servizi__testata,
+  .home-servizi__lista {
+    min-inline-size: 0;
+  }
+
+  .home-servizi__lista {
+    display: grid;
+  }
+
+  @media (min-width: 960px) {
+    .home-servizi__griglia {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+    }
+
+    .home-servizi__testata {
+      grid-column: 1 / span 5;
+      position: sticky;
+      top: calc(var(--hh) + 32px);
+    }
+
+    .home-servizi__lista {
+      grid-column: 6 / span 7;
+    }
+
+    /* Nella colonna stretta il titolo occupa tutta la larghezza, senza le colonne del testata. */
+    .home-servizi__testata :global(.testata) :global(.testata__titolo) {
+      grid-column: 1 / -1;
+    }
+
+    .home-servizi__testata :global(.testata) :global(.testata__nota) {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+
+    .home-servizi__testata :global(.testata) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Titolo a taglia sottosezione: nella colonna laterale l'H2 pieno sarebbe troppo alto per lo sticky. */
+    .home-servizi__testata :global(.testata) :global(.titolo-rivelato--h2) {
+      font-size: var(--fs-h2-s);
+      line-height: 0.92;
+    }
+  }
+
+  /* Riga del servizio: indice, nome, prezzo e "+". Sotto 640px il prezzo va sotto il nome. */
+  .home-servizi__voce {
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .home-servizi__voce:last-child {
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .home-servizi__riga {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'indice nome piu'
+      'indice prezzo piu';
+    align-items: center;
+    column-gap: var(--s-4);
+    row-gap: var(--s-2);
+    padding-block: clamp(20px, 2.6vw, 32px);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .home-servizi__riga::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Riempimento mattone che sale dal basso (A11). */
+  .home-servizi__riga::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--mattone);
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transition: transform 450ms var(--ease-out);
+  }
+
+  .home-servizi__indice {
+    grid-area: indice;
+    align-self: start;
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.08em;
+    color: var(--morbido);
+    transition: transform 450ms var(--ease-out), color 450ms var(--ease-out);
+  }
+
+  .home-servizi__nome {
+    grid-area: nome;
+    min-inline-size: 0;
+    font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
+    font-stretch: 64%;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--carta);
+    transition: color 450ms var(--ease-out);
+  }
+
+  .home-servizi__prezzo {
+    grid-area: prezzo;
+    font: 500 var(--fs-small) / 1 var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--morbido);
+    transition: color 450ms var(--ease-out);
+  }
+
+  .home-servizi__piu {
+    grid-area: piu;
+    position: relative;
+    flex: none;
+    inline-size: 16px;
+    block-size: 16px;
+    margin-inline-end: var(--s-3);
+    color: var(--carta);
+    transition: transform 450ms var(--ease-out), color 450ms var(--ease-out);
+  }
+
+  .home-servizi__piu::before,
+  .home-servizi__piu::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+  }
+
+  .home-servizi__piu::before {
+    inset-inline: 0;
+    inset-block-start: calc(50% - 0.75px);
+    block-size: 1.5px;
+  }
+
+  .home-servizi__piu::after {
+    inset-block: 0;
+    inset-inline-start: calc(50% - 0.75px);
+    inline-size: 1.5px;
+  }
+
+  .home-servizi__voce[open] .home-servizi__piu {
+    transform: rotate(45deg);
+  }
+
+  @media (min-width: 640px) {
+    .home-servizi__riga {
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas: 'indice nome prezzo piu';
+      row-gap: 0;
+    }
+
+    .home-servizi__indice {
+      align-self: center;
+    }
+  }
+
+  @media (hover: hover) {
+    .home-servizi__riga:hover::before {
+      transform: scaleY(1);
+    }
+
+    .home-servizi__riga:hover .home-servizi__indice,
+    .home-servizi__riga:hover .home-servizi__nome,
+    .home-servizi__riga:hover .home-servizi__prezzo,
+    .home-servizi__riga:hover .home-servizi__piu {
+      color: var(--inchiostro);
+    }
+
+    .home-servizi__riga:hover .home-servizi__indice {
+      transform: translate3d(12px, 0, 0);
+    }
+
+    .home-servizi__riga:hover .home-servizi__piu {
+      transform: rotate(45deg);
+    }
+  }
+
+  /* Contenuto aperto: fade-up come .fisarmonica__corpo. */
+  .home-servizi__corpo {
+    padding-block: var(--s-5) clamp(40px, 5vw, 64px);
+  }
+
+  .home-servizi__voce[open] .home-servizi__corpo {
+    animation: sali-corto var(--t-3) var(--ease-out) both;
+  }
+
+  .home-servizi__meta {
+    max-inline-size: none;
+    margin: 0 0 var(--s-4);
+    font: 400 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .home-servizi__meta b {
+    font-weight: 500;
+    color: var(--carta);
+  }
+
+  .home-servizi__testo {
+    max-inline-size: 52ch;
+    margin: 0 0 var(--s-6);
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+    color: var(--carta);
+  }
+
+  .home-servizi__testo strong {
+    font-weight: 600;
+  }
+
+  .home-servizi__liste {
+    display: grid;
+    gap: var(--s-6) var(--gap);
+  }
+
+  @media (min-width: 640px) {
+    .home-servizi__liste {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .home-servizi__etichetta {
+    margin: 0 0 var(--s-2);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  /* Voci separate da filetti. */
+  .home-servizi__liste ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .home-servizi__liste li {
+    padding-block: var(--s-3);
+    border-block-end: 1px solid var(--linea);
+    font: 400 var(--fs-body) / 1.45 var(--font-testo);
+    color: var(--carta);
+  }
+
+  .home-servizi__no li {
+    color: var(--morbido);
+  }
+
+  .home-servizi__nota {
+    max-inline-size: 52ch;
+    margin: var(--s-5) 0 0;
+    font: 400 var(--fs-small) / 1.45 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .home-servizi__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-block-start: var(--s-6);
+    color: var(--carta);
+  }
+</style>

@@ -2,3 +2,5 @@
 /privacy /note-legali/#privacy 301
 /cookie /note-legali/#cookie 301
 /termini /note-legali/#termini 301
+/lavori / 301
+/lavori/* / 301

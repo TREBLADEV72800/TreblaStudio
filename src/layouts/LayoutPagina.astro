@@ -1,5 +1,9 @@
 ---
-import '../stili-globali.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/layout.css';
+import '../styles/componenti.css';
+import '../styles/movimento.css';
 import MetaDocumento from '../components/MetaDocumento.astro';
 import Intestazione from '../components/Intestazione.astro';
 import Piede from '../components/Piede.astro';
@@ -9,7 +13,7 @@ import { site } from '../data/sito';
 interface Props {
   title?: string | undefined;
   description?: string | undefined;
-  canonical?: string | undefined;
+  canonical?: string | null | undefined;
   noindex?: boolean | undefined;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[] | undefined;
   ogImage?: string | undefined;
@@ -36,35 +40,181 @@ const {
     <main id="contenuto"><slot /></main>
     <Piede />
     <ContattiDinamici />
+    <div class="avanzamento" aria-hidden="true"></div>
+    <div class="cursore" aria-hidden="true"><span class="cursore__etichetta"></span></div>
     <script is:inline>
-      // Reveal sobrio: una sola IntersectionObserver per tutto il sito.
-      // is:inline: JS puro, niente chunk nel grafo di caricamento.
+      // Movimento globale: un solo script per il sito. is:inline: JS puro, niente chunk.
+      // 1. Reveal allo scroll (A2). [data-reveal] diventa "visibile" una sola volta.
+      //    Nei contenitori [data-reveal-gruppo] i figli ricevono --d: 80ms per passo, max 8 passi.
+      //    Gli elementi già sopra il viewport (ancora, refresh a metà pagina) risultano visibili.
+      // 2. Cursore che segue (A13): più sotto, solo con hover fine e senza reduced motion.
       (function () {
-        const mostraTutto = () =>
-          document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('visibile'));
+        var riduci = false;
         try {
-          const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (!ridotto && 'IntersectionObserver' in window) {
-            const els = document.querySelectorAll('[data-reveal]');
-            const io = new IntersectionObserver(
-              (entries) => {
-                for (const e of entries) {
-                  if (e.isIntersecting) {
-                    e.target.classList.add('visibile');
-                    io.unobserve(e.target);
-                  }
-                }
-              },
-              { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
-            );
-            els.forEach((el) => io.observe(el));
+          riduci = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch (e) {
+          riduci = true;
+        }
+
+        var reveal = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+        var attesa = null;
+        var osservatore = null;
+        var inCoda = 0;
+
+        // Altezza > 0 esclude gli elementi display:none, che hanno rect tutto a zero.
+        function sopraIlViewport(r) {
+          return r.height > 0 && r.bottom <= 0;
+        }
+        function mostra(el) {
+          el.classList.add('visibile');
+          if (attesa) attesa.delete(el);
+          if (osservatore) osservatore.unobserve(el);
+        }
+        function rivelaTutto() {
+          reveal.forEach(function (el) {
+            el.classList.add('visibile');
+          });
+        }
+        function controllaSopra() {
+          if (!attesa) return;
+          attesa.forEach(function (el) {
+            if (sopraIlViewport(el.getBoundingClientRect())) mostra(el);
+          });
+          if (!attesa.size) window.removeEventListener('scroll', accodaControllo);
+        }
+        function accodaControllo() {
+          if (inCoda) return;
+          inCoda = requestAnimationFrame(function () {
+            inCoda = 0;
+            controllaSopra();
+          });
+        }
+
+        try {
+          document.querySelectorAll('[data-reveal-gruppo]').forEach(function (gruppo) {
+            gruppo.querySelectorAll('[data-reveal]').forEach(function (el, i) {
+              el.style.setProperty('--d', Math.min(i, 8) * 80 + 'ms');
+            });
+          });
+
+          if (riduci || !('IntersectionObserver' in window)) {
+            rivelaTutto();
           } else {
-            mostraTutto();
+            attesa = new Set(reveal);
+            osservatore = new IntersectionObserver(
+              function (voci) {
+                voci.forEach(function (v) {
+                  if (v.intersectionRatio >= 0.12 || sopraIlViewport(v.boundingClientRect)) mostra(v.target);
+                });
+              },
+              { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+            );
+            reveal.forEach(function (el) {
+              osservatore.observe(el);
+            });
+            // IntersectionObserver non segnala gli elementi saltati dal salto di scroll: li copre questo controllo.
+            window.addEventListener('scroll', accodaControllo, { passive: true });
+            controllaSopra();
           }
         } catch (e) {
           // Se qualcosa va storto, meglio tutto visibile che una pagina vuota.
-          mostraTutto();
+          rivelaTutto();
         }
+      })();
+
+      // 2. Cursore che segue (A13). Un solo elemento; si muove con transform: translate3d().
+      (function () {
+        var cursore = document.querySelector('.cursore');
+        if (!cursore) return;
+
+        var puntatore = false;
+        var riduci = false;
+        try {
+          puntatore = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+          riduci = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch (e) {
+          puntatore = false;
+        }
+        if (!puntatore || riduci) {
+          cursore.remove();
+          return;
+        }
+
+        var etichetta = cursore.querySelector('.cursore__etichetta');
+        var mx = 0;
+        var my = 0; // puntatore
+        var x = 0;
+        var y = 0; // centro del cerchio, in ritardo (lerp 0,18 per frame)
+        var corrente = null; // [data-cursore] sotto il puntatore
+        var frame = 0;
+
+        function disegna() {
+          frame = 0;
+          x += (mx - x) * 0.18;
+          y += (my - y) * 0.18;
+          if (Math.abs(mx - x) < 0.1) x = mx;
+          if (Math.abs(my - y) < 0.1) y = my;
+          cursore.style.transform = 'translate3d(' + (x - 42) + 'px,' + (y - 42) + 'px,0)';
+          // Il loop si ferma appena il cerchio è arrivato sul puntatore.
+          if (x !== mx || y !== my) frame = requestAnimationFrame(disegna);
+        }
+        function anima() {
+          if (!frame) frame = requestAnimationFrame(disegna);
+        }
+        function vicino(nodo) {
+          return nodo && nodo.closest ? nodo.closest('[data-cursore]') : null;
+        }
+        function mostra(el) {
+          etichetta.textContent = el.getAttribute('data-cursore') || '';
+          cursore.classList.toggle('cursore--chiaro', !!el.closest('.fascia-scura, .fascia-grafite'));
+          // Appare già sul puntatore, senza scivolare da dove era rimasto.
+          if (!corrente) {
+            x = mx;
+            y = my;
+          }
+          corrente = el;
+          cursore.classList.add('cursore--visibile');
+          anima();
+        }
+        function nascondi() {
+          corrente = null;
+          cursore.classList.remove('cursore--visibile');
+        }
+
+        document.addEventListener(
+          'pointermove',
+          function (e) {
+            mx = e.clientX;
+            my = e.clientY;
+            if (corrente) anima();
+          },
+          { passive: true }
+        );
+        document.addEventListener(
+          'pointerover',
+          function (e) {
+            var el = vicino(e.target);
+            if (!el || el === corrente) return;
+            mx = e.clientX;
+            my = e.clientY;
+            mostra(el);
+          },
+          { passive: true }
+        );
+        document.addEventListener(
+          'pointerout',
+          function (e) {
+            if (!corrente) return;
+            // Passaggio diretto a un altro [data-cursore]: lo gestisce pointerover, senza scatto.
+            if (vicino(e.relatedTarget)) return;
+            nascondi();
+          },
+          { passive: true }
+        );
+        // Il cerchio sparisce quando il puntatore esce dalla finestra o si cambia pagina.
+        document.documentElement.addEventListener('mouseleave', nascondi);
+        window.addEventListener('blur', nascondi);
+        window.addEventListener('pagehide', nascondi);
       })();
     </script>
   </body>

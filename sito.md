@@ -62,7 +62,7 @@ Comandi principali:
 
 Queste regole spiegano il perché di molte scelte. Se una modifica le viola, probabilmente sta rompendo il progetto.
 
-1. **Solo dati veri.** Niente clienti, recensioni, numeri, classifiche, premi o credenziali inventate. L'unico lavoro pubblicato è Pikete Label. I mockup della home sono esempi dichiarati, non clienti.
+1. **Solo dati veri.** Niente clienti, recensioni, numeri, classifiche, premi o credenziali inventate. I mockup della home sono esempi dichiarati, non clienti.
 2. **Una voce, un prezzo.** Il catalogo commerciale sta in `src/data/prezzi.ts`; le voci su misura per tipo di attività stanno in `src/data/configuratore.ts`. Si uniscono in `src/lib/catalogo.ts`. Non duplicare prezzi in altri file dati.
 3. **Contatti mai in chiaro nell'HTML.** Numero WhatsApp ed email sono frammenti in `src/data/contatti.ts`. Vengono assemblati a runtime da `ContattiDinamici.astro` e dal configuratore. Non scrivere `mailto:`, `tel:` o `wa.me/` con valori reali nel markup.
 4. **Script di base inline.** Menu, reveal, contatti e torna-su sono `<script is:inline>` con JS puro. Non convertirli in script processati da Astro: creerebbero chunk esterni e catene di caricamento sulle pagine normali.
@@ -88,7 +88,7 @@ TreblaStudio/
   astro.config.mjs              Config Astro: site, output static, CSS inline, sharp
   tsconfig.json                 TypeScript strictest + tipi Astro
   .env.example                  Esempio PUBLIC_SITE_URL
-  .gitignore                    Esclude dist, node_modules, .astro, .wrangler, piketelabel/
+  .gitignore                    Esclude dist, node_modules, .astro, .wrangler
   README.md                     Avvio rapido e struttura, secondario
   comecreare.md                 Playbook storico del design system, secondario
   sito.md                       Questo manuale operativo
@@ -100,7 +100,6 @@ TreblaStudio/
     og-trebla.jpg               Immagine Open Graph 1200x630
     site.webmanifest            Manifest PWA
     trebla-logo.webp            Logo header, 200x113
-    trebla-logo-transparent.png Logo footer, 240x136
     llms.txt                    Descrizione del sito per agenti, URL assoluti hardcoded
 
   src/
@@ -154,7 +153,6 @@ Cartelle generate o fuori scope:
 - `.astro/`: tipi generati da Astro.
 - `node_modules/`: dipendenze.
 - `.wrangler/`: stato locale di Wrangler, ignorato da Git.
-- `piketelabel/`: cartella ignorata da Git, contiene solo un README di un kit separato. Non fa parte del sito.
 - `.opencode/`: skill e configurazione dell'agente.
 
 ### 3.1 Nomi vecchi e nuovi
@@ -533,14 +531,13 @@ File: `src/pages/chi-siamo/index.astro`.
 
 Titolo: `Chi siamo: Albert e Gabriel, studio web ad Asti | Trebla` (56).
 
-Description: `Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social. Un lavoro pubblicato: Pikete Label.` (126).
+Description: `Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social.` (90).
 
 Contenuto:
 
 - H1 `Due persone, un metodo chiaro`.
 - Albert: sviluppo e progetto.
 - Gabriel: design e social.
-- Sezione `#lavori` con Pikete Label, link esterno `https://piketelabel.vercel.app`.
 - Nessun numero, recensione o cliente inventato.
 
 ### 5.7 Contatti `/contatti`
@@ -709,7 +706,6 @@ Nessuna pagina normale deve avere altri script esterni. Se aggiungi JS, valuta s
 ### 6.4 `Piede.astro`
 
 - Footer `.piede`.
-- Logo `trebla-logo-transparent.png`, alt `Trebla`, `loading="lazy"`.
 - Anno e mese calcolati a build con `new Date()`.
 - Contatti: WhatsApp, telefono, email, "Asti, su appuntamento."
 - Link legali: Privacy, Cookie, Termini verso `/note-legali#...`.
@@ -1063,7 +1059,7 @@ Se aggiungi un'opzione a un passo esistente:
 | `/servizi` | Servizi: siti web, grafiche e social ad Asti \| Trebla | 53 | Sito web da 200€, grafiche coordinate e social media: tre servizi combinabili per la tua attività ad Asti. Parti da quello che ti serve. | 136 | index, follow |
 | `/prezzi` | Prezzi: siti web da 200€, senza canone \| Trebla | 47 | Pagina singola 200€, sito a più pagine 300€, offerta Tutto incluso 490€. Due revisioni incluse, nessun canone, il sito è tuo. | 125 | index, follow |
 | `/preventivo` | Preventivo sito web in 2 minuti \| Trebla | 40 | Configura il sito della tua attività e vedi subito la stima: tipo di attività, funzioni, pagine, foto e social. Senza impegno. | 126 | index, follow |
-| `/chi-siamo` | Chi siamo: Albert e Gabriel, studio web ad Asti \| Trebla | 56 | Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social. Un lavoro pubblicato: Pikete Label. | 126 | index, follow |
+| `/chi-siamo` | Chi siamo: Albert e Gabriel, studio web ad Asti \| Trebla | 56 | Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social. | 90 | index, follow |
 | `/contatti` | Contatti: WhatsApp, email e studio ad Asti \| Trebla | 51 | Scrivici su WhatsApp o via email. Ti risponde una persona, in genere entro la giornata. Studio ad Asti, su appuntamento. | 120 | index, follow |
 | `/faq` | Domande frequenti sui siti web \| Trebla | 39 | Quanto costa un sito, in quanto tempo è online, serve un canone, cosa serve per iniziare: risposte chiare alle domande più comuni. | 130 | index, follow |
 | `/note-legali` | Note legali \| Trebla | 20 | Assente | 0 | noindex, nofollow |
@@ -1280,7 +1276,6 @@ Non importare `@fontsource/.../index.css` o varianti: il build trascinerebbe anc
 | File | Dimensioni | Uso |
 |---|---|---|
 | `public/trebla-logo.webp` | 200x113 | Header, preload, `fetchpriority="high"` |
-| `public/trebla-logo-transparent.png` | 240x136 | Footer, lazy, invertito via CSS |
 | `public/og-trebla.jpg` | 1200x630 | Open Graph e Twitter |
 | `public/favicon.svg` | SVG | Favicon e manifest |
 
@@ -1408,14 +1403,13 @@ Dopo un deploy che tocca codice o contenuti:
 2. `/servizi`: tre articoli e ancore.
 3. `/prezzi`: 200, 300, 490, JSON-LD `Service`.
 4. `/preventivo`: flusso completo, `?offerta=1`, `?servizi=sito,grafiche,social`, invio WhatsApp/email, privacy.
-5. `/chi-siamo`: link Pikete Label.
-6. `/contatti`: link WhatsApp, email, telefono.
-7. `/faq`: tutte le domande, JSON-LD `FAQPage`.
-8. `/note-legali`: sezioni e noindex.
-9. `/404`: pagina personalizzata.
-10. `/robots.txt` e `/sitemap.xml`.
-11. Header di sicurezza e cache con `curl.exe -I`.
-12. Mobile: menu, tap target, configuratore.
+5. `/contatti`: link WhatsApp, email, telefono.
+6. `/faq`: tutte le domande, JSON-LD `FAQPage`.
+7. `/note-legali`: sezioni e noindex.
+8. `/404`: pagina personalizzata.
+9. `/robots.txt` e `/sitemap.xml`.
+10. Header di sicurezza e cache con `curl.exe -I`.
+11. Mobile: menu, tap target, configuratore.
 
 Comandi utili:
 
@@ -1569,7 +1563,6 @@ Segui la sezione 8.5. Ricorda che `PUBLIC_SITE_URL` è build-time e che `llms.tx
 23. **Il push su `main` deploya con GitHub Actions.** In locale usa `npm run deploy`.
 24. **Le preview Pages sono pubbliche.** La produzione è `treblastudio.pages.dev`.
 25. **Le pagine finiscono con lo slash.** Pages risponde 308 su `/servizi` e 200 su `/servizi/`. Canonical, sitemap e link interni devono usare `/servizi/`.
-26. **`piketelabel/` è ignorata.** Non fa parte del sito.
 
 ### 14.1 Incoerenze note nei contenuti
 

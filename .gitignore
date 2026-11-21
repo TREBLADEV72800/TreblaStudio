@@ -8,7 +8,5 @@ out
 SISTEMA.md
 SISTEMA.txt
 
-piketelabel/
-
 .env*
 !.env.example

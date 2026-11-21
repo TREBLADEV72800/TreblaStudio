@@ -1,56 +1,430 @@
 ---
+// Testata del sito. Sticky (mai fixed): in cima è trasparente; dopo 40px prende il fondo carta
+// con filetto; dopo 120px si nasconde scorrendo verso il basso e riappare scorrendo verso l'alto (A5).
+// Da 960px: nav centrale in link-roll e CTA a destra. Sotto: bottone Menu che apre il pannello (A7).
+// Lo script inline tiene aria-expanded, focus trap, Escape, blocco dello scroll e chiusura a 960px.
+import Bottone from './ui/Bottone.astro';
+
 const path = Astro.url.pathname;
 const active = (href: string) =>
   href === '/' ? (path === '/' ? 'page' : undefined) : path.startsWith(href) ? 'page' : undefined;
+
+// Stesse voci della nav del piede: se cambiano, cambiano in entrambi i componenti.
+const voci = [
+  { href: '/', testo: 'Home' },
+  { href: '/servizi/', testo: 'Servizi' },
+  { href: '/metodo/', testo: 'Metodo' },
+  { href: '/prezzi/', testo: 'Prezzi' },
+  { href: '/chi-siamo/', testo: 'Studio' },
+  { href: '/faq/', testo: 'FAQ' },
+  { href: '/contatti/', testo: 'Contatti' },
+];
 ---
 
-<header class="sopra" id="cima">
-  <div class="sopra-riga">
-    <a class="marchio" href="/" aria-label="Trebla: torna alla homepage">
-      <img src="/trebla-logo.webp" alt="Trebla, Studio web ad Asti" width="1360" height="768" fetchpriority="high" decoding="async" />
+<header class="intestazione" id="cima" data-vt="intestazione">
+  <div class="intestazione__riga contenitore">
+    <a class="intestazione__marchio" href="/" aria-label="Trebla: torna alla homepage">
+      <img src="/trebla-logo.webp" alt="Trebla, Studio web ad Asti" width="200" height="113" fetchpriority="high" decoding="async" />
     </a>
-    <nav class="nav" aria-label="Navigazione principale">
-      <a href="/" aria-current={active('/')}>Home</a>
-      <a href="/servizi/" aria-current={active('/servizi')}>Servizi</a>
-      <a href="/lavori/" aria-current={active('/lavori')}>Lavori</a>
-      <a href="/metodo/" aria-current={active('/metodo')}>Metodo</a>
-      <a href="/prezzi/" aria-current={active('/prezzi')}>Prezzi</a>
-      <a href="/chi-siamo/" aria-current={active('/chi-siamo')}>Studio</a>
-      <a href="/faq/" aria-current={active('/faq')}>FAQ</a>
-      <a href="/contatti/" aria-current={active('/contatti')}>Contatti</a>
+
+    <nav class="intestazione__nav" aria-label="Navigazione principale">
+      {
+        voci.map((v) => (
+          <a class="link-roll intestazione__link" href={v.href} aria-current={active(v.href)}>
+            <span class="link-roll__testo" data-testo={v.testo}>{v.testo}</span>
+          </a>
+        ))
+      }
     </nav>
-    <a class="btn btn-mattone btn-piccolo" href="/preventivo/">Preventivo in 2 minuti</a>
+
+    <div class="intestazione__cta">
+      <Bottone href="/preventivo/" testo="Preventivo in 2 minuti" />
+    </div>
+
     <button
       type="button"
-      class="menu-bottone"
+      class="intestazione__menu"
       id="menu-bottone"
       aria-expanded="false"
       aria-controls="menu-mobile"
       aria-label="Apri il menu"
     >
-      <span></span><span></span><span></span>
+      <span class="intestazione__menu-etichetta">
+        <span class="intestazione__menu-testo intestazione__menu-testo--chiuso">Menu</span>
+        <span class="intestazione__menu-testo intestazione__menu-testo--aperto">Chiudi</span>
+      </span>
+      <span class="intestazione__barre" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
-  <nav class="nav-mobile" id="menu-mobile" aria-label="Navigazione mobile">
-    <a href="/" aria-current={active('/')}>Home</a>
-    <a href="/servizi/" aria-current={active('/servizi')}>Servizi</a>
-      <a href="/lavori/" aria-current={active('/lavori')}>Lavori</a>
-      <a href="/metodo/" aria-current={active('/metodo')}>Metodo</a>
-    <a href="/prezzi/" aria-current={active('/prezzi')}>Prezzi</a>
-    <a href="/chi-siamo/" aria-current={active('/chi-siamo')}>Studio</a>
-    <a href="/faq/" aria-current={active('/faq')}>FAQ</a>
-    <a href="/contatti/" aria-current={active('/contatti')}>Contatti</a>
-    <a class="btn btn-mattone" href="/preventivo/">Preventivo in 2 minuti</a>
-  </nav>
 </header>
 
+<nav class="intestazione__pannello fascia-scura" id="menu-mobile" aria-label="Navigazione mobile" inert>
+  <ol class="intestazione__pannello-lista">
+    {
+      voci.map((v, i) => (
+        <li class="intestazione__pannello-voce" style={`--i:${i};--n:${voci.length}`}>
+          <a href={v.href} aria-current={active(v.href)}>
+            <span class="intestazione__indice" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="intestazione__maschera"><span class="intestazione__testo">{v.testo}</span></span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+  <div class="intestazione__pannello-cta">
+    <Bottone href="/preventivo/" testo="Preventivo in 2 minuti" />
+  </div>
+</nav>
+
+<style>
+  /* ---------- Contenitore sticky (A5) ---------- */
+  .intestazione {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    isolation: isolate;
+    block-size: var(--hh);
+    transition: transform 450ms var(--ease-out);
+  }
+
+  .intestazione.is-nascosta {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  /* Fondo carta con filetto: appare in opacity oltre 40px di scroll e con il menu aperto. */
+  .intestazione::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--carta);
+    border-block-end: 1px solid var(--inchiostro);
+    opacity: 0;
+    transition: opacity var(--t-2) var(--ease-std);
+  }
+
+  .intestazione.is-fondo::before {
+    opacity: 1;
+  }
+
+  /* Con il menu aperto il body è bloccato (position fixed): l'header esce dal flusso
+     e resta in cima, e il body compensa la sua altezza così il contenuto non salta. */
+  :global(body.menu-aperto) {
+    padding-block-start: var(--hh);
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  :global(body.menu-aperto) .intestazione {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+  }
+
+  .intestazione__riga {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    block-size: 100%;
+  }
+
+  /* ---------- Logo: resa alta 36px, proporzioni dal file reale 200x113 ---------- */
+  .intestazione__marchio {
+    justify-self: start;
+    display: inline-flex;
+    text-decoration: none;
+  }
+
+  .intestazione__marchio img {
+    block-size: 36px;
+    inline-size: auto;
+  }
+
+  /* ---------- Nav desktop (da 960px) ---------- */
+  .intestazione__nav {
+    display: none;
+  }
+
+  .intestazione__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    /* La riga alta 44px è anche il bersaglio del mouse; il roll si ferma al testo. */
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 44px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--inchiostro);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .intestazione__link[aria-current="page"]::before {
+    content: "";
+    flex: none;
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--mattone);
+  }
+
+  /* CTA: nascosta sotto 960px (c'è nel pannello). Il bottone è figlio di un altro componente,
+     quindi i suoi selettori passano da :global() dentro il wrapper scoped. */
+  .intestazione__cta {
+    display: none;
+  }
+
+  .intestazione__cta :global(.btn.btn--primario) {
+    min-block-size: 40px;
+    padding-inline: 16px 4px;
+    gap: 10px;
+  }
+
+  .intestazione__cta :global(.btn__icona) {
+    inline-size: 32px;
+    block-size: 32px;
+  }
+
+  /* ---------- Bottone Menu (sotto 960px) ---------- */
+  .intestazione__menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-block-size: 44px;
+    margin: 0;
+    padding: 0 0 0 12px;
+    border: 0;
+    background: none;
+    color: var(--inchiostro);
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Due etichette sovrapposte nella stessa cella: il testo cambia senza far saltare la larghezza. */
+  .intestazione__menu-etichetta {
+    display: grid;
+  }
+
+  .intestazione__menu-testo {
+    grid-area: 1 / 1;
+    transition: opacity var(--t-2) var(--ease-std), transform var(--t-2) var(--ease-std);
+  }
+
+  .intestazione__menu-testo--aperto {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+
+  .intestazione__menu[aria-expanded="true"] .intestazione__menu-testo--chiuso {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+
+  .intestazione__menu[aria-expanded="true"] .intestazione__menu-testo--aperto {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Icona: due linee da 2px che diventano una X con transform. */
+  .intestazione__barre {
+    position: relative;
+    display: block;
+    flex: none;
+    inline-size: 22px;
+    block-size: 14px;
+  }
+
+  .intestazione__barre span {
+    position: absolute;
+    inset-inline: 0;
+    block-size: 2px;
+    background: currentColor;
+    transition: transform var(--t-2) var(--ease-in-out);
+  }
+
+  .intestazione__barre span:first-child {
+    inset-block-start: 0;
+  }
+
+  .intestazione__barre span:last-child {
+    inset-block-end: 0;
+  }
+
+  .intestazione__menu[aria-expanded="true"] .intestazione__barre span:first-child {
+    transform: translate3d(0, 6px, 0) rotate(45deg);
+  }
+
+  .intestazione__menu[aria-expanded="true"] .intestazione__barre span:last-child {
+    transform: translate3d(0, -6px, 0) rotate(-45deg);
+  }
+
+  @media (min-width: 960px) {
+    .intestazione__riga {
+      grid-template-columns: 1fr auto 1fr;
+    }
+
+    .intestazione__nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 1.2vw, 26px);
+    }
+
+    .intestazione__cta {
+      display: flex;
+      justify-self: end;
+    }
+
+    .intestazione__cta :global(.btn.btn--primario) {
+      font: 500 12px / 1 var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+
+    .intestazione__menu {
+      display: none;
+    }
+  }
+
+  /* ---------- Pannello mobile a schermo intero (A7) ----------
+     Sta sotto l'header e scende da dietro di lui. visibility + transform, non display,
+     così l'animazione funziona; inert quando è chiuso. */
+  .intestazione__pannello {
+    position: fixed;
+    inset-inline: 0;
+    inset-block: var(--hh) 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    padding: var(--s-5) var(--pad) calc(var(--s-7) + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translate3d(0, -100%, 0);
+    visibility: hidden;
+    transition: transform 500ms var(--ease-in-out), visibility 0s linear 500ms;
+  }
+
+  .intestazione__pannello.is-aperto {
+    transform: none;
+    visibility: visible;
+    transition: transform 700ms var(--ease-in-out), visibility 0s;
+  }
+
+  .intestazione__pannello-lista {
+    flex: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .intestazione__pannello-voce {
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .intestazione__pannello-voce a {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    padding-block: 10px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .intestazione__indice {
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--morbido-scuro);
+  }
+
+  /* Maschera: la voce sale da sotto il proprio bordo. */
+  .intestazione__maschera {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.08em;
+    margin-block: -0.08em;
+  }
+
+  .intestazione__testo {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(40px, 11vw, 64px);
+    font-stretch: 64%;
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    transform: translate3d(0, 100%, 0);
+    /* Chiusura: le voci scendono in ordine inverso, in circa 500ms. */
+    transition: transform 300ms var(--ease-in-out) calc((var(--n) - 1 - var(--i)) * 25ms);
+  }
+
+  /* Apertura: stagger di 60ms dopo 200ms. */
+  .intestazione__pannello.is-aperto .intestazione__testo {
+    transform: none;
+    transition: transform 600ms var(--ease-out) calc(200ms + var(--i) * 60ms);
+  }
+
+  .intestazione__pannello-voce a[aria-current="page"] .intestazione__testo {
+    color: var(--mattone);
+  }
+
+  @media (hover: hover) {
+    .intestazione__pannello-voce a:hover .intestazione__testo {
+      color: var(--mattone);
+    }
+  }
+
+  .intestazione__pannello-cta {
+    margin-block-start: auto;
+    padding-block-start: var(--s-6);
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+    transition: opacity 300ms var(--ease-std), transform 300ms var(--ease-std);
+  }
+
+  .intestazione__pannello.is-aperto .intestazione__pannello-cta {
+    opacity: 1;
+    transform: none;
+    transition: opacity 600ms var(--ease-out) 560ms, transform 600ms var(--ease-out) 560ms;
+  }
+
+  .intestazione__pannello-cta :global(.btn.btn--primario) {
+    display: flex;
+    inline-size: 100%;
+  }
+
+  @media (min-width: 960px) {
+    .intestazione__pannello {
+      display: none;
+    }
+  }
+</style>
+
 <script is:inline>
-  // Menu mobile. is:inline: JS puro, niente chunk nel grafo di caricamento.
+  // Header e menu mobile. is:inline: JS puro, niente chunk nel grafo di caricamento.
   (function () {
+    const header = document.getElementById('cima');
     const btn = document.getElementById('menu-bottone');
-    const menu = document.getElementById('menu-mobile');
+    const pannello = document.getElementById('menu-mobile');
+    if (!header || !btn || !pannello) return;
+
+    const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)');
     let aperto = false;
     let scrollY = 0;
+    let ultimo = window.scrollY || 0;
+    let inAttesa = false;
 
     function bloccaScroll(v) {
       // Blocco vero: su iOS `overflow:hidden` da solo non basta,
@@ -65,7 +439,7 @@ const active = (href: string) =>
         document.body.style.right = '0';
         document.body.style.width = '100%';
         document.documentElement.style.overflow = 'hidden';
-        if (menu) menu.scrollTop = 0;
+        pannello.scrollTop = 0;
       } else {
         document.body.classList.remove('menu-aperto');
         document.body.style.position = '';
@@ -74,28 +448,78 @@ const active = (href: string) =>
         document.body.style.right = '';
         document.body.style.width = '';
         document.documentElement.style.overflow = '';
-        window.scrollTo(0, scrollY);
+        window.scrollTo({ top: scrollY, behavior: 'instant' });
+        ultimo = scrollY;
       }
+    }
+
+    // Con il menu aperto il resto della pagina è inert: main, footer, salto al contenuto e l'header
+    // tranne il bottone (logo, CTA). Si segnano i fratelli di ogni antenato del bottone, pannello escluso.
+    let isolati = [];
+    function isolaSfondo(v) {
+      if (!v) {
+        isolati.forEach(function (n) { n.inert = false; });
+        isolati = [];
+        return;
+      }
+      const tenuti = [pannello, btn];
+      for (let n = btn; n && n !== document.body; n = n.parentElement) tenuti.push(n);
+      isolati = [];
+      for (let p = btn.parentElement; p && p !== document.documentElement; p = p.parentElement) {
+        Array.prototype.forEach.call(p.children, function (c) {
+          if (tenuti.indexOf(c) === -1) isolati.push(c);
+        });
+      }
+      isolati.forEach(function (n) { n.inert = true; });
     }
 
     function imposta(v) {
       aperto = v;
-      btn?.setAttribute('aria-expanded', String(v));
-      btn?.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
-      menu?.classList.toggle('aperto', v);
+      btn.setAttribute('aria-expanded', String(v));
+      btn.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
+      pannello.classList.toggle('is-aperto', v);
+      pannello.inert = !v;
+      isolaSfondo(v);
       bloccaScroll(v);
-      if (v) menu?.querySelector('a')?.focus();
+      if (v) {
+        header.classList.remove('is-nascosta');
+        pannello.querySelector('a')?.focus();
+      }
+      aggiorna();
     }
 
-    btn?.addEventListener('click', () => imposta(!aperto));
-    menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => imposta(false)));
+    // Unica strada di chiusura: bottone, Esc, clic su una voce e passaggio a desktop.
+    function chiudi() {
+      imposta(false);
+    }
+
+    // Fondo dopo 40px; nascondi scorrendo giù oltre 120px, riappari scorrendo su.
+    // Con il menu aperto, con il focus nell'header o con reduced motion l'header resta visibile.
+    function aggiorna() {
+      inAttesa = false;
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const delta = y - ultimo;
+      ultimo = y;
+      header.classList.toggle('is-fondo', aperto || y > 40);
+      const mostra =
+        ridotto.matches || aperto || y <= 120 || header.contains(document.activeElement) || delta < -2;
+      if (mostra) header.classList.remove('is-nascosta');
+      else if (delta > 2) header.classList.add('is-nascosta');
+    }
+
+    btn.addEventListener('click', () => (aperto ? chiudi() : imposta(true)));
+    pannello.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => chiudi()));
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && aperto) {
-        imposta(false);
-        btn?.focus();
+        chiudi();
+        // Stessa chiusura del bottone. Il focus senza scroll: base.css ha scroll-behavior smooth
+        // e il focus() riportava la pagina verso l'alto (66px invece di 500).
+        btn.focus({ preventScroll: true });
       }
-      if (e.key === 'Tab' && aperto && menu) {
-        const voci = [btn, ...Array.from(menu.querySelectorAll('a'))].filter(Boolean);
+      if (e.key === 'Tab' && aperto) {
+        // Focus trap: il tab resta tra il bottone Chiudi e le voci del pannello.
+        const voci = [btn, ...Array.from(pannello.querySelectorAll('a'))];
         const prima = voci[0];
         const ultima = voci[voci.length - 1];
         if (!prima || !ultima) return;
@@ -103,8 +527,21 @@ const active = (href: string) =>
         else if (!e.shiftKey && document.activeElement === ultima) { e.preventDefault(); prima.focus(); }
       }
     });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 960 && aperto) imposta(false);
+
+    window.addEventListener('scroll', () => {
+      if (inAttesa) return;
+      inAttesa = true;
+      requestAnimationFrame(aggiorna);
+    }, { passive: true });
+
+    document.addEventListener('focusin', () => {
+      if (header.contains(document.activeElement)) header.classList.remove('is-nascosta');
     });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 960 && aperto) chiudi();
+    });
+
+    aggiorna();
   })();
 </script>

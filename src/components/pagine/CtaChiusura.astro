@@ -1,0 +1,82 @@
+---
+// Chiusura compatta delle pagine interne, su fascia grafite: etichetta mono, titolo display (--fs-h2-s),
+// testo e bottoni nello slot. Il secondo tono del titolo è morbido: niente accento, che resta sul bottone.
+import TitoloRivelato from '../ui/TitoloRivelato.astro';
+
+interface Props {
+  id: string;
+  etichetta: string;
+  titolo: string;
+  tenue?: string | undefined;
+  testo: string;
+}
+
+const { id, etichetta, titolo, tenue, testo } = Astro.props;
+---
+
+<section class="fascia-grafite chiusura" aria-labelledby={id}>
+  <div class="contenitore chiusura__griglia">
+    <div class="chiusura__testo">
+      <p class="etichetta" data-reveal>
+        <span class="puntino puntino--mattone" aria-hidden="true"></span>
+        {etichetta}
+      </p>
+      <TitoloRivelato tag="h2" id={id} testo={titolo} tenue={tenue} taglia="h2-s" classe="chiusura__titolo" />
+      <p class="chiusura__testo-lead" data-reveal>{testo}</p>
+    </div>
+    <div class="chiusura__azioni" data-reveal>
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .chiusura {
+    padding-block: clamp(56px, 7vw, 104px);
+  }
+
+  .chiusura__griglia {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  .chiusura__testo {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+
+  .chiusura__testo-lead {
+    max-inline-size: 44ch;
+    margin: 0;
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .chiusura__azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  :global(.titolo-rivelato.chiusura__titolo) {
+    max-inline-size: none;
+  }
+
+  @media (min-width: 960px) {
+    .chiusura__griglia {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: end;
+      column-gap: var(--gap);
+    }
+
+    .chiusura__testo {
+      grid-column: 1 / span 8;
+    }
+
+    .chiusura__azioni {
+      grid-column: 9 / span 4;
+      justify-content: flex-end;
+    }
+  }
+</style>

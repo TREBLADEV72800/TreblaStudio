@@ -1,13 +1,291 @@
-/* Configuratore: schermo intero, passo un passo.
-   Vive in un file suo: lo carica solo la pagina del preventivo,
-   così le altre 8 pagine non ne pagano il peso.
-   Token condivisi in variabili.css, base in stili-globali.css. */
+/* ============================================================
+   CONFIGURATORE DEL PREVENTIVO (/preventivo/): schermo intero, un passo alla volta.
+   Lo carica solo questa pagina. Token in tokens.css, base in base.css.
 
-/* ---------- Pagina bloccata: nessuno scroll della pagina, tutto nello schermo ---------- */
+   Il markup dei passi lo genera lo script (configuratore-preventivo.ts):
+   classi e id usati qui sono un contratto con lo script, non si rinominano.
+   Per battere le regole di pari specificità si usano :has(), attributi
+   e l'ordine di caricamento. Animazioni solo su transform e opacity.
+   Niente ombre, gradienti, raggi (tranne le pillole dei bottoni) e corsivo.
+   ============================================================ */
+
+.involucro {
+  inline-size: min(1160px, 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+/* ---------- Bottoni creati dallo script (btn + btn-mattone | btn-wa | btn-fantasma) ----------
+   Non usano le varianti .btn--* dei bottoni del sito: l'aspetto sta tutto qui. */
+.btn.btn-mattone,
+.btn.btn-wa,
+.btn.btn-fantasma {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-block-size: 54px;
+  padding: 14px 28px;
+  border-radius: 0;
+  font: 700 0.98rem / 1.2 var(--font-testo);
+  letter-spacing: 0.015em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--t-1) var(--ease-std), color var(--t-1) var(--ease-std), transform 0.12s ease;
+}
+
+.btn.btn-mattone:active,
+.btn.btn-wa:active,
+.btn.btn-fantasma:active {
+  transform: scale(0.98);
+}
+
+.btn-mattone {
+  background: var(--mattone);
+  color: #fff8ef;
+}
+
+.btn-mattone:hover {
+  background: var(--mattone-testo);
+}
+
+.btn-fantasma {
+  border-color: var(--inchiostro);
+  color: var(--inchiostro);
+  background: transparent;
+}
+
+.btn-fantasma:hover {
+  background: var(--inchiostro);
+  color: var(--carta);
+}
+
+.btn-wa {
+  background: var(--verde);
+  color: #fff;
+}
+
+.btn-wa:hover {
+  background: var(--inchiostro);
+}
+
+
+.link-freccia {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--mattone);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  position: relative;
+}
+/* Area di tap piu' generosa: il pseudo-elemento esce dal testo e basta.
+   Non sposta niente nel layout, rende solo il link premibile col dito. */
+.link-freccia::after {
+  content: '';
+  position: absolute;
+  inset: -6px -4px;
+}
+.link-freccia:hover { color: var(--mattone-testo); }
+
+/* ---------- Wizard: struttura, opzioni, riepilogo, invio ---------- */
+.wizard {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-block: clamp(20px, 3vw, 32px) clamp(32px, 4vw, 56px);
+}
+.wizard-corpo { flex: 1 1 auto; }
+.wizard-barra { block-size: 3px; background: var(--carta-2); border-radius: 99px; margin-block-start: 14px; overflow: hidden; }
+.wizard-riempimento { block-size: 100%; inline-size: 10%; background: var(--mattone); border-radius: 99px; transition: inline-size 0.25s ease; }
+.wizard-domanda {
+  font: 600 clamp(1.7rem, 4.4vw, 2.9rem)/1.05 var(--font-testo);
+  letter-spacing: -0.015em;
+  margin: clamp(18px, 3vw, 32px) 0 8px;
+  max-inline-size: 20ch;
+}
+/* Il titolo riceve il focus per annunciare il passo: niente riquadro,
+   che sembrerebbe un errore di layout. */
+.wizard-domanda:focus { outline: none; }
+.wizard-sotto { color: var(--morbido); margin: 0 0 8px; max-inline-size: 56ch; }
+.wizard-corpo { padding-block-end: 130px; }
+.wizard-opzioni { list-style: none; margin: 12px 0 0; padding: 0; border-block-end: 1px solid var(--inchiostro); }
+.wizard-opzioni li { border-block-start: 1px solid var(--inchiostro); }
+.opzione {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  inline-size: 100%;
+  background: transparent;
+  border: 0;
+  padding: 17px 6px;
+  font: 600 1.02rem/1.4 var(--font-testo);
+  color: var(--inchiostro);
+  text-align: start;
+  cursor: pointer;
+  min-block-size: 58px;
+}
+.opzione:hover { background: var(--carta-2); }
+.opzione .segno {
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: 30px; block-size: 30px;
+  border: 1.5px solid var(--inchiostro);
+  border-radius: 7px;
+  font: 400 1rem/1 var(--font-mono);
+  background: var(--carta);
+}
+.opzione[aria-pressed="true"] { color: var(--mattone-testo); }
+.opzione[aria-pressed="true"] .segno {
+  background: var(--mattone);
+  border-color: var(--mattone);
+  color: #fff;
+}
+.opzione-testo { flex: 1 1 auto; min-inline-size: 0; }
+.opzione-testo small { display: block; font-weight: 400; color: var(--morbido); font-size: 0.86rem; }
+.opzione-prezzo { flex: none; font: 700 0.85rem var(--font-mono); color: var(--mattone); white-space: nowrap; }
+/* Stato degli input creati via JS nel configuratore: selettori senza scope */
+.sr-solo {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.wizard .opzione { position: relative; border-radius: 6px; }
+.wizard .opzione input { position: absolute; opacity: 0; pointer-events: none; }
+.wizard .opzione:has(input:checked) { background: var(--carta-2); color: var(--mattone-testo); }
+.wizard .opzione:has(input:checked) .segno { background: var(--mattone); border-color: var(--mattone); color: #fff; }
+.wizard .opzione:has(input:focus-visible) { outline: 2px solid var(--mattone); outline-offset: 2px; }
+.wizard fieldset { min-inline-size: 0; }
+.wizard-campo {
+  display: block;
+  inline-size: 100%;
+  border: 0;
+  border-block-end: 2px solid var(--inchiostro);
+  background: transparent;
+  border-radius: 0;
+  padding: 14px 2px;
+  font: 400 1.15rem var(--font-testo);
+  color: var(--inchiostro);
+  margin-block-start: 18px;
+}
+/* Il campo è già una riga: il focus resta una riga, senza il riquadro
+   che sembrava tre linee orizzontali sopra e sotto il testo. */
+.wizard-campo:focus-visible { outline: none; background: var(--carta-2); }
+.wizard-campo:focus { border-color: var(--mattone); }
+.wizard-campo::placeholder { color: var(--morbido); }
+.wizard-errore { color: var(--mattone-testo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
+.wizard-barra-fissa {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 90;
+  background: rgba(247, 242, 232, 0.97);
+  border-block-start: 1px solid var(--inchiostro);
+  padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom));
+}
+.wizard-barra-interna {
+  inline-size: min(1160px, 100%);
+  max-inline-size: 920px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wizard-indietro {
+  background: transparent;
+  border: 1px solid var(--linea-scura);
+  border-radius: 0;
+  min-block-size: 52px;
+  padding: 12px 20px;
+  font: 700 0.95rem var(--font-testo);
+  cursor: pointer;
+  color: var(--inchiostro);
+}
+.wizard-indietro:hover { border-color: var(--inchiostro); }
+.wizard-avanti { flex: 1 1 auto; min-inline-size: 0; }
+/* Niente zoom da doppio tocco sui tasti del configuratore */
+.wizard-indietro, .wizard-avanti, .opzione { touch-action: manipulation; }
+.wizard-riepilogo { border-block-start: 1px solid var(--inchiostro); margin-block-start: 18px; }
+.wizard-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  padding: 12px 0;
+  border-block-end: 1px solid var(--linea);
+  font-size: 0.97rem;
+}
+.wizard-riga dt { flex: none; font: 700 0.75rem/1.5 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--morbido); }
+.wizard-riga dd { margin: 0; text-align: end; font-weight: 600; overflow-wrap: anywhere; }
+.wizard-totale-finale {
+  background: var(--inchiostro);
+  color: var(--carta);
+  border-radius: 0;
+  padding: clamp(24px, 4vw, 36px);
+  margin-block-start: 24px;
+}
+.wizard-totale-finale .k { font: 700 0.75rem var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--morbido-scuro); margin: 0; }
+.wizard-totale-finale .v { font: 600 clamp(2.4rem, 6vw, 3.4rem)/1 var(--font-testo); margin: 10px 0 6px; }
+.wizard-totale-finale .d { color: var(--morbido-scuro); font-size: 0.92rem; line-height: 1.45; margin: 0 0 8px; }
+.wizard-totale-finale .btn { display: flex; width: 100%; margin-top: 12px; }
+@media (min-width: 700px) {
+  .wizard-totale-finale .btn { display: inline-flex; width: auto; }
+  #w-invia-mail { margin-left: 12px; }
+}
+.wizard-totale-finale .btn-fantasma { border-color: var(--morbido-scuro); color: var(--carta); background: transparent; }
+.privacy-riga { display: flex; gap: 12px; align-items: flex-start; margin-block-start: 20px; font-size: 0.92rem; cursor: pointer; }
+.privacy-riga input { inline-size: 24px; block-size: 24px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
+
+/* Sulle superfici scure del configuratore il focus è il mattone. */
+.wizard-totale-finale,
+.wizard-barra-fissa {
+  --focus: var(--mattone);
+}
+
+
+@media print {
+  .wizard-barra-fissa {
+    display: none !important;
+  }
+}
+
+
+/* ---------- Pagina bloccata: niente scroll della pagina ---------- */
 html.cfg-lock,
 html.cfg-lock body { height: 100%; }
 html.cfg-lock body { overflow: hidden; }
 
+/* Lo script nasconde con l'attributo hidden: nessuna regola di display lo riapre. */
+html.cfg-lock [hidden] { display: none !important; }
+
+/* ---------- Senza JavaScript (html senza classe "js", vedi MetaDocumento): niente controlli che non fanno nulla.
+   La barra nasconde anche la percentuale, che è il suo ::after. Resta il messaggio con i link. ---------- */
+html:not(.js) .wizard-barra,
+html:not(.js) .wizard-barra-fissa,
+html:not(.js) .wizard-avanti,
+html:not(.js) .wizard-indietro { display: none; }
+
+.wizard-noscript {
+  max-inline-size: 36ch;
+  margin: 18px 0 0;
+  font: 400 1.15rem / 1.45 var(--font-testo);
+  color: var(--inchiostro);
+}
+
+.wizard-noscript a {
+  color: var(--inchiostro);
+  text-decoration: underline;
+  text-decoration-color: var(--mattone-testo);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+/* ---------- Schermo: testata, barra, domanda, corpo scorrevole ---------- */
 .cfg-schermo {
   min-height: 100vh;
   min-height: 100svh;
@@ -17,168 +295,853 @@ html.cfg-lock body { overflow: hidden; }
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-block-start: clamp(14px, 3vw, 26px);
-  /* Spazio per la barra fissa: senza, l'ultima riga resta sotto la barra.
-     L'altezza reale la misura lo script (--wizard-barra). */
-  padding-block-end: var(--wizard-barra, 79px);
+  padding-block-start: clamp(14px, 3vh, 28px);
+  /* Spazio per la barra fissa: l'altezza reale la misura lo script (--wizard-barra). */
+  padding-block-end: var(--wizard-barra, 84px);
 }
+
 .cfg-schermo .wizard-corpo {
   flex: 1 1 auto;
-  min-height: 0;
+  min-block-size: 0;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  /* Lo spazio per la barra lo riserva già .cfg-schermo: qui non serve doppio. */
-  padding-block-end: 8px;
-}
-/* Righe compatte: tutto deve stare nello schermo, senza scorrere */
-.cfg-schermo .opzione { min-block-size: 52px; padding: 11px 6px; }
-.cfg-schermo .wizard-riga { padding: 8px 0; }
-.cfg-schermo .wizard-totale-finale { padding: 12px 16px; margin-block-start: 0; }
-.cfg-schermo .wizard-barra { margin-block-start: 2px; }
-.cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.8rem + 2px)); margin: 6px 0 4px; }
-.cfg-schermo .wizard-totale-finale .d { margin: 0 0 4px; font-size: calc(0.88rem - 1px); line-height: 1.4; }
-.cfg-schermo .wizard-totale-finale .btn { min-block-size: 50px; }
-.cfg-schermo .privacy-riga { margin-block-start: 12px; font-size: 0.88rem; }
-
-/* Scelte grosse nelle prime domande: più spazio per toccare */
-body[data-passo="categoria"] .cfg-schermo .opzione,
-body[data-passo="tipo"] .cfg-schermo .opzione,
-body[data-passo="servizi"] .cfg-schermo .opzione { min-block-size: 64px; padding: 14px 6px; font-size: 1.1rem; }
-
-/* Domanda materiali: su schermo largo sta su una riga, su telefono va a capo
-   senza sbordare. Il vecchio nowrap tagliava la domanda sotto i 390px. */
-body[data-passo="grafiche-materiali"] .wizard-domanda {
-  font-size: clamp(1.05rem, 4.5vw, 1.8rem);
-  max-inline-size: none;
-  text-wrap: balance;
+  padding-block: 0 12px;
 }
 
-/* Su telefono la barra ha tre tasti: Home diventa solo icona (ha già
-   l'etichetta accessibile), Indietro prende la riga e Avanti va sotto a tutta
-   larghezza. Così nessuna parola si spezza una lettera per riga. */
-@media (max-width: 479px) {
-  .wizard-barra-interna { gap: 10px; }
-  .wizard-casa { inline-size: 52px; padding-inline: 0; }
-  .wizard-casa span { display: none; }
-  .wizard-casa svg { inline-size: 20px; block-size: 20px; }
-  .wizard-barra-interna:has(.wizard-indietro:not([hidden])) { flex-wrap: wrap; }
-  .wizard-barra-interna:has(.wizard-indietro:not([hidden])) .wizard-indietro { flex: 1 1 auto; }
-  .wizard-barra-interna:has(.wizard-indietro:not([hidden])) .wizard-avanti { flex: 1 1 100%; order: 3; }
-}
-
-/* Ultimo passo: la riga di invio resta intera su PC e senza padding in fondo */
-@media (min-width: 900px) {
-  body[data-passo="invia"] .wizard-sotto { max-inline-size: none; }
-}
 body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
 
-/* Schermi bassi in verticale: domanda e righe ancora più compatte */
-@media (max-height: 740px) {
-  .cfg-schermo .wizard-domanda { font-size: clamp(1.4rem, 4vh, 1.9rem); margin-block: 18px 4px; }
-  .cfg-schermo .wizard-sotto { margin: 0 0 6px; font-size: 0.95rem; }
-  .cfg-schermo .opzione { min-block-size: 48px; padding: 9px 6px; font-size: 0.95rem; }
-  .cfg-schermo .wizard-totale-finale .v { font-size: clamp(calc(2rem + 2px), 7vh, calc(2.6rem + 2px)); }
-}
-
-/* Telefono in orizzontale: ogni pixel in altezza conta, il contenuto scorre. */
-@media (max-height: 500px) and (orientation: landscape) and (max-width: 959px) {
-  .cfg-schermo { padding-block-start: 8px; }
-  .cfg-schermo .wizard-domanda { font-size: clamp(1.15rem, 5vh, 1.55rem); margin-block: 8px 2px; max-inline-size: none; }
-  .cfg-schermo .wizard-sotto { font-size: 0.85rem; margin-block-end: 2px; }
-  .cfg-schermo .opzione { min-block-size: 44px; padding: 7px 6px; }
-  .cfg-schermo .wizard-corpo { padding-block-end: 0; }
-}
-
-/* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera */
+/* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera. */
 @media (hover: hover) and (pointer: fine) {
   .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
   .cfg-schermo .wizard-corpo::-webkit-scrollbar { display: none; }
 }
 
-/* ---------- Scegli i social: loghi toccabili ---------- */
-.canali-riga { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0 0; }
-.canale {
+/* ---------- Testata: Home come link mono con freccia ---------- */
+.wizard-testa {
+  flex: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-block-size: 58px;
-  min-inline-size: 0;
-  padding: 12px 8px;
-  background: transparent;
-  border: 1.5px solid var(--inchiostro);
-  border-radius: 6px;
-  color: var(--inchiostro);
-  font: 600 1.02rem/1.2 var(--sans);
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.canale:hover { background: var(--carta-2); }
-.canale svg { flex: none; inline-size: 30px; block-size: 30px; }
-.canale span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.canale[aria-pressed="true"] { background: var(--carta-2); border-color: var(--mattone); box-shadow: inset 0 0 0 1px var(--mattone); color: var(--mattone-fondo); }
-.canale:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
-@media (max-width: 480px) {
-  .canale { gap: 6px; padding: 10px 6px; font-size: 0.85rem; }
-  .canale svg { inline-size: 24px; block-size: 24px; }
-}
-/* Sotto i 400px tre colonne taglierebbero Instagram e Facebook: due righe
-   comode, con l'ultimo canale a tutta larghezza. */
-@media (max-width: 400px) {
-  .canali-riga { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .canale:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  justify-content: space-between;
+  min-block-size: 40px;
 }
 
-/* ---------- Contatore dei video ---------- */
-.video-qta {
-  display: flex;
+.wizard-casa {
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
+  font: 500 var(--fs-label) / 1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--inchiostro);
+  text-decoration: none;
+}
+
+.wizard-casa-freccia {
+  flex: none;
+  display: block;
+  inline-size: 14px;
+  block-size: 14px;
+  transition: transform var(--t-2) var(--ease-expo);
+}
+
+@media (hover: hover) {
+  .wizard-casa:hover .wizard-casa-freccia { transform: translate3d(-4px, 0, 0); }
+}
+
+/* ---------- Avanzamento: 2px mattone, scaleX, percentuale in mono sopra a destra ---------- */
+.wizard-barra {
+  position: relative;
+  flex: none;
+  block-size: 2px;
+  margin: 0;
+  border-radius: 0;
+  background: var(--linea);
+  overflow: visible;
+}
+
+.wizard-riempimento {
+  block-size: 100%;
   inline-size: 100%;
-  padding: 17px 6px;
-  min-block-size: 58px;
-  font: 600 1.02rem/1.4 var(--sans);
+  border-radius: 0;
+  background: var(--mattone);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--t-3) var(--ease-out);
+  will-change: transform;
+}
+
+/* Il numero legge aria-valuenow, che lo script già aggiorna a ogni passo: nessun JS in più. */
+.wizard-barra::after {
+  content: attr(aria-valuenow) "%";
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-end: 10px;
+  font: 500 var(--fs-label) / 1 var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--morbido);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Domanda e testo d'aiuto ---------- */
+.wizard-domanda {
+  font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
+  font-stretch: 64%;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--inchiostro);
+  max-inline-size: 16ch;
+  margin: clamp(20px, 5vh, 48px) 0 clamp(12px, 2.4vh, 20px);
+  text-wrap: balance;
+}
+
+/* Il titolo riceve il focus per annunciare il passo: niente riquadro. */
+.wizard-domanda:focus { outline: none; }
+
+.wizard-sotto {
+  max-inline-size: 52ch;
+  margin: 0 0 clamp(16px, 3vh, 28px);
+  font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+  color: var(--morbido);
+}
+
+/* Errore: mono in tinta piccola, con un puntino mattone. */
+.wizard-errore:not([hidden]) {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+  font: 500 var(--fs-small) / 1.4 var(--font-mono);
+  color: var(--mattone-testo);
+}
+
+.wizard-errore::before {
+  content: "";
+  flex: none;
+  inline-size: 8px;
+  block-size: 8px;
+  margin-block-start: 0.42em;
+  border-radius: 50%;
+  background: var(--mattone);
+}
+
+/* ---------- Ingresso dei passi: i figli di #w-corpo salgono di 16px ----------
+   Lo script ricrea il corpo a ogni passo, quindi l'animazione riparte da sola. */
+@keyframes cfg-entra {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cfg-schermo .wizard-corpo > * {
+  animation: cfg-entra var(--t-3) var(--ease-out) both;
+}
+
+/* ---------- Opzioni: righe con filetti; tessere da 640px sulle scelte brevi ---------- */
+.cfg-schermo .wizard-opzioni {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 0;
+  border-block-start: 1px solid var(--linea);
+}
+
+.cfg-schermo .wizard-opzioni > li {
+  min-inline-size: 0;
+  border: 0;
+  border-block-end: 1px solid var(--linea);
+}
+
+/* L'elenco "Altro" sta sotto quello dei tipi: il filetto di chiusura sopra basta, non se ne aggiunge un secondo. */
+.cfg-schermo .wizard-opzioni[aria-label="Altro tipo"] {
+  border-block-start: 0;
+}
+
+@media (min-width: 640px) {
+  body[data-passo="categoria"] .cfg-schermo .wizard-opzioni:not([aria-label="Altro tipo"]),
+  body[data-passo="tipo"] .cfg-schermo .wizard-opzioni:not([aria-label="Altro tipo"]),
+  body[data-passo="funzioni"] .cfg-schermo .wizard-opzioni,
+  body[data-passo="funzioni-extra"] .cfg-schermo .wizard-opzioni,
+  body[data-passo="pagine"] .cfg-schermo .wizard-opzioni,
+  body[data-passo="grafiche-materiali"] .cfg-schermo .wizard-opzioni,
+  body[data-passo="obiettivi-tempi"] .cfg-schermo .wizard-opzioni {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    border: 0;
+  }
+
+  body[data-passo="categoria"] .cfg-schermo .wizard-opzioni:not([aria-label="Altro tipo"]) > li,
+  body[data-passo="tipo"] .cfg-schermo .wizard-opzioni:not([aria-label="Altro tipo"]) > li,
+  body[data-passo="funzioni"] .cfg-schermo .wizard-opzioni > li,
+  body[data-passo="funzioni-extra"] .cfg-schermo .wizard-opzioni > li,
+  body[data-passo="pagine"] .cfg-schermo .wizard-opzioni > li,
+  body[data-passo="grafiche-materiali"] .cfg-schermo .wizard-opzioni > li,
+  body[data-passo="obiettivi-tempi"] .cfg-schermo .wizard-opzioni > li {
+    border: 1px solid var(--linea);
+  }
+}
+
+/* Tre colonne sulle scelte brevi di schermi larghi. */
+@media (min-width: 960px) {
+  body[data-passo="categoria"] .cfg-schermo .wizard-opzioni:not([aria-label="Altro tipo"]),
+  body[data-passo="tipo"] .cfg-schermo .wizard-opzioni:not([aria-label="Altro tipo"]),
+  body[data-passo="servizi"] .cfg-schermo .wizard-opzioni {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body[data-passo="servizi"] .cfg-schermo .wizard-opzioni > li {
+    border: 1px solid var(--linea);
+  }
+}
+
+/* Singola opzione: una riga o una tessera (label con checkbox/radio, oppure button con aria-pressed). */
+.cfg-schermo .opzione {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 16px;
+  inline-size: 100%;
+  min-block-size: 60px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--inchiostro);
+  font: 500 clamp(18px, 1.4vw, 20px) / 1.25 var(--font-testo);
+  letter-spacing: -0.01em;
+  text-align: start;
+  cursor: pointer;
+  touch-action: manipulation;
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color var(--t-2) var(--ease-std);
+}
+
+.cfg-schermo .opzione input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Riempimento che sale dal basso: sta sotto il testo (z-index -1 dentro isolation). */
+.cfg-schermo .opzione::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--carta-2);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--t-2) var(--ease-out);
+}
+
+/* Marcatore: quadrato con bordo (cerchio per le radio), riempito da un quadrato mattone di 10px.
+   Lo script scrive il simbolo nello span .segno: il testo resta fuori vista. */
+.cfg-schermo .opzione .segno {
+  position: relative;
+  display: block;
+  inline-size: 18px;
+  block-size: 18px;
+  margin: 0;
+  border: 1px solid var(--inchiostro);
+  border-radius: 0;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  transition: border-color var(--t-2) var(--ease-std);
+}
+
+.cfg-schermo .opzione .segno::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 0;
+  background: var(--mattone);
+  transform: scale(0);
+  transition: transform var(--t-2) var(--ease-out);
+}
+
+.cfg-schermo .opzione:has(input[type="radio"]) .segno,
+.cfg-schermo .opzione:has(input[type="radio"]) .segno::after {
+  border-radius: 50%;
+}
+
+/* Settore e tipo sono una scelta sola (si va avanti appena scelta): cerchio, come le radio. */
+body[data-passo="categoria"] .cfg-schermo .opzione .segno,
+body[data-passo="categoria"] .cfg-schermo .opzione .segno::after,
+body[data-passo="tipo"] .cfg-schermo .opzione .segno,
+body[data-passo="tipo"] .cfg-schermo .opzione .segno::after {
+  border-radius: 50%;
+}
+
+.cfg-schermo .opzione-testo {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.cfg-schermo .opzione-testo small {
+  display: block;
+  margin-block-start: 4px;
+  font: 400 var(--fs-small) / 1.45 var(--font-testo);
+  letter-spacing: 0;
+  color: var(--morbido);
+}
+
+.cfg-schermo .opzione-prezzo {
+  font: 500 13px / 1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--inchiostro);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scelte grosse nelle prime domande: più spazio per toccare. */
+body[data-passo="categoria"] .cfg-schermo .opzione,
+body[data-passo="tipo"] .cfg-schermo .opzione {
+  min-block-size: 64px;
+}
+
+@media (hover: hover) {
+  .cfg-schermo .opzione:hover {
+    background: transparent;
+    outline-color: var(--inchiostro);
+  }
+
+  .cfg-schermo .opzione:hover::before {
+    transform: scaleY(1);
+  }
+}
+
+/* Selezionata: bordo e marcatore mattone, testo inchiostro.
+   Regola dopo l'hover, così vince anche sopra il puntatore. */
+.cfg-schermo .opzione:has(input:checked),
+.cfg-schermo .opzione[aria-pressed="true"] {
+  background: transparent;
+  color: var(--inchiostro);
+  outline-color: var(--mattone);
+}
+
+.cfg-schermo .opzione:has(input:checked) .segno,
+.cfg-schermo .opzione[aria-pressed="true"] .segno {
+  border-color: var(--mattone);
+  background: transparent;
+  color: transparent;
+}
+
+.cfg-schermo .opzione:has(input:checked) .segno::after,
+.cfg-schermo .opzione[aria-pressed="true"] .segno::after {
+  transform: scale(1);
+}
+
+/* Focus da tastiera: contorno inchiostro dentro la cella, sempre visibile. */
+.cfg-schermo .opzione:focus-visible,
+.cfg-schermo .opzione:has(input:focus-visible) {
+  outline: 2px solid var(--inchiostro);
+  outline-offset: -2px;
+}
+
+/* Titoli di gruppo: lo script li scrive con stile inline, qui vincono con !important.
+   Etichetta mono maiuscola con filetto sopra. */
+.cfg-schermo .wizard-corpo > h2 {
+  font: 500 var(--fs-label) / 1.4 var(--font-mono) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--morbido) !important;
+  margin: clamp(24px, 4.5vh, 40px) 0 12px !important;
+  padding-block-start: 12px;
+  border-block-start: 1px solid var(--linea);
+}
+
+/* ---------- Campi di testo: solo filetto inferiore; al focus diventa inchiostro da 2px ----------
+   Altezza costante: 1px + 13px di padding in riposo, 2px + 12px a fuoco. */
+.cfg-schermo .wizard-campo {
+  display: block;
+  inline-size: 100%;
+  margin: clamp(12px, 3vh, 24px) 0 0;
+  padding: 12px 0 13px;
+  border: 0;
+  border-block-end: 1px solid var(--linea);
+  border-radius: 0;
+  background: transparent;
+  color: var(--inchiostro);
+  font: 400 var(--fs-lead) / 1.3 var(--font-testo);
+  letter-spacing: -0.01em;
+  outline: none;
+}
+
+.cfg-schermo textarea.wizard-campo {
+  min-block-size: 160px;
+  resize: vertical;
+}
+
+.cfg-schermo .wizard-campo::placeholder {
+  color: var(--morbido);
+  opacity: 1;
+}
+
+/* Focus dei campi: anello solid 2px come nel resto del sito (token --focus, circa 5:1 su carta). Solo al focus, non a riposo. */
+.cfg-schermo .wizard-campo:focus,
+.cfg-schermo .wizard-campo:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  background: transparent;
+  border-block-end: 2px solid var(--inchiostro);
+  padding-block: 12px;
+}
+
+/* ---------- Canali social: bottoni grandi, tre colonne (due sotto 400px) ---------- */
+.cfg-schermo .canali-riga {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 4px;
+}
+
+.cfg-schermo .canale {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  min-block-size: 104px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--linea);
+  border-radius: 0;
+  background: transparent;
+  color: var(--inchiostro);
+  font: 600 clamp(16px, 1.5vw, 18px) / 1.2 var(--font-testo);
+  letter-spacing: -0.01em;
+  text-align: start;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--t-2) var(--ease-std);
+}
+
+.cfg-schermo .canale svg {
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+}
+
+.cfg-schermo .canale span:last-child {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Marcatore in alto a destra: quadrato con bordo, quadrato pieno mattone quando è scelto. */
+.cfg-schermo .canale::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-end: 14px;
+  inline-size: 18px;
+  block-size: 18px;
+  border: 1px solid var(--inchiostro);
+  transition: border-color var(--t-2) var(--ease-std);
+}
+
+.cfg-schermo .canale::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 18px;
+  inset-inline-end: 18px;
+  inline-size: 10px;
+  block-size: 10px;
+  background: var(--mattone);
+  transform: scale(0);
+  transition: transform var(--t-2) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .cfg-schermo .canale:hover { border-color: var(--inchiostro); }
+}
+
+.cfg-schermo .canale[aria-pressed="true"] {
+  border-color: var(--mattone);
   color: var(--inchiostro);
 }
-.video-qta button {
+
+.cfg-schermo .canale[aria-pressed="true"]::before { border-color: var(--mattone); }
+.cfg-schermo .canale[aria-pressed="true"]::after { transform: scale(1); }
+
+.cfg-schermo .canale:focus-visible {
+  outline: 2px solid var(--inchiostro);
+  outline-offset: -2px;
+}
+
+@media (max-width: 399px) {
+  /* Sotto i 400px tre colonne taglierebbero Instagram e Facebook: due colonne,
+     con l'ultimo canale a tutta larghezza. */
+  .cfg-schermo .canali-riga { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cfg-schermo .canale:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* ---------- Contatore dei video: −/+ quadrati e numero mono grande ---------- */
+.cfg-schermo .video-qta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  inline-size: 100%;
+  min-block-size: 76px;
+  padding: 12px 0;
+}
+
+.cfg-schermo .video-qta button {
   flex: none;
   display: grid;
   place-items: center;
-  inline-size: 44px;
-  block-size: 44px;
-  border: 1.5px solid var(--inchiostro);
-  border-radius: 7px;
-  background: var(--carta-3);
+  inline-size: 52px;
+  block-size: 52px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--inchiostro);
+  border-radius: 0;
+  background: transparent;
   color: var(--inchiostro);
-  font: 400 1.2rem/1 var(--mono);
+  font: 400 24px / 1 var(--font-mono);
   cursor: pointer;
   touch-action: manipulation;
+  transition: background-color var(--t-1) var(--ease-std), color var(--t-1) var(--ease-std);
 }
-.video-qta button:hover:not(:disabled) { background: var(--carta-2); }
-.video-qta button:disabled { opacity: 0.4; cursor: default; }
-.video-qta button:focus-visible { outline: 2px solid var(--mattone); outline-offset: 2px; }
-.video-qta-num { flex: 1 1 auto; text-align: center; }
 
-/* ---------- Torna alla home dal configuratore ---------- */
-.wizard-casa {
+@media (hover: hover) {
+  .cfg-schermo .video-qta button:hover:not(:disabled) {
+    background: var(--inchiostro);
+    color: var(--carta);
+  }
+}
+
+.cfg-schermo .video-qta button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.cfg-schermo .video-qta button:focus-visible {
+  outline: 2px solid var(--inchiostro);
+  outline-offset: 3px;
+}
+
+.cfg-schermo .video-qta-num {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  text-align: center;
+  font: 500 clamp(18px, 4.6vw, 26px) / 1.2 var(--font-mono);
+  letter-spacing: -0.01em;
+  color: var(--inchiostro);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Riepilogo: voci con filetti, etichetta mono e valore in Archivo ---------- */
+.cfg-schermo .wizard-riepilogo {
+  margin: 0;
+  border-block-start: 1px solid var(--inchiostro);
+}
+
+.cfg-schermo .wizard-riga {
+  display: grid;
+  grid-template-columns: minmax(104px, 0.34fr) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  margin: 0;
+  padding: 14px 0;
+  border-block-end: 1px solid var(--linea);
+  font-size: inherit;
+}
+
+.cfg-schermo .wizard-riga dt {
+  font: 500 var(--fs-label) / 1.4 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--morbido);
+}
+
+.cfg-schermo .wizard-riga dd {
+  margin: 0;
+  font: 500 clamp(16px, 1.3vw, 18px) / 1.4 var(--font-testo);
+  letter-spacing: -0.01em;
+  color: var(--inchiostro);
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+.cfg-schermo .wizard-riga.wizard-riga-sotto {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+/* ---------- Stima e invio ---------- */
+.cfg-schermo .wizard-totale-finale {
+  margin: clamp(20px, 4vh, 36px) 0 0;
+  padding: 16px 0 0;
+  border-block-start: 1px solid var(--inchiostro);
+  border-radius: 0;
+  background: transparent;
+  color: var(--inchiostro);
+}
+
+/* Flusso di blocco: testi su righe proprie, bottoni inline-flex che vanno a capo da soli. */
+.cfg-schermo .wizard-totale-finale .k,
+.cfg-schermo .wizard-totale-finale .v,
+.cfg-schermo .wizard-totale-finale .d {
+  display: block;
+}
+
+.cfg-schermo .wizard-totale-finale .k {
+  font: 500 var(--fs-label) / 1.4 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--morbido);
+  margin: 0;
+}
+
+.cfg-schermo .wizard-totale-finale .v {
+  margin: 8px 0 14px;
+  font: 800 clamp(64px, 9vw, 128px) / 0.88 var(--font-display);
+  font-stretch: 64%;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--inchiostro);
+  font-variant-numeric: tabular-nums;
+}
+
+.cfg-schermo .wizard-totale-finale .d {
+  max-inline-size: 60ch;
+  margin: 0 0 6px;
+  font: 400 var(--fs-small) / 1.45 var(--font-testo);
+  color: var(--morbido);
+}
+
+/* Privacy: quadratino inchiostro, link in testo inchiostro sottolineato. */
+.cfg-schermo .privacy-riga {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 24px 0 0;
+  font: 400 var(--fs-small) / 1.45 var(--font-testo);
+  color: var(--morbido);
+  cursor: pointer;
+}
+
+.cfg-schermo .privacy-riga input {
   flex: none;
+  inline-size: 20px;
+  block-size: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--inchiostro);
+  cursor: pointer;
+}
+
+.cfg-schermo .privacy-riga .link-freccia {
+  color: var(--inchiostro);
+  font-size: inherit;
+  font-weight: 500;
+  text-decoration-thickness: 1px;
+}
+
+/* ---------- Pillole: Avanti, Indietro, WhatsApp, email ----------
+   Lo script genera questi bottoni con le classi btn e btn-wa, btn-mattone, btn-fantasma:
+   il loro look si applica qui agli id, che vincono sulle classi. */
+:is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
+  box-sizing: border-box;
   min-block-size: 52px;
-  padding: 12px 18px;
-  border: 1px solid var(--linea);
-  border-radius: var(--raggio);
-  font: 700 0.9rem/1 var(--sans);
+  margin: 0;
+  padding: 0 24px;
+  border: 1px solid var(--btn-borde);
+  border-radius: 999px;
+  background: var(--btn-fondo);
+  /* Il fondo non passa sotto il bordo: niente filo del colore di fondo ai bordi arrotondati. */
+  background-clip: padding-box;
+  color: var(--btn-testo);
+  font: 500 13px / 1.2 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-align: center;
   text-decoration: none;
-  color: var(--inchiostro);
-  background: transparent;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--t-1) var(--ease-std), color 200ms var(--ease-std) 150ms, border-color 500ms var(--ease-out);
 }
-.wizard-casa svg { flex: none; display: block; }
-.wizard-casa:hover { border-color: var(--inchiostro); }
 
-/* Riga di riepilogo impilata: etichetta sopra il valore */
-.wizard-riga.wizard-riga-sotto { flex-direction: column; align-items: stretch; gap: 4px; }
-.wizard-riga.wizard-riga-sotto dd { text-align: left; }
+/* Velo che entra da sinistra e si ritira verso destra (come .btn in componenti.css).
+   Il velo copre il padding, non il bordo: in hover il bordo prende il colore del velo,
+   così non resta un filo del colore di fondo attorno alla pillola. */
+:is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-velo);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 500ms var(--ease-out);
+}
+
+:is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) {
+  :is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):hover::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  :is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):hover {
+    color: var(--btn-testo-hover);
+    border-color: var(--btn-velo);
+  }
+}
+
+:is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):focus-visible {
+  outline: 2px solid var(--inchiostro);
+  outline-offset: 3px;
+  color: var(--btn-testo-hover);
+  border-color: var(--btn-velo);
+}
+
+:is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Primario: mattone con testo inchiostro. */
+:is(#w-avanti, #w-altro-invia.btn-mattone) {
+  --btn-fondo: var(--mattone);
+  --btn-testo: var(--inchiostro);
+  --btn-borde: var(--mattone);
+  --btn-velo: var(--inchiostro);
+  --btn-testo-hover: var(--carta);
+}
+
+/* Secondario: fondo trasparente, bordo inchiostro. */
+:is(#w-indietro, #w-invia-mail) {
+  --btn-fondo: transparent;
+  --btn-testo: var(--inchiostro);
+  --btn-borde: var(--inchiostro);
+  --btn-velo: var(--inchiostro);
+  --btn-testo-hover: var(--carta);
+}
+
+/* WhatsApp: verde con testo bianco. */
+:is(#w-invia, #w-altro-invia.btn-wa) {
+  --btn-fondo: var(--verde);
+  --btn-testo: #fff;
+  --btn-borde: var(--verde);
+  --btn-velo: var(--inchiostro);
+  --btn-testo-hover: #fff;
+}
+
+/* Invio finale: bottoni grandi. */
+:is(#w-invia, #w-invia-mail, #w-altro-invia) {
+  min-block-size: 60px;
+  font-size: 14px;
+}
+
+#w-invia,
+#w-invia-mail,
+#w-altro-invia {
+  margin-block-start: 12px;
+}
+
+/* Sotto 640px ognuno a tutta riga; da 640px affiancati, con un respiro di 12px. */
+:is(#w-invia, #w-invia-mail) {
+  display: inline-flex;
+  vertical-align: top;
+  inline-size: 100%;
+  margin-inline: 0;
+}
+
+@media (min-width: 640px) {
+  :is(#w-invia, #w-invia-mail) {
+    inline-size: auto;
+    min-inline-size: 240px;
+    margin-inline-end: 12px;
+  }
+}
+
+/* ---------- Barra fissa in basso: Indietro a sinistra, Avanti a destra ---------- */
+.wizard-barra-fissa {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 90;
+  padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom));
+  background: var(--carta);
+  border-block-start: 1px solid var(--linea);
+}
+
+.wizard-barra-interna {
+  inline-size: min(920px, 100%);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#w-indietro {
+  flex: 0 0 auto;
+  min-inline-size: 136px;
+}
+
+#w-avanti {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+@media (min-width: 640px) {
+  #w-avanti {
+    flex: 0 0 auto;
+    min-inline-size: 280px;
+    margin-inline-start: auto;
+  }
+}
+
+/* ---------- Schermi bassi: domanda e righe più compatte, tutto resta nello schermo ---------- */
+@media (max-height: 740px) {
+  .wizard-domanda { margin-block: 14px 8px; }
+  .wizard-sotto { margin-block-end: 12px; font-size: var(--fs-body); }
+  .cfg-schermo .opzione { min-block-size: 52px; padding-block: 10px; }
+  .cfg-schermo .canale { min-block-size: 92px; }
+  .cfg-schermo .wizard-totale-finale .v { font-size: clamp(56px, 10vh, 96px); }
+}
+
+/* Telefono in orizzontale: ogni pixel in altezza conta, il contenuto scorre. */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 959px) {
+  .cfg-schermo { padding-block-start: 8px; }
+  .wizard-testa { min-block-size: 32px; }
+  .wizard-domanda { font-size: clamp(22px, 6vh, 32px); margin-block: 8px 4px; max-inline-size: none; }
+  .wizard-sotto { font-size: 0.85rem; margin-block-end: 4px; }
+  .cfg-schermo .opzione { min-block-size: 44px; padding-block: 6px; }
+  .cfg-schermo .wizard-corpo { padding-block-end: 0; }
+}

@@ -340,7 +340,7 @@ function listaOpzioni(contenitore: HTMLElement, { nome, voci, selezionati, conPr
 
 function titoloGruppo(testo: string, primo: boolean, grande?: boolean) {
   const h = el('h2', '', testo);
-  h.style.cssText = `font:600 ${grande ? 'calc(1.5rem - 2px)' : '1.2rem'} var(--serif);margin:${primo ? '4px' : grande ? '16px' : '28px'} 0 0`;
+  h.style.cssText = `font:600 ${grande ? 'calc(1.5rem - 2px)' : '1.2rem'} var(--font-testo);margin:${primo ? '4px' : grande ? '16px' : '28px'} 0 0`;
   corpo.appendChild(h);
 }
 
@@ -758,6 +758,13 @@ function renderizza() {
     invia.id = 'w-invia';
     invia.target = '_blank';
     invia.rel = 'noopener noreferrer';
+    // Senza privacy WhatsApp si comporta come l'email: niente navigazione, stesso errore.
+    // Con privacy accettata href e messaggio restano quelli di aggiornaInvia().
+    invia.addEventListener('click', (e) => {
+      if (S.privacy) return;
+      e.preventDefault();
+      mostraErrore('Accetta i termini e le condizioni per inviare la richiesta.');
+    });
     box.appendChild(invia);
     const inviaMail = el('a', 'btn btn-fantasma', isPC ? 'Copia email' : 'Invia via email');
     inviaMail.id = 'w-invia-mail';
@@ -953,7 +960,7 @@ function valido(id: string) {
 
 function aggiornaCromo(scroll: boolean) {
   const f = flusso();
-  riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
+  riemp.style.transform = `scaleX(${(idx + 1) / f.length})`;
   $('w-barra')?.setAttribute('aria-valuenow', String(Math.round(((idx + 1) / f.length) * 100)));
   indietro.hidden = idx === 0;
   const id = f[idx]!;

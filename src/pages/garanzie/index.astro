@@ -1,11 +1,127 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataPagina from '../../components/TestataPagina.astro';
+import Prosa from '../../components/Prosa.astro';
+import Corpo from '../../components/pagine/Corpo.astro';
+import CtaChiusura from '../../components/pagine/CtaChiusura.astro';
+import Bottone from '../../components/ui/Bottone.astro';
 import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
 import { site } from '../../data/sito';
 ---
-<LayoutPagina title="Garanzie e condizioni chiare | Trebla Asti" description="Il sito è tuo, niente canone obbligatorio a Trebla, revisioni incluse e prezzo concordato prima. Ecco le condizioni del lavoro." canonical="/garanzie" jsonLd={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Garanzie', item: `${site.url}/garanzie/` }] }}>
-<div class="involucro">
-  <section class="pagina-titolo" aria-labelledby="titolo"><p class="capitolo-numero">Condizioni chiare</p><h1 id="titolo">Il sito è tuo.<br /><em>I costi anche chiari.</em></h1><p class="lead">Prima di iniziare sai cosa realizziamo, quanto costa e quando prevediamo di consegnare.</p></section>
-  <section class="sezione sezione-flush"><ol class="righe"><li><span class="righe-num">01</span><h2>Il sito resta tuo</h2><p>A saldo completo, pagine, testi e grafiche creati per te sono tuoi. Ricevi gli accessi necessari.</p></li><li><span class="righe-num">02</span><h2>Nessun canone Trebla</h2><p>Non applichiamo un canone obbligatorio. Hosting e configurazione del dominio sono gratuiti. Se scegli servizi a pagamento di altri fornitori, te lo diciamo prima: il rapporto resta tra te e il fornitore.</p></li><li><span class="righe-num">03</span><h2>Revisioni comprese</h2><p>Due giri di correzioni prima della pubblicazione sono inclusi nei pacchetti base. L’{OFFERTA_SITO.nome} include {OFFERTA_SITO.revisioni} modifiche gratuite. Nuove modifiche e assistenza si concordano a parte.</p></li><li><span class="righe-num">04</span><h2>Prezzo definito prima</h2><p>La proposta riporta prezzo, contenuto e tempi. Per iniziare è previsto un anticipo di {ANTICIPO}€, scalato dal totale. Puoi pagare il saldo alla consegna o dividerlo in {RATE_SALDO} rate concordate.</p></li></ol><div class="prosa"><p>Le condizioni complete sono nelle <a href="/note-legali/#termini">condizioni di servizio</a>. Per dubbi pratici, consulta le <a href="/faq/">domande frequenti</a>.</p></div></section>
-  <section class="sezione"><div class="cta-finale"><div><p class="prezzo-kicker">Prima di partire</p><h2>Guarda il prezzo <em>del tuo progetto</em></h2><p>La stima è senza obbligo di acquisto.</p></div><div class="cta-azioni"><a class="btn btn-mattone" href="/preventivo/">Fai il preventivo</a><a class="btn btn-fantasma" href="/prezzi/">Vai ai prezzi</a></div></div></section>
-</div></LayoutPagina>
+
+<LayoutPagina
+  title="Garanzie e condizioni chiare | Trebla Asti"
+  description="Il sito è tuo, niente canone obbligatorio a Trebla, revisioni incluse e prezzo concordato prima. Ecco le condizioni del lavoro."
+  canonical="/garanzie"
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` }, { '@type': 'ListItem', position: 2, name: 'Garanzie', item: `${site.url}/garanzie/` }] }}
+>
+  <TestataPagina
+    titolo="Il sito è tuo. | I costi anche chiari."
+    tenue="I costi anche chiari."
+    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Garanzie' }]}
+  >
+    <p slot="lead">Prima di iniziare sai cosa realizziamo, quanto costa e quando prevediamo di consegnare.</p>
+  </TestataPagina>
+
+  <section class="sezione">
+    <Corpo etichetta="Condizioni chiare">
+      <ol class="ga-righe" data-reveal-gruppo>
+        <li class="ga-riga" data-reveal>
+          <span class="ga-num">01</span>
+          <h2 class="ga-titolo">Il sito resta tuo</h2>
+          <p class="ga-testo">A saldo completo, pagine, testi e grafiche creati per te sono tuoi. Ricevi gli accessi necessari.</p>
+        </li>
+        <li class="ga-riga" data-reveal>
+          <span class="ga-num">02</span>
+          <h2 class="ga-titolo">Nessun canone Trebla</h2>
+          <p class="ga-testo">Non applichiamo un canone obbligatorio. Hosting e configurazione del dominio sono gratuiti. Se scegli servizi a pagamento di altri fornitori, te lo diciamo prima: il rapporto resta tra te e il fornitore.</p>
+        </li>
+        <li class="ga-riga" data-reveal>
+          <span class="ga-num">03</span>
+          <h2 class="ga-titolo">Revisioni comprese</h2>
+          <p class="ga-testo">Due giri di correzioni prima della pubblicazione sono inclusi nei pacchetti base. L’{OFFERTA_SITO.nome} include {OFFERTA_SITO.revisioni} modifiche gratuite. Nuove modifiche e assistenza si concordano a parte.</p>
+        </li>
+        <li class="ga-riga" data-reveal>
+          <span class="ga-num">04</span>
+          <h2 class="ga-titolo">Prezzo definito prima</h2>
+          <p class="ga-testo">La proposta riporta prezzo, contenuto e tempi. Per iniziare è previsto un anticipo di {ANTICIPO}€, scalato dal totale. Puoi pagare il saldo alla consegna o dividerlo in {RATE_SALDO} rate concordate.</p>
+        </li>
+      </ol>
+      <Prosa classe="ga-prosa">
+        <p>Le condizioni complete sono nelle <a href="/note-legali/#termini">condizioni di servizio</a>. Per dubbi pratici, consulta le <a href="/faq/">domande frequenti</a>.</p>
+      </Prosa>
+    </Corpo>
+  </section>
+
+  <CtaChiusura
+    id="t-chiusura"
+    etichetta="Prima di partire"
+    titolo="Guarda il prezzo del tuo progetto"
+    tenue="del tuo progetto"
+    testo="La stima è senza obbligo di acquisto."
+  >
+    <Bottone href="/preventivo/" testo="Fai il preventivo" />
+    <Bottone href="/prezzi/" variante="chiaro" testo="Vai ai prezzi" />
+  </CtaChiusura>
+</LayoutPagina>
+
+<style>
+  /* Righe con filetti: su mobile numero, titolo e testo in colonna. Da 640px il numero sta
+     in una colonna stretta e titolo e testo sono impilati nella colonna larga. */
+  .ga-righe {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .ga-riga {
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-6);
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .ga-num {
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    color: var(--morbido);
+  }
+
+  .ga-titolo {
+    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+    font-stretch: 100%;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--inchiostro);
+  }
+
+  .ga-testo {
+    max-inline-size: 52ch;
+    margin: 0;
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  @media (min-width: 640px) {
+    .ga-riga {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      column-gap: var(--gap);
+    }
+
+    .ga-num {
+      grid-row: 1 / span 2;
+      align-self: start;
+      padding-block-start: 0.45em;
+    }
+
+    .ga-titolo,
+    .ga-testo {
+      grid-column: 2;
+    }
+  }
+
+  :global(.prosa.ga-prosa) {
+    margin-block-start: var(--s-7);
+  }
+</style>

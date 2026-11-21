@@ -1,0 +1,530 @@
+/* ============================================================
+   COMPONENTI CONDIVISI: bottone, link, etichetta, puntino, chip,
+   titolo rivelato, testata di sezione, fisarmonica, scheda.
+   Markup nei componenti Astro di src/components/ui/.
+   Nota: i selettori dei bottoni usano .btn.btn--* (specificità 0,2,0).
+   Le micro-interazioni di hover stanno in @media (hover: hover);
+   il focus da tastiera mostra lo stesso stato dell'hover sui bottoni.
+   ============================================================ */
+
+/* ---------- Freccia SVG (src/components/ui/Freccia.astro) ---------- */
+.icona-freccia {
+  display: block;
+  inline-size: 16px;
+  block-size: 16px;
+  flex: none;
+}
+
+/* Testo di ogni bottone: a capo bilanciato, parole lunghe spezzate solo se servono. */
+.btn {
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+@media print {
+  .btn {
+    display: none !important;
+  }
+}
+
+/* ---------- Bottone pill (src/components/ui/Bottone.astro) ----------
+   Variabili per variante: fondo, testo, bordo, velo, cerchio, freccia
+   e i loro valori in hover. Il cerchio contiene due frecce: .btn__freccia
+   esce in alto a destra e la copia .btn__freccia--copia rientra dal basso a sinistra. */
+.btn.btn--primario,
+.btn.btn--secondario,
+.btn.btn--chiaro,
+.btn.btn--wa {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  min-block-size: 48px;
+  padding-inline: 24px 6px;
+  /* Padding verticale a zero: l'altezza la danno min-block-size e il cerchio. */
+  padding-block: 0;
+  border: 1px solid var(--btn-borde);
+  border-radius: 999px;
+  background: var(--btn-fondo);
+  color: var(--btn-testo);
+  font: 500 13px / 1 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--t-1) var(--ease-std);
+}
+
+@media (min-width: 640px) {
+  .btn.btn--primario,
+  .btn.btn--secondario,
+  .btn.btn--chiaro,
+  .btn.btn--wa {
+    min-block-size: 52px;
+  }
+}
+
+/* Premuto: scala appena. */
+.btn.btn--primario:active,
+.btn.btn--secondario:active,
+.btn.btn--chiaro:active,
+.btn.btn--wa:active {
+  transform: scale(0.98);
+}
+
+/* Velo: entra da sinistra (origine a sinistra in hover) e si ritira verso destra
+   (origine a destra a riposo). Il cambio di origine è il trucco per l'uscita. */
+.btn.btn--primario::before,
+.btn.btn--secondario::before,
+.btn.btn--chiaro::before,
+.btn.btn--wa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-velo);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 500ms var(--ease-out);
+}
+
+/* Testo: sta sopra il velo. Cambia colore a metà corsa del velo (150ms di ritardo, 200ms di durata). */
+.btn__testo {
+  position: relative;
+  min-inline-size: 0;
+  color: var(--btn-testo);
+  transition: color 200ms var(--ease-std) 150ms;
+}
+
+/* Cerchio con le due frecce, sovrapposte nella stessa cella. */
+.btn__icona {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: 50%;
+  background: var(--btn-cerchio);
+  color: var(--btn-freccia);
+  overflow: hidden;
+  transition: background-color 500ms var(--ease-out), color 500ms var(--ease-out);
+}
+
+.btn__icona .icona-freccia {
+  grid-area: 1 / 1;
+  transition: transform 500ms var(--ease-out);
+}
+
+/* A riposo la copia è fuori dal cerchio, in basso a sinistra. */
+.btn__icona .btn__freccia--copia {
+  transform: translate3d(-40px, 40px, 0);
+}
+
+/* Varianti */
+.btn.btn--primario {
+  --btn-fondo: var(--mattone);
+  --btn-testo: var(--inchiostro);
+  --btn-borde: transparent;
+  --btn-velo: var(--inchiostro);
+  --btn-cerchio: var(--inchiostro);
+  --btn-freccia: var(--carta);
+  --btn-testo-hover: var(--carta);
+  --btn-cerchio-hover: var(--mattone);
+  --btn-freccia-hover: var(--inchiostro);
+}
+
+.btn.btn--secondario {
+  --btn-fondo: transparent;
+  --btn-testo: var(--inchiostro);
+  --btn-borde: var(--linea);
+  --btn-velo: var(--inchiostro);
+  --btn-cerchio: var(--inchiostro);
+  --btn-freccia: var(--carta);
+  --btn-testo-hover: var(--carta);
+  --btn-cerchio-hover: var(--carta);
+  --btn-freccia-hover: var(--inchiostro);
+}
+
+/* Per le fasce scure. */
+.btn.btn--chiaro {
+  --btn-fondo: transparent;
+  --btn-testo: var(--carta);
+  --btn-borde: rgba(238, 236, 231, 0.3);
+  --btn-velo: var(--carta);
+  --btn-cerchio: var(--carta);
+  --btn-freccia: var(--inchiostro);
+  --btn-testo-hover: var(--inchiostro);
+  --btn-cerchio-hover: var(--inchiostro);
+  --btn-freccia-hover: var(--carta);
+}
+
+.btn.btn--wa {
+  --btn-fondo: var(--verde);
+  --btn-testo: #fff;
+  --btn-borde: var(--verde);
+  --btn-velo: var(--inchiostro);
+  --btn-cerchio: #fff;
+  --btn-freccia: var(--verde);
+  --btn-testo-hover: #fff;
+  --btn-cerchio-hover: #fff;
+  --btn-freccia-hover: var(--verde);
+}
+
+/* Sulle fasce scure il focus deve restare visibile: mattone pieno. */
+.btn.btn--chiaro:focus-visible {
+  outline-color: var(--mattone);
+}
+
+/* Stato attivo: hover (solo dove c'è hover) o focus da tastiera.
+   Velo che entra da sinistra, testo, cerchio e frecce. */
+@media (hover: hover) {
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible)::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__testo {
+    color: var(--btn-testo-hover);
+  }
+
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__icona {
+    background: var(--btn-cerchio-hover);
+    color: var(--btn-freccia-hover);
+  }
+
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__freccia {
+    transform: translate3d(40px, -40px, 0);
+  }
+
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__freccia--copia {
+    transform: none;
+  }
+}
+
+/* ---------- Link sottolineato (A10) ----------
+   Due linee. A riposo la linea piena (::before). In hover la linea piena esce a destra
+   e quella nuova (::after) entra da sinistra con 120ms di ritardo. Il ritorno è simmetrico. */
+.link-sottolineato {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.link-sottolineato::before,
+.link-sottolineato::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -2px;
+  block-size: 1px;
+  background: currentColor;
+}
+
+/* Riposo: la linea piena torna da sinistra con ritardo (quando si esce dall'hover). */
+.link-sottolineato::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+  transition: transform var(--t-3) var(--ease-expo) 120ms;
+}
+
+/* La linea che apparirà in hover sta fuori, a destra. */
+.link-sottolineato::after {
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--t-3) var(--ease-expo) 0ms;
+}
+
+@media (hover: hover) {
+  /* La linea piena esce a destra, subito. */
+  .link-sottolineato:hover::before {
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition-delay: 0ms;
+  }
+
+  /* La nuova entra da sinistra, con 120ms di ritardo. */
+  .link-sottolineato:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+    transition-delay: 120ms;
+  }
+}
+
+/* ---------- Link roll (A8) ----------
+   Due copie del testo: al passaggio del mouse la prima sale del 100%, la seconda entra dal basso.
+   Il padding verticale (0,12em) tiene dentro le discendenti (g, p) nella maschera.
+   Markup: <a class="link-roll"><span class="link-roll__testo" data-testo="Servizi">Servizi</span></a> */
+.link-roll {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  text-decoration: none;
+}
+
+.link-roll__testo {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.12em;
+  vertical-align: top;
+  transition: transform var(--t-3) var(--ease-expo);
+}
+
+.link-roll__testo::after {
+  /* Fallback per i browser senza alt text CSS. */
+  content: attr(data-testo);
+  /* Testo alternativo vuoto: la copia visiva non viene annunciata, il link resta letto una volta. */
+  content: attr(data-testo) / "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 100%;
+  padding-block: 0.12em;
+}
+
+@media (hover: hover) {
+  .link-roll:hover .link-roll__testo {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+/* ---------- Etichetta mono (con puntino opzionale) ---------- */
+.etichetta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 500 var(--fs-label) / 1.4 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--morbido);
+}
+
+/* ---------- Puntino (src: <span class="puntino puntino--verde"></span>) ----------
+   --pulse: alone che si espande (A16). */
+.puntino {
+  --c: var(--mattone);
+  position: relative;
+  display: inline-block;
+  flex: none;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.puntino--mattone {
+  --c: var(--mattone);
+}
+
+.puntino--verde {
+  --c: var(--verde);
+}
+
+.puntino--inchiostro {
+  --c: var(--inchiostro);
+}
+
+.puntino--pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--c);
+  animation: pulse 2s var(--ease-out) infinite;
+}
+
+/* ---------- Chip ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  font: 400 var(--fs-micro) / 1.4 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Titolo rivelato (src/components/ui/TitoloRivelato.astro) ----------
+   La maschera delle parole e le animazioni sono in movimento.css.
+   Qui: dimensioni per taglia e i due toni del titolo. */
+.titolo-rivelato {
+  max-inline-size: none;
+  margin: 0;
+}
+
+.titolo-rivelato--hero {
+  font-size: var(--fs-hero);
+  line-height: 0.88;
+}
+
+.titolo-rivelato--h2 {
+  font-size: var(--fs-h2);
+  line-height: 0.9;
+}
+
+.titolo-rivelato--h2-s {
+  font-size: var(--fs-h2-s);
+  line-height: 0.92;
+}
+
+/* Taglia h3: non è display, usa il testo a 600. */
+.titolo-rivelato--h3 {
+  font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+  font-stretch: 100%;
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+
+/* Accento mattone: solo nella hero e nella fascia di chiusura. */
+.titolo__accento {
+  color: var(--mattone);
+}
+
+/* Secondo tono: su fascia scura diventa morbido-scuro (vedi .fascia-scura). */
+.titolo__tenue {
+  color: var(--morbido);
+}
+
+/* ---------- Testata di sezione (src/components/TestataSezione.astro) ----------
+   Riga superiore con filetto, numero e etichetta mono; H2 display; nota opzionale. */
+.testata {
+  display: grid;
+  gap: clamp(20px, 3vw, 36px) var(--gap);
+  margin-block-end: clamp(32px, 4vw, 56px);
+}
+
+.testata__riga {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  max-inline-size: none;
+  padding-block-start: 14px;
+  border-block-start: 1px solid var(--linea);
+  font: 500 var(--fs-label) / 1.4 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--morbido);
+}
+
+.testata__num {
+  color: var(--inchiostro);
+}
+
+.testata__nota {
+  margin: 0;
+  max-inline-size: 52ch;
+  font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+  color: var(--morbido);
+}
+
+@media (min-width: 960px) {
+  .testata {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: end;
+  }
+
+  .testata__riga {
+    grid-column: 1 / -1;
+  }
+
+  .testata__titolo {
+    grid-column: 1 / span 8;
+  }
+
+  .testata__nota {
+    grid-column: 9 / span 4;
+    justify-self: end;
+  }
+}
+
+/* Su fascia scura: testo carta, secondo tono e filetti chiari. */
+.testata--scuro {
+  --morbido: var(--morbido-scuro);
+  --linea: var(--linea-scura);
+  color: var(--carta);
+}
+
+.testata--scuro .testata__num {
+  color: var(--carta);
+}
+
+/* ---------- Fisarmonica (A14) (src/components/ElencoDomande.astro) ----------
+   details/summary con il "+" fatto di due linee: ruotano di 45° all'apertura (300ms).
+   Il contenuto sale di 12px e sfuma in 500ms; l'altezza cambia subito. */
+.fisarmonica {
+  border-block-start: 1px solid var(--linea);
+}
+
+.fisarmonica details {
+  border-block-end: 1px solid var(--linea);
+}
+
+.fisarmonica summary {
+  position: relative;
+  display: block;
+  list-style: none;
+  cursor: pointer;
+  padding-block: 22px;
+  padding-inline-end: 48px;
+  font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+  letter-spacing: -0.02em;
+}
+
+.fisarmonica summary::-webkit-details-marker {
+  display: none;
+}
+
+.fisarmonica summary::before,
+.fisarmonica summary::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  transition: transform var(--t-2) var(--ease-std);
+}
+
+/* Barra orizzontale: 16px, centro a 12px dal bordo destro. */
+.fisarmonica summary::before {
+  inline-size: 16px;
+  block-size: 1.5px;
+  inset-inline-end: 4px;
+  inset-block-start: calc(50% - 0.75px);
+}
+
+/* Barra verticale: stesso centro. */
+.fisarmonica summary::after {
+  inline-size: 1.5px;
+  block-size: 16px;
+  inset-inline-end: 11.25px;
+  inset-block-start: calc(50% - 8px);
+}
+
+.fisarmonica details[open] summary::before,
+.fisarmonica details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.fisarmonica__corpo {
+  max-inline-size: 62ch;
+  padding-block-end: 26px;
+}
+
+.fisarmonica details[open] .fisarmonica__corpo {
+  animation: sali-corto 500ms var(--ease-out) both;
+}
+
+/* ---------- Scheda: bordo da 1px, angoli vivi ---------- */
+.scheda {
+  border: 1px solid var(--linea);
+  border-radius: 0;
+  padding: clamp(20px, 2.2vw, 32px);
+  background: transparent;
+}

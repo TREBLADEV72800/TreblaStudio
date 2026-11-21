@@ -28,7 +28,7 @@ onesto e riconoscibile. Niente template travestiti.
 - `src/components/` — `MetaDocumento.astro` (testata e JSON-LD), `Intestazione`,
   `Piede`, `ContattiDinamici` (link e tracking), `ElencoDomande`, `TestataSezione`.
 - `src/layouts/LayoutPagina.astro` — pagina normale.
-- `src/stili-globali.css` + `src/styles/variabili.css` — design system e token.
+- `src/styles/tokens.css` (token) + `base.css`, `layout.css`, `componenti.css`, `movimento.css` — design system; `legacy.css` è congelato.
 - `src/pages/` — route.
 
 ## 2. Design system "Quaderno di bottega"

@@ -1,0 +1,58 @@
+---
+// Fascia scura di riepilogo "prezzi e tempi" nelle pagine dei servizi: titolo display (--fs-h2-s) e testo in lead.
+// È l'unica fascia scura della pagina (la chiusura resta sulla fascia grafite).
+import TitoloRivelato from '../ui/TitoloRivelato.astro';
+
+interface Props {
+  id: string;
+  titolo: string;
+  testo: string;
+}
+
+const { id, titolo, testo } = Astro.props;
+---
+
+<section class="fascia-scura banda-prezzo" aria-labelledby={id}>
+  <div class="contenitore banda-prezzo__griglia">
+    <TitoloRivelato tag="h2" id={id} testo={titolo} taglia="h2-s" classe="banda-prezzo__titolo" />
+    <p class="banda-prezzo__testo" data-reveal>{testo}</p>
+  </div>
+</section>
+
+<style>
+  .banda-prezzo {
+    padding-block: var(--sezione);
+  }
+
+  .banda-prezzo__griglia {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  :global(.titolo-rivelato.banda-prezzo__titolo) {
+    max-inline-size: none;
+  }
+
+  .banda-prezzo__testo {
+    max-inline-size: 52ch;
+    margin: 0;
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+    color: var(--carta);
+  }
+
+  @media (min-width: 960px) {
+    .banda-prezzo__griglia {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: end;
+      column-gap: var(--gap);
+    }
+
+    :global(.titolo-rivelato.banda-prezzo__titolo) {
+      grid-column: 1 / span 7;
+    }
+
+    .banda-prezzo__testo {
+      grid-column: 9 / span 4;
+    }
+  }
+</style>
