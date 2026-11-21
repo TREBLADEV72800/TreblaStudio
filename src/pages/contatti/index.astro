@@ -145,6 +145,14 @@ import ContattiRiga from '../../components/pagine/contatti-riga.astro';
     column-gap: 0;
   }
 
+  /* Sotto 960px il testo di una riga lunga (WhatsApp) arrivava a 1px dalla freccia: 12px di respiro.
+     A 1440 la riga resta com'era. */
+  @media (max-width: 959px) {
+    .contatti-gruppo :global(.contatti-riga) {
+      column-gap: var(--s-3);
+    }
+  }
+
   /* Email: corpo più piccolo, così l'indirizzo sta su una riga anche su telefono (prima andava a capo a metà parola). */
   .contatti-gruppo :global(.contatti-riga__valore[data-mail]) {
     font-size: clamp(22px, 6vw, 44px);

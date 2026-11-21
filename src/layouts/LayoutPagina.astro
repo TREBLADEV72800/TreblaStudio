@@ -13,7 +13,7 @@ import { site } from '../data/sito';
 interface Props {
   title?: string | undefined;
   description?: string | undefined;
-  canonical?: string | undefined;
+  canonical?: string | null | undefined;
   noindex?: boolean | undefined;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[] | undefined;
   ogImage?: string | undefined;

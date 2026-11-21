@@ -758,6 +758,13 @@ function renderizza() {
     invia.id = 'w-invia';
     invia.target = '_blank';
     invia.rel = 'noopener noreferrer';
+    // Senza privacy WhatsApp si comporta come l'email: niente navigazione, stesso errore.
+    // Con privacy accettata href e messaggio restano quelli di aggiornaInvia().
+    invia.addEventListener('click', (e) => {
+      if (S.privacy) return;
+      e.preventDefault();
+      mostraErrore('Accetta i termini e le condizioni per inviare la richiesta.');
+    });
     box.appendChild(invia);
     const inviaMail = el('a', 'btn btn-fantasma', isPC ? 'Copia email' : 'Invia via email');
     inviaMail.id = 'w-invia-mail';

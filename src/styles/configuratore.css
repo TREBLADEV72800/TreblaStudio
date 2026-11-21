@@ -263,6 +263,28 @@ html.cfg-lock body { overflow: hidden; }
 /* Lo script nasconde con l'attributo hidden: nessuna regola di display lo riapre. */
 html.cfg-lock [hidden] { display: none !important; }
 
+/* ---------- Senza JavaScript (html senza classe "js", vedi MetaDocumento): niente controlli che non fanno nulla.
+   La barra nasconde anche la percentuale, che è il suo ::after. Resta il messaggio con i link. ---------- */
+html:not(.js) .wizard-barra,
+html:not(.js) .wizard-barra-fissa,
+html:not(.js) .wizard-avanti,
+html:not(.js) .wizard-indietro { display: none; }
+
+.wizard-noscript {
+  max-inline-size: 36ch;
+  margin: 18px 0 0;
+  font: 400 1.15rem / 1.45 var(--font-testo);
+  color: var(--inchiostro);
+}
+
+.wizard-noscript a {
+  color: var(--inchiostro);
+  text-decoration: underline;
+  text-decoration-color: var(--mattone-testo);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
 /* ---------- Schermo: testata, barra, domanda, corpo scorrevole ---------- */
 .cfg-schermo {
   min-height: 100vh;
@@ -670,9 +692,11 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   opacity: 1;
 }
 
+/* Focus dei campi: anello solid 2px come nel resto del sito (token --focus, circa 5:1 su carta). Solo al focus, non a riposo. */
 .cfg-schermo .wizard-campo:focus,
 .cfg-schermo .wizard-campo:focus-visible {
-  outline: none;
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
   background: transparent;
   border-block-end: 2px solid var(--inchiostro);
   padding-block: 12px;

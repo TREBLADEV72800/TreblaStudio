@@ -89,6 +89,15 @@ import TestataSezione from '../TestataSezione.astro';
     color: var(--inchiostro);
   }
 
+  /* Sotto 960px l'ultima persona non ha filetto né padding in basso: il filetto resta quello di Domande
+     (era un doppio filetto a 64px di distanza) e la fascia tra le sezioni è --sezione. */
+  @media (max-width: 959px) {
+    .home-studio__persona:last-child {
+      border-block-end: 0;
+      padding-block-end: 0;
+    }
+  }
+
   @media (min-width: 960px) {
     .home-studio__testata :global(.testata) :global(.testata__titolo) {
       grid-column: 1 / span 6;

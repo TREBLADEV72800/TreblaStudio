@@ -18,9 +18,11 @@ const description =
     <MetaDocumento title={title} description={description} canonical="/preventivo" />
   </head>
   <body>
-    <div class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
+    <a class="salto" href="#contenuto">Salta al contenuto</a>
+    <!-- main è il contenitore flex dello schermo (.cfg-schermo): al posto di div.involucro, non dentro, così il layout non cambia. -->
+    <main id="contenuto" class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
       <div class="wizard-testa">
-        <a class="wizard-casa link-sottolineato" href="/" aria-label="Torna alla homepage"><svg class="wizard-casa-freccia" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true" focusable="false"><path d="M12 8H4M7.5 4.5 4 8l3.5 3.5"/></svg><span>Home</span></a>
+        <a class="wizard-casa link-sottolineato" href="/" aria-label="Home, torna alla homepage"><svg class="wizard-casa-freccia" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true" focusable="false"><path d="M12 8H4M7.5 4.5 4 8l3.5 3.5"/></svg><span>Home</span></a>
       </div>
 
       <div class="wizard-barra" id="w-barra" role="progressbar" aria-label="Avanzamento preventivo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wizard-riempimento" id="w-riempimento"></div></div>
@@ -29,8 +31,12 @@ const description =
       <p class="wizard-sotto" id="w-sotto"></p>
       <p class="wizard-errore" id="w-errore" role="alert" hidden></p>
 
+      <noscript>
+        <p class="wizard-noscript">Il configuratore funziona con JavaScript attivo. Intanto puoi vedere i <a href="/prezzi/">prezzi</a> o scriverci dalla pagina <a href="/contatti/">Contatti</a>.</p>
+      </noscript>
+
       <div class="wizard-corpo" id="w-corpo"></div>
-    </div>
+    </main>
 
     <div class="wizard-barra-fissa">
       <div class="wizard-barra-interna">

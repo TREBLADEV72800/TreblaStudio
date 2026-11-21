@@ -237,11 +237,18 @@ html:not(.js) [data-reveal] {
   pointer-events: none;
 }
 
+/* Senza il supporto (@supports) la barra resta display:none. Le proprietà sono longhand in due regole:
+   lo shorthand animation con scroll() nel build veniva scartato da Chromium, e la barra restava piena. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .avanzamento {
       display: block;
-      animation: avanzamento-scala linear both;
+      animation-name: avanzamento-scala;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+    }
+
+    .avanzamento {
       animation-timeline: scroll(root block);
     }
   }

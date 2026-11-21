@@ -453,18 +453,44 @@ const voci = [
       }
     }
 
+    // Con il menu aperto il resto della pagina è inert: main, footer, salto al contenuto e l'header
+    // tranne il bottone (logo, CTA). Si segnano i fratelli di ogni antenato del bottone, pannello escluso.
+    let isolati = [];
+    function isolaSfondo(v) {
+      if (!v) {
+        isolati.forEach(function (n) { n.inert = false; });
+        isolati = [];
+        return;
+      }
+      const tenuti = [pannello, btn];
+      for (let n = btn; n && n !== document.body; n = n.parentElement) tenuti.push(n);
+      isolati = [];
+      for (let p = btn.parentElement; p && p !== document.documentElement; p = p.parentElement) {
+        Array.prototype.forEach.call(p.children, function (c) {
+          if (tenuti.indexOf(c) === -1) isolati.push(c);
+        });
+      }
+      isolati.forEach(function (n) { n.inert = true; });
+    }
+
     function imposta(v) {
       aperto = v;
       btn.setAttribute('aria-expanded', String(v));
       btn.setAttribute('aria-label', v ? 'Chiudi il menu' : 'Apri il menu');
       pannello.classList.toggle('is-aperto', v);
       pannello.inert = !v;
+      isolaSfondo(v);
       bloccaScroll(v);
       if (v) {
         header.classList.remove('is-nascosta');
         pannello.querySelector('a')?.focus();
       }
       aggiorna();
+    }
+
+    // Unica strada di chiusura: bottone, Esc, clic su una voce e passaggio a desktop.
+    function chiudi() {
+      imposta(false);
     }
 
     // Fondo dopo 40px; nascondi scorrendo giù oltre 120px, riappari scorrendo su.
@@ -481,13 +507,15 @@ const voci = [
       else if (delta > 2) header.classList.add('is-nascosta');
     }
 
-    btn.addEventListener('click', () => imposta(!aperto));
-    pannello.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => imposta(false)));
+    btn.addEventListener('click', () => (aperto ? chiudi() : imposta(true)));
+    pannello.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => chiudi()));
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && aperto) {
-        imposta(false);
-        btn.focus();
+        chiudi();
+        // Stessa chiusura del bottone. Il focus senza scroll: base.css ha scroll-behavior smooth
+        // e il focus() riportava la pagina verso l'alto (66px invece di 500).
+        btn.focus({ preventScroll: true });
       }
       if (e.key === 'Tab' && aperto) {
         // Focus trap: il tab resta tra il bottone Chiudi e le voci del pannello.
@@ -511,7 +539,7 @@ const voci = [
     });
 
     window.addEventListener('resize', () => {
-      if (window.innerWidth >= 960 && aperto) imposta(false);
+      if (window.innerWidth >= 960 && aperto) chiudi();
     });
 
     aggiorna();
