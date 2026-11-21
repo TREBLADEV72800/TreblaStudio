@@ -953,7 +953,7 @@ function valido(id: string) {
 
 function aggiornaCromo(scroll: boolean) {
   const f = flusso();
-  riemp.style.width = `${((idx + 1) / f.length) * 100}%`;
+  riemp.style.transform = `scaleX(${(idx + 1) / f.length})`;
   $('w-barra')?.setAttribute('aria-valuenow', String(Math.round(((idx + 1) / f.length) * 100)));
   indietro.hidden = idx === 0;
   const id = f[idx]!;
