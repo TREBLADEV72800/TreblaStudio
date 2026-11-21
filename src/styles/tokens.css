@@ -36,7 +36,6 @@
   --fs-body: 16px;                                   /* testo, lh 1.55; 17px da 960px */
   --fs-ui: 15px;                                     /* interfaccia: nav, bottoni, Archivo 600 */
   --fs-small: 14px;                                  /* small, breadcrumb, etichette, lh 1.4 */
-  --fs-wordmark: clamp(110px, 26vw, 440px);
 
   /* ---------- Spaziature e griglia ---------- */
   --pad: max(clamp(16px, 2.6vw, 40px), calc((100vw - 1680px) / 2)); /* margine laterale */
