@@ -1,41 +1,237 @@
 ---
-// Hero: solo markup, nessun dato dinamico.
+// Hero della home. H1 display a tutta larghezza; l'ultima parola cambia in un ciclo di settori
+// (CSS puro, quindi funziona anche senza JS). Testi: tutti già presenti nel sito, fonti nel report.
+// Il ciclo è nascosto ai lettori di schermo; lo sr-only dentro l'H1 porta la frase intera.
+import Bottone from '../ui/Bottone.astro';
 
+// Parole del ciclo: in mattone, ognuna sale, resta, esce. Il ciclo chiude su ATTIVITÀ.
+const ciclo = ['PIZZERIA.', 'OFFICINA.', 'TRATTORIA.', 'BOTTEGA.', 'ATTIVITÀ.'];
+
+// Striscia di garanzie: frasi già presenti nel sito. Puntini: mattone, verde, inchiostro, mattone.
+const garanzie = [
+  { testo: 'Il sito è tuo', puntino: 'mattone' },
+  { testo: 'Nessun canone obbligatorio', puntino: 'verde' },
+  { testo: 'Due revisioni incluse', puntino: 'inchiostro' },
+  { testo: 'Asti, su appuntamento.', puntino: 'mattone' },
+];
 ---
 
-  <!-- HERO -->
-  <div class="involucro">
-    <section class="hero" aria-labelledby="titolo">
-      <div class="hero-griglia">
-        <div>
-          <h1 id="titolo">Un sito chiaro<br />per far scegliere<br /><em>la tua attività.</em></h1>
-          <p class="hero-lead">
-            Siti web completi e veloci per <strong>attività locali ad Asti e dintorni</strong>:
-            prezzi chiari, un referente diretto e i contatti sempre a portata di mano.
-          </p>
-          <div class="hero-azioni">
-            <a class="btn btn-mattone" href="/preventivo/">Fai il preventivo in 2 minuti</a>
-            <a class="btn btn-fantasma" href="/servizi/">Scopri i servizi</a>
-          </div>
-        </div>
+<section class="hero__radice contenitore" aria-labelledby="titolo">
+  <p class="etichetta hero__etichetta entra" style="--d: 400ms">
+    <span class="puntino puntino--verde puntino--pulse" aria-hidden="true"></span>Studio indipendente ad Asti.
+  </p>
 
-        <aside class="scheda" aria-label="Esempio: come ti vede un cliente con un sito Trebla">
-          <div class="scheda-barra" aria-hidden="true"><i></i><i></i><i></i><span>la-tua-trattoria.it</span></div>
-          <div class="scheda-corpo">
-            <p class="scheda-tipo">Trattoria · Asti</p>
-            <h2 class="scheda-nome">La tua trattoria</h2>
-            <ul class="scheda-righe">
-              <li><span class="ok" aria-hidden="true">✓</span><span>Menù del giorno leggibile<small>Prezzi chiari, niente PDF da scaricare</small></span></li>
-              <li><span class="ok" aria-hidden="true">✓</span><span>Aperto ora · fino alle 22:30<small>Via Roma 1 · in centro</small></span></li>
-              <li><span class="ok" aria-hidden="true">✓</span><span>Prenota in un tocco<small>WhatsApp o telefono, a scelta tua</small></span></li>
-            </ul>
-            <div class="scheda-tasti" aria-hidden="true"><span class="solid">Prenota</span><span>Menù</span><span>Come arrivare</span></div>
-          </div>
-        </aside>
-      </div>
-    </section>
+  <h1 id="titolo" class="hero__titolo titolo-rivelato titolo-rivelato--hero titolo-rivelato--immediato display"><span class="parola"><span class="parola__in" style="--i: 0">Un</span></span> <span class="parola"><span class="parola__in" style="--i: 1">sito</span></span> <span class="parola"><span class="parola__in" style="--i: 2">chiaro</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 3">per</span></span> <span class="parola"><span class="parola__in" style="--i: 4">far</span></span> <span class="parola"><span class="parola__in" style="--i: 5">scegliere</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 6">la</span></span> <span class="parola"><span class="parola__in" style="--i: 7">tua</span></span> <span class="hero__ciclo" aria-hidden="true">{ciclo.map((parola, i) => (<span class="hero__parola" style={`--i: ${i}`} data-p={parola}></span>))}</span><span class="hero__solo-lettori">attività.</span></h1>
+
+  <div class="hero__sotto">
+    <p class="hero__lead">
+      Siti web completi e veloci per <strong>attività locali ad Asti e dintorni</strong>:
+      prezzi chiari, un referente diretto e i contatti sempre a portata di mano.
+    </p>
+    <div class="hero__azioni entra" style="--d: 600ms">
+      <Bottone href="/preventivo/" testo="Fai il preventivo in 2 minuti" />
+      <Bottone href="/servizi/" variante="secondario" testo="Scopri i servizi" />
+    </div>
   </div>
 
+  <ul class="hero__garanzie entra" style="--d: 700ms">
+    {
+      garanzie.map((g) => (
+        <li>
+          <span class={`puntino puntino--${g.puntino}`} aria-hidden="true"></span>
+          {g.testo}
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
 <style>
-  /* stili della sezione: ondata 2 */
+  /* ---------- Contenitore: altezza piena da 960px, contenuto in colonna ---------- */
+  .hero__radice {
+    display: flex;
+    flex-direction: column;
+    padding-block: clamp(40px, 7vw, 112px) var(--s-6);
+  }
+
+  @media (min-width: 960px) {
+    .hero__radice {
+      min-block-size: calc(100svh - var(--hh));
+      padding-block-end: var(--s-7);
+    }
+  }
+
+  .hero__etichetta {
+    align-self: flex-start;
+  }
+
+  /* ---------- H1 display a tutta larghezza ---------- */
+  .hero__titolo {
+    margin-block: var(--s-6) 0;
+    max-inline-size: none;
+    color: var(--inchiostro);
+  }
+
+  @media (min-width: 960px) {
+    .hero__titolo {
+      margin-block: auto 0;
+    }
+  }
+
+  /* ---------- Parola che cambia ----------
+     Una cella di inline-grid: tutte le parole stanno in 1/1, la cella prende la larghezza
+     della più lunga e ritaglia (overflow clip). Ogni parola: sale da 100% a 0, sta ferma,
+     esce da 0 a -100%. Periodo 11s (5 parole da 2,2s), inizio dopo l'ingresso dell'H1 (1,4s). */
+  .hero__ciclo {
+    display: inline-grid;
+    vertical-align: top;
+    /* Ritaglio: sopra abbastanza per gli accenti (À), sotto zero: le parole in attesa restano sotto il bordo. */
+    margin-block: -0.25em 0;
+    padding-block: 0.25em 0;
+    overflow: clip;
+    color: var(--mattone);
+  }
+
+  .hero__parola {
+    grid-area: 1 / 1;
+    display: block;
+    white-space: nowrap;
+    animation: hero-ciclo 11s linear infinite both;
+    animation-delay: calc(1.4s + var(--i) * 2.2s);
+  }
+
+  .hero__parola::before {
+    content: attr(data-p);
+  }
+
+  @keyframes hero-ciclo {
+    0% {
+      transform: translate3d(0, 130%, 0);
+      animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    5.45% {
+      transform: translate3d(0, 0, 0);
+    }
+    14.55% {
+      transform: translate3d(0, 0, 0);
+      animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    20% {
+      transform: translate3d(0, -130%, 0);
+    }
+    100% {
+      transform: translate3d(0, -130%, 0);
+    }
+  }
+
+  /* Testo per screen reader e SEO: la frase intera resta nel DOM, nascosta a vista. */
+  .hero__solo-lettori {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ---------- Sotto l'H1: lead a sinistra, CTA a destra ---------- */
+  .hero__sotto {
+    display: grid;
+    gap: var(--s-5);
+    margin-block-start: var(--s-7);
+  }
+
+  .hero__lead {
+    max-inline-size: 52ch;
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .hero__lead strong {
+    font-weight: 600;
+    color: var(--inchiostro);
+  }
+
+  .hero__azioni {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .hero__azioni :global(.btn) {
+    inline-size: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .hero__azioni {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-3);
+    }
+
+    .hero__azioni :global(.btn) {
+      inline-size: auto;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .hero__sotto {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: end;
+    }
+
+    .hero__lead {
+      grid-column: 1 / span 6;
+    }
+
+    .hero__azioni {
+      grid-column: 8 / -1;
+      justify-content: flex-end;
+    }
+  }
+
+  /* ---------- Striscia di garanzie: filetto, mono maiuscolo ---------- */
+  .hero__garanzie {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-4) var(--gap);
+    margin: var(--s-7) 0 0;
+    padding: var(--s-4) 0 0;
+    list-style: none;
+    border-block-start: 1px solid var(--linea);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--inchiostro);
+  }
+
+  .hero__garanzie li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
+  }
+
+  .hero__garanzie .puntino {
+    margin-block-start: 0.35em;
+  }
+
+  @media (min-width: 960px) {
+    .hero__garanzie {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-block-start: auto;
+    }
+  }
+
+  /* ---------- Movimento ridotto: solo ATTIVITÀ., ferma ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__parola {
+      animation: none;
+    }
+
+    .hero__parola:not(:last-child) {
+      visibility: hidden;
+    }
+  }
 </style>

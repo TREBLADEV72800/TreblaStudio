@@ -1,20 +1,189 @@
 ---
-// Striscia dei settori: il testo è ripetuto due volte per il loop, la seconda copia è nascosta ai lettori di schermo.
-
+// Marquee dei settori: due righe in direzioni opposte. La prima è la lista leggibile;
+// le copie per il loop e la seconda riga sono nascoste ai lettori di schermo.
+// L'inclinazione segue la velocità di scroll (script qui sotto): va sul wrapper interno,
+// mai sull'elemento che scorre.
 const settori = [
   'Ristoranti', 'Bar', 'Pizzerie', 'B&B', 'Barbieri', 'Saloni', 'Centri estetici',
   'Negozi', 'Artigiani', 'Officine', 'Professionisti', 'Associazioni',
 ];
 
+// Seconda riga: stesso elenco, ordine ruotato.
+const settoriDue = [...settori.slice(7), ...settori.slice(0, 7)];
 ---
 
-  <div class="ticker" aria-label="Per chi lavoriamo">
-    <div class="ticker-pista">
-      {settori.map((s) => <span>{s}</span>)}
-      {settori.map((s) => <span aria-hidden="true">{s}</span>)}
+<section class="fascia-scura ticker__radice" aria-label="Per chi lavoriamo" data-ticker>
+  <div class="ticker__riga ticker__riga--sinistra">
+    <div class="ticker__pista">
+      <div class="ticker__inclina" data-ticker-inclina>
+        <ul class="ticker__lista">
+          {settori.map((s) => <li>{s}</li>)}
+        </ul>
+        <ul class="ticker__lista" aria-hidden="true">
+          {settori.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
     </div>
   </div>
 
+  <div class="ticker__riga ticker__riga--destra" aria-hidden="true">
+    <div class="ticker__pista">
+      <div class="ticker__inclina" data-ticker-inclina>
+        <ul class="ticker__lista">
+          {settoriDue.map((s) => <li>{s}</li>)}
+        </ul>
+        <ul class="ticker__lista">
+          {settoriDue.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Inclinazione con la velocità di scroll: skewX proporzionale, limitato a ±5°,
+  // con lerp 0,12 e ritorno a 0 quando lo scroll si ferma. Solo se la fascia è visibile
+  // e senza movimento ridotto.
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var fascia = document.querySelector('[data-ticker]');
+    if (!fascia) return;
+    var inclina = document.querySelectorAll('[data-ticker-inclina]');
+    var MAX = 5;
+    var LERP = 0.12;
+    var visibile = false;
+    var ultimoY = window.scrollY;
+    var delta = 0;
+    var skew = 0;
+    var raf = 0;
+
+    function applica(gradi) {
+      var t = gradi ? 'skewX(' + gradi.toFixed(2) + 'deg)' : '';
+      for (var i = 0; i < inclina.length; i++) inclina[i].style.transform = t;
+    }
+
+    function frame() {
+      raf = 0;
+      var v = delta;
+      delta = 0;
+      var target = v ? Math.max(-MAX, Math.min(MAX, v * 0.3)) : 0;
+      skew += (target - skew) * LERP;
+      if (Math.abs(skew) < 0.01) skew = 0;
+      applica(skew);
+      if (skew !== 0 || v !== 0) raf = requestAnimationFrame(frame);
+    }
+
+    window.addEventListener(
+      'scroll',
+      function () {
+        var y = window.scrollY;
+        delta += y - ultimoY;
+        ultimoY = y;
+        if (visibile && !raf) raf = requestAnimationFrame(frame);
+      },
+      { passive: true }
+    );
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (voci) {
+        voci.forEach(function (voce) {
+          visibile = voce.isIntersecting;
+          if (!visibile) {
+            skew = 0;
+            delta = 0;
+            applica(0);
+          }
+        });
+      });
+      io.observe(fascia);
+    } else {
+      visibile = true;
+    }
+  })();
+</script>
+
 <style>
-  /* stili della sezione: ondata 2 */
+  .ticker__radice {
+    overflow: hidden;
+    border-block: 1px solid var(--linea);
+    padding-block: clamp(6px, 0.8vw, 10px);
+  }
+
+  .ticker__riga {
+    overflow: hidden;
+    padding-block: 0;
+  }
+
+  /* Pista: scorre di una copia (-50%). Il wrapper interno porta l'inclinazione. */
+  .ticker__pista {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .ticker__riga--sinistra .ticker__pista {
+    animation: ticker-sinistra 42s linear infinite;
+  }
+
+  .ticker__riga--destra .ticker__pista {
+    animation: ticker-destra 50s linear infinite;
+  }
+
+  .ticker__inclina {
+    display: flex;
+    will-change: transform;
+  }
+
+  .ticker__lista {
+    display: flex;
+    flex: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    white-space: nowrap;
+    font: 800 clamp(36px, 5.6vw, 88px) / 0.88 var(--font-display);
+    font-stretch: 64%;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .ticker__lista li {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Separatore: stella a quattro punte in mattone, da pseudo-elemento (nessun glifo). */
+  .ticker__lista li::after {
+    content: "";
+    flex: none;
+    inline-size: 0.24em;
+    block-size: 0.24em;
+    margin-inline: 0.42em;
+    background: var(--mattone);
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+  }
+
+  @media (hover: hover) {
+    .ticker__riga:hover .ticker__pista {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes ticker-sinistra {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes ticker-destra {
+    from {
+      transform: translate3d(-50%, 0, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
 </style>
