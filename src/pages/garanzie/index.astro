@@ -61,7 +61,7 @@ import { site } from '../../data/sito';
 
 <style>
   /* Quattro blocchi senza numeri: una colonna su mobile, 2×2 da 960px.
-     Il termine chiave è un H3 in display piccolo; il testo esistente sta sotto. */
+     Il termine chiave è un H3 in Archivo 600, frase normale: il display resta all'H1 della pagina. */
   .ga-lista {
     display: grid;
     gap: 0;
@@ -78,11 +78,15 @@ import { site } from '../../data/sito';
     border-block-start: 1px solid var(--linea);
   }
 
+  /* Il filetto della prima voce fa da doppione di quello sotto la testata: lo si toglie. */
+  .ga-lista > .ga-riga:first-child {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
   .ga-titolo {
-    font: 800 var(--fs-h2-xs) / 0.92 var(--font-display);
-    font-stretch: 64%;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
+    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+    letter-spacing: -0.02em;
     color: var(--inchiostro);
   }
 
@@ -97,6 +101,12 @@ import { site } from '../../data/sito';
     .ga-lista {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       column-gap: var(--gap);
+    }
+
+    /* Nella griglia 2×2 la prima riga non ha filetto sopra, come la prima voce sotto 960px. */
+    .ga-riga:nth-child(-n + 2) {
+      padding-block-start: 0;
+      border-block-start: 0;
     }
   }
 

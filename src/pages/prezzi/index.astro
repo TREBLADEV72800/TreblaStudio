@@ -89,7 +89,7 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
               pacchetti.map((p) => (
                 <th scope="col" class:list={['pm__col', p.forte && 'pm--forte']}>
                   <span class="pm__nome">{p.nome}</span>
-                  <span class="display display--h2-s pm__prezzo">{p.prezzo}<span class="pm__euro">€</span></span>
+                  <span class="display display--prezzo pm__prezzo">{p.prezzo}<span class="pm__euro">€</span></span>
                   <span class="pm__anticipo">Anticipo di {ANTICIPO}€</span>
                 </th>
               ))
@@ -154,6 +154,54 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
           </tr>
         </tfoot>
       </table>
+
+      <div class="pm-blocchi">
+        {
+          pacchetti.map((p, i) => (
+            <div class:list={['pm-blocco', p.forte && 'pm-blocco--forte']}>
+              <h3 class="pm-blocco__nome">{p.nome}</h3>
+              <p class="display display--prezzo pm-blocco__prezzo">{p.prezzo}<span class="pm__euro">€</span></p>
+              <p class="pm-blocco__anticipo">Anticipo di {ANTICIPO}€</p>
+              <ul class="pm-blocco__righe">
+                {(comprende[i] ?? []).length > 0 && (
+                  <li class="pm-riga pm-riga--lunga">
+                    <span class="pm-riga__voce">Cosa comprende</span>
+                    <ul class="pm__elenco">
+                      {(comprende[i] ?? []).map((voce) => <li>{voce}</li>)}
+                    </ul>
+                  </li>
+                )}
+                {confronto.map((riga) => (
+                  <li class="pm-riga">
+                    <span class="pm-riga__voce">{riga.voce}</span>
+                    <span class="pm-riga__valore">
+                      {riga.valori[i] === true && (
+                        <span class="pm__segno" role="img" aria-label="Incluso">
+                          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" focusable="false">
+                            <path d="M3.5 9.5 7 13 14.5 5" />
+                          </svg>
+                        </span>
+                      )}
+                      {riga.valori[i] === false && (
+                        <span class="pm__segno pm__segno--no" role="img" aria-label="Non incluso">–</span>
+                      )}
+                      {typeof riga.valori[i] === 'string' && <span class="pm__valore">{riga.valori[i]}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                class="link-sottolineato pm__azione"
+                href={p.href}
+                data-cursore="Preventivo"
+                aria-label={`Fai il preventivo per ${p.nome.toLowerCase()}`}
+              >
+                Fai il preventivo
+              </a>
+            </div>
+          ))
+        }
+      </div>
 
       <div class="pm__note">
         <p>Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Le sezioni e il numero di pagine si definiscono nella proposta. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+{photoPrices['Servono le foto (le scattate voi)']}€) o scegliere l’opzione “Parto da zero” (+{photoPrices['Parto da zero']}€), da precisare insieme prima dell’avvio.</p>
@@ -236,6 +284,7 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
   /* ---------- Matrice di confronto: tre pacchetti in colonna, voci in riga.
      Su 390px le colonne sono strette ma la tabella sta nel contenitore, senza scroll. ---------- */
   .pm {
+    display: none;
     inline-size: 100%;
     margin: 0;
     border-collapse: collapse;
@@ -382,6 +431,106 @@ const confronto: { voce: string; valori: [boolean | string, boolean | string, bo
 
     .pm__col {
       inline-size: 20%;
+    }
+  }
+
+  /* ---------- Sotto 640px: la matrice è una lettura a blocchi, uno per pacchetto.
+     Stesse voci e stessi testi della tabella. Da 640px torna la tabella. ---------- */
+  .pm-blocchi {
+    display: grid;
+  }
+
+  .pm-blocco {
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-6);
+    border-block-start: 1px solid var(--linea);
+    color: var(--inchiostro);
+  }
+
+  .pm-blocco:first-child {
+    border-block-start: 0;
+  }
+
+  /* L'unica evidenziata: fondo inchiostro a tutta larghezza, come la colonna in tabella. */
+  .pm-blocco--forte {
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    background: var(--inchiostro);
+    color: var(--carta);
+    --morbido: var(--morbido-scuro);
+    --linea: var(--linea-scura);
+  }
+
+  .pm-blocco__nome {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+    letter-spacing: -0.02em;
+    color: inherit;
+  }
+
+  .pm-blocco__prezzo {
+    margin: 0;
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+    color: inherit;
+  }
+
+  .pm-blocco__anticipo {
+    margin: 0;
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .pm-blocco__righe {
+    display: grid;
+    margin: var(--s-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pm-riga {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-3);
+    padding-block: var(--s-3);
+    border-block-start: 1px solid var(--linea);
+    font: 400 var(--fs-body) / 1.35 var(--font-testo);
+  }
+
+  .pm-riga--lunga {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .pm-riga__voce {
+    font: 600 var(--fs-ui) / 1.3 var(--font-ui);
+    color: inherit;
+  }
+
+  .pm-riga__valore {
+    justify-self: end;
+  }
+
+  .pm-riga--lunga .pm__elenco {
+    margin-block-start: var(--s-2);
+    font: 400 var(--fs-body) / 1.45 var(--font-testo);
+  }
+
+  .pm-blocco .pm__azione {
+    justify-self: start;
+    margin-block-start: var(--s-3);
+  }
+
+  /* Da 640px: la tabella, senza blocchi. Questa regola sta dopo quelle base, perché vince a parità di peso. */
+  @media (min-width: 640px) {
+    .pm-blocchi {
+      display: none;
+    }
+
+    .pm {
+      display: table;
     }
   }
 
