@@ -76,13 +76,14 @@ const { canale, valore, href, taglia = 'h2', ...resto } = Astro.props;
     transition: color var(--t-2) var(--ease-std);
   }
 
-  /* Valore: display come le sottosezioni (--fs-h2-s). Il font shorthand azzera font-stretch: va scritto dopo. */
+  /* Valore: Archivo 700, larghezza normale, frase come è scritta (email e numero si leggono in minuscolo).
+     Non è un ruolo display: il display resta per hero, H1, H2, prezzi e wordmark. */
   .contatti-riga__valore {
     grid-area: valore;
     margin: 0;
-    font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
+    font: 700 clamp(26px, 3.6vw, 52px) / 1.1 var(--font-ui);
+    font-stretch: 100%;
+    text-transform: none;
     letter-spacing: -0.01em;
     color: var(--inchiostro);
     /* break-word: va a capo su un'@ o un punto quando può, e spezza una parola solo se non ha scelta.

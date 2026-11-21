@@ -26,7 +26,7 @@ export const FAQS: Faq[] = [
     q: `Offerta Tutto incluso da ${OFFERTA_SITO.prezzo}€?`,
     gruppo: 'prezzi-e-pagamenti',
     a: `Sito a più pagine con funzioni incluse, pagine definite insieme, foto scattate da noi ad Asti, logo nuovo o rinnovato e ${OFFERTA_SITO.revisioni} modifiche gratuite. Costa ${OFFERTA_SITO.prezzo}€; grafiche e social aggiunti restano extra. L’anticipo di ${ANTICIPO}€ è già compreso. La scegli nel preventivo alla voce struttura del sito.`,
-    cta: [{ href: '/preventivo/?offerta=1', label: 'Fai il preventivo' }],
+    cta: [{ href: '/preventivo/?offerta=1', label: 'Prendi l’offerta' }],
   },
   {
     q: 'Quanto costa un sito?',
