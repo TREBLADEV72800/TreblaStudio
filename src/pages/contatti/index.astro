@@ -145,8 +145,13 @@ import ContattiRiga from '../../components/pagine/contatti-riga.astro';
     column-gap: 0;
   }
 
-  /* Sezioni della pagina: il padding usa il token --sezione. Non si usa .sezione perché il CSS legacy
-     azzera il padding alto della sezione che segue un'altra .sezione. */
+  /* Email: corpo più piccolo, così l'indirizzo sta su una riga anche su telefono (prima andava a capo a metà parola). */
+  .contatti-gruppo :global(.contatti-riga__valore[data-mail]) {
+    font-size: clamp(22px, 6vw, 44px);
+  }
+
+  /* Sezioni della pagina: il padding usa il token --sezione. Non si usa .sezione perché la regola
+     .sezione + .sezione (layout.css) azzera il padding alto della sezione che segue un'altra .sezione. */
   .contatti-sez {
     padding-block: var(--sezione);
   }
@@ -155,8 +160,8 @@ import ContattiRiga from '../../components/pagine/contatti-riga.astro';
     border-block-start: 1px solid var(--linea);
   }
 
-  /* Prosa su due colonne da 960px. Il CSS legacy dà a .prosa un margine alto e colora i paragrafi in morbido:
-     qui si riporta al comportamento di Prosa (testo inchiostro, nessun margine di contenitore). */
+  /* Prosa su due colonne da 960px. Prosa dà al contenitore un margine alto e ai paragrafi il colore morbido:
+     questa pagina vuole testo inchiostro e nessun margine di contenitore. */
   .contatti-prosa {
     display: grid;
     gap: var(--s-7) var(--gap);

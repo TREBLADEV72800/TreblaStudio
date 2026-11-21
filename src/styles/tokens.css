@@ -17,6 +17,7 @@
   --mattone: #E8401C;        /* accento: CTA, display grandi, puntini. MAI testo piccolo */
   --mattone-testo: #B23A12;  /* accento per testo piccolo su carta (5,1:1) */
   --verde: #157F3D;          /* WhatsApp, puntino "disponibili" */
+  --focus: var(--mattone-testo); /* anello di focus su superfici chiare; sulle scure si ridefinisce */
 
   /* ---------- Font ---------- */
   --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
@@ -74,30 +75,4 @@
     --fs-body: 17px;
     --hh: 72px;
   }
-}
-
-/* LEGACY: da rimuovere a fine redesign.
-   Il vecchio CSS (src/styles/legacy.css) usa ancora questi nomi:
-   li riporto sui valori nuovi, così le pagine non legacy restano leggibili. */
-:root {
-  --carta-3: var(--carta);
-  --mattone-fondo: var(--mattone-testo);
-  --mattone-chiaro: var(--mattone);
-  --notte: var(--inchiostro);
-  --notte-carta: var(--carta);
-  --notte-morbido: var(--morbido-scuro);
-  --wa: var(--verde);
-  --wa-fondo: var(--inchiostro);
-  --focus: var(--mattone-testo);
-  --sans: var(--font-testo);
-  --serif: var(--font-testo);
-  --mono: var(--font-mono);
-  --t-display: var(--fs-h2);
-  --t-h2: var(--fs-h2-s);
-  --t-h3: var(--fs-h3);
-  --t-lead: var(--fs-lead);
-  --larghezza: 1160px;
-  --margine: var(--pad);
-  --raggio: 0px;
-  --transizione: var(--t-1) var(--ease-std);
 }

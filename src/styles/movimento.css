@@ -7,7 +7,7 @@
    - lo script inline di MetaDocumento aggiunge class="js" a <html>;
    - lo stato nascosto (opacity 0, parole sotto la maschera) vale solo
      con html.js: senza JS tutto è visibile e fermo;
-   - html:not(.js) forza [data-reveal] visibile anche contro il CSS legacy.
+   - html:not(.js) forza [data-reveal] visibile.
    Lo script inline di LayoutPagina aggiunge "visibile" ai reveal, imposta --d
    nei gruppi data-reveal-gruppo e muove il cursore (classi cursore--visibile
    e cursore--chiaro). Animazioni solo su transform e opacity.
@@ -112,7 +112,7 @@
   transform: none;
 }
 
-/* Senza JS: niente stato nascosto. Vale anche per il CSS legacy che nasconde [data-reveal]. */
+/* Senza JS: niente stato nascosto. */
 html:not(.js) [data-reveal] {
   opacity: 1;
   transform: none;
@@ -307,5 +307,13 @@ html:not(.js) [data-reveal] {
   .cursore,
   .avanzamento {
     display: none !important;
+  }
+}
+
+/* Stampa: tutto il contenuto visibile, senza animazioni residue. */
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

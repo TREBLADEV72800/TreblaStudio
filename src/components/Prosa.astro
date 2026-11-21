@@ -22,6 +22,7 @@ const { classe, larga = false } = Astro.props;
     font: 400 var(--fs-body) / 1.6 var(--font-testo);
     color: var(--inchiostro);
     max-inline-size: 62ch;
+    margin-block-start: 24px;
     text-align: start;
   }
 
@@ -31,6 +32,12 @@ const { classe, larga = false } = Astro.props;
 
   .prosa :global(p) {
     margin: 0;
+  }
+
+  /* Paragrafi ed elenchi in morbido: il testo di lettura è secondario rispetto ai titoli. */
+  .prosa :global(p),
+  .prosa :global(li) {
+    color: var(--morbido);
   }
 
   .prosa :global(p) + :global(p) {
@@ -134,6 +141,7 @@ const { classe, larga = false } = Astro.props;
   /* ---------- Enfasi ---------- */
   .prosa :global(strong) {
     font-weight: 600;
+    color: var(--inchiostro);
   }
 
   /* Niente corsivo: l'enfasi con em diventa peso e tono. */
@@ -157,6 +165,10 @@ const { classe, larga = false } = Astro.props;
     inline-size: 100%;
     margin-block: 32px;
     border-collapse: collapse;
+    /* Sotto 640px la tabella scorre dentro il proprio blocco, non nella pagina. */
+    display: block;
+    max-inline-size: 100%;
+    overflow-x: auto;
   }
 
   .prosa :global(th),
@@ -184,12 +196,12 @@ const { classe, larga = false } = Astro.props;
     text-align: end;
   }
 
-  /* Sotto 640px la tabella scorre dentro il proprio blocco, non nella pagina. */
-  @media (max-width: 639px) {
+  /* Da 640px la tabella torna a layout di tabella normale. */
+  @media (min-width: 640px) {
     .prosa :global(table) {
-      display: block;
-      max-inline-size: 100%;
-      overflow-x: auto;
+      display: table;
+      max-inline-size: none;
+      overflow-x: visible;
     }
   }
 </style>

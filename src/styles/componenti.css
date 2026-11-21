@@ -2,8 +2,7 @@
    COMPONENTI CONDIVISI: bottone, link, etichetta, puntino, chip,
    titolo rivelato, testata di sezione, fisarmonica, scheda.
    Markup nei componenti Astro di src/components/ui/.
-   Nota: i selettori dei bottoni usano .btn.btn--* (specificità 0,2,0)
-   per non subire il vecchio .btn del CSS legacy.
+   Nota: i selettori dei bottoni usano .btn.btn--* (specificità 0,2,0).
    Le micro-interazioni di hover stanno in @media (hover: hover);
    il focus da tastiera mostra lo stesso stato dell'hover sui bottoni.
    ============================================================ */
@@ -14,6 +13,18 @@
   inline-size: 16px;
   block-size: 16px;
   flex: none;
+}
+
+/* Testo di ogni bottone: a capo bilanciato, parole lunghe spezzate solo se servono. */
+.btn {
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+@media print {
+  .btn {
+    display: none !important;
+  }
 }
 
 /* ---------- Bottone pill (src/components/ui/Bottone.astro) ----------
@@ -34,7 +45,7 @@
   box-sizing: border-box;
   min-block-size: 48px;
   padding-inline: 24px 6px;
-  /* Il padding verticale del .btn legacy (14px) va azzerato: l'altezza la danno min-block-size e il cerchio. */
+  /* Padding verticale a zero: l'altezza la danno min-block-size e il cerchio. */
   padding-block: 0;
   border: 1px solid var(--btn-borde);
   border-radius: 999px;

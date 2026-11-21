@@ -84,6 +84,15 @@
   padding-block: var(--sezione);
 }
 
+/* Sezioni consecutive: la seconda non ripete lo spazio alto, la prima ha uno spazio basso ridotto. */
+.sezione + .sezione {
+  padding-block-start: 0;
+}
+
+.sezione:has(+ .sezione) {
+  padding-block-end: clamp(20px, 3vw, 36px);
+}
+
 /* Fasce scure: ridefiniscono filetti, testo secondario e focus per la superficie scura. */
 .fascia-scura,
 .fascia-grafite {

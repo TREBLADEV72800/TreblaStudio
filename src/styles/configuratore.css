@@ -1,15 +1,259 @@
 /* ============================================================
    CONFIGURATORE DEL PREVENTIVO (/preventivo/): schermo intero, un passo alla volta.
    Lo carica solo questa pagina. Token in tokens.css, base in base.css.
-   legacy.css è congelato: le sue regole del wizard si sovrascrivono qui.
-   Questo file viene dopo legacy.css nell'ordine degli import (index.astro).
 
    Il markup dei passi lo genera lo script (configuratore-preventivo.ts):
    classi e id usati qui sono un contratto con lo script, non si rinominano.
-   Per battere le regole legacy di pari specificità si usano :has(), attributi
+   Per battere le regole di pari specificità si usano :has(), attributi
    e l'ordine di caricamento. Animazioni solo su transform e opacity.
    Niente ombre, gradienti, raggi (tranne le pillole dei bottoni) e corsivo.
    ============================================================ */
+
+.involucro {
+  inline-size: min(1160px, 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+/* ---------- Bottoni creati dallo script (btn + btn-mattone | btn-wa | btn-fantasma) ----------
+   Non usano le varianti .btn--* dei bottoni del sito: l'aspetto sta tutto qui. */
+.btn.btn-mattone,
+.btn.btn-wa,
+.btn.btn-fantasma {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-block-size: 54px;
+  padding: 14px 28px;
+  border-radius: 0;
+  font: 700 0.98rem / 1.2 var(--font-testo);
+  letter-spacing: 0.015em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--t-1) var(--ease-std), color var(--t-1) var(--ease-std), transform 0.12s ease;
+}
+
+.btn.btn-mattone:active,
+.btn.btn-wa:active,
+.btn.btn-fantasma:active {
+  transform: scale(0.98);
+}
+
+.btn-mattone {
+  background: var(--mattone);
+  color: #fff8ef;
+}
+
+.btn-mattone:hover {
+  background: var(--mattone-testo);
+}
+
+.btn-fantasma {
+  border-color: var(--inchiostro);
+  color: var(--inchiostro);
+  background: transparent;
+}
+
+.btn-fantasma:hover {
+  background: var(--inchiostro);
+  color: var(--carta);
+}
+
+.btn-wa {
+  background: var(--verde);
+  color: #fff;
+}
+
+.btn-wa:hover {
+  background: var(--inchiostro);
+}
+
+
+.link-freccia {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--mattone);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  position: relative;
+}
+/* Area di tap piu' generosa: il pseudo-elemento esce dal testo e basta.
+   Non sposta niente nel layout, rende solo il link premibile col dito. */
+.link-freccia::after {
+  content: '';
+  position: absolute;
+  inset: -6px -4px;
+}
+.link-freccia:hover { color: var(--mattone-testo); }
+
+/* ---------- Wizard: struttura, opzioni, riepilogo, invio ---------- */
+.wizard {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-block: clamp(20px, 3vw, 32px) clamp(32px, 4vw, 56px);
+}
+.wizard-corpo { flex: 1 1 auto; }
+.wizard-barra { block-size: 3px; background: var(--carta-2); border-radius: 99px; margin-block-start: 14px; overflow: hidden; }
+.wizard-riempimento { block-size: 100%; inline-size: 10%; background: var(--mattone); border-radius: 99px; transition: inline-size 0.25s ease; }
+.wizard-domanda {
+  font: 600 clamp(1.7rem, 4.4vw, 2.9rem)/1.05 var(--font-testo);
+  letter-spacing: -0.015em;
+  margin: clamp(18px, 3vw, 32px) 0 8px;
+  max-inline-size: 20ch;
+}
+/* Il titolo riceve il focus per annunciare il passo: niente riquadro,
+   che sembrerebbe un errore di layout. */
+.wizard-domanda:focus { outline: none; }
+.wizard-sotto { color: var(--morbido); margin: 0 0 8px; max-inline-size: 56ch; }
+.wizard-corpo { padding-block-end: 130px; }
+.wizard-opzioni { list-style: none; margin: 12px 0 0; padding: 0; border-block-end: 1px solid var(--inchiostro); }
+.wizard-opzioni li { border-block-start: 1px solid var(--inchiostro); }
+.opzione {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  inline-size: 100%;
+  background: transparent;
+  border: 0;
+  padding: 17px 6px;
+  font: 600 1.02rem/1.4 var(--font-testo);
+  color: var(--inchiostro);
+  text-align: start;
+  cursor: pointer;
+  min-block-size: 58px;
+}
+.opzione:hover { background: var(--carta-2); }
+.opzione .segno {
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: 30px; block-size: 30px;
+  border: 1.5px solid var(--inchiostro);
+  border-radius: 7px;
+  font: 400 1rem/1 var(--font-mono);
+  background: var(--carta);
+}
+.opzione[aria-pressed="true"] { color: var(--mattone-testo); }
+.opzione[aria-pressed="true"] .segno {
+  background: var(--mattone);
+  border-color: var(--mattone);
+  color: #fff;
+}
+.opzione-testo { flex: 1 1 auto; min-inline-size: 0; }
+.opzione-testo small { display: block; font-weight: 400; color: var(--morbido); font-size: 0.86rem; }
+.opzione-prezzo { flex: none; font: 700 0.85rem var(--font-mono); color: var(--mattone); white-space: nowrap; }
+/* Stato degli input creati via JS nel configuratore: selettori senza scope */
+.sr-solo {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.wizard .opzione { position: relative; border-radius: 6px; }
+.wizard .opzione input { position: absolute; opacity: 0; pointer-events: none; }
+.wizard .opzione:has(input:checked) { background: var(--carta-2); color: var(--mattone-testo); }
+.wizard .opzione:has(input:checked) .segno { background: var(--mattone); border-color: var(--mattone); color: #fff; }
+.wizard .opzione:has(input:focus-visible) { outline: 2px solid var(--mattone); outline-offset: 2px; }
+.wizard fieldset { min-inline-size: 0; }
+.wizard-campo {
+  display: block;
+  inline-size: 100%;
+  border: 0;
+  border-block-end: 2px solid var(--inchiostro);
+  background: transparent;
+  border-radius: 0;
+  padding: 14px 2px;
+  font: 400 1.15rem var(--font-testo);
+  color: var(--inchiostro);
+  margin-block-start: 18px;
+}
+/* Il campo è già una riga: il focus resta una riga, senza il riquadro
+   che sembrava tre linee orizzontali sopra e sotto il testo. */
+.wizard-campo:focus-visible { outline: none; background: var(--carta-2); }
+.wizard-campo:focus { border-color: var(--mattone); }
+.wizard-campo::placeholder { color: var(--morbido); }
+.wizard-errore { color: var(--mattone-testo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
+.wizard-barra-fissa {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 90;
+  background: rgba(247, 242, 232, 0.97);
+  border-block-start: 1px solid var(--inchiostro);
+  padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom));
+}
+.wizard-barra-interna {
+  inline-size: min(1160px, 100%);
+  max-inline-size: 920px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wizard-indietro {
+  background: transparent;
+  border: 1px solid var(--linea-scura);
+  border-radius: 0;
+  min-block-size: 52px;
+  padding: 12px 20px;
+  font: 700 0.95rem var(--font-testo);
+  cursor: pointer;
+  color: var(--inchiostro);
+}
+.wizard-indietro:hover { border-color: var(--inchiostro); }
+.wizard-avanti { flex: 1 1 auto; min-inline-size: 0; }
+/* Niente zoom da doppio tocco sui tasti del configuratore */
+.wizard-indietro, .wizard-avanti, .opzione { touch-action: manipulation; }
+.wizard-riepilogo { border-block-start: 1px solid var(--inchiostro); margin-block-start: 18px; }
+.wizard-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  padding: 12px 0;
+  border-block-end: 1px solid var(--linea);
+  font-size: 0.97rem;
+}
+.wizard-riga dt { flex: none; font: 700 0.75rem/1.5 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--morbido); }
+.wizard-riga dd { margin: 0; text-align: end; font-weight: 600; overflow-wrap: anywhere; }
+.wizard-totale-finale {
+  background: var(--inchiostro);
+  color: var(--carta);
+  border-radius: 0;
+  padding: clamp(24px, 4vw, 36px);
+  margin-block-start: 24px;
+}
+.wizard-totale-finale .k { font: 700 0.75rem var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--morbido-scuro); margin: 0; }
+.wizard-totale-finale .v { font: 600 clamp(2.4rem, 6vw, 3.4rem)/1 var(--font-testo); margin: 10px 0 6px; }
+.wizard-totale-finale .d { color: var(--morbido-scuro); font-size: 0.92rem; line-height: 1.45; margin: 0 0 8px; }
+.wizard-totale-finale .btn { display: flex; width: 100%; margin-top: 12px; }
+@media (min-width: 700px) {
+  .wizard-totale-finale .btn { display: inline-flex; width: auto; }
+  #w-invia-mail { margin-left: 12px; }
+}
+.wizard-totale-finale .btn-fantasma { border-color: var(--morbido-scuro); color: var(--carta); background: transparent; }
+.privacy-riga { display: flex; gap: 12px; align-items: flex-start; margin-block-start: 20px; font-size: 0.92rem; cursor: pointer; }
+.privacy-riga input { inline-size: 24px; block-size: 24px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
+
+/* Sulle superfici scure del configuratore il focus è il mattone. */
+.wizard-totale-finale,
+.wizard-barra-fissa {
+  --focus: var(--mattone);
+}
+
+
+@media print {
+  .wizard-barra-fissa {
+    display: none !important;
+  }
+}
+
 
 /* ---------- Pagina bloccata: niente scroll della pagina ---------- */
 html.cfg-lock,
@@ -693,8 +937,8 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
 }
 
 /* ---------- Pillole: Avanti, Indietro, WhatsApp, email ----------
-   Lo script genera questi bottoni con classi legacy (btn, btn-wa...):
-   qui il look .btn si applica agli id, che la specificità vince sul legacy. */
+   Lo script genera questi bottoni con le classi btn e btn-wa, btn-mattone, btn-fantasma:
+   il loro look si applica qui agli id, che vincono sulle classi. */
 :is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia) {
   position: relative;
   isolation: isolate;

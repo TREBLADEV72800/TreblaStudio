@@ -340,7 +340,7 @@ function listaOpzioni(contenitore: HTMLElement, { nome, voci, selezionati, conPr
 
 function titoloGruppo(testo: string, primo: boolean, grande?: boolean) {
   const h = el('h2', '', testo);
-  h.style.cssText = `font:600 ${grande ? 'calc(1.5rem - 2px)' : '1.2rem'} var(--serif);margin:${primo ? '4px' : grande ? '16px' : '28px'} 0 0`;
+  h.style.cssText = `font:600 ${grande ? 'calc(1.5rem - 2px)' : '1.2rem'} var(--font-testo);margin:${primo ? '4px' : grande ? '16px' : '28px'} 0 0`;
   corpo.appendChild(h);
 }
 

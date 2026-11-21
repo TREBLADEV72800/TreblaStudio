@@ -100,7 +100,6 @@ TreblaStudio/
     og-trebla.jpg               Immagine Open Graph 1200x630
     site.webmanifest            Manifest PWA
     trebla-logo.webp            Logo header, 200x113
-    trebla-logo-transparent.png Logo footer, 240x136
     llms.txt                    Descrizione del sito per agenti, URL assoluti hardcoded
 
   src/
@@ -707,7 +706,6 @@ Nessuna pagina normale deve avere altri script esterni. Se aggiungi JS, valuta s
 ### 6.4 `Piede.astro`
 
 - Footer `.piede`.
-- Logo `trebla-logo-transparent.png`, alt `Trebla`, `loading="lazy"`.
 - Anno e mese calcolati a build con `new Date()`.
 - Contatti: WhatsApp, telefono, email, "Asti, su appuntamento."
 - Link legali: Privacy, Cookie, Termini verso `/note-legali#...`.
@@ -1278,7 +1276,6 @@ Non importare `@fontsource/.../index.css` o varianti: il build trascinerebbe anc
 | File | Dimensioni | Uso |
 |---|---|---|
 | `public/trebla-logo.webp` | 200x113 | Header, preload, `fetchpriority="high"` |
-| `public/trebla-logo-transparent.png` | 240x136 | Footer, lazy, invertito via CSS |
 | `public/og-trebla.jpg` | 1200x630 | Open Graph e Twitter |
 | `public/favicon.svg` | SVG | Favicon e manifest |
 

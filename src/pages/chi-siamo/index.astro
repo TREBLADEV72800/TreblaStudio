@@ -64,8 +64,8 @@ import Bottone from '../../components/ui/Bottone.astro';
 </LayoutPagina>
 
 <style>
-  /* Sezioni: padding con il token --sezione. Non si usa .sezione: il CSS legacy azzera il padding
-     della sezione che segue un'altra .sezione. */
+  /* Sezioni: padding con il token --sezione. Non si usa .sezione: la regola .sezione + .sezione
+     (layout.css) azzera il padding alto della sezione che segue un'altra .sezione. */
   .chi-sez {
     padding-block: var(--sezione);
   }
@@ -134,8 +134,8 @@ import Bottone from '../../components/ui/Bottone.astro';
     }
   }
 
-  /* Prosa: il CSS legacy dà a .prosa un margine alto e colora i paragrafi in morbido.
-     Qui si riporta al comportamento di Prosa (testo inchiostro, nessun margine di contenitore). */
+  /* Prosa dà al contenitore un margine alto e ai paragrafi il colore morbido.
+     Questa pagina vuole testo inchiostro e nessun margine di contenitore. */
   .chi-testo :global(.prosa) {
     margin-block-start: 0;
   }

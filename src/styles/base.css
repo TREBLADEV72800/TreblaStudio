@@ -156,14 +156,6 @@ p {
   border-radius: 2px;
 }
 
-/* LEGACY: da togliere a fine redesign. Sulle superfici scure il focus è il mattone chiaro. */
-.piede,
-.prezzo-evidenza,
-.wizard-totale-finale,
-.wizard-barra-fissa {
-  --focus: var(--mattone);
-}
-
 /* ---------- Salto al contenuto ---------- */
 .salto {
   position: absolute;
@@ -181,4 +173,15 @@ p {
 .salto:focus {
   left: 12px;
   top: 12px;
+}
+
+/* Stampa: il link di salto non serve su carta; il fondo resta bianco. */
+@media print {
+  .salto {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
 }

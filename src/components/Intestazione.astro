@@ -111,6 +111,8 @@ const voci = [
      e resta in cima, e il body compensa la sua altezza così il contenuto non salta. */
   :global(body.menu-aperto) {
     padding-block-start: var(--hh);
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 
   :global(body.menu-aperto) .intestazione {
