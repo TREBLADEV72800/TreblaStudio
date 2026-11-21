@@ -1,61 +1,55 @@
 ---
 import TestataSezione from '../TestataSezione.astro';
-import Freccia from '../ui/Freccia.astro';
+import Bottone from '../ui/Bottone.astro';
 import { ANTICIPO, BASE_PRICES, OFFERTA_SITO } from '../../data/prezzi';
 ---
 
-<!-- 04 · PREZZI -->
-<section class="home-prezzi" aria-labelledby="t-prezzi">
+<section class="home-prezzi sezione" aria-labelledby="t-prezzi">
   <div class="contenitore">
-    <TestataSezione
-      id="t-prezzi"
-      numero="04 · Prezzi"
-      titolo="Scegli da <em>dove partire</em>"
-    />
+    <TestataSezione id="t-prezzi" titolo="Scegli da dove partire" />
 
-    <div class="home-prezzi__griglia" id="h-prezzi" data-reveal-gruppo>
-      <article class="home-prezzi__card" data-reveal>
-        <div class="home-prezzi__cima">
-          <span class="home-prezzi__num">01</span>
-          <span class="home-prezzi__kicker">Per iniziare</span>
-          <span class="puntino puntino--inchiostro" aria-hidden="true"></span>
-        </div>
+    <div class="home-prezzi__griglia" id="h-prezzi">
+      <article class="home-prezzi__colonna">
         <h3 class="home-prezzi__nome">Pagina singola</h3>
-        <p class="home-prezzi__cifra">{BASE_PRICES.singola}<span class="home-prezzi__euro">€</span></p>
+        <p class="home-prezzi__cifra display display--prezzo">{BASE_PRICES.singola}<span class="home-prezzi__euro">€</span></p>
         <p class="home-prezzi__per">Per artigiani, professionisti e botteghe che devono farsi trovare e contattare.</p>
         <ul class="home-prezzi__voci">
           <li>Tutto l’essenziale in una pagina che scorre</li>
           <li>Telefono, WhatsApp e mappa in vista</li>
           <li>Privacy e cookie inclusi</li>
         </ul>
-        <a class="link-sottolineato home-prezzi__cta" href="/preventivo/">Configura la singola<Freccia /></a>
+        <div class="home-prezzi__accesso">
+          <Bottone
+            href="/preventivo/?struttura=singola"
+            variante="secondario"
+            testo="Scegli la pagina singola"
+            data-cursore="Scegli"
+          />
+        </div>
       </article>
 
-      <article class="home-prezzi__card" data-reveal>
-        <div class="home-prezzi__cima">
-          <span class="home-prezzi__num">02</span>
-          <span class="home-prezzi__kicker">Il completo</span>
-          <span class="puntino puntino--inchiostro" aria-hidden="true"></span>
-        </div>
+      <article class="home-prezzi__colonna">
         <h3 class="home-prezzi__nome">Sito a più pagine</h3>
-        <p class="home-prezzi__cifra">{BASE_PRICES.multi}<span class="home-prezzi__euro">€</span></p>
+        <p class="home-prezzi__cifra display display--prezzo">{BASE_PRICES.multi}<span class="home-prezzi__euro">€</span></p>
         <p class="home-prezzi__per">Per ristoranti, B&amp;B, saloni e negozi con tanto da mostrare.</p>
         <ul class="home-prezzi__voci">
           <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
           <li>Menu, prenotazioni, eventi se ti servono</li>
           <li>Telefono, WhatsApp e mappa in vista</li>
         </ul>
-        <a class="link-sottolineato home-prezzi__cta" href="/preventivo/">Configura il multipagina<Freccia /></a>
+        <div class="home-prezzi__accesso">
+          <Bottone
+            href="/preventivo/?struttura=multi"
+            variante="secondario"
+            testo="Scegli il sito a più pagine"
+            data-cursore="Scegli"
+          />
+        </div>
       </article>
 
-      <article class="home-prezzi__card home-prezzi__card--evidenza" data-reveal>
-        <div class="home-prezzi__cima">
-          <span class="home-prezzi__num">03</span>
-          <span class="chip home-prezzi__chip">Tutto incluso</span>
-          <span class="puntino puntino--mattone" aria-hidden="true"></span>
-        </div>
-        <h3 class="home-prezzi__nome">Offerta</h3>
-        <p class="home-prezzi__cifra">{OFFERTA_SITO.prezzo}<span class="home-prezzi__euro">€</span></p>
+      <article class="home-prezzi__colonna home-prezzi__colonna--evidenza fascia-scura">
+        <h3 class="home-prezzi__nome">{OFFERTA_SITO.nome}</h3>
+        <p class="home-prezzi__cifra display display--prezzo">{OFFERTA_SITO.prezzo}<span class="home-prezzi__euro">€</span></p>
         <p class="home-prezzi__per">Sito completo, foto e logo con prezzo definito prima.</p>
         <ul class="home-prezzi__voci">
           <li>Sito a più pagine con funzioni incluse e pagine concordate</li>
@@ -63,102 +57,66 @@ import { ANTICIPO, BASE_PRICES, OFFERTA_SITO } from '../../data/prezzi';
           <li>Logo nuovo o rinnovato</li>
           <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
         </ul>
-        <a class="link-sottolineato home-prezzi__cta" href="/preventivo/?offerta=1">Prendi l’offerta<Freccia /></a>
+        <div class="home-prezzi__accesso">
+          <Bottone
+            href="/preventivo/?offerta=1"
+            variante="chiaro"
+            testo="Prendi l’offerta"
+            data-cursore="Scegli"
+          />
+        </div>
       </article>
     </div>
 
-    <div class="home-prezzi__finale" data-reveal>
+    <div class="home-prezzi__finale">
       <p class="home-prezzi__nota">Hosting completamente gratuito, configurazione del dominio gratis. A noi, nessun canone obbligatorio, {ANTICIPO}€ di acconto compresi.</p>
-      <a class="link-sottolineato" href="/prezzi/">Tutti i dettagli in Prezzi<Freccia /></a>
+      <a class="link-sottolineato" href="/prezzi/">Vedi i prezzi</a>
     </div>
   </div>
 </section>
 
 <style>
-  /* Prezzi: fascia carta. Filetto a tutta larghezza del contenitore sopra, poi padding var(--sezione). */
-  .home-prezzi {
-    position: relative;
-    padding-block: var(--sezione);
-  }
-
-  .home-prezzi::before {
-    content: '';
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: var(--pad);
-    block-size: 1px;
-    background: var(--linea);
-  }
-
-  /* 1 colonna su mobile, 3 da 960px, con altezza uguale. */
+  /* Tre colonne da 960px, una sotto. Le colonne non sono card: niente bordo intorno.
+     Ogni colonna ha lo stesso margine alto, così nome e prezzo si leggono alla stessa altezza.
+     L'unico segnale di evidenza è il fondo inchiostro dell'offerta (.fascia-scura). */
   .home-prezzi__griglia {
     display: grid;
-    gap: var(--gap);
+    gap: var(--s-7);
     grid-template-columns: minmax(0, 1fr);
   }
 
   @media (min-width: 960px) {
     .home-prezzi__griglia {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gap);
+      align-items: stretch;
     }
   }
 
-  /* Card con bordo da 1px e angoli vivi. */
-  .home-prezzi__card {
-    position: relative;
+  .home-prezzi__colonna {
     display: flex;
     flex-direction: column;
-    padding: clamp(24px, 2.6vw, 36px);
-    border: 1px solid var(--linea);
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-    transition: border-color var(--t-2) var(--ease-std);
+    padding-block: var(--s-6);
+    border-block-start: 1px solid var(--linea);
   }
 
-  .home-prezzi__card--evidenza {
-    border-color: var(--mattone);
-  }
-
-  .home-prezzi__cima {
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--morbido);
-  }
-
-  .home-prezzi__num {
-    color: var(--inchiostro);
-  }
-
-  .home-prezzi__kicker,
-  .home-prezzi__chip {
-    margin-inline-start: auto;
-  }
-
-  .home-prezzi__chip {
-    border-color: var(--mattone);
-    color: var(--mattone-testo);
+  /* L'offerta: un blocco pieno, con lo stesso margine alto delle altre colonne dentro il blocco. */
+  .home-prezzi__colonna--evidenza {
+    padding: var(--s-6);
+    border-block-start: 0;
   }
 
   .home-prezzi__nome {
-    margin-block-start: var(--s-6);
-    color: var(--inchiostro);
+    font: 600 var(--fs-h3) / 1.2 var(--font-ui);
+    letter-spacing: -0.02em;
+    text-transform: none;
   }
 
-  /* Il prezzo è display gigante; il simbolo € è più piccolo e sta in alto. */
+  /* Il prezzo è un oggetto tipografico: display gigante, cifre allineate. Il simbolo € è più piccolo. */
   .home-prezzi__cifra {
     max-inline-size: none;
     margin: var(--s-4) 0 0;
-    font: 800 clamp(64px, 7vw, 112px) / 0.86 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
     white-space: nowrap;
-    color: var(--inchiostro);
   }
 
   .home-prezzi__euro {
@@ -170,13 +128,13 @@ import { ANTICIPO, BASE_PRICES, OFFERTA_SITO } from '../../data/prezzi';
   }
 
   .home-prezzi__per {
-    max-inline-size: 40ch;
+    max-inline-size: 36ch;
     margin: var(--s-5) 0 0;
-    font: 400 var(--fs-small) / 1.5 var(--font-mono);
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
     color: var(--morbido);
   }
 
-  /* Voci con filetti tra le righe e un trattino mattone come marcatore. */
+  /* Elenco con trattino morbido, filetti tra le voci. */
   .home-prezzi__voci {
     margin: var(--s-6) 0 0;
     padding: 0;
@@ -186,68 +144,45 @@ import { ANTICIPO, BASE_PRICES, OFFERTA_SITO } from '../../data/prezzi';
 
   .home-prezzi__voci li {
     display: grid;
-    grid-template-columns: 10px minmax(0, 1fr);
+    grid-template-columns: 12px minmax(0, 1fr);
     gap: var(--s-3);
     align-items: start;
     padding-block: var(--s-3);
     border-block-end: 1px solid var(--linea);
     font: 400 var(--fs-body) / 1.45 var(--font-testo);
-    color: var(--inchiostro);
   }
 
   .home-prezzi__voci li::before {
     content: '';
-    inline-size: 10px;
-    block-size: 2px;
-    margin-block-start: calc(0.725em - 1px);
-    background: var(--mattone);
+    inline-size: 12px;
+    block-size: 1px;
+    margin-block-start: 0.72em;
+    background: var(--morbido);
   }
 
-  /* CTA in fondo alla card. */
-  .home-prezzi__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
+  /* CTA in fondo alla colonna: il contenitore porta lo spazio, il bottone resta com'è.
+     Da 960px le CTA stanno sulla stessa altezza in tutte le colonne. */
+  .home-prezzi__accesso {
     align-self: flex-start;
-    margin-block-start: auto;
+    margin-block: auto 0;
     padding-block-start: var(--s-6);
-    color: var(--inchiostro);
   }
 
-  .home-prezzi__cta :global(.icona-freccia) {
-    transition: transform var(--t-2) var(--ease-std);
-  }
-
-  @media (hover: hover) {
-    .home-prezzi__card:hover {
-      border-color: var(--mattone);
-    }
-
-    .home-prezzi__card:hover .home-prezzi__cta :global(.icona-freccia) {
-      transform: translate3d(4px, 0, 0);
-    }
-  }
-
-  /* Riga finale: mono, filetto sopra. */
+  /* Riga finale: nota e link. */
   .home-prezzi__finale {
     display: grid;
     gap: var(--s-4);
     margin-block-start: var(--s-7);
-    padding-block-start: var(--s-5);
-    border-block-start: 1px solid var(--linea);
   }
 
   .home-prezzi__nota {
     max-inline-size: 72ch;
     margin: 0;
-    font: 400 var(--fs-small) / 1.5 var(--font-mono);
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
     color: var(--morbido);
   }
 
   .home-prezzi__finale > a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
     justify-self: start;
     color: var(--inchiostro);
   }
@@ -257,10 +192,6 @@ import { ANTICIPO, BASE_PRICES, OFFERTA_SITO } from '../../data/prezzi';
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: var(--s-6);
-    }
-
-    .home-prezzi__finale > a {
-      justify-self: end;
     }
   }
 </style>

@@ -1,7 +1,7 @@
 ---
 import TestataSezione from '../TestataSezione.astro';
 
-// Benefici: quattro punti concreti, numerati in ordine.
+// Benefici: quattro punti concreti. Non sono una sequenza: nessun numero.
 const benefici = [
   { t: 'Si trova subito l’essenziale', d: 'Chi sei, dove sei, quando sei aperto. Senza scavare nei menu.' },
   { t: 'Menu e servizi leggibili', d: 'Prezzi chiari dal telefono, senza scaricare PDF. Anche con poco campo.' },
@@ -10,52 +10,41 @@ const benefici = [
 ];
 ---
 
-<!-- 01 · BENEFICI -->
-<section class="home-benefici" aria-labelledby="t-benefici">
+<section class="home-benefici sezione" aria-labelledby="t-benefici">
   <div class="contenitore">
     <TestataSezione
       id="t-benefici"
-      numero="01 · Benefici"
-      titolo="Cosa cambia <em>in pratica</em>"
+      titolo="Cosa cambia in pratica"
       nota="Niente promesse: quattro cose concrete che il sito fa per te."
     />
-    <ol class="home-benefici__lista" id="h-benefici" data-reveal-gruppo>
-      {benefici.map((b, i) => (
-        <li class="home-benefici__voce" data-reveal>
-          <span class="home-benefici__num">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{b.t}</h3>
-          <p>{b.d}</p>
-        </li>
-      ))}
-    </ol>
+    <ul class="home-benefici__lista">
+      {
+        benefici.map((b) => (
+          <li class="home-benefici__voce">
+            <h3>{b.t}</h3>
+            <p>{b.d}</p>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
 <style>
-  .home-benefici {
-    padding-block: var(--sezione);
-  }
-
-  /* 1 colonna, 2 da 640px, 4 da 960px. */
+  /* Una colonna sotto 960px, griglia 2 × 2 da 960px. Un filetto per voce, nessun altro ornamento. */
   .home-benefici__lista {
     display: grid;
-    gap: var(--s-7) var(--gap);
+    gap: var(--s-6) var(--gap);
     grid-template-columns: minmax(0, 1fr);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  @media (min-width: 640px) {
-    .home-benefici__lista {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
   @media (min-width: 960px) {
     .home-benefici__lista {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0 var(--gap);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-7) var(--gap);
     }
   }
 
@@ -67,14 +56,12 @@ const benefici = [
     border-block-start: 1px solid var(--linea);
   }
 
-  .home-benefici__num {
-    font: 500 var(--fs-label) / 1 var(--font-mono);
-    letter-spacing: 0.08em;
-    color: var(--mattone-testo);
+  .home-benefici__voce h3 {
+    color: var(--inchiostro);
   }
 
   .home-benefici__voce p {
-    max-inline-size: 36ch;
+    max-inline-size: 40ch;
     font-size: var(--fs-body);
     color: var(--morbido);
   }

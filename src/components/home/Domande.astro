@@ -14,44 +14,27 @@ const HOME_FAQS = [
 const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME_FAQS.indexOf(a.q) - HOME_FAQS.indexOf(b.q));
 ---
 
-<!-- 06 · DOMANDE -->
-<section class="home-domande" aria-labelledby="t-domande">
+<section class="home-domande sezione" aria-labelledby="t-domande">
   <div class="contenitore home-domande__griglia">
     <div class="home-domande__testata">
       <TestataSezione
         id="t-domande"
-        numero="06 · Domande"
-        titolo="Quelle che ci fanno <em>sempre</em>"
+        titolo="Quelle che ci fanno sempre"
         nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
       />
     </div>
 
     <div class="home-domande__lista">
       <div id="h-domande"><ElencoDomande faqs={homeFaqs} /></div>
-      <div class="home-domande__azione" data-reveal>
-        <Bottone href="/faq/" variante="secondario" testo="Tutte le domande" />
+      <div class="home-domande__azione">
+        <Bottone href="/faq/" variante="secondario" testo="Leggi le domande frequenti" />
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Domande: fascia carta, filetto sopra. Da 960px la testata resta ferma a sinistra (colonne 1-5)
-     e la lista scorre a destra (colonne 6-12). */
-  .home-domande {
-    position: relative;
-    padding-block: var(--sezione);
-  }
-
-  .home-domande::before {
-    content: '';
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: var(--pad);
-    block-size: 1px;
-    background: var(--linea);
-  }
-
+  /* Da 960px la testata resta ferma a sinistra (colonne 1-5) e la lista scorre a destra (colonne 6-12). */
   .home-domande__griglia {
     display: grid;
     gap: var(--s-7);

@@ -1,78 +1,49 @@
 ---
-// Fascia di chiusura: kicker, H2 display con l'accento in mattone, testo e CTA sotto un filetto.
+// Fascia di chiusura: H2 display in un solo tono, testo e CTA. Nessun kicker.
 // Testi e attributi (data-wa, target, rel) invariati: il link WhatsApp lo riempie ContattiDinamici.
 import Bottone from '../ui/Bottone.astro';
 import TitoloRivelato from '../ui/TitoloRivelato.astro';
 ---
 
-<section class="fascia-grafite sezione contatto__radice" aria-labelledby="t-contatto">
+<section class="fascia-grafite sezione contatto" aria-labelledby="t-contatto">
   <div class="contenitore">
-    <div class="contatto__testa">
-      <p class="etichetta contatto__kicker" data-reveal>
-        <span class="puntino puntino--mattone" aria-hidden="true"></span>Iniziamo
-      </p>
-      <TitoloRivelato
-        tag="h2"
-        id="t-contatto"
-        testo="Cominciamo da quello che serve alla tua attività."
-        accento="alla tua attività."
-        classe="contatto__titolo"
-      />
-    </div>
+    <TitoloRivelato
+      tag="h2"
+      id="t-contatto"
+      testo="Cominciamo da quello che serve alla tua attività."
+      classe="contatto__titolo"
+    />
 
     <div class="contatto__piede">
-      <p class="contatto__testo" data-reveal>
+      <p class="contatto__testo">
         Raccontaci in poche righe cosa fai. Ti rispondiamo con un’indicazione chiara sui prossimi passi.
       </p>
-      <div class="contatto__cta" data-reveal-gruppo>
-        <div data-reveal>
-          <Bottone href="/preventivo/" testo="Fai il preventivo" data-cursore="Inizia" />
-        </div>
-        <div data-reveal>
-          <Bottone
-            href="#"
-            variante="wa"
-            testo="Scrivici su WhatsApp"
-            data-wa="Ciao Trebla! Ti racconto cosa fa la mia attività."
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cursore="Scrivici"
-          />
-        </div>
+      <div class="contatto__cta">
+        <Bottone href="/preventivo/" testo="Fai il preventivo" />
+        <Bottone
+          href="#"
+          variante="chiaro"
+          testo="Scrivici su WhatsApp"
+          data-wa="Ciao Trebla! Ti racconto cosa fa la mia attività."
+          target="_blank"
+          rel="noopener noreferrer"
+        />
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* ---------- Titolo: display molto grande, fino a 140px a 1440px ---------- */
-  .contatto__testa {
-    display: grid;
-    gap: var(--s-5);
-  }
-
-  .contatto__kicker {
-    justify-self: start;
-  }
-
-  :global(.titolo-rivelato.contatto__titolo) {
-    font-size: clamp(44px, 9.7vw, 140px);
-    line-height: 0.9;
-  }
-
-  /* ---------- Sotto il filetto: testo a sinistra, CTA a destra ---------- */
   .contatto__piede {
     display: grid;
     gap: var(--s-6);
-    margin-block-start: var(--s-8);
-    padding-block-start: var(--s-6);
-    border-block-start: 1px solid var(--linea);
+    margin-block-start: var(--s-7);
   }
 
   .contatto__testo {
+    max-inline-size: 44ch;
     font: 400 var(--fs-lead) / 1.45 var(--font-testo);
     color: var(--morbido);
-    max-inline-size: 44ch;
   }
 
   .contatto__cta {

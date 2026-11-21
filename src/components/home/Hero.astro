@@ -1,68 +1,44 @@
 ---
 // Hero della home. H1 display a tutta larghezza; l'ultima parola cambia in un ciclo di settori
-// (CSS puro, quindi funziona anche senza JS). Testi: tutti già presenti nel sito, fonti nel report.
-// Il ciclo è nascosto ai lettori di schermo; lo sr-only dentro l'H1 porta la frase intera.
+// (CSS puro, quindi funziona anche senza JS). Il ciclo è nascosto ai lettori di schermo;
+// lo sr-only dentro l'H1 porta la frase intera.
+// Il ciclo è l'unico gesto in mattone del sito. Durate solo da token.
 import Bottone from '../ui/Bottone.astro';
 
-// Parole del ciclo: in mattone, ognuna sale, resta, esce. Il ciclo chiude su ATTIVITÀ.
+// Parole del ciclo: ognuna sale, resta, esce. Il ciclo chiude su ATTIVITÀ.
 const ciclo = ['PIZZERIA.', 'OFFICINA.', 'TRATTORIA.', 'BOTTEGA.', 'ATTIVITÀ.'];
 
-// Striscia di garanzie: frasi già presenti nel sito. Puntini: mattone, verde, inchiostro, mattone.
-const garanzie = [
-  { testo: 'Il sito è tuo', puntino: 'mattone' },
-  { testo: 'Nessun canone obbligatorio', puntino: 'verde' },
-  { testo: 'Due revisioni incluse', puntino: 'inchiostro' },
-  { testo: 'Asti, su appuntamento.', puntino: 'mattone' },
-];
+// Garanzie: una riga di testo semplice, frasi già presenti nel sito.
+const garanzie = 'Il sito è tuo. Nessun canone obbligatorio. Due revisioni incluse. Asti, su appuntamento.';
 ---
 
-<section class="hero__radice contenitore" aria-labelledby="titolo">
-  <p class="etichetta hero__etichetta entra" style="--d: 400ms">
-    <span class="puntino puntino--verde puntino--pulse" aria-hidden="true"></span>Studio indipendente ad Asti.
-  </p>
-
+<section class="hero contenitore" aria-labelledby="titolo">
   <h1 id="titolo" class="hero__titolo titolo-rivelato titolo-rivelato--hero titolo-rivelato--immediato display"><span class="parola"><span class="parola__in" style="--i: 0">Un</span></span> <span class="parola"><span class="parola__in" style="--i: 1">sito</span></span> <span class="parola"><span class="parola__in" style="--i: 2">chiaro</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 3">per</span></span> <span class="parola"><span class="parola__in" style="--i: 4">far</span></span> <span class="parola"><span class="parola__in" style="--i: 5">scegliere</span></span> <br /><span class="parola"><span class="parola__in" style="--i: 6">la</span></span> <span class="parola"><span class="parola__in" style="--i: 7">tua</span></span> <span class="hero__ciclo" aria-hidden="true">{ciclo.map((parola, i) => (<span class="hero__parola" style={`--i: ${i}`} data-p={parola}></span>))}</span><span class="hero__solo-lettori">attività.</span></h1>
 
   <div class="hero__sotto">
-    <p class="hero__lead">
-      Siti web completi e veloci per <strong>attività locali ad Asti e dintorni</strong>:
-      prezzi chiari, un referente diretto e i contatti sempre a portata di mano.
-    </p>
-    <div class="hero__azioni entra" style="--d: 600ms">
-      <Bottone href="/preventivo/" testo="Fai il preventivo in 2 minuti" />
-      <Bottone href="/servizi/" variante="secondario" testo="Scopri i servizi" />
+    <p class="hero__lead">Siti web completi e veloci per attività locali ad Asti e dintorni: prezzi chiari, un referente diretto e i contatti sempre a portata di mano.</p>
+    <div class="hero__azioni entra" style="--d: var(--t-3)">
+      <Bottone href="/preventivo/" testo="Fai il preventivo" />
+      <Bottone href="/servizi/" variante="secondario" testo="Vedi i servizi" />
     </div>
   </div>
 
-  <ul class="hero__garanzie entra" style="--d: 700ms">
-    {
-      garanzie.map((g) => (
-        <li>
-          <span class={`puntino puntino--${g.puntino}`} aria-hidden="true"></span>
-          {g.testo}
-        </li>
-      ))
-    }
-  </ul>
+  <p class="hero__garanzie entra" style="--d: calc(var(--t-3) + var(--stagger-elemento))">{garanzie}</p>
 </section>
 
 <style>
-  /* ---------- Contenitore: altezza piena da 960px, contenuto in colonna ---------- */
-  .hero__radice {
+  /* ---------- Contenitore: altezza piena da 960px, contenuto in colonna.
+     Il padding in basso è --sezione, come ogni sezione: la fascia successiva ha lo stesso ritmo. ---------- */
+  .hero {
     display: flex;
     flex-direction: column;
-    padding-block: clamp(40px, 7vw, 112px) var(--s-6);
+    padding-block: var(--s-7) var(--sezione);
   }
 
   @media (min-width: 960px) {
-    .hero__radice {
+    .hero {
       min-block-size: calc(100svh - var(--hh));
-      padding-block-end: var(--s-7);
     }
-  }
-
-  .hero__etichetta {
-    align-self: flex-start;
   }
 
   /* ---------- H1 display a tutta larghezza ---------- */
@@ -80,8 +56,9 @@ const garanzie = [
 
   /* ---------- Parola che cambia ----------
      Una cella di inline-grid: tutte le parole stanno in 1/1, la cella prende la larghezza
-     della più lunga e ritaglia (overflow clip). Ogni parola: sale da 100% a 0, sta ferma,
-     esce da 0 a -100%. Periodo 11s (5 parole da 2,2s), inizio dopo l'ingresso dell'H1 (1,4s). */
+     della più lunga e ritaglia (overflow clip). Ogni parola: sale da 130% a 0, sta ferma,
+     esce a -130%. Periodo di cinque parole: 10 volte --t-5 (11 s), 2 volte --t-5 a parola.
+     Inizio dopo l'ingresso dell'H1: --t-5 più --t-2. */
   .hero__ciclo {
     display: inline-grid;
     vertical-align: top;
@@ -96,8 +73,8 @@ const garanzie = [
     grid-area: 1 / 1;
     display: block;
     white-space: nowrap;
-    animation: hero-ciclo 11s linear infinite both;
-    animation-delay: calc(1.4s + var(--i) * 2.2s);
+    animation: hero-ciclo calc(var(--t-5) * 10) linear infinite both;
+    animation-delay: calc(var(--t-5) + var(--t-2) + var(--i) * 2 * var(--t-5));
   }
 
   .hero__parola::before {
@@ -150,11 +127,6 @@ const garanzie = [
     color: var(--morbido);
   }
 
-  .hero__lead strong {
-    font-weight: 600;
-    color: var(--inchiostro);
-  }
-
   .hero__azioni {
     display: grid;
     gap: var(--s-3);
@@ -192,36 +164,12 @@ const garanzie = [
     }
   }
 
-  /* ---------- Striscia di garanzie: filetto, mono maiuscolo ---------- */
+  /* ---------- Garanzie: una riga di testo semplice, sotto le CTA ---------- */
   .hero__garanzie {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s-4) var(--gap);
+    max-inline-size: none;
     margin: var(--s-7) 0 0;
-    padding: var(--s-4) 0 0;
-    list-style: none;
-    border-block-start: 1px solid var(--linea);
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--inchiostro);
-  }
-
-  .hero__garanzie li {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--s-3);
-  }
-
-  .hero__garanzie .puntino {
-    margin-block-start: 0.35em;
-  }
-
-  @media (min-width: 960px) {
-    .hero__garanzie {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-block-start: auto;
-    }
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
+    color: var(--morbido);
   }
 
   /* ---------- Movimento ridotto: solo ATTIVITÀ., ferma ---------- */

@@ -2,54 +2,39 @@
 import TestataSezione from '../TestataSezione.astro';
 ---
 
-<!-- 05 · STUDIO -->
-<section class="home-studio" aria-labelledby="t-studio">
+<section class="home-studio sezione" aria-labelledby="t-studio">
   <div class="contenitore">
     <div class="home-studio__testata">
       <TestataSezione
         id="t-studio"
-        numero="05 · Lo studio"
-        titolo="Due persone, <em>niente call center</em>"
+        titolo="Due persone, niente call center"
         nota="Parli sempre con chi costruisce il tuo sito."
       />
     </div>
 
-    <div class="home-studio__persone" id="h-studio" data-reveal-gruppo>
-      <div class="home-studio__persona" data-reveal>
+    <div class="home-studio__persone" id="h-studio">
+      <article class="home-studio__persona">
         <div class="home-studio__chi">
           <h3 class="home-studio__nome">Albert</h3>
-          <p class="home-studio__ruolo">Sviluppo · progetto</p>
+          <p class="home-studio__ruolo">Sviluppo e progetto</p>
         </div>
         <p class="home-studio__testo">Segue ogni progetto dall’inizio alla fine: costruisce il sito, lo pubblica e resta il tuo referente.</p>
-      </div>
-      <div class="home-studio__persona" data-reveal>
+      </article>
+
+      <article class="home-studio__persona">
         <div class="home-studio__chi">
           <h3 class="home-studio__nome">Gabriel</h3>
-          <p class="home-studio__ruolo">Design · social</p>
+          <p class="home-studio__ruolo">Design e social</p>
         </div>
         <p class="home-studio__testo">Cura l’aspetto e i contenuti: grafiche, foto e social. Quello che si vede, lo ha visto lui prima di te.</p>
-      </div>
+      </article>
     </div>
   </div>
 </section>
 
 <style>
-  /* Studio: fascia carta, filetto sopra come per Prezzi. */
-  .home-studio {
-    position: relative;
-    padding-block: var(--sezione);
-  }
-
-  .home-studio::before {
-    content: '';
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: var(--pad);
-    block-size: 1px;
-    background: var(--linea);
-  }
-
-  /* Persone: righe con filetto. Da 960px nome e ruolo stanno nelle colonne 1-6, il testo nelle 8-12. */
+  /* Persone: righe con filetto, una per persona. Da 960px nome e ruolo stanno nelle colonne 1-6,
+     il testo nelle colonne 8-12. */
   .home-studio__persone {
     display: grid;
     margin: 0;
@@ -62,24 +47,16 @@ import TestataSezione from '../TestataSezione.astro';
     border-block-start: 1px solid var(--linea);
   }
 
-  .home-studio__persona:last-child {
-    border-block-end: 1px solid var(--linea);
-  }
-
   .home-studio__nome {
-    font: 800 var(--fs-h2-s) / 0.9 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
+    font: 600 var(--fs-h2-xs) / 1.1 var(--font-ui);
+    letter-spacing: -0.02em;
     color: var(--inchiostro);
   }
 
   .home-studio__ruolo {
     max-inline-size: none;
-    margin: var(--s-3) 0 0;
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin: var(--s-2) 0 0;
+    font: 600 var(--fs-body) / 1.4 var(--font-ui);
     color: var(--morbido);
   }
 
@@ -87,15 +64,6 @@ import TestataSezione from '../TestataSezione.astro';
     max-inline-size: 48ch;
     font: 400 var(--fs-body) / 1.55 var(--font-testo);
     color: var(--inchiostro);
-  }
-
-  /* Sotto 960px l'ultima persona non ha filetto né padding in basso: il filetto resta quello di Domande
-     (era un doppio filetto a 64px di distanza) e la fascia tra le sezioni è --sezione. */
-  @media (max-width: 959px) {
-    .home-studio__persona:last-child {
-      border-block-end: 0;
-      padding-block-end: 0;
-    }
   }
 
   @media (min-width: 960px) {
@@ -120,7 +88,6 @@ import TestataSezione from '../TestataSezione.astro';
 
     .home-studio__testo {
       grid-column: 8 / span 5;
-      margin-block-start: var(--s-3);
       max-inline-size: 44ch;
     }
   }

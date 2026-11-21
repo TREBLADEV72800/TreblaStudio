@@ -1,18 +1,15 @@
 ---
 import TestataSezione from '../TestataSezione.astro';
-import Freccia from '../ui/Freccia.astro';
 import { BASE_PRICES } from '../../data/prezzi';
 ---
 
-<!-- 02 · SERVIZI -->
-<section class="fascia-scura home-servizi" aria-labelledby="t-servizi">
+<section class="fascia-scura sezione home-servizi" aria-labelledby="t-servizi">
   <div class="contenitore home-servizi__griglia">
     <div class="home-servizi__testata">
       <TestataSezione
         id="t-servizi"
         scuro
-        numero="02 · Cosa facciamo"
-        titolo="Il sito al centro, <em>il resto intorno</em>"
+        titolo="Il sito al centro, il resto intorno"
         nota="Parti da quello che ti serve ora. Il resto si aggiunge quando vuoi."
       />
     </div>
@@ -20,17 +17,25 @@ import { BASE_PRICES } from '../../data/prezzi';
     <div class="home-servizi__lista" id="h-servizi">
       <details class="home-servizi__voce" open>
         <summary class="home-servizi__riga" data-cursore="Apri">
-          <span class="home-servizi__indice">01</span>
-          <h3 class="home-servizi__nome">Sito web</h3>
-          <span class="home-servizi__prezzo">{BASE_PRICES.singola}€</span>
+          <h3 class="home-servizi__nome display display--h2-s">Sito web</h3>
+          <span class="home-servizi__prezzo home-servizi__prezzo--testo">{BASE_PRICES.singola}€</span>
           <span class="home-servizi__piu" aria-hidden="true"></span>
         </summary>
         <div class="home-servizi__corpo">
-          <p class="home-servizi__meta"><b>{BASE_PRICES.singola}€</b> · pagina singola · <b>{BASE_PRICES.multi}€</b> · più pagine</p>
-          <p class="home-servizi__testo">Il punto di partenza per farti trovare e contattare. <strong>Una pagina che spiega tutto</strong> o un sito completo.</p>
+          <div class="home-servizi__cifre">
+            <p class="home-servizi__cifra">
+              <span class="home-servizi__valore display display--h2-s">{BASE_PRICES.singola}€</span>
+              <span class="home-servizi__didascalia">pagina singola</span>
+            </p>
+            <p class="home-servizi__cifra">
+              <span class="home-servizi__valore display display--h2-s">{BASE_PRICES.multi}€</span>
+              <span class="home-servizi__didascalia">più pagine</span>
+            </p>
+          </div>
+          <p class="home-servizi__testo">Il punto di partenza per farti trovare e contattare. Una pagina che spiega tutto o un sito completo.</p>
           <div class="home-servizi__liste">
             <div>
-              <p class="home-servizi__etichetta">Inclusi</p>
+              <p class="etichetta home-servizi__titoletto">Inclusi</p>
               <ul>
                 <li>Testi essenziali preparati insieme a te</li>
                 <li>Telefono, WhatsApp e mappa</li>
@@ -39,7 +44,7 @@ import { BASE_PRICES } from '../../data/prezzi';
               </ul>
             </div>
             <div class="home-servizi__no">
-              <p class="home-servizi__etichetta">Esclusi</p>
+              <p class="etichetta home-servizi__titoletto">Esclusi</p>
               <ul>
                 <li>Gergo tecnico</li>
                 <li>Ore della tua giornata</li>
@@ -47,23 +52,27 @@ import { BASE_PRICES } from '../../data/prezzi';
               </ul>
             </div>
           </div>
-          <a class="link-sottolineato home-servizi__link" href="/servizi/siti-web/">Il sito nel dettaglio<Freccia /></a>
+          <a class="link-sottolineato home-servizi__link" href="/servizi/siti-web/">Il sito nel dettaglio</a>
         </div>
       </details>
 
       <details class="home-servizi__voce">
         <summary class="home-servizi__riga" data-cursore="Apri">
-          <span class="home-servizi__indice">02</span>
-          <h3 class="home-servizi__nome">Grafiche</h3>
-          <span class="home-servizi__prezzo">su preventivo</span>
+          <h3 class="home-servizi__nome display display--h2-s">Grafiche</h3>
+          <span class="home-servizi__prezzo home-servizi__prezzo--testo">Su preventivo</span>
           <span class="home-servizi__piu" aria-hidden="true"></span>
         </summary>
         <div class="home-servizi__corpo">
-          <p class="home-servizi__meta">solo se ti serve · <b>su preventivo</b></p>
-          <p class="home-servizi__testo"><strong>La stessa faccia ovunque</strong>: dal sito al biglietto da visita, dal menu cartaceo alla vetrina.</p>
+          <div class="home-servizi__cifre">
+            <p class="home-servizi__cifra">
+              <span class="home-servizi__valore home-servizi__valore--testo">Su preventivo</span>
+              <span class="home-servizi__didascalia">solo se ti serve</span>
+            </p>
+          </div>
+          <p class="home-servizi__testo">La stessa faccia ovunque: dal sito al biglietto da visita, dal menu cartaceo alla vetrina.</p>
           <div class="home-servizi__liste">
             <div>
-              <p class="home-servizi__etichetta">Inclusi</p>
+              <p class="etichetta home-servizi__titoletto">Inclusi</p>
               <ul>
                 <li>Logo creato o rinnovato</li>
                 <li>Biglietti da visita, volantini, menu</li>
@@ -71,7 +80,7 @@ import { BASE_PRICES } from '../../data/prezzi';
               </ul>
             </div>
             <div class="home-servizi__no">
-              <p class="home-servizi__etichetta">Esclusi</p>
+              <p class="etichetta home-servizi__titoletto">Esclusi</p>
               <ul>
                 <li>Restyling ogni sei mesi</li>
                 <li>Stampa di qualsiasi materiale</li>
@@ -79,23 +88,27 @@ import { BASE_PRICES } from '../../data/prezzi';
             </div>
           </div>
           <p class="home-servizi__nota">Solo design: non stampiamo niente, ti consegniamo i file da portare dove vuoi.</p>
-          <a class="link-sottolineato home-servizi__link" href="/servizi/grafiche/">Le grafiche nel dettaglio<Freccia /></a>
+          <a class="link-sottolineato home-servizi__link" href="/servizi/grafiche/">Le grafiche nel dettaglio</a>
         </div>
       </details>
 
       <details class="home-servizi__voce">
         <summary class="home-servizi__riga" data-cursore="Apri">
-          <span class="home-servizi__indice">03</span>
-          <h3 class="home-servizi__nome">Social media</h3>
-          <span class="home-servizi__prezzo">su preventivo</span>
+          <h3 class="home-servizi__nome display display--h2-s">Social media</h3>
+          <span class="home-servizi__prezzo home-servizi__prezzo--testo">Per voce</span>
           <span class="home-servizi__piu" aria-hidden="true"></span>
         </summary>
         <div class="home-servizi__corpo">
-          <p class="home-servizi__meta">solo se ti serve · <b>su preventivo</b></p>
-          <p class="home-servizi__testo"><strong>Profili ordinati e contenuti concordati</strong>, con prezzi per singola voce e senza canone mensile implicito.</p>
+          <div class="home-servizi__cifre">
+            <p class="home-servizi__cifra">
+              <span class="home-servizi__valore home-servizi__valore--testo">Per voce</span>
+              <span class="home-servizi__didascalia">solo se ti serve</span>
+            </p>
+          </div>
+          <p class="home-servizi__testo">Profili ordinati e contenuti concordati, con prezzi per singola voce e senza canone mensile implicito.</p>
           <div class="home-servizi__liste">
             <div>
-              <p class="home-servizi__etichetta">Possibili</p>
+              <p class="etichetta home-servizi__titoletto">Possibili</p>
               <ul>
                 <li>Profili</li>
                 <li>Foto e video</li>
@@ -103,14 +116,14 @@ import { BASE_PRICES } from '../../data/prezzi';
               </ul>
             </div>
             <div class="home-servizi__no">
-              <p class="home-servizi__etichetta">Esclusi</p>
+              <p class="etichetta home-servizi__titoletto">Esclusi</p>
               <ul>
                 <li>Follower comprati</li>
                 <li>Promesse di viralità</li>
               </ul>
             </div>
           </div>
-          <a class="link-sottolineato home-servizi__link" href="/servizi/social/">I social nel dettaglio<Freccia /></a>
+          <a class="link-sottolineato home-servizi__link" href="/servizi/social/">I social nel dettaglio</a>
         </div>
       </details>
     </div>
@@ -119,11 +132,7 @@ import { BASE_PRICES } from '../../data/prezzi';
 
 <style>
   /* Servizi, fascia inchiostro. Da 960px la testata resta ferma a sinistra (colonne 1-5)
-     e l'elenco scorre a destra (colonne 6-12). */
-  .home-servizi {
-    padding-block: var(--sezione);
-  }
-
+     e l'elenco scorre a destra (colonne 6-12). Il padding verticale è .sezione. */
   .home-servizi__griglia {
     display: grid;
     gap: var(--s-7);
@@ -155,7 +164,7 @@ import { BASE_PRICES } from '../../data/prezzi';
       grid-column: 6 / span 7;
     }
 
-    /* Nella colonna stretta il titolo occupa tutta la larghezza, senza le colonne del testata. */
+    /* Nella colonna stretta il titolo occupa tutta la larghezza, senza le colonne della testata. */
     .home-servizi__testata :global(.testata) :global(.testata__titolo) {
       grid-column: 1 / -1;
     }
@@ -176,7 +185,8 @@ import { BASE_PRICES } from '../../data/prezzi';
     }
   }
 
-  /* Riga del servizio: indice, nome, prezzo e "+". Sotto 640px il prezzo va sotto il nome. */
+  /* ---------- Riga del servizio: nome e prezzo, "+" a destra ----------
+     Sotto 640px il prezzo va sotto il nome. Da 640px nome, prezzo e "+" sulla stessa riga. */
   .home-servizi__voce {
     border-block-start: 1px solid var(--linea);
   }
@@ -187,12 +197,11 @@ import { BASE_PRICES } from '../../data/prezzi';
 
   .home-servizi__riga {
     position: relative;
-    isolation: isolate;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      'indice nome piu'
-      'indice prezzo piu';
+      'nome piu'
+      'prezzo piu';
     align-items: center;
     column-gap: var(--s-4);
     row-gap: var(--s-2);
@@ -205,45 +214,39 @@ import { BASE_PRICES } from '../../data/prezzi';
     display: none;
   }
 
-  /* Riempimento mattone che sale dal basso (A11). */
-  .home-servizi__riga::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--mattone);
-    transform: scaleY(0);
-    transform-origin: 50% 100%;
-    transition: transform 450ms var(--ease-out);
-  }
-
-  .home-servizi__indice {
-    grid-area: indice;
-    align-self: start;
-    font: 500 var(--fs-label) / 1 var(--font-mono);
-    letter-spacing: 0.08em;
-    color: var(--morbido);
-    transition: transform 450ms var(--ease-out), color 450ms var(--ease-out);
-  }
-
   .home-servizi__nome {
+    position: relative;
     grid-area: nome;
     min-inline-size: 0;
-    font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
+    margin: 0;
     color: var(--carta);
-    transition: color 450ms var(--ease-out);
+  }
+
+  /* Hover: al massimo una sottolineatura del titolo, che entra da sinistra. Niente riempimento. */
+  .home-servizi__nome::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: -0.08em;
+    block-size: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform var(--t-2) var(--ease-expo);
   }
 
   .home-servizi__prezzo {
     grid-area: prezzo;
-    font: 500 var(--fs-small) / 1 var(--font-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    justify-self: start;
+    margin: 0;
+    color: var(--carta);
+  }
+
+  .home-servizi__prezzo--testo {
+    font: 600 var(--fs-h3) / 1.2 var(--font-ui);
+    letter-spacing: -0.02em;
+    text-transform: none;
     color: var(--morbido);
-    transition: color 450ms var(--ease-out);
   }
 
   .home-servizi__piu {
@@ -254,7 +257,7 @@ import { BASE_PRICES } from '../../data/prezzi';
     block-size: 16px;
     margin-inline-end: var(--s-3);
     color: var(--carta);
-    transition: transform 450ms var(--ease-out), color 450ms var(--ease-out);
+    transition: transform var(--t-2) var(--ease-std);
   }
 
   .home-servizi__piu::before,
@@ -282,30 +285,20 @@ import { BASE_PRICES } from '../../data/prezzi';
 
   @media (min-width: 640px) {
     .home-servizi__riga {
-      grid-template-columns: auto minmax(0, 1fr) auto auto;
-      grid-template-areas: 'indice nome prezzo piu';
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      grid-template-areas: 'nome prezzo piu';
       row-gap: 0;
     }
 
-    .home-servizi__indice {
-      align-self: center;
+    .home-servizi__prezzo {
+      justify-self: end;
     }
   }
 
   @media (hover: hover) {
-    .home-servizi__riga:hover::before {
-      transform: scaleY(1);
-    }
-
-    .home-servizi__riga:hover .home-servizi__indice,
-    .home-servizi__riga:hover .home-servizi__nome,
-    .home-servizi__riga:hover .home-servizi__prezzo,
-    .home-servizi__riga:hover .home-servizi__piu {
-      color: var(--inchiostro);
-    }
-
-    .home-servizi__riga:hover .home-servizi__indice {
-      transform: translate3d(12px, 0, 0);
+    .home-servizi__riga:hover .home-servizi__nome::after {
+      transform: scaleX(1);
+      transform-origin: left center;
     }
 
     .home-servizi__riga:hover .home-servizi__piu {
@@ -313,7 +306,7 @@ import { BASE_PRICES } from '../../data/prezzi';
     }
   }
 
-  /* Contenuto aperto: fade-up come .fisarmonica__corpo. */
+  /* ---------- Corpo aperto ---------- */
   .home-servizi__corpo {
     padding-block: var(--s-5) clamp(40px, 5vw, 64px);
   }
@@ -322,18 +315,48 @@ import { BASE_PRICES } from '../../data/prezzi';
     animation: sali-corto var(--t-3) var(--ease-out) both;
   }
 
-  .home-servizi__meta {
+  /* Prezzi come oggetti: a sinistra sotto 640px, allineati a destra da 960px. */
+  .home-servizi__cifre {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6) var(--s-7);
+    margin: 0 0 var(--s-6);
+  }
+
+  .home-servizi__cifra {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-2);
     max-inline-size: none;
-    margin: 0 0 var(--s-4);
-    font: 400 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .home-servizi__valore {
+    color: var(--carta);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .home-servizi__valore--testo {
+    font: 600 var(--fs-h3) / 1.2 var(--font-ui);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--carta);
+  }
+
+  .home-servizi__didascalia {
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
     color: var(--morbido);
   }
 
-  .home-servizi__meta b {
-    font-weight: 500;
-    color: var(--carta);
+  @media (min-width: 960px) {
+    .home-servizi__cifre {
+      justify-content: flex-end;
+    }
+
+    .home-servizi__cifra {
+      justify-items: end;
+      text-align: end;
+    }
   }
 
   .home-servizi__testo {
@@ -341,10 +364,6 @@ import { BASE_PRICES } from '../../data/prezzi';
     margin: 0 0 var(--s-6);
     font: 400 var(--fs-lead) / 1.45 var(--font-testo);
     color: var(--carta);
-  }
-
-  .home-servizi__testo strong {
-    font-weight: 600;
   }
 
   .home-servizi__liste {
@@ -358,12 +377,8 @@ import { BASE_PRICES } from '../../data/prezzi';
     }
   }
 
-  .home-servizi__etichetta {
+  .home-servizi__titoletto {
     margin: 0 0 var(--s-2);
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--morbido);
   }
 
   /* Voci separate da filetti. */
@@ -393,9 +408,7 @@ import { BASE_PRICES } from '../../data/prezzi';
   }
 
   .home-servizi__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
+    display: inline-block;
     margin-block-start: var(--s-6);
     color: var(--carta);
   }
