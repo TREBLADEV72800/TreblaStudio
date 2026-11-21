@@ -1,38 +1,81 @@
 ---
-// Benefici: quattro punti concreti, numerati in ordine.
+import TestataSezione from '../TestataSezione.astro';
 
+// Benefici: quattro punti concreti, numerati in ordine.
 const benefici = [
   { t: 'Si trova subito l’essenziale', d: 'Chi sei, dove sei, quando sei aperto. Senza scavare nei menu.' },
   { t: 'Menu e servizi leggibili', d: 'Prezzi chiari dal telefono, senza scaricare PDF. Anche con poco campo.' },
   { t: 'Contatti in un tocco', d: 'Telefono, WhatsApp, mappa e prenotazioni sempre in vista.' },
   { t: 'Ordine anche fuori dal sito', d: 'Google Business e mappe sistemati: orari e indicazioni giusti ovunque.' },
 ];
-
-import TestataSezione from '../TestataSezione.astro';
-
 ---
 
-  <!-- 01 · BENEFICI -->
-  <section class="sezione" aria-labelledby="t-benefici">
-    <div class="involucro">
-      <TestataSezione
-        id="t-benefici"
-        numero="01 · Benefici"
-        titolo="Cosa cambia <em>in pratica</em>"
-        nota="Niente promesse: quattro cose concrete che il sito fa per te."
-      />
-      <ol class="righe" id="h-benefici">
-        {benefici.map((b, i) => (
-          <li data-reveal>
-            <span class="righe-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{b.t}</h3>
-            <p>{b.d}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
+<!-- 01 · BENEFICI -->
+<section class="home-benefici" aria-labelledby="t-benefici">
+  <div class="contenitore">
+    <TestataSezione
+      id="t-benefici"
+      numero="01 · Benefici"
+      titolo="Cosa cambia <em>in pratica</em>"
+      nota="Niente promesse: quattro cose concrete che il sito fa per te."
+    />
+    <ol class="home-benefici__lista" id="h-benefici" data-reveal-gruppo>
+      {benefici.map((b, i) => (
+        <li class="home-benefici__voce" data-reveal>
+          <span class="home-benefici__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{b.t}</h3>
+          <p>{b.d}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
 
 <style>
-  /* stili della sezione: ondata 2 */
+  .home-benefici {
+    padding-block: var(--sezione);
+  }
+
+  /* 1 colonna, 2 da 640px, 4 da 960px. */
+  .home-benefici__lista {
+    display: grid;
+    gap: var(--s-7) var(--gap);
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .home-benefici__lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .home-benefici__lista {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0 var(--gap);
+    }
+  }
+
+  .home-benefici__voce {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .home-benefici__num {
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.08em;
+    color: var(--mattone-testo);
+  }
+
+  .home-benefici__voce p {
+    max-inline-size: 36ch;
+    font-size: var(--fs-body);
+    color: var(--morbido);
+  }
 </style>

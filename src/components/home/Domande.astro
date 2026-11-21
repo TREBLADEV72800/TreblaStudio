@@ -1,6 +1,7 @@
 ---
 import TestataSezione from '../TestataSezione.astro';
 import ElencoDomande from '../ElencoDomande.astro';
+import Bottone from '../ui/Bottone.astro';
 import { FAQS } from '../../data/domande-frequenti';
 
 const HOME_FAQS = [
@@ -13,20 +14,92 @@ const HOME_FAQS = [
 const homeFaqs = FAQS.filter((f) => HOME_FAQS.includes(f.q)).sort((a, b) => HOME_FAQS.indexOf(a.q) - HOME_FAQS.indexOf(b.q));
 ---
 
-  <!-- 06 · DOMANDE -->
-  <section class="sezione" aria-labelledby="t-domande">
-    <div class="involucro">
+<!-- 06 · DOMANDE -->
+<section class="home-domande" aria-labelledby="t-domande">
+  <div class="contenitore home-domande__griglia">
+    <div class="home-domande__testata">
       <TestataSezione
         id="t-domande"
         numero="06 · Domande"
         titolo="Quelle che ci fanno <em>sempre</em>"
         nota="Le risposte oneste, prima ancora di sentirci. Se ti torna, dimmi come si chiama la tua attività: al resto pensiamo noi."
       />
-      <div id="h-domande"><ElencoDomande faqs={homeFaqs} /></div>
-      <p class="stacco-16" data-reveal><a class="link-freccia" href="/faq/">Tutte le domande →</a></p>
     </div>
-  </section>
+
+    <div class="home-domande__lista">
+      <div id="h-domande"><ElencoDomande faqs={homeFaqs} /></div>
+      <div class="home-domande__azione" data-reveal>
+        <Bottone href="/faq/" variante="secondario" testo="Tutte le domande" />
+      </div>
+    </div>
+  </div>
+</section>
 
 <style>
-  /* stili della sezione: ondata 2 */
+  /* Domande: fascia carta, filetto sopra. Da 960px la testata resta ferma a sinistra (colonne 1-5)
+     e la lista scorre a destra (colonne 6-12). */
+  .home-domande {
+    position: relative;
+    padding-block: var(--sezione);
+  }
+
+  .home-domande::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: var(--pad);
+    block-size: 1px;
+    background: var(--linea);
+  }
+
+  .home-domande__griglia {
+    display: grid;
+    gap: var(--s-7);
+  }
+
+  .home-domande__testata,
+  .home-domande__lista {
+    min-inline-size: 0;
+  }
+
+  .home-domande__azione {
+    margin-block-start: var(--s-7);
+  }
+
+  @media (min-width: 960px) {
+    .home-domande__griglia {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+    }
+
+    .home-domande__testata {
+      grid-column: 1 / span 5;
+      position: sticky;
+      top: calc(var(--hh) + 32px);
+    }
+
+    .home-domande__lista {
+      grid-column: 6 / span 7;
+    }
+
+    /* Nella colonna stretta il titolo occupa tutta la larghezza. */
+    .home-domande__testata :global(.testata) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-domande__testata :global(.testata) :global(.testata__titolo) {
+      grid-column: 1 / -1;
+    }
+
+    .home-domande__testata :global(.testata) :global(.testata__nota) {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+
+    .home-domande__testata :global(.testata) :global(.titolo-rivelato--h2) {
+      font-size: var(--fs-h2-s);
+      line-height: 0.92;
+    }
+  }
 </style>

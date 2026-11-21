@@ -1,27 +1,142 @@
 ---
 import TestataSezione from '../TestataSezione.astro';
 
+const passi = [
+  { t: 'Raccontaci', d: 'Due minuti col preventivo online o un messaggio su WhatsApp. Niente moduli infiniti.' },
+  { t: 'Proposta chiara', d: 'Prezzo e tempi scritti nero su bianco, prima di iniziare. Se non ti torna, nessun problema.' },
+  { t: 'Costruiamo', d: 'Testi insieme a te, foto tue o scattate da noi, impaginazione curata.' },
+  { t: 'Rivedi due volte', d: 'Due giri di correzioni inclusi. Decidi tu quando è pronto.' },
+  { t: 'Online, ed è tuo', d: 'Pubblichiamo e ti spieghiamo l’essenziale. Nessun canone obbligatorio verso di noi.' },
+];
 ---
 
-  <!-- 03 · METODO -->
-  <section class="sezione" aria-labelledby="t-metodo">
-    <div class="involucro">
-      <TestataSezione
-        id="t-metodo"
-        numero="03 · Come funziona"
-        titolo="Tu lavori, <em>noi al resto</em>"
-        nota="Cinque passi, un solo referente, zero tempo perso."
-      />
-      <ol class="metodo" id="h-metodo">
-        <li data-reveal><h3>Raccontaci</h3><p>Due minuti col preventivo online o un messaggio su WhatsApp. Niente moduli infiniti.</p></li>
-        <li data-reveal><h3>Proposta chiara</h3><p>Prezzo e tempi scritti nero su bianco, prima di iniziare. Se non ti torna, nessun problema.</p></li>
-        <li data-reveal><h3>Costruiamo</h3><p>Testi insieme a te, foto tue o scattate da noi, impaginazione curata.</p></li>
-        <li data-reveal><h3>Rivedi due volte</h3><p>Due giri di correzioni inclusi. Decidi tu quando è pronto.</p></li>
-        <li data-reveal><h3>Online, ed è tuo</h3><p>Pubblichiamo e ti spieghiamo l’essenziale. Nessun canone obbligatorio verso di noi.</p></li>
-      </ol>
-    </div>
-  </section>
+<!-- 03 · METODO -->
+<section class="home-metodo" aria-labelledby="t-metodo">
+  <div class="contenitore">
+    <TestataSezione
+      id="t-metodo"
+      numero="03 · Come funziona"
+      titolo="Tu lavori, <em>noi al resto</em>"
+      nota="Cinque passi, un solo referente, zero tempo perso."
+    />
+    <ol class="home-metodo__lista" id="h-metodo" data-reveal-gruppo>
+      {passi.map((p, i) => (
+        <li class="home-metodo__passo" data-reveal>
+          <span class="home-metodo__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{p.t}</h3>
+          <p>{p.d}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
 
 <style>
-  /* stili della sezione: ondata 2 */
+  .home-metodo {
+    padding-block: var(--sezione);
+  }
+
+  /* 1 colonna, 2 da 640px, righe orizzontali da 960px, 5 colonne da 1280px. */
+  .home-metodo__lista {
+    display: grid;
+    gap: var(--s-7) var(--gap);
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .home-metodo__lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .home-metodo__lista {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .home-metodo__lista {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0 var(--gap);
+    }
+  }
+
+  .home-metodo__passo {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .home-metodo__num {
+    font: 800 clamp(64px, 7vw, 88px) / 0.88 var(--font-display);
+    font-stretch: 64%;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--mattone);
+  }
+
+  .home-metodo__passo p {
+    max-inline-size: 36ch;
+    color: var(--morbido);
+  }
+
+  /* Da 960px: numero, titolo e testo sulla stessa riga, in una griglia a 12 colonne (2 / 4 / 6). */
+  @media (min-width: 960px) {
+    .home-metodo__passo {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+      padding-block: var(--s-6);
+    }
+
+    .home-metodo__passo:last-child {
+      border-block-end: 1px solid var(--linea);
+    }
+
+    .home-metodo__num {
+      grid-column: 1 / span 2;
+      grid-row: 1;
+    }
+
+    .home-metodo__passo h3 {
+      grid-column: 3 / span 4;
+      grid-row: 1;
+    }
+
+    .home-metodo__passo p {
+      grid-column: 7 / span 6;
+      grid-row: 1;
+      max-inline-size: 48ch;
+    }
+  }
+
+  /* Da 1280px: colonne verticali, come sotto 960px. */
+  @media (min-width: 1280px) {
+    .home-metodo__passo {
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: var(--s-5) 0;
+    }
+
+    .home-metodo__passo:last-child {
+      border-block-end: 0;
+    }
+
+    .home-metodo__num,
+    .home-metodo__passo h3,
+    .home-metodo__passo p {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .home-metodo__passo p {
+      max-inline-size: 36ch;
+    }
+  }
 </style>

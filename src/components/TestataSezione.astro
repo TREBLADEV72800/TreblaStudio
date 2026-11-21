@@ -38,3 +38,68 @@ const numeroParti = numero.match(/^(\d+)\s*·\s*(.+)$/);
   <TitoloRivelato tag="h2" testo={testo} tenue={tenue} id={id} classe="testata__titolo" />
   {nota && <p class="testata__nota">{nota}</p>}
 </div>
+
+<style>
+  /* Testata di sezione: filetto mono in alto, titolo display, nota in lead.
+     Il numero usa il mattone di testo (sulle fasce scure il mattone pieno). */
+  .testata {
+    display: grid;
+    gap: clamp(24px, 3vw, 40px) var(--gap);
+    margin-block-end: clamp(40px, 5vw, 64px);
+  }
+
+  .testata__riga {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    max-inline-size: none;
+    padding-block-start: var(--s-4);
+    border-block-start: 1px solid var(--linea);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .testata__num {
+    color: var(--mattone-testo);
+  }
+
+  .testata--scuro .testata__num {
+    color: var(--mattone);
+  }
+
+  .testata__nota {
+    max-inline-size: 48ch;
+    margin: 0;
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  /* Il titolo è TitoloRivelato: la sua radice riceve la classe passata, non l'attributo di questo componente. */
+  .testata :global(.testata__titolo) {
+    max-inline-size: none;
+  }
+
+  @media (min-width: 960px) {
+    .testata {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: end;
+    }
+
+    .testata__riga {
+      grid-column: 1 / -1;
+    }
+
+    .testata :global(.testata__titolo) {
+      grid-column: 1 / span 8;
+    }
+
+    .testata__nota {
+      grid-column: 9 / span 4;
+      justify-self: start;
+    }
+  }
+</style>
