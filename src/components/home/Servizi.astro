@@ -242,6 +242,11 @@ import { BASE_PRICES } from '../../data/prezzi';
     color: var(--carta);
   }
 
+  /* Voce aperta: il prezzo sta già nel corpo, nella riga non si ripete. */
+  .home-servizi__voce[open] .home-servizi__prezzo {
+    display: none;
+  }
+
   .home-servizi__prezzo--testo {
     font: 600 var(--fs-h3) / 1.2 var(--font-ui);
     letter-spacing: -0.02em;

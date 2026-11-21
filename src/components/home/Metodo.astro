@@ -108,17 +108,18 @@ const passi = [
       padding-inline-end: var(--gap);
     }
 
+    /* Titolo e testo impilati nelle colonne 3-10: il passo si legge dall'alto in basso, senza salti. */
     .home-metodo__titolo {
-      grid-column: 3 / span 4;
+      grid-column: 3 / span 8;
       grid-row: 1;
       margin: var(--s-2) 0 0;
     }
 
     .home-metodo__testo {
-      grid-column: 7 / span 6;
-      grid-row: 1;
+      grid-column: 3 / span 6;
+      grid-row: 2;
       max-inline-size: 36em;
-      margin: var(--s-2) 0 0;
+      margin: var(--s-3) 0 0;
       font-size: var(--fs-body);
     }
   }
