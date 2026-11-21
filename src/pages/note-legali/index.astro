@@ -1,67 +1,31 @@
 ---
-// Pagina note legali: fuori da LayoutPagina per restare essenziale, ma dentro il
-// design system: stessi token, stesso anello di focus, stessi contatti.
-import '../../styles/tokens.css';
-import '../../styles/base.css';
-import '../../styles/layout.css';
-import '../../styles/componenti.css';
-import '../../styles/movimento.css';
-import '../../styles/legacy.css';
-import MetaDocumento from '../../components/MetaDocumento.astro';
-import ContattiDinamici from '../../components/ContattiDinamici.astro';
-import { site } from '../../data/sito';
+import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataPagina from '../../components/TestataPagina.astro';
+import Prosa from '../../components/Prosa.astro';
 import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
-
-const stile = `
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--carta);color:var(--inchiostro);font:400 1.0625rem/1.65 var(--sans);padding:clamp(24px,5vw,48px) clamp(18px,5vw,32px) clamp(56px,8vw,88px);overflow-x:clip}
-main{max-inline-size:65ch;margin-inline:auto}
-a{color:var(--mattone);text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere}
-a:hover{color:var(--mattone-fondo)}
-.ritorno{display:inline-flex;align-items:center;min-block-size:44px;color:var(--mattone);font:700 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
-.ritorno:hover{color:var(--mattone-fondo);text-decoration:underline;text-underline-offset:4px}
-h1,h2,h3{text-wrap:balance;overflow-wrap:anywhere}
-h1{font:600 clamp(2.1rem,7vw,3rem)/1.05 var(--serif);letter-spacing:-.02em;margin:.5em 0 .55em}
-h2{font:600 clamp(1.45rem,4vw,1.9rem)/1.12 var(--serif);letter-spacing:-.01em;margin:2.2em 0 .5em;padding-block-start:.7em;border-block-start:1px solid var(--linea)}
-h3{font:600 1.15rem/1.25 var(--serif);margin:1.6em 0 .35em}
-p,li{color:var(--linea-scura)}
-p{margin:.7em 0}
-ul{padding-inline-start:1.25em}
-li+li{margin-block-start:.3em}
-nav{display:flex;flex-wrap:wrap;gap:4px 20px;margin:0 0 2em;font:700 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-nav a{display:inline-flex;align-items:center;min-block-size:44px;text-decoration:none}
-nav a:hover{text-decoration:underline;text-underline-offset:4px}
-section{scroll-margin-top:24px}
-:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
-::selection{background:var(--mattone);color:var(--carta)}
-@media (max-width:380px){body{padding-inline:16px}h1{font-size:2rem}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-`;
 ---
 
-<!doctype html>
-<html lang={site.lang}>
-  <head>
-    <MetaDocumento
-      title="Note legali | Trebla"
-      description="Privacy, cookie e termini di Trebla, studio indipendente ad Asti."
-      canonical="/note-legali"
-      noindex
-      preloadLogo={false}
-    />
-    <style set:html={stile} />
-  </head>
-  <body>
-    <main>
-      <a class="ritorno" href="/">← Trebla</a>
-      <h1>Note legali</h1>
-      <nav aria-label="Sezioni legali">
-        <a href="#privacy">Privacy</a>
-        <a href="#cookie">Cookie</a>
-        <a href="#termini">Termini</a>
+<LayoutPagina
+  title="Note legali | Trebla"
+  description="Privacy, cookie e termini di Trebla, studio indipendente ad Asti."
+  canonical="/note-legali"
+  noindex={true}
+>
+  <TestataPagina titolo="Note legali" percorso={[{ testo: 'Home', href: '/' }, { testo: 'Note legali' }]} />
+
+  <section class="legali-sez">
+    <div class="contenitore legali">
+      <nav class="legali__indice" aria-label="Sezioni legali">
+        <ul>
+          <li><a class="link-sottolineato" href="#privacy">Privacy, in chiaro</a></li>
+          <li><a class="link-sottolineato" href="#cookie">Cookie: quasi niente</a></li>
+          <li><a class="link-sottolineato" href="#termini">Termini e condizioni</a></li>
+        </ul>
       </nav>
 
-      <section id="privacy" aria-label="Privacy">
+      <div class="legali__testo">
+        <Prosa>
+      <section id="privacy" class="legali__sezione" aria-label="Privacy">
         <h2>Privacy, in chiaro</h2>
         <p>Ultimo aggiornamento: ottobre 2026.</p>
         <h3>Quali dati raccogliamo</h3>
@@ -76,7 +40,7 @@ section{scroll-margin-top:24px}
         <p>Trebla, studio indipendente ad Asti (<a data-mail data-mostra href="#">email</a>).</p>
       </section>
 
-      <section id="cookie" aria-label="Cookie">
+      <section id="cookie" class="legali__sezione" aria-label="Cookie">
         <h2>Cookie: quasi niente</h2>
         <p>Questo sito è statico e non usa cookie di profilazione, pixel pubblicitari o strumenti di analytics comportamentale.</p>
         <h3>Cosa potrebbe restare sul tuo dispositivo</h3>
@@ -89,7 +53,7 @@ section{scroll-margin-top:24px}
         <p>Non vedrai banner di consenso perché non c’è nulla a cui acconsentire. Se in futuro aggiungeremo strumenti di misura, lo scriveremo qui prima.</p>
       </section>
 
-      <section id="termini" aria-label="Termini">
+      <section id="termini" class="legali__sezione" aria-label="Termini">
         <h2>Termini e condizioni</h2>
         <h3>La proposta</h3>
         <p>Prima di iniziare ricevi prezzo e tempi scritti, su WhatsApp o email. Il preventivo online dà una stima indicativa; la proposta definitiva arriva dopo aver parlato dell’attività e vale solo quello che c’è scritto lì.</p>
@@ -114,7 +78,86 @@ section{scroll-margin-top:24px}
         <h3>Contatti</h3>
         <p>Per qualsiasi questione: <a data-mail data-mostra href="#">email</a>.</p>
       </section>
-    </main>
-    <ContattiDinamici />
-  </body>
-</html>
+        </Prosa>
+      </div>
+    </div>
+  </section>
+</LayoutPagina>
+
+<style>
+  /* Su mobile l'indice è una lista in linea sopra il testo. Da 960px resta sticky nelle colonne 1-3
+     e il testo va nelle colonne 5-11. */
+  .legali-sez {
+    padding-block: var(--sezione);
+  }
+
+  .legali {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  .legali__indice ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .legali__indice li {
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .legali__indice a {
+    display: inline-block;
+    padding-block: var(--s-4);
+    font: 500 var(--fs-body) / 1.3 var(--font-testo);
+    color: var(--inchiostro);
+  }
+
+  .legali__testo {
+    min-inline-size: 0;
+  }
+
+  /* Ancore: la sezione si ferma sotto l'header sticky (--hh) con 24px di respiro. */
+  .legali__sezione {
+    scroll-margin-top: calc(var(--hh) + 24px);
+  }
+
+  /* Prima sezione: il primo titolo non aggiunge spazio sopra al testo. */
+  .legali__sezione:first-child :global(h2) {
+    margin-block-start: 0;
+  }
+
+  /* Il CSS legacy dà a .prosa un margine alto e colora i paragrafi in morbido.
+     Qui si riporta al comportamento di Prosa (testo inchiostro, nessun margine di contenitore). */
+  .legali__testo :global(.prosa) {
+    margin-block-start: 0;
+  }
+
+  .legali__testo :global(.prosa p),
+  .legali__testo :global(.prosa li) {
+    color: var(--inchiostro);
+  }
+
+  @media (min-width: 960px) {
+    .legali {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+    }
+
+    .legali__indice {
+      grid-column: 1 / span 3;
+      position: sticky;
+      top: calc(var(--hh) + 32px);
+    }
+
+    .legali__indice ul {
+      border-block-start: 1px solid var(--linea);
+    }
+
+    .legali__testo {
+      grid-column: 5 / span 7;
+    }
+  }
+</style>

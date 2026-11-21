@@ -1,5 +1,8 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataPagina from '../../components/TestataPagina.astro';
+import Prosa from '../../components/Prosa.astro';
+import Bottone from '../../components/ui/Bottone.astro';
 ---
 
 <LayoutPagina
@@ -7,44 +10,156 @@ import LayoutPagina from '../../layouts/LayoutPagina.astro';
   description="Trebla è uno studio indipendente ad Asti: Albert allo sviluppo, Gabriel a design e social."
   canonical="/chi-siamo"
 >
-  <div class="involucro">
-    <section class="pagina-titolo" aria-labelledby="titolo">
-      <p class="capitolo-numero">Lo studio</p>
-      <h1 id="titolo">Due persone,<br /><em>un metodo chiaro</em></h1>
-      <p class="lead">Siamo ad Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo un sito che ti somiglia, senza farti perdere giornate.</p>
-    </section>
+  <TestataPagina
+    titolo="Due persone, |un metodo chiaro"
+    tenue="un metodo chiaro"
+    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Studio' }]}
+  >
+    <p slot="lead">Siamo ad Asti. Veniamo sul posto, ascoltiamo come lavori e costruiamo un sito che ti somiglia, senza farti perdere giornate.</p>
+  </TestataPagina>
 
-    <section class="sezione sezione-flush" aria-label="Il team">
-      <div class="persone">
-        <div class="persona">
-          <div class="persona-testa">
-            <h2 class="persona-titolo">Albert</h2>
-            <p class="persona-ruolo">Sviluppo · progetto</p>
-          </div>
-          <p>Scrive il codice, pubblica il sito e segue il progetto dall’inizio alla fine. È lui che ti risponde quando scrivi: niente passaggi di mano.</p>
+  <section class="chi-sez" aria-label="Il team">
+    <div class="contenitore chi-persone" data-reveal-gruppo>
+      <div class="chi-persona" data-reveal>
+        <div class="chi-persona__chi">
+          <h2 class="chi-persona__nome">Albert</h2>
+          <p class="chi-persona__ruolo">Sviluppo · progetto</p>
         </div>
-        <div class="persona">
-          <div class="persona-testa">
-            <h2 class="persona-titolo">Gabriel</h2>
-            <p class="persona-ruolo">Design · social</p>
-          </div>
-          <p>Disegna l’aspetto e prepara i contenuti: grafiche, foto, social. Se il sito sembra curato, è perché l’ha guardato lui prima di te.</p>
-        </div>
+        <p class="chi-persona__testo">Scrive il codice, pubblica il sito e segue il progetto dall’inizio alla fine. È lui che ti risponde quando scrivi: niente passaggi di mano.</p>
       </div>
+      <div class="chi-persona" data-reveal>
+        <div class="chi-persona__chi">
+          <h2 class="chi-persona__nome">Gabriel</h2>
+          <p class="chi-persona__ruolo">Design · social</p>
+        </div>
+        <p class="chi-persona__testo">Disegna l’aspetto e prepara i contenuti: grafiche, foto, social. Se il sito sembra curato, è perché l’ha guardato lui prima di te.</p>
+      </div>
+    </div>
+  </section>
 
-      <div class="prosa">
+  <section class="chi-sez chi-sez--filetto">
+    <div class="contenitore chi-testo">
+      <Prosa>
         <h2>Come la pensiamo</h2>
         <p>Una piccola attività non ha bisogno di un “ecosistema digitale”. Ha bisogno che <strong>chi la cerca la trovi, capisca subito di cosa si tratta e possa contattarla senza impazzire</strong>. Tutto quello che facciamo serve a questo. Il resto lo tagliamo.</p>
         <p><strong>Dove operiamo:</strong> solo ad Asti, su appuntamento. Veniamo sul posto.</p>
-      </div>
-    </section>
+      </Prosa>
+    </div>
+  </section>
 
-    <section class="sezione">
-      <div class="hero-azioni">
-        <a class="btn btn-mattone" href="/preventivo/">Il prossimo può essere il tuo in 2 minuti</a>
-        <a class="btn btn-fantasma" data-wa="Ciao Trebla! Vorrei qualcosa per la mia attività." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a>
-      </div>
-      <p class="hero-firma"><a data-mail data-mostra href="#">email</a></p>
-    </section>
-  </div>
+  <section class="fascia-grafite chi-chiusura">
+    <div class="contenitore chi-chiusura__riga">
+      <Bottone
+        href="#"
+        variante="wa"
+        testo="Scrivici su WhatsApp"
+        data-wa="Ciao Trebla! Vorrei qualcosa per la mia attività."
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursore="Scrivi"
+      />
+      <p class="chi-chiusura__mail"><a class="link-sottolineato" data-mail data-mostra href="#">email</a></p>
+    </div>
+  </section>
 </LayoutPagina>
+
+<style>
+  /* Sezioni: padding con il token --sezione. Non si usa .sezione: il CSS legacy azzera il padding
+     della sezione che segue un'altra .sezione. */
+  .chi-sez {
+    padding-block: var(--sezione);
+  }
+
+  .chi-sez--filetto {
+    border-block-start: 1px solid var(--linea);
+  }
+
+  /* Persone: righe con filetto, come la sezione Studio della home.
+     Da 960px il nome sta nelle colonne 1-6, il testo nelle colonne 8-12. */
+  .chi-persone {
+    display: grid;
+  }
+
+  .chi-persona {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-6);
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .chi-persona:last-child {
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .chi-persona__nome {
+    margin: 0;
+    font: 800 var(--fs-h2-s) / 0.9 var(--font-display);
+    font-stretch: 64%;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--inchiostro);
+  }
+
+  .chi-persona__ruolo {
+    margin: var(--s-3) 0 0;
+    max-inline-size: none;
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .chi-persona__testo {
+    max-inline-size: 48ch;
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
+    color: var(--inchiostro);
+  }
+
+  @media (min-width: 960px) {
+    .chi-persona {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: start;
+      padding-block: var(--s-7);
+    }
+
+    .chi-persona__chi {
+      grid-column: 1 / span 6;
+    }
+
+    .chi-persona__testo {
+      grid-column: 8 / span 5;
+      margin-block-start: var(--s-3);
+      max-inline-size: 44ch;
+    }
+  }
+
+  /* Prosa: il CSS legacy dà a .prosa un margine alto e colora i paragrafi in morbido.
+     Qui si riporta al comportamento di Prosa (testo inchiostro, nessun margine di contenitore). */
+  .chi-testo :global(.prosa) {
+    margin-block-start: 0;
+  }
+
+  .chi-testo :global(.prosa p),
+  .chi-testo :global(.prosa li) {
+    color: var(--inchiostro);
+  }
+
+  /* Chiusura compatta su fascia grafite: WhatsApp e email. */
+  .chi-chiusura {
+    padding-block: clamp(40px, 5vw, 72px);
+  }
+
+  .chi-chiusura__riga {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5) var(--s-6);
+  }
+
+  .chi-chiusura__mail {
+    margin: 0;
+    font: 400 var(--fs-body) / 1.5 var(--font-testo);
+  }
+</style>

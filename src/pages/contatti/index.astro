@@ -1,5 +1,9 @@
 ---
 import LayoutPagina from '../../layouts/LayoutPagina.astro';
+import TestataPagina from '../../components/TestataPagina.astro';
+import Prosa from '../../components/Prosa.astro';
+import Bottone from '../../components/ui/Bottone.astro';
+import ContattiRiga from '../../components/pagine/contatti-riga.astro';
 ---
 
 <LayoutPagina
@@ -7,40 +11,170 @@ import LayoutPagina from '../../layouts/LayoutPagina.astro';
   description="Scrivici su WhatsApp o via email. Ti risponde una persona, in genere entro la giornata. Studio ad Asti, su appuntamento."
   canonical="/contatti"
 >
-  <div class="involucro">
-    <section class="pagina-titolo" aria-labelledby="titolo">
-      <p class="capitolo-numero">Contatti</p>
-      <h1 id="titolo">Parliamone <em>davvero</em></h1>
-      <p class="lead">Niente form che finiscono nel vuoto. Ci scrivi, ti risponde una persona, in genere entro la giornata.</p>
-    </section>
+  <TestataPagina
+    titolo="Parliamone davvero"
+    tenue="davvero"
+    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Contatti' }]}
+  >
+    <p slot="lead">Niente form che finiscono nel vuoto. Ci scrivi, ti risponde una persona, in genere entro la giornata.</p>
+  </TestataPagina>
 
-    <section class="sezione sezione-flush" aria-label="Canali di contatto">
-      <div class="contatti-griglia">
-        <div class="contatto-cella">
-          <h2>Il modo più veloce</h2>
-          <a class="contatto-grande" data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a>
-          <p class="contatto-nota">Raccontaci in due righe che attività hai. Ti rispondiamo noi, non un bot.</p>
-          <a class="btn btn-wa" data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Apri WhatsApp</a>
+  <section class="contatti-sez" aria-label="Canali di contatto">
+    <div class="contenitore contatti-canali">
+      <div class="contatti-gruppo" data-reveal-gruppo>
+        <h2 class="contatti-gruppo__titolo" data-reveal>Il modo più veloce</h2>
+        <ContattiRiga
+          canale="WhatsApp"
+          valore="Scrivici su WhatsApp"
+          href="#"
+          cursore="Scrivi"
+          data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone."
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+        <p class="contatti-gruppo__nota" data-reveal>Raccontaci in due righe che attività hai. Ti rispondiamo noi, non un bot.</p>
+        <div class="contatti-gruppo__azione" data-reveal>
+          <Bottone
+            href="#"
+            variante="wa"
+            testo="Apri WhatsApp"
+            data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone."
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursore="Scrivi"
+          />
         </div>
-        <div class="contatto-cella">
-          <h2>Se preferisci scrivere</h2>
-          <a class="contatto-grande" data-mail data-mostra href="#">email</a>
-          <p class="contatto-nota">Mandaci foto, menu, idee: tutto quello che hai già va benissimo.</p>
-          <a class="btn btn-fantasma" data-mail data-soggetto="Vorrei un sito per la mia attività" href="#">Scrivi un’email</a>
+      </div>
+
+      <div class="contatti-gruppo" data-reveal-gruppo>
+        <h2 class="contatti-gruppo__titolo" data-reveal>Se preferisci scrivere</h2>
+        <ContattiRiga canale="Email" valore="email" href="#" cursore="Scrivi" data-mail="" data-mostra="" />
+        <p class="contatti-gruppo__nota" data-reveal>Mandaci foto, menu, idee: tutto quello che hai già va benissimo.</p>
+        <div class="contatti-gruppo__azione" data-reveal>
+          <Bottone
+            href="#"
+            variante="secondario"
+            testo="Scrivi un’email"
+            data-mail=""
+            data-soggetto="Vorrei un sito per la mia attività"
+            data-cursore="Scrivi"
+          />
         </div>
       </div>
-      <div class="prosa">
-        <h2>Da dove vuoi partire?</h2>
-        <p>Puoi <a href="/preventivo/">preparare una stima</a> o dare un’occhiata ai <a href="/prezzi/">prezzi</a>. Il modulo non è disponibile senza un servizio di invio esterno: WhatsApp, email e telefono sono i canali diretti.</p>
-        <h2>Domanda veloce</h2>
-        <p>Non sai quali materiali servono? Va bene scriverci anche solo il nome dell’attività e cosa vorresti sistemare.</p>
+    </div>
+  </section>
+
+  <section class="contatti-sez contatti-sez--filetto" aria-label="Telefono e sede">
+    <div class="contenitore contatti-diretti" data-reveal-gruppo>
+      <ContattiRiga canale="Telefono" valore="Chiamaci" href="#" cursore="Chiama" data-tel="" />
+      <ContattiRiga canale="Sede" valore="Asti, su appuntamento." />
+    </div>
+  </section>
+
+  <section class="contatti-sez contatti-sez--filetto">
+    <div class="contenitore contatti-prosa">
+      <div class="contatti-prosa__colonna">
+        <Prosa>
+          <h2>Da dove vuoi partire?</h2>
+          <p>Puoi <a href="/preventivo/">preparare una stima</a> o dare un’occhiata ai <a href="/prezzi/">prezzi</a>. Il modulo non è disponibile senza un servizio di invio esterno: WhatsApp, email e telefono sono i canali diretti.</p>
+          <h2>Domanda veloce</h2>
+          <p>Non sai quali materiali servono? Va bene scriverci anche solo il nome dell’attività e cosa vorresti sistemare.</p>
+        </Prosa>
       </div>
-      <div class="prosa">
-        <h2>Prima di scriverci</h2>
-        <p>Se vuoi arrivare con le idee chiare, <a href="/preventivo/">fai il preventivo in 2 minuti</a>: rispondi a poche domande e arrivi da noi con già un prezzo indicativo in mano. Altrimenti raccontaci tutto a voce: va bene lo stesso.</p>
-        <h2>Dove siamo</h2>
-        <p>Asti, su appuntamento. Veniamo sul posto, in città. Preferisci chiamare? <a data-tel href="#">Chiamaci</a>.</p>
+      <div class="contatti-prosa__colonna">
+        <Prosa>
+          <h2>Prima di scriverci</h2>
+          <p>Se vuoi arrivare con le idee chiare, <a href="/preventivo/">fai il preventivo in 2 minuti</a>: rispondi a poche domande e arrivi da noi con già un prezzo indicativo in mano. Altrimenti raccontaci tutto a voce: va bene lo stesso.</p>
+          <h2>Dove siamo</h2>
+          <p>Asti, su appuntamento. Veniamo sul posto, in città. Preferisci chiamare? <a data-tel href="#">Chiamaci</a>.</p>
+        </Prosa>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </LayoutPagina>
+
+<style>
+  /* Canali: due gruppi affiancati da 960px, impilati sotto. Ogni gruppo apre con un filetto. */
+  .contatti-canali {
+    display: grid;
+    gap: var(--s-8) var(--gap);
+  }
+
+  .contatti-gruppo {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    padding-block-start: var(--s-5);
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .contatti-gruppo__titolo {
+    margin: 0;
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--inchiostro);
+  }
+
+  .contatti-gruppo__nota {
+    max-inline-size: 44ch;
+    margin: 0;
+    font: 400 var(--fs-body) / 1.55 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .contatti-gruppo__azione {
+    justify-self: start;
+    margin-block-start: var(--s-2);
+  }
+
+  @media (min-width: 960px) {
+    .contatti-canali {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-9) var(--s-8);
+    }
+  }
+
+  /* Nei gruppi a metà pagina la riga va sempre impilata: canale sopra, valore sotto, freccia a destra.
+     La disposizione su tre colonne resta solo per le righe a tutta larghezza (telefono, sede). */
+  .contatti-gruppo :global(.contatti-riga) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'canale freccia'
+      'valore freccia';
+    column-gap: 0;
+  }
+
+  /* Sezioni della pagina: il padding usa il token --sezione. Non si usa .sezione perché il CSS legacy
+     azzera il padding alto della sezione che segue un'altra .sezione. */
+  .contatti-sez {
+    padding-block: var(--sezione);
+  }
+
+  .contatti-sez--filetto {
+    border-block-start: 1px solid var(--linea);
+  }
+
+  /* Prosa su due colonne da 960px. Il CSS legacy dà a .prosa un margine alto e colora i paragrafi in morbido:
+     qui si riporta al comportamento di Prosa (testo inchiostro, nessun margine di contenitore). */
+  .contatti-prosa {
+    display: grid;
+    gap: var(--s-7) var(--gap);
+  }
+
+  .contatti-prosa :global(.prosa) {
+    margin-block-start: 0;
+  }
+
+  .contatti-prosa :global(.prosa p),
+  .contatti-prosa :global(.prosa li) {
+    color: var(--inchiostro);
+  }
+
+  @media (min-width: 960px) {
+    .contatti-prosa {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-8) var(--gap);
+    }
+  }
+</style>
