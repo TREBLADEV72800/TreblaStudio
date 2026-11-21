@@ -1,29 +1,42 @@
 ---
-// Fascia scura di riepilogo "prezzi e tempi" nelle pagine dei servizi: titolo display (--fs-h2-s) e testo in lead.
-// È l'unica fascia scura della pagina (la chiusura resta sulla fascia grafite).
+// Fascia scura "Prezzi e tempi" delle pagine servizi.
+// I prezzi sono oggetti tipografici: display grande (--fs-prezzo), affiancati, ognuno con una breve
+// etichetta sotto. Il testo va sotto i prezzi. Il titolo è sempre "Prezzi e tempi", in tutte le pagine.
+// prezzi: [{ valore: "200€", etichetta: "pagina singola" }, ...]
+// titolo: accettato per compatibilità, ignorato.
 import TitoloRivelato from '../ui/TitoloRivelato.astro';
 
 interface Props {
   id: string;
-  titolo: string;
+  /** Ignorata: il titolo è sempre "Prezzi e tempi". */
+  titolo?: string | undefined;
+  prezzi?: { valore: string; etichetta: string }[] | undefined;
   testo: string;
 }
 
-const { id, titolo, testo } = Astro.props;
+const { id, prezzi = [], testo } = Astro.props;
 ---
 
-<section class="fascia-scura banda-prezzo" aria-labelledby={id}>
+<section class="fascia-scura sezione banda-prezzo" aria-labelledby={id}>
   <div class="contenitore banda-prezzo__griglia">
-    <TitoloRivelato tag="h2" id={id} testo={titolo} taglia="h2-s" classe="banda-prezzo__titolo" />
-    <p class="banda-prezzo__testo" data-reveal>{testo}</p>
+    <TitoloRivelato tag="h2" id={id} testo="Prezzi e tempi" taglia="h2-s" classe="banda-prezzo__titolo" />
+    {
+      prezzi.length > 0 && (
+        <ul class="banda-prezzo__prezzi">
+          {prezzi.map((p) => (
+            <li class="banda-prezzo__prezzo">
+              <p class="display display--prezzo banda-prezzo__valore">{p.valore}</p>
+              <p class="etichetta">{p.etichetta}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="banda-prezzo__testo">{testo}</p>
   </div>
 </section>
 
 <style>
-  .banda-prezzo {
-    padding-block: var(--sezione);
-  }
-
   .banda-prezzo__griglia {
     display: grid;
     gap: var(--s-6);
@@ -33,26 +46,34 @@ const { id, titolo, testo } = Astro.props;
     max-inline-size: none;
   }
 
+  .banda-prezzo__prezzi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6) var(--s-7);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .banda-prezzo__prezzo {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: start;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .banda-prezzo__valore {
+    margin: 0;
+    color: var(--carta);
+    max-inline-size: none;
+  }
+
   .banda-prezzo__testo {
     max-inline-size: 52ch;
     margin: 0;
     font: 400 var(--fs-lead) / 1.45 var(--font-testo);
     color: var(--carta);
-  }
-
-  @media (min-width: 960px) {
-    .banda-prezzo__griglia {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      align-items: end;
-      column-gap: var(--gap);
-    }
-
-    :global(.titolo-rivelato.banda-prezzo__titolo) {
-      grid-column: 1 / span 7;
-    }
-
-    .banda-prezzo__testo {
-      grid-column: 9 / span 4;
-    }
   }
 </style>

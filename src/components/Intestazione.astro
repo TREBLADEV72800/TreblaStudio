@@ -2,21 +2,21 @@
 // Testata del sito. Sticky (mai fixed): in cima è trasparente; dopo 40px prende il fondo carta
 // con filetto; dopo 120px si nasconde scorrendo verso il basso e riappare scorrendo verso l'alto (A5).
 // Da 960px: nav centrale in link-roll e CTA a destra. Sotto: bottone Menu che apre il pannello (A7).
+// Il logo porta alla home: nella nav non c'è la voce Home.
+// La voce corrente è sottolineata in inchiostro, senza segni decorativi.
 // Lo script inline tiene aria-expanded, focus trap, Escape, blocco dello scroll e chiusura a 960px.
 import Bottone from './ui/Bottone.astro';
 
 const path = Astro.url.pathname;
-const active = (href: string) =>
-  href === '/' ? (path === '/' ? 'page' : undefined) : path.startsWith(href) ? 'page' : undefined;
+const active = (href: string) => (path.startsWith(href) ? 'page' : undefined);
 
 // Stesse voci della nav del piede: se cambiano, cambiano in entrambi i componenti.
 const voci = [
-  { href: '/', testo: 'Home' },
   { href: '/servizi/', testo: 'Servizi' },
   { href: '/metodo/', testo: 'Metodo' },
   { href: '/prezzi/', testo: 'Prezzi' },
-  { href: '/chi-siamo/', testo: 'Studio' },
-  { href: '/faq/', testo: 'FAQ' },
+  { href: '/chi-siamo/', testo: 'Chi siamo' },
+  { href: '/faq/', testo: 'Domande' },
   { href: '/contatti/', testo: 'Contatti' },
 ];
 ---
@@ -38,7 +38,7 @@ const voci = [
     </nav>
 
     <div class="intestazione__cta">
-      <Bottone href="/preventivo/" testo="Preventivo in 2 minuti" />
+      <Bottone href="/preventivo/" testo="Fai il preventivo" freccia={false} />
     </div>
 
     <button
@@ -59,20 +59,19 @@ const voci = [
 </header>
 
 <nav class="intestazione__pannello fascia-scura" id="menu-mobile" aria-label="Navigazione mobile" inert>
-  <ol class="intestazione__pannello-lista">
+  <ul class="intestazione__pannello-lista">
     {
       voci.map((v, i) => (
         <li class="intestazione__pannello-voce" style={`--i:${i};--n:${voci.length}`}>
           <a href={v.href} aria-current={active(v.href)}>
-            <span class="intestazione__indice" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <span class="intestazione__maschera"><span class="intestazione__testo">{v.testo}</span></span>
           </a>
         </li>
       ))
     }
-  </ol>
+  </ul>
   <div class="intestazione__pannello-cta">
-    <Bottone href="/preventivo/" testo="Preventivo in 2 minuti" />
+    <Bottone href="/preventivo/" testo="Fai il preventivo" freccia={false} />
   </div>
 </nav>
 
@@ -84,7 +83,7 @@ const voci = [
     z-index: 50;
     isolation: isolate;
     block-size: var(--hh);
-    transition: transform 450ms var(--ease-out);
+    transition: transform var(--t-header) var(--ease-out);
   }
 
   .intestazione.is-nascosta {
@@ -146,30 +145,28 @@ const voci = [
   }
 
   .intestazione__link {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
     margin: 0;
     padding: 0;
     /* La riga alta 44px è anche il bersaglio del mouse; il roll si ferma al testo. */
-    font-family: var(--font-mono);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    line-height: 44px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 600 var(--fs-ui) / 44px var(--font-ui);
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--inchiostro);
     text-decoration: none;
     white-space: nowrap;
   }
 
-  .intestazione__link[aria-current="page"]::before {
+  /* Voce corrente: sottolineatura inchiostro di 2px. */
+  .intestazione__link[aria-current="page"]::after {
     content: "";
-    flex: none;
-    inline-size: 6px;
-    block-size: 6px;
-    border-radius: 50%;
-    background: var(--mattone);
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 10px;
+    block-size: 2px;
+    background: var(--inchiostro);
   }
 
   /* CTA: nascosta sotto 960px (c'è nel pannello). Il bottone è figlio di un altro componente,
@@ -180,13 +177,8 @@ const voci = [
 
   .intestazione__cta :global(.btn.btn--primario) {
     min-block-size: 40px;
-    padding-inline: 16px 4px;
+    padding-inline: 20px;
     gap: 10px;
-  }
-
-  .intestazione__cta :global(.btn__icona) {
-    inline-size: 32px;
-    block-size: 32px;
   }
 
   /* ---------- Bottone Menu (sotto 960px) ---------- */
@@ -200,12 +192,9 @@ const voci = [
     border: 0;
     background: none;
     color: var(--inchiostro);
-    font-family: var(--font-mono);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 600 var(--fs-ui) / 1 var(--font-ui);
+    letter-spacing: 0;
+    text-transform: none;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
@@ -285,11 +274,6 @@ const voci = [
       justify-self: end;
     }
 
-    .intestazione__cta :global(.btn.btn--primario) {
-      font: 500 12px / 1 var(--font-mono);
-      letter-spacing: 0.06em;
-    }
-
     .intestazione__menu {
       display: none;
     }
@@ -310,13 +294,13 @@ const voci = [
     overscroll-behavior: contain;
     transform: translate3d(0, -100%, 0);
     visibility: hidden;
-    transition: transform 500ms var(--ease-in-out), visibility 0s linear 500ms;
+    transition: transform var(--t-menu-chiudi) var(--ease-in-out), visibility 0s linear var(--t-menu-chiudi);
   }
 
   .intestazione__pannello.is-aperto {
     transform: none;
     visibility: visible;
-    transition: transform 700ms var(--ease-in-out), visibility 0s;
+    transition: transform var(--t-menu) var(--ease-in-out), visibility 0s;
   }
 
   .intestazione__pannello-lista {
@@ -331,21 +315,13 @@ const voci = [
     border-block-end: 1px solid var(--linea);
   }
 
+  /* Voci del menu: Archivo 600 frase normale, grandi ma non display (il display è riservato
+     a hero, titoli e prezzi). Nessun numero. */
   .intestazione__pannello-voce a {
-    display: grid;
-    grid-template-columns: 44px minmax(0, 1fr);
-    align-items: center;
-    padding-block: 10px;
+    display: block;
+    padding-block: var(--s-3);
     color: inherit;
     text-decoration: none;
-  }
-
-  .intestazione__indice {
-    font-family: var(--font-mono);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--morbido-scuro);
   }
 
   /* Maschera: la voce sale da sotto il proprio bordo. */
@@ -358,31 +334,32 @@ const voci = [
 
   .intestazione__testo {
     display: block;
-    font-family: var(--font-display);
-    font-size: clamp(40px, 11vw, 64px);
-    font-stretch: 64%;
-    font-weight: 800;
-    line-height: 0.88;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
+    font: 600 clamp(28px, 8vw, 40px) / 1.1 var(--font-ui);
+    letter-spacing: -0.02em;
+    text-transform: none;
     transform: translate3d(0, 100%, 0);
-    /* Chiusura: le voci scendono in ordine inverso, in circa 500ms. */
-    transition: transform 300ms var(--ease-in-out) calc((var(--n) - 1 - var(--i)) * 25ms);
+    /* Chiusura: le voci scendono in ordine inverso, a sfasamento corto. */
+    transition: transform var(--t-2) var(--ease-in-out) calc((var(--n) - 1 - var(--i)) * var(--stagger-chiusura));
   }
 
-  /* Apertura: stagger di 60ms dopo 200ms. */
+  /* Apertura: le voci salgono dopo un breve ritardo, con lo sfasamento delle parole. */
   .intestazione__pannello.is-aperto .intestazione__testo {
     transform: none;
-    transition: transform 600ms var(--ease-out) calc(200ms + var(--i) * 60ms);
+    transition: transform var(--t-parola) var(--ease-out) calc(var(--t-ritardo-menu) + var(--i) * var(--stagger-parola));
   }
 
+  /* Voce corrente: sottolineatura inchiostro di 2px. */
   .intestazione__pannello-voce a[aria-current="page"] .intestazione__testo {
-    color: var(--mattone);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.12em;
   }
 
   @media (hover: hover) {
     .intestazione__pannello-voce a:hover .intestazione__testo {
-      color: var(--mattone);
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.12em;
     }
   }
 
@@ -391,13 +368,13 @@ const voci = [
     padding-block-start: var(--s-6);
     opacity: 0;
     transform: translate3d(0, 16px, 0);
-    transition: opacity 300ms var(--ease-std), transform 300ms var(--ease-std);
+    transition: opacity var(--t-2) var(--ease-std), transform var(--t-2) var(--ease-std);
   }
 
   .intestazione__pannello.is-aperto .intestazione__pannello-cta {
     opacity: 1;
     transform: none;
-    transition: opacity 600ms var(--ease-out) 560ms, transform 600ms var(--ease-out) 560ms;
+    transition: opacity var(--t-parola) var(--ease-out) var(--t-ritardo-menu-cta), transform var(--t-parola) var(--ease-out) var(--t-ritardo-menu-cta);
   }
 
   .intestazione__pannello-cta :global(.btn.btn--primario) {

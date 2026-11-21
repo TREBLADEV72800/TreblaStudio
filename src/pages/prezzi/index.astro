@@ -4,7 +4,6 @@ import TestataPagina from '../../components/TestataPagina.astro';
 import TestataSezione from '../../components/TestataSezione.astro';
 import Prosa from '../../components/Prosa.astro';
 import Bottone from '../../components/ui/Bottone.astro';
-import Freccia from '../../components/ui/Freccia.astro';
 import { ANTICIPO, BASE_PRICES, SOCIAL_OPTIONS, DESIGN_OPTIONS, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
 import { photoPrices } from '../../data/configuratore';
 import { site } from '../../data/sito';
@@ -15,6 +14,37 @@ const urlOfferta = 'https://treblastudio.pages.dev/prezzi/#offerta';
 const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
   `Trebla: sito completo a ${OFFERTA_SITO.prezzo}€, con foto, logo e ${OFFERTA_SITO.revisioni} modifiche gratuite ${urlOfferta}`,
 )}`;
+
+// Le tre colonne della matrice. L'ultima è quella che include tutto: è l'unica evidenziata.
+const pacchetti = [
+  { nome: 'Pagina singola', prezzo: BASE_PRICES.singola, href: '/preventivo/?struttura=singola', forte: false },
+  { nome: 'Più pagine', prezzo: BASE_PRICES.multi, href: '/preventivo/?struttura=multi', forte: false },
+  { nome: 'Tutto incluso', prezzo: OFFERTA_SITO.prezzo, href: '/preventivo/?offerta=1', forte: true },
+] as const;
+
+// Le voci in riga. true = incluso, false = non incluso, stringa = valore.
+// Cosa comprende, una lista per colonna (testi del proprietario). Il "Tutto incluso" non ha una lista propria.
+const comprende: string[][] = [
+  [
+    'Tutto l’essenziale in una pagina che scorre',
+    'Chi sei, cosa fai, dove sei, come contattarti',
+    'Telefono, WhatsApp e mappa in vista',
+  ],
+  [
+    'Storia, servizi, galleria, contatti: ognuno al suo posto',
+    'Menu, prenotazioni, eventi se ti servono',
+    'Telefono, WhatsApp e mappa in vista',
+  ],
+  [],
+];
+
+const confronto: { voce: string; valori: [boolean | string, boolean | string, boolean | string] }[] = [
+  { voce: 'Privacy, cookie e contatti ben visibili', valori: [true, true, true] },
+  { voce: 'Sito a più pagine', valori: [false, true, true] },
+  { voce: 'Revisioni incluse', valori: ['2', '2', '3'] },
+  { voce: 'Foto scattate da noi ad Asti', valori: [false, false, true] },
+  { voce: 'Logo nuovo o rinnovato', valori: [false, false, true] },
+];
 ---
 
 <LayoutPagina
@@ -37,112 +67,186 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
 >
   <TestataPagina
     titolo="Due prezzi di partenza | Niente sorprese"
-    tenue="Niente sorprese"
     percorso={[{ testo: 'Home', href: '/' }, { testo: 'Prezzi' }]}
   >
     <p slot="lead">Tutto per andare online. Gli extra li vedi prima nel preventivo.</p>
   </TestataPagina>
 
-  <section class="sezione pr-base" aria-label="Prezzi base">
+  <section class="sezione" aria-labelledby="p-confronto">
     <div class="contenitore">
-      <div class="pr-base__griglia" data-reveal-gruppo>
-        <article class="pr-carta" data-reveal>
-          <div class="pr-carta__cima">
-            <span class="pr-carta__kicker">Per iniziare</span>
-            <span class="puntino puntino--inchiostro" aria-hidden="true"></span>
-          </div>
-          <h2 class="pr-carta__nome">Pagina singola</h2>
-          <p class="pr-carta__cifra">{BASE_PRICES.singola}<span class="pr-carta__euro">€</span></p>
-          <ul class="pr-carta__voci">
-            <li>Tutto l’essenziale in una pagina che scorre</li>
-            <li>Chi sei, cosa fai, dove sei, come contattarti</li>
-            <li>Telefono, WhatsApp e mappa in vista</li>
-          </ul>
-          <p class="pr-carta__nota">Perfetta per: artigiani, professionisti, piccole botteghe che devono farsi trovare e contattare. Se ti servono sezioni separate, serve il multipagina.</p>
-        </article>
+      <TestataSezione
+        id="p-confronto"
+        titolo="Cosa ricevi in ogni pacchetto"
+        nota="Il contenuto cambia con il numero di pagine e gli extra scelti."
+      />
 
-        <article class="pr-carta" data-reveal>
-          <div class="pr-carta__cima">
-            <span class="pr-carta__kicker">Il completo</span>
-            <span class="puntino puntino--inchiostro" aria-hidden="true"></span>
-          </div>
-          <h2 class="pr-carta__nome">Sito a più pagine</h2>
-          <p class="pr-carta__cifra">{BASE_PRICES.multi}<span class="pr-carta__euro">€</span></p>
-          <ul class="pr-carta__voci">
-            <li>Storia, servizi, galleria, contatti: ognuno al suo posto</li>
-            <li>Menu, prenotazioni, eventi se ti servono</li>
-            <li>Telefono, WhatsApp e mappa in vista</li>
-          </ul>
-          <p class="pr-carta__nota">Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</p>
-        </article>
+      <table class="pm">
+        <caption class="sr-solo">Confronto dei tre pacchetti: prezzo, anticipo e cosa include ciascuno</caption>
+        <thead>
+          <tr>
+            <th scope="col" class="pm__voce"><span class="sr-solo">Cosa include</span></th>
+            {
+              pacchetti.map((p) => (
+                <th scope="col" class:list={['pm__col', p.forte && 'pm--forte']}>
+                  <span class="pm__nome">{p.nome}</span>
+                  <span class="display display--prezzo pm__prezzo">{p.prezzo}<span class="pm__euro">€</span></span>
+                  <span class="pm__anticipo">Anticipo di {ANTICIPO}€</span>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pm__comprende">
+            <th scope="row" class="pm__voce">Cosa comprende</th>
+            {
+              comprende.map((voci, i) => (
+                <td class:list={['pm__cella', i === 2 && 'pm--forte']}>
+                  {voci.length > 0 && (
+                    <ul class="pm__elenco">
+                      {voci.map((voce) => <li>{voce}</li>)}
+                    </ul>
+                  )}
+                </td>
+              ))
+            }
+          </tr>
+          {
+            confronto.map((riga) => (
+              <tr>
+                <th scope="row" class="pm__voce">{riga.voce}</th>
+                {riga.valori.map((v, i) => (
+                  <td class:list={['pm__cella', i === 2 && 'pm--forte']}>
+                    {v === true && (
+                      <span class="pm__segno" role="img" aria-label="Incluso">
+                        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" focusable="false">
+                          <path d="M3.5 9.5 7 13 14.5 5" />
+                        </svg>
+                      </span>
+                    )}
+                    {v === false && (
+                      <span class="pm__segno pm__segno--no" role="img" aria-label="Non incluso">–</span>
+                    )}
+                    {typeof v === 'string' && <span class="pm__valore">{v}</span>}
+                  </td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="pm__voce"></td>
+            {
+              pacchetti.map((p) => (
+                <td class:list={['pm__cella', p.forte && 'pm--forte']}>
+                  <a
+                    class="link-sottolineato pm__azione"
+                    href={p.href}
+                    data-cursore="Preventivo"
+                    aria-label={`Fai il preventivo per ${p.nome.toLowerCase()}`}
+                  >
+                    Fai il preventivo
+                  </a>
+                </td>
+              ))
+            }
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="pm-blocchi">
+        {
+          pacchetti.map((p, i) => (
+            <div class:list={['pm-blocco', p.forte && 'pm-blocco--forte']}>
+              <h3 class="pm-blocco__nome">{p.nome}</h3>
+              <p class="display display--prezzo pm-blocco__prezzo">{p.prezzo}<span class="pm__euro">€</span></p>
+              <p class="pm-blocco__anticipo">Anticipo di {ANTICIPO}€</p>
+              <ul class="pm-blocco__righe">
+                {(comprende[i] ?? []).length > 0 && (
+                  <li class="pm-riga pm-riga--lunga">
+                    <span class="pm-riga__voce">Cosa comprende</span>
+                    <ul class="pm__elenco">
+                      {(comprende[i] ?? []).map((voce) => <li>{voce}</li>)}
+                    </ul>
+                  </li>
+                )}
+                {confronto.map((riga) => (
+                  <li class="pm-riga">
+                    <span class="pm-riga__voce">{riga.voce}</span>
+                    <span class="pm-riga__valore">
+                      {riga.valori[i] === true && (
+                        <span class="pm__segno" role="img" aria-label="Incluso">
+                          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" focusable="false">
+                            <path d="M3.5 9.5 7 13 14.5 5" />
+                          </svg>
+                        </span>
+                      )}
+                      {riga.valori[i] === false && (
+                        <span class="pm__segno pm__segno--no" role="img" aria-label="Non incluso">–</span>
+                      )}
+                      {typeof riga.valori[i] === 'string' && <span class="pm__valore">{riga.valori[i]}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                class="link-sottolineato pm__azione"
+                href={p.href}
+                data-cursore="Preventivo"
+                aria-label={`Fai il preventivo per ${p.nome.toLowerCase()}`}
+              >
+                Fai il preventivo
+              </a>
+            </div>
+          ))
+        }
       </div>
 
-      <p class="pr-base__nota" data-reveal>Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Le sezioni e il numero di pagine si definiscono nella proposta. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+{photoPrices['Servono le foto (le scattate voi)']}€) o scegliere l’opzione “Parto da zero” (+{photoPrices['Parto da zero']}€), da precisare insieme prima dell’avvio.</p>
-    </div>
-  </section>
-
-  <section class="fascia-scura pr-offerta" id="offerta" aria-labelledby="t-offerta">
-    <div class="contenitore pr-offerta__griglia" data-reveal>
-      <div class="pr-offerta__testa">
-        <p class="etichetta pr-offerta__kicker">
-          <span class="puntino puntino--mattone" aria-hidden="true"></span>
-          Offerta
+      <div class="pm__note">
+        <p>Entrambi includono testi essenziali preparati insieme a te, privacy e cookie a norma, configurazione dominio gratis, hosting gratuito, galleria fotografica e due revisioni. Le sezioni e il numero di pagine si definiscono nella proposta. Per le foto puoi usare le tue, farle scattare a noi ad Asti (+{photoPrices['Servono le foto (le scattate voi)']}€) o scegliere l’opzione “Parto da zero” (+{photoPrices['Parto da zero']}€), da precisare insieme prima dell’avvio.</p>
+        <p>Perfetta per: artigiani, professionisti, piccole botteghe che devono farsi trovare e contattare. Se ti servono sezioni separate, serve il multipagina.</p>
+        <p>Perfetto per: ristoranti, B&amp;B, saloni, negozi con tanto da mostrare.</p>
+        <p>Anticipo di {ANTICIPO}€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
+        <p>
+          <a class="link-sottolineato" href={condivisioneOfferta} target="_blank" rel="noopener noreferrer">Condividi su WhatsApp</a>
         </p>
-        <h2 id="t-offerta" class="pr-offerta__nome">{OFFERTA_SITO.nome}</h2>
-        <p class="pr-offerta__cifra">{OFFERTA_SITO.prezzo}<span class="pr-offerta__euro">€</span></p>
-      </div>
-      <div class="pr-offerta__corpo">
-        <ul class="pr-offerta__voci">
-          <li>Sito a più pagine con funzioni incluse e pagine concordate</li>
-          <li>Foto scattate da noi ad Asti</li>
-          <li>Logo nuovo o rinnovato</li>
-          <li>{OFFERTA_SITO.revisioni} modifiche gratuite invece di due</li>
-        </ul>
-        <p class="pr-offerta__nota">Anticipo di {ANTICIPO}€ compreso nella stima, come sempre. La scegli nel preventivo alla voce struttura del sito.</p>
-        <div class="pr-offerta__azioni">
-          <Bottone href="/preventivo/?offerta=1" testo="Prendi l’offerta" />
-          <a class="link-sottolineato pr-offerta__condividi" href={condivisioneOfferta} target="_blank" rel="noopener noreferrer">Girala a chi gli serve<Freccia /></a>
-        </div>
       </div>
     </div>
   </section>
 
-  <section class="pr-stima" aria-label="Stima">
-    <div class="contenitore pr-stima__griglia" data-reveal-gruppo>
-      <div data-reveal>
-        <Bottone href="/preventivo/" testo="Configura il tuo prezzo" />
-      </div>
-      <p class="pr-stima__nota" data-reveal>Nessun pagamento e nessun obbligo per chiedere la stima. Il prezzo multipagina copre le pagine e le sezioni concordate nella proposta.</p>
-    </div>
-  </section>
-
-  <section class="sezione" aria-label="Condizioni">
+  <section class="sezione" aria-labelledby="p-condizioni">
     <div class="contenitore">
-      <TestataSezione numero="Condizioni" titolo="Le regole, <em>in chiaro</em>" />
-      <ol class="pr-righe" data-reveal-gruppo>
-        <li data-reveal><span class="pr-righe__num">01</span><h3>Il sito è tuo</h3><p>Nessun canone obbligatorio verso di noi. Hosting completamente gratuito, configurazione del dominio gratis.</p></li>
-        <li data-reveal><span class="pr-righe__num">02</span><h3>Due revisioni incluse</h3><p>Guardi, correggi, riguardate: due giri completi prima della pubblicazione.</p></li>
-        <li data-reveal><span class="pr-righe__num">03</span><h3>Tempi concordati</h3><p>Dopo aver visto i materiali ti diciamo una data. In genere una decina di giorni.</p></li>
-        <li data-reveal><span class="pr-righe__num">04</span><h3>Modifiche dopo</h3><p>Le piccole correzioni te le facciamo noi su richiesta. Prima ti diciamo se e quanto costano.</p></li>
-      </ol>
-      <div class="pr-azioni">
-        <Bottone href="/preventivo/" testo="Calcola il tuo prezzo in 2 minuti" />
-        <Bottone href="/faq/" variante="secondario" testo="Dubbi? Leggi le domande" />
-      </div>
-    </div>
-  </section>
-
-  <section class="sezione" aria-label="Confronto inclusioni pacchetti">
-    <div class="contenitore">
-      <TestataSezione numero="Incluso" titolo="Cosa ricevi <em>in ogni pacchetto</em>" nota="Il contenuto cambia con il numero di pagine e gli extra scelti." />
-      <ul class="pr-elenco" data-reveal-gruppo>
-        <li data-reveal><span>Testi essenziali preparati insieme</span><span class="pr-stato">Tutti i pacchetti</span></li>
-        <li data-reveal><span>Hosting gratuito e configurazione del dominio</span><span class="pr-stato">Tutti i pacchetti</span></li>
-        <li data-reveal><span>Privacy, cookie e contatti ben visibili</span><span class="pr-stato">Tutti i pacchetti</span></li>
-        <li data-reveal><span>Due revisioni prima della pubblicazione</span><span class="pr-stato">Pagina singola · Multipagina</span></li>
-        <li data-reveal><span>{OFFERTA_SITO.revisioni} modifiche gratuite, logo e foto scattate da noi ad Asti</span><span class="pr-stato">{OFFERTA_SITO.nome}</span></li>
+      <TestataSezione id="p-condizioni" titolo="Le regole, in chiaro" />
+      <ul class="pr-righe">
+        <li>
+          <h3>Il sito è tuo</h3>
+          <p>Nessun canone obbligatorio verso di noi. Hosting completamente gratuito, configurazione del dominio gratis.</p>
+        </li>
+        <li>
+          <h3>Due revisioni incluse</h3>
+          <p>Guardi, correggi, riguardate: due giri completi prima della pubblicazione.</p>
+        </li>
+        <li>
+          <h3>Tempi concordati</h3>
+          <p>Dopo aver visto i materiali ti diciamo una data. In genere una decina di giorni.</p>
+        </li>
+        <li>
+          <h3>Modifiche dopo</h3>
+          <p>Le piccole correzioni te le facciamo noi su richiesta. Prima ti diciamo se e quanto costano.</p>
+        </li>
       </ul>
-      <Prosa classe="pr-prosa">
+      <div class="pr-azioni">
+        <Bottone href="/preventivo/" testo="Fai il preventivo" />
+        <Bottone href="/faq/" variante="secondario" testo="Leggi le domande frequenti" />
+      </div>
+      <p class="pr-nota-stima">Nessun pagamento e nessun obbligo per chiedere la stima. Il prezzo multipagina copre le pagine e le sezioni concordate nella proposta.</p>
+    </div>
+  </section>
+
+  <section class="sezione" aria-label="Esclusioni e pagamento">
+    <div class="contenitore">
+      <Prosa>
         <h2>Cosa non è incluso</h2>
         <p>La stampa e la produzione fisica dei materiali grafici, domini o servizi esterni a pagamento, campagne pubblicitarie, accessi utente, pagamenti online, manutenzione continuativa e modifiche non comprese. Grafiche e contenuti social si pagano per voce selezionata, non sono inclusi nell’Offerta Tutto incluso né sono un canone mensile. Le voci aggiuntive sono elencate nel preventivo prima dell’avvio.</p>
         <h2>Pagamento e fatturazione</h2>
@@ -151,25 +255,25 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
     </div>
   </section>
 
-  <section class="sezione" aria-label="Extra">
+  <section class="sezione" aria-labelledby="p-extra">
     <div class="contenitore">
       <TestataSezione
-        numero="Extra"
-        titolo="Solo quello <em>che ti serve</em>"
+        id="p-extra"
+        titolo="Solo quello che ti serve"
         nota="Grafiche, social e foto hanno un prezzo a parte. Le funzioni del sito sono incluse."
       />
       <h3 class="pr-sotto">Per le grafiche</h3>
       <p class="pr-extra__nota">I prezzi sono per singola voce. Prepariamo il progetto grafico e i file, non stampiamo né produciamo gli oggetti.</p>
-      <ul class="pr-elenco pr-elenco--prezzi" data-reveal-gruppo>
+      <ul class="pr-elenco">
         {DESIGN_OPTIONS.map((e) => (
-          <li data-reveal><span>{e.name}</span><span class="pr-prezzo">+{e.price}€</span></li>
+          <li><span>{e.name}</span><span class="pr-prezzo">+{e.price}€</span></li>
         ))}
       </ul>
       <h3 class="pr-sotto">Per i social media</h3>
       <p class="pr-extra__nota">Prezzi per singola voce selezionata, non per un piano mensile. Quantità, materiali e calendario sono definiti nella proposta.</p>
-      <ul class="pr-elenco pr-elenco--prezzi" data-reveal-gruppo>
+      <ul class="pr-elenco">
         {SOCIAL_OPTIONS.map((e) => (
-          <li data-reveal><span>{e.name}</span><span class="pr-prezzo">+{e.price}€</span></li>
+          <li><span>{e.name}</span><span class="pr-prezzo">+{e.price}€</span></li>
         ))}
       </ul>
     </div>
@@ -177,266 +281,274 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
 </LayoutPagina>
 
 <style>
-  /* ---------- Carte dei prezzi base: stesso linguaggio della home (bordo 1px, angoli vivi). ---------- */
-  .pr-base__griglia {
+  /* ---------- Matrice di confronto: tre pacchetti in colonna, voci in riga.
+     Su 390px le colonne sono strette ma la tabella sta nel contenitore, senza scroll. ---------- */
+  .pm {
+    display: none;
+    inline-size: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    table-layout: fixed;
+    color: var(--inchiostro);
+    font: 400 var(--fs-body) / 1.45 var(--font-testo);
+  }
+
+  .pm th,
+  .pm td {
+    padding: var(--s-4) var(--s-2);
+    border-block-end: 1px solid var(--linea);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  .pm thead th {
+    padding-block: var(--s-5) var(--s-4);
+    vertical-align: bottom;
+    font-weight: 400;
+  }
+
+  .pm tfoot td {
+    padding-block: var(--s-4) var(--s-2);
+    border-block-end: 0;
+  }
+
+  .pm__voce {
+    inline-size: 26%;
+    font: 600 var(--fs-ui) / 1.3 var(--font-ui);
+    letter-spacing: 0;
+    color: var(--inchiostro);
+  }
+
+  .pm__col {
+    inline-size: 24.666%;
+  }
+
+  .pm__nome {
+    display: block;
+    font: 600 var(--fs-ui) / 1.25 var(--font-ui);
+    letter-spacing: 0;
+    color: inherit;
+  }
+
+  .pm__prezzo {
+    display: block;
+    margin-block-start: var(--s-3);
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+    color: inherit;
+  }
+
+  .pm__euro {
+    margin-inline-start: 0.04em;
+    font-size: 0.5em;
+    line-height: 1;
+    vertical-align: top;
+  }
+
+  .pm__anticipo {
+    display: block;
+    margin-block-start: var(--s-2);
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  /* L'unico segnale della tabella: la colonna che include tutto, su fondo inchiostro. */
+  .pm--forte {
+    background: var(--inchiostro);
+    color: var(--carta);
+    --morbido: var(--morbido-scuro);
+    --linea: var(--linea-scura);
+  }
+
+  .pm__segno {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 24px;
+    color: inherit;
+  }
+
+  .pm__segno svg {
+    display: block;
+    inline-size: 18px;
+    block-size: 18px;
+  }
+
+  .pm__segno--no {
+    font: 400 var(--fs-h3) / 1 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  /* Cosa comprende: elenco breve sotto l'intestazione di colonna, testo piccolo. */
+  .pm__elenco {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
+    text-align: left;
+  }
+
+  .pm__elenco li + li {
+    margin-block-start: var(--s-2);
+  }
+
+  .pm__valore {
+    font: 600 var(--fs-h3) / 1 var(--font-testo);
+    font-variant-numeric: tabular-nums lining-nums;
+    color: inherit;
+  }
+
+  .pm__azione {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    font: 600 var(--fs-small) / 1.2 var(--font-ui);
+    color: inherit;
+  }
+
+  .pm__note {
     display: grid;
-    gap: var(--gap);
-    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-3);
+    margin-block-start: var(--s-6);
+  }
+
+  .pm__note p {
+    font: 400 var(--fs-small) / 1.5 var(--font-testo);
+    color: var(--morbido);
   }
 
   @media (min-width: 640px) {
-    .pr-base__griglia {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .pm th,
+    .pm td {
+      padding: var(--s-5) var(--s-4);
     }
-  }
-
-  .pr-carta {
-    display: flex;
-    flex-direction: column;
-    padding: clamp(24px, 2.6vw, 40px);
-    border: 1px solid var(--linea);
-    border-radius: 0;
-    transition: border-color var(--t-2) var(--ease-std);
-  }
-
-  .pr-carta__cima {
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--morbido);
-  }
-
-  .pr-carta__kicker {
-    margin-inline-end: auto;
-  }
-
-  .pr-carta__nome {
-    margin-block-start: var(--s-6);
-    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
-    font-stretch: 100%;
-    letter-spacing: -0.02em;
-    text-transform: none;
-    color: var(--inchiostro);
-  }
-
-  .pr-carta__cifra {
-    max-inline-size: none;
-    margin: var(--s-4) 0 0;
-    font: 800 clamp(64px, 7vw, 112px) / 0.86 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    color: var(--inchiostro);
-  }
-
-  .pr-carta__euro {
-    display: inline-block;
-    margin-inline-start: 0.04em;
-    font-size: 0.5em;
-    line-height: 1;
-    vertical-align: top;
-  }
-
-  .pr-carta__voci {
-    margin: var(--s-6) 0 0;
-    padding: 0;
-    list-style: none;
-    border-block-start: 1px solid var(--linea);
-  }
-
-  .pr-carta__voci li {
-    position: relative;
-    display: grid;
-    grid-template-columns: 10px minmax(0, 1fr);
-    gap: var(--s-3);
-    align-items: start;
-    padding-block: var(--s-3);
-    border-block-end: 1px solid var(--linea);
-    font: 400 var(--fs-body) / 1.45 var(--font-testo);
-  }
-
-  .pr-carta__voci li::before {
-    content: '';
-    inline-size: 10px;
-    block-size: 2px;
-    margin-block-start: calc(0.725em - 1px);
-    background: var(--mattone);
-  }
-
-  .pr-carta__nota {
-    max-inline-size: 40ch;
-    margin: var(--s-5) 0 0;
-    font: 400 var(--fs-small) / 1.5 var(--font-mono);
-    color: var(--morbido);
-  }
-
-  @media (hover: hover) {
-    .pr-carta:hover {
-      border-color: var(--mattone);
-    }
-  }
-
-  .pr-base__nota {
-    max-inline-size: 72ch;
-    margin: var(--s-7) 0 0;
-    font: 400 var(--fs-small) / 1.5 var(--font-testo);
-    color: var(--morbido);
-  }
-
-  /* ---------- Blocco offerta: unica fascia scura della pagina. ---------- */
-  .pr-offerta {
-    padding-block: var(--sezione);
-  }
-
-  .pr-offerta__griglia {
-    display: grid;
-    gap: var(--s-7);
-  }
-
-  .pr-offerta__kicker {
-    color: var(--morbido);
-  }
-
-  .pr-offerta__nome {
-    margin-block-start: var(--s-4);
-    font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    color: var(--carta);
-  }
-
-  .pr-offerta__cifra {
-    max-inline-size: none;
-    margin: var(--s-5) 0 0;
-    font: 800 clamp(96px, 14vw, 200px) / 0.84 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    color: var(--carta);
-  }
-
-  .pr-offerta__euro {
-    display: inline-block;
-    margin-inline-start: 0.04em;
-    font-size: 0.5em;
-    line-height: 1;
-    vertical-align: top;
-  }
-
-  .pr-offerta__voci {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-block-start: 1px solid var(--linea);
-  }
-
-  .pr-offerta__voci li {
-    position: relative;
-    padding: var(--s-3) 0 var(--s-3) 20px;
-    border-block-end: 1px solid var(--linea);
-    font: 400 var(--fs-body) / 1.45 var(--font-testo);
-    color: var(--carta);
-  }
-
-  .pr-offerta__voci li::before {
-    content: '';
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: calc(var(--s-3) + 0.725em - 1px);
-    inline-size: 10px;
-    block-size: 2px;
-    background: var(--mattone);
-  }
-
-  .pr-offerta__nota {
-    max-inline-size: 52ch;
-    margin: var(--s-5) 0 0;
-    font: 400 var(--fs-small) / 1.5 var(--font-testo);
-    color: var(--morbido);
-  }
-
-  .pr-offerta__azioni {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-4) var(--s-6);
-    margin-block-start: var(--s-6);
-  }
-
-  /* Su fondo scuro il link resta carta: il mattone piccolo non passa il contrasto. */
-  .pr-offerta__condividi {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    color: var(--carta);
   }
 
   @media (min-width: 960px) {
-    .pr-offerta__griglia {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: var(--gap);
-      align-items: end;
+    .pm__voce {
+      inline-size: 40%;
+      font-size: var(--fs-ui);
     }
 
-    .pr-offerta__testa {
-      grid-column: 1 / span 6;
-    }
-
-    .pr-offerta__corpo {
-      grid-column: 8 / span 5;
+    .pm__col {
+      inline-size: 20%;
     }
   }
 
-  /* ---------- Stima: pulsante e nota dopo l'offerta. ---------- */
-  .pr-stima {
-    padding-block: var(--s-9) 0;
-  }
-
-  .pr-stima__griglia {
+  /* ---------- Sotto 640px: la matrice è una lettura a blocchi, uno per pacchetto.
+     Stesse voci e stessi testi della tabella. Da 640px torna la tabella. ---------- */
+  .pm-blocchi {
     display: grid;
-    gap: var(--s-5);
-    justify-items: start;
   }
 
-  .pr-stima__nota {
-    max-inline-size: 60ch;
+  .pm-blocco {
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-6);
+    border-block-start: 1px solid var(--linea);
+    color: var(--inchiostro);
+  }
+
+  .pm-blocco:first-child {
+    border-block-start: 0;
+  }
+
+  /* L'unica evidenziata: fondo inchiostro a tutta larghezza, come la colonna in tabella. */
+  .pm-blocco--forte {
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    background: var(--inchiostro);
+    color: var(--carta);
+    --morbido: var(--morbido-scuro);
+    --linea: var(--linea-scura);
+  }
+
+  .pm-blocco__nome {
     margin: 0;
-    font: 400 var(--fs-small) / 1.5 var(--font-testo);
+    font: 600 var(--fs-h3) / 1.15 var(--font-testo);
+    letter-spacing: -0.02em;
+    color: inherit;
+  }
+
+  .pm-blocco__prezzo {
+    margin: 0;
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+    color: inherit;
+  }
+
+  .pm-blocco__anticipo {
+    margin: 0;
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
     color: var(--morbido);
   }
 
-  .pr-azioni {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-    margin-block-start: var(--s-7);
-  }
-
-  /* ---------- Righe delle condizioni: numero mono, titolo, testo. Da 960px su tre colonne. ---------- */
-  .pr-righe {
-    margin: var(--s-7) 0 0;
+  .pm-blocco__righe {
+    display: grid;
+    margin: var(--s-3) 0 0;
     padding: 0;
     list-style: none;
+  }
+
+  .pm-riga {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-3);
+    padding-block: var(--s-3);
     border-block-start: 1px solid var(--linea);
+    font: 400 var(--fs-body) / 1.35 var(--font-testo);
+  }
+
+  .pm-riga--lunga {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .pm-riga__voce {
+    font: 600 var(--fs-ui) / 1.3 var(--font-ui);
+    color: inherit;
+  }
+
+  .pm-riga__valore {
+    justify-self: end;
+  }
+
+  .pm-riga--lunga .pm__elenco {
+    margin-block-start: var(--s-2);
+    font: 400 var(--fs-body) / 1.45 var(--font-testo);
+  }
+
+  .pm-blocco .pm__azione {
+    justify-self: start;
+    margin-block-start: var(--s-3);
+  }
+
+  /* Da 640px: la tabella, senza blocchi. Questa regola sta dopo quelle base, perché vince a parità di peso. */
+  @media (min-width: 640px) {
+    .pm-blocchi {
+      display: none;
+    }
+
+    .pm {
+      display: table;
+    }
+  }
+
+  /* ---------- Condizioni: quattro voci parallele, senza numeri. ---------- */
+  .pr-righe {
+    margin: var(--s-6) 0 0;
+    padding: 0;
+    list-style: none;
   }
 
   .pr-righe li {
     display: grid;
     gap: var(--s-3);
     padding-block: var(--s-5);
-    border-block-end: 1px solid var(--linea);
   }
 
-  .pr-righe__num {
-    font: 500 var(--fs-label) / 1 var(--font-mono);
-    letter-spacing: 0.08em;
-    color: var(--morbido);
+  .pr-righe li + li {
+    border-block-start: 1px solid var(--linea);
   }
 
   .pr-righe h3 {
@@ -446,7 +558,6 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
   }
 
   .pr-righe p {
-    max-inline-size: 52ch;
     margin: 0;
     color: var(--morbido);
   }
@@ -458,12 +569,8 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
       align-items: baseline;
     }
 
-    .pr-righe__num {
-      grid-column: 1 / span 1;
-    }
-
     .pr-righe h3 {
-      grid-column: 2 / span 4;
+      grid-column: 1 / span 5;
     }
 
     .pr-righe p {
@@ -471,45 +578,20 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
     }
   }
 
-  /* ---------- Elenchi con filetti: testo a sinistra, etichetta o prezzo mono a destra. ---------- */
-  .pr-elenco {
-    margin: var(--s-6) 0 0;
-    padding: 0;
-    list-style: none;
-    border-block-start: 1px solid var(--linea);
+  .pr-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-7);
   }
 
-  .pr-elenco li {
-    display: grid;
-    gap: var(--s-1) var(--gap);
-    align-items: baseline;
-    padding-block: var(--s-4);
-    border-block-end: 1px solid var(--linea);
-    font: 400 var(--fs-body) / 1.45 var(--font-testo);
-  }
-
-  /* Stato (es. "Tutti i pacchetti") in etichetta mono, morbida. */
-  .pr-stato {
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .pr-nota-stima {
+    margin: var(--s-5) 0 0;
+    font: 400 var(--fs-small) / 1.5 var(--font-testo);
     color: var(--morbido);
   }
 
-  /* Prezzo: mono, cifre tabulari, allineato a destra. */
-  .pr-prezzo {
-    font: 500 var(--fs-body) / 1.45 var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    text-align: end;
-    color: var(--inchiostro);
-  }
-
-  @media (min-width: 640px) {
-    .pr-elenco li {
-      grid-template-columns: minmax(0, 1fr) auto;
-    }
-  }
-
+  /* ---------- Extra: nome a sinistra, prezzo a destra in cifre tabulari. ---------- */
   .pr-sotto {
     margin: var(--s-7) 0 var(--s-2);
     font: 600 var(--fs-h3) / 1.15 var(--font-testo);
@@ -518,14 +600,35 @@ const condivisioneOfferta = `https://wa.me/?text=${encodeURIComponent(
   }
 
   .pr-extra__nota {
-    max-inline-size: 60ch;
     margin: 0;
     font: 400 var(--fs-small) / 1.5 var(--font-testo);
     color: var(--morbido);
   }
 
-  /* Prosa è un componente: la sua radice riceve la classe da fuori, quindi lo stile passa da :global. */
-  :global(.prosa.pr-prosa) {
-    margin-block-start: var(--s-7);
+  .pr-elenco {
+    margin: var(--s-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pr-elenco li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--gap);
+    padding-block: var(--s-4);
+    font: 400 var(--fs-body) / 1.45 var(--font-testo);
+    color: var(--inchiostro);
+  }
+
+  .pr-elenco li + li {
+    border-block-start: 1px solid var(--linea);
+  }
+
+  .pr-prezzo {
+    flex: none;
+    font: 600 var(--fs-body) / 1.45 var(--font-testo);
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
   }
 </style>

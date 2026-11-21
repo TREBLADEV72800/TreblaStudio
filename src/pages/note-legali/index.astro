@@ -17,8 +17,8 @@ import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
     <div class="contenitore legali">
       <nav class="legali__indice" aria-label="Sezioni legali">
         <ul>
-          <li><a class="link-sottolineato" href="#privacy">Privacy, in chiaro</a></li>
-          <li><a class="link-sottolineato" href="#cookie">Cookie: quasi niente</a></li>
+          <li><a class="link-sottolineato" href="#privacy">Privacy</a></li>
+          <li><a class="link-sottolineato" href="#cookie">Cookie</a></li>
           <li><a class="link-sottolineato" href="#termini">Termini e condizioni</a></li>
         </ul>
       </nav>
@@ -26,22 +26,22 @@ import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
       <div class="legali__testo">
         <Prosa>
       <section id="privacy" class="legali__sezione" aria-label="Privacy">
-        <h2>Privacy, in chiaro</h2>
+        <h2>Privacy</h2>
         <p>Ultimo aggiornamento: ottobre 2026.</p>
         <h3>Quali dati raccogliamo</h3>
         <p>Solo quelli che ci mandi tu: nome dell’attività, tipo di attività, scelte del preventivo ed eventuali note, quando ci contatti via WhatsApp o email. Questo sito non usa cookie di profilazione né strumenti di tracciamento pubblicitario.</p>
         <h3>Perché li usiamo</h3>
         <p>Per prepararti la proposta e risponderti. Nient’altro: non li vendiamo, non li cediamo, non li usiamo per newsletter che non hai chiesto. La base è il tuo consenso e la richiesta di proposta che ci fai scrivendoci. WhatsApp ed email sono servizi esterni con informative proprie.</p>
         <h3>Quanto li teniamo</h3>
-        <p>Il tempo necessario a gestire la richiesta e gli obblighi di legge. Puoi chiederci in qualsiasi momento di cancellarli scrivendo a <a data-mail data-mostra href="#">email</a>.</p>
+        <p>Il tempo necessario a gestire la richiesta e gli obblighi di legge. Puoi chiederci in qualsiasi momento di cancellarli scrivendo a <a data-mail data-mostra href="#">questo indirizzo</a>.</p>
         <h3>I tuoi diritti</h3>
-        <p>Accesso, rettifica, cancellazione, limitazione e opposizione, come previsto dal Regolamento (UE) 2016/679. Per esercitarli basta un’email a <a data-mail data-mostra href="#">email</a>.</p>
+        <p>Accesso, rettifica, cancellazione, limitazione e opposizione, come previsto dal Regolamento (UE) 2016/679. Per esercitarli basta un’email a <a data-mail data-mostra href="#">questo indirizzo</a>.</p>
         <h3>Titolare</h3>
-        <p>Trebla, studio indipendente ad Asti (<a data-mail data-mostra href="#">email</a>).</p>
+        <p>Trebla, studio indipendente ad Asti (<a data-mail data-mostra href="#">la nostra email</a>).</p>
       </section>
 
       <section id="cookie" class="legali__sezione" aria-label="Cookie">
-        <h2>Cookie: quasi niente</h2>
+        <h2>Cookie</h2>
         <p>Questo sito è statico e non usa cookie di profilazione, pixel pubblicitari o strumenti di analytics comportamentale.</p>
         <h3>Cosa potrebbe restare sul tuo dispositivo</h3>
         <ul>
@@ -76,7 +76,7 @@ import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
         <h3>Se qualcosa va storto</h3>
         <p>Se interrompi il lavoro dopo l’avvio, l’anticipo resta a noi e paghi le parti già realizzate secondo la proposta. Se non paghi il saldo entro 30 giorni dalla consegna, sospendiamo la pubblicazione finché non arriva. Per eventuali controversie il foro competente è quello di Asti.</p>
         <h3>Contatti</h3>
-        <p>Per qualsiasi questione: <a data-mail data-mostra href="#">email</a>.</p>
+        <p>Per qualsiasi questione: <a data-mail data-mostra href="#">la nostra email</a>.</p>
       </section>
         </Prosa>
       </div>
@@ -107,11 +107,22 @@ import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
     border-block-end: 1px solid var(--linea);
   }
 
+  /* Voci dell'indice: interfaccia Archivo 600. La sezione attiva (aria-current, vedi lo script) è inchiostro
+     con la sottolineatura da 2px; le altre restano morbide. */
   .legali__indice a {
     display: inline-block;
     padding-block: var(--s-4);
-    font: 500 var(--fs-body) / 1.3 var(--font-testo);
+    font: 600 var(--fs-ui) / 1.3 var(--font-ui);
+    color: var(--morbido);
+    transition: color var(--t-2) var(--ease-std);
+  }
+
+  .legali__indice a[aria-current='location'] {
     color: var(--inchiostro);
+  }
+
+  .legali__indice a[aria-current='location']::before {
+    block-size: 2px;
   }
 
   .legali__testo {
@@ -161,3 +172,28 @@ import { ANTICIPO, OFFERTA_SITO, RATE_SALDO } from '../../data/prezzi';
     }
   }
 </style>
+
+<script>
+  // Indice: la sezione che attraversa la fascia centrale della finestra diventa la voce corrente (aria-current).
+  // Senza JS l'indice resta una lista di ancore normali.
+  const voci = Array.from(document.querySelectorAll<HTMLAnchorElement>('.legali__indice a[href^="#"]'));
+  const sezioni = voci
+    .map((v) => document.getElementById((v.getAttribute('href') || '').slice(1)))
+    .filter((s): s is HTMLElement => s !== null);
+
+  if ('IntersectionObserver' in window && sezioni.length) {
+    const osserva = new IntersectionObserver(
+      (righe) => {
+        righe.forEach((riga) => {
+          if (!riga.isIntersecting) return;
+          voci.forEach((voce) => {
+            if (voce.getAttribute('href') === '#' + riga.target.id) voce.setAttribute('aria-current', 'location');
+            else voce.removeAttribute('aria-current');
+          });
+        });
+      },
+      { rootMargin: '-40% 0px -50% 0px' }
+    );
+    sezioni.forEach((s) => osserva.observe(s));
+  }
+</script>

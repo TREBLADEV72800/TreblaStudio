@@ -25,19 +25,18 @@ const passi = [
 >
   <TestataPagina
     titolo="Un percorso | senza sorprese"
-    tenue="senza sorprese"
     percorso={[{ testo: 'Home', href: '/' }, { testo: 'Metodo' }]}
   >
     <p slot="lead">Prezzo e tempi prima di iniziare. Una persona ti segue, tu rivedi il lavoro prima della pubblicazione.</p>
   </TestataPagina>
 
-  <section class="sezione">
+  <section class="sezione" aria-labelledby="m-passi">
     <div class="contenitore">
-      <TestataSezione numero="01 · I passaggi" titolo="Dalla prima idea <em>al sito online</em>" />
-      <ol class="me-lista" data-reveal-gruppo>
+      <TestataSezione id="m-passi" titolo="Dalla prima idea al sito online" />
+      <ol class="me-lista">
         {passi.map((p, i) => (
-          <li class="me-passo" data-reveal>
-            <span class="me-num">{String(i + 1).padStart(2, '0')}</span>
+          <li class="me-passo">
+            <span class="me-num">{i + 1}</span>
             <h3>{p.t}</h3>
             <p>{p.d}</p>
           </li>
@@ -47,7 +46,7 @@ const passi = [
   </section>
 
   <section class="sezione">
-    <Corpo etichetta="Il metodo">
+    <Corpo>
       <Prosa>
         <h2>Tempi</h2>
         <p>In genere il progetto richiede una decina di giorni dopo aver raccolto i materiali. Confermiamo la data nella proposta, perché dipende da cosa è già pronto e da cosa va preparato insieme.</p>
@@ -62,16 +61,14 @@ const passi = [
 
   <CtaChiusura
     id="t-chiusura"
-    etichetta="Quando vuoi"
     titolo="Cominciamo da una proposta chiara"
-    tenue="una proposta chiara"
     testo="Il preventivo non comporta pagamenti né obblighi."
   >
     <Bottone href="/preventivo/" testo="Fai il preventivo" />
     <Bottone
       href="#"
       variante="wa"
-      testo="WhatsApp"
+      testo="Scrivici su WhatsApp"
       data-wa="Ciao Trebla, vorrei parlare del metodo di lavoro."
       target="_blank"
       rel="noopener noreferrer"
@@ -80,113 +77,112 @@ const passi = [
 </LayoutPagina>
 
 <style>
-  /* Passi: come la home (numero display mattone, filetto sopra). 1 colonna, 2 da 640px,
-     righe orizzontali da 960px (numero, titolo, testo), 5 colonne da 1280px. */
+  /* Passi: una sequenza vera, quindi un filo verticale continuo che passa dietro i numeri.
+     Il filo sta sempre in verticale, da 390px fino al desktop. Il numero sta sopra il filo
+     con il fondo carta, così il filo sembra attaccarsi a ogni passo. */
   .me-lista {
-    display: grid;
-    gap: var(--s-7) var(--gap);
-    grid-template-columns: minmax(0, 1fr);
+    --me-colonna: 40px;
+    --me-cifra: clamp(48px, 6vw, 72px);
+    --me-spazio: var(--s-7);
     margin: var(--s-7) 0 0;
     padding: 0;
     list-style: none;
   }
 
-  @media (min-width: 640px) {
-    .me-lista {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 960px) {
-    .me-lista {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .me-lista {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0 var(--gap);
-    }
-  }
-
   .me-passo {
+    position: relative;
     display: grid;
-    align-content: start;
-    gap: var(--s-3);
-    padding-block-start: var(--s-5);
-    border-block-start: 1px solid var(--linea);
+    grid-template-columns: var(--me-colonna) minmax(0, 1fr);
+    column-gap: var(--gap);
+    align-items: start;
+    padding-block-start: var(--me-spazio);
+  }
+
+  .me-passo:first-child {
+    padding-block-start: 0;
+  }
+
+  /* Il filo: attraversa tutto il passo, si ferma al centro del primo numero e del quinto. */
+  .me-passo::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: calc(var(--me-colonna) / 2 - 0.5px);
+    inline-size: 1px;
+    background: var(--inchiostro);
+  }
+
+  .me-passo:first-child::before {
+    inset-block-start: calc(var(--me-cifra) / 2);
+  }
+
+  .me-passo:last-child::before {
+    inset-block-end: calc(100% - var(--me-spazio) - var(--me-cifra) / 2);
+  }
+
+  .me-passo:first-child:last-child::before {
+    display: none;
   }
 
   .me-num {
-    font: 800 clamp(64px, 7vw, 88px) / 0.88 var(--font-display);
+    position: relative;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    justify-self: center;
+    padding-inline: 4px;
+    background: var(--carta);
+    font: 800 var(--me-cifra) / 1 var(--font-display);
     font-stretch: 64%;
     text-transform: uppercase;
-    letter-spacing: -0.01em;
-    color: var(--mattone);
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--inchiostro);
   }
 
   .me-passo h3 {
+    grid-column: 2;
+    grid-row: 1;
     font: 600 var(--fs-h3) / 1.15 var(--font-testo);
     letter-spacing: -0.02em;
     color: var(--inchiostro);
   }
 
   .me-passo p {
-    max-inline-size: 36ch;
-    margin: 0;
+    grid-column: 2;
+    grid-row: 2;
+    margin: var(--s-2) 0 0;
     color: var(--morbido);
   }
 
+  /* Da 960px il titolo e il testo stanno sulla stessa riga, dopo il numero. Il filo non cambia. */
   @media (min-width: 960px) {
-    .me-passo {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: var(--gap);
-      align-items: start;
-      padding-block: var(--s-6);
+    .me-lista {
+      --me-colonna: 88px;
     }
 
-    .me-passo:last-child {
-      border-block-end: 1px solid var(--linea);
+    .me-passo {
+      grid-template-columns: var(--me-colonna) minmax(0, 4fr) minmax(0, 7fr);
+      column-gap: var(--gap);
+      padding-block-start: var(--s-7);
+    }
+
+    .me-passo:first-child {
+      padding-block-start: 0;
     }
 
     .me-num {
-      grid-column: 1 / span 2;
       grid-row: 1;
     }
 
     .me-passo h3 {
-      grid-column: 3 / span 4;
+      grid-column: 2;
       grid-row: 1;
     }
 
     .me-passo p {
-      grid-column: 7 / span 6;
+      grid-column: 3;
       grid-row: 1;
-      max-inline-size: 48ch;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .me-passo {
-      grid-template-columns: minmax(0, 1fr);
-      padding-block: var(--s-5) 0;
-    }
-
-    .me-passo:last-child {
-      border-block-end: 0;
-    }
-
-    .me-num,
-    .me-passo h3,
-    .me-passo p {
-      grid-column: auto;
-      grid-row: auto;
-    }
-
-    .me-passo p {
-      max-inline-size: 36ch;
+      margin-block-start: 0;
+      max-inline-size: 34em;
     }
   }
 </style>

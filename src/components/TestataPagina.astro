@@ -1,12 +1,14 @@
 ---
-// Testata comune delle pagine interne: percorso (o etichetta), H1 display che si rivela,
-// lead e contenuti extra (bottoni, chip).
+// Testata comune delle pagine interne: percorso, H1 display che si rivela, lead e contenuti extra.
 // titolo: testo dell'H1. Il "|" forza un a capo (come in TitoloRivelato).
-// tenue: sottostringa del titolo nel secondo tono (morbido). Niente corsivo.
-// percorso: voci della riga di percorso. L'ultima è la pagina corrente: senza link, aria-current="page".
-// etichetta: alternativa al percorso, mono con puntino mattone. Se ci sono entrambi vince il percorso.
+// percorso: voci del percorso. La prima è di norma { testo: 'Home', href: '/' }.
+//   L'ultima è la pagina corrente: senza link, aria-current="page".
+// codice: testo semplice sopra l'H1, morbido 14px (es. "Errore 404").
+// etichetta: ignorata. Il design non ha più etichette sopra l'H1; usare codice.
 // taglia: dimensione dell'H1 (h2 di default, oppure hero).
-// Slot "lead": paragrafo introduttivo (HTML ammesso). Slot default: contenuto sotto il lead.
+// Slot "lead": paragrafo introduttivo (HTML ammesso). Slot "oggetto": illustrazione o esempio della pagina.
+// Da 960px sta nelle colonne 8-12, accanto al titolo; sotto 960px va sotto il lead.
+// Slot default: contenuto sotto il lead (azioni, bottoni).
 import TitoloRivelato from './ui/TitoloRivelato.astro';
 
 interface Voce {
@@ -16,25 +18,27 @@ interface Voce {
 
 interface Props {
   titolo: string;
-  tenue?: string | undefined;
   percorso?: Voce[] | undefined;
+  codice?: string | undefined;
+  /** Ignorata: vedi nota sopra. */
   etichetta?: string | undefined;
   id?: string | undefined;
   taglia?: 'h2' | 'hero' | undefined;
 }
 
-const { titolo, tenue, percorso, etichetta, id } = Astro.props;
+const { titolo, percorso, codice, id } = Astro.props;
 const taglia = Astro.props.taglia ?? 'h2';
 const haPercorso = !!percorso && percorso.length > 0;
 const ultima = haPercorso ? percorso.length - 1 : -1;
 const haLead = Astro.slots.has('lead');
+const haOggetto = Astro.slots.has('oggetto');
 const haExtra = Astro.slots.has('default');
 ---
 
-<header class="tp contenitore">
+<header class:list={['tp', 'contenitore', { 'tp--oggetto': haOggetto }]}>
   {
-    haPercorso ? (
-      <nav class="tp__percorso" aria-label="Percorso">
+    haPercorso && (
+      <nav class="tp__percorso" aria-label="Percorso di navigazione">
         <ol>
           {percorso!.map((voce, i) => {
             const corrente = i === ultima;
@@ -50,21 +54,15 @@ const haExtra = Astro.slots.has('default');
           })}
         </ol>
       </nav>
-    ) : (
-      etichetta && (
-        <p class="etichetta tp__riga">
-          <span class="puntino puntino--mattone" aria-hidden="true"></span>
-          {etichetta}
-        </p>
-      )
     )
   }
+
+  {codice && <p class="tp__codice">{codice}</p>}
 
   <TitoloRivelato
     tag="h1"
     immediato
     testo={titolo}
-    tenue={tenue}
     taglia={taglia}
     id={id}
     classe={taglia === 'h2' ? 'tp__titolo tp__titolo--h2' : 'tp__titolo'}
@@ -72,15 +70,23 @@ const haExtra = Astro.slots.has('default');
 
   {
     haLead && (
-      <div class="tp__lead entra" style="--d:300ms">
+      <div class="tp__lead entra" style="--d:calc(var(--t-1) * 2)">
         <slot name="lead" />
       </div>
     )
   }
 
   {
+    haOggetto && (
+      <div class="tp__oggetto">
+        <slot name="oggetto" />
+      </div>
+    )
+  }
+
+  {
     haExtra && (
-      <div class="tp__extra entra" style="--d:450ms">
+      <div class="tp__extra entra" style="--d:calc(var(--t-1) * 3)">
         <slot />
       </div>
     )
@@ -88,29 +94,21 @@ const haExtra = Astro.slots.has('default');
 </header>
 
 <style>
-  /* Testata pagina interna. Mobile-first: tutto in colonna; da 960px il lead sta
-     nelle colonne 7-12, allineato a destra, sotto il titolo.
+  /* Testata pagina interna. Mobile-first: tutto in colonna. Da 960px lead e azioni stanno
+     sotto il titolo, allineati a sinistra.
      Il titolo è TitoloRivelato: la sua radice riceve tp__titolo, quindi i suoi stili
      passano da :global (come in TestataSezione). */
   .tp {
     padding-block-start: clamp(48px, 8vw, 128px);
     padding-block-end: clamp(40px, 6vw, 96px);
-    border-block-end: 1px solid var(--linea);
   }
 
-  .tp__percorso,
-  .tp__riga {
-    margin: 0 0 clamp(24px, 4vw, 56px);
-  }
-
-  .tp__riga {
-    display: flex;
-  }
-
+  /* Percorso di navigazione: Archivo 14px, frase normale. Ogni link ha almeno 24px di altezza di tocco. */
   .tp__percorso {
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin: 0 0 clamp(24px, 4vw, 56px);
+    font: 600 var(--fs-small) / 1.4 var(--font-ui);
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--morbido);
   }
 
@@ -122,14 +120,32 @@ const haExtra = Astro.slots.has('default');
     list-style: none;
   }
 
+  .tp__percorso li {
+    display: flex;
+    align-items: center;
+  }
+
   /* Le barre tra le voci stanno in CSS, quindi non vengono lette dagli screen reader. */
   .tp__percorso li + li::before {
     content: "/";
-    padding-inline: 10px;
+    padding-inline: 8px;
+  }
+
+  .tp__percorso a,
+  .tp__percorso span {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 24px;
   }
 
   .tp__percorso a {
     color: var(--inchiostro);
+  }
+
+  .tp__codice {
+    margin: 0 0 clamp(24px, 4vw, 56px);
+    font: 400 var(--fs-small) / 1.4 var(--font-testo);
+    color: var(--morbido);
   }
 
   .tp :global(.tp__titolo) {
@@ -156,6 +172,16 @@ const haExtra = Astro.slots.has('default');
     margin-block-start: var(--s-6);
   }
 
+  /* Con oggetto le azioni hanno un solo contenitore a blocco: occupano la larghezza della colonna. */
+  .tp--oggetto .tp__extra {
+    display: block;
+  }
+
+  /* L'oggetto: il wrapper non ha box, così il figlio è una voce diretta della griglia. */
+  .tp__oggetto {
+    display: contents;
+  }
+
   @media (min-width: 960px) {
     .tp {
       display: grid;
@@ -164,15 +190,43 @@ const haExtra = Astro.slots.has('default');
     }
 
     .tp__percorso,
-    .tp__riga,
+    .tp__codice,
     .tp :global(.tp__titolo) {
       grid-column: 1 / -1;
     }
 
     .tp__lead,
     .tp__extra {
-      grid-column: 7 / -1;
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+
+    /* Con oggetto: il titolo sta nelle colonne 1-7, l'oggetto nelle colonne 8-12 accanto al titolo.
+       Lead e azioni vanno sotto, a sinistra. order fissa l'ordine di collocamento della griglia
+       (la griglia sparsa non torna indietro): prima titolo e oggetto, poi lead e azioni. */
+    .tp--oggetto :global(.tp__titolo) {
+      grid-column: 1 / span 7;
+    }
+
+    /* L'oggetto è figlio diretto della griglia: il suo wrapper non ha box (display: contents). */
+    .tp--oggetto .tp__oggetto > :global(*) {
+      grid-column: 8 / -1;
+      grid-row: span 2;
       justify-self: end;
+      align-self: center;
+    }
+
+    .tp--oggetto .tp__lead {
+      grid-column: 1 / span 6;
+      justify-self: start;
+      margin-block-start: var(--s-5);
+      order: 1;
+    }
+
+    .tp--oggetto .tp__extra {
+      grid-column: 1 / span 7;
+      justify-self: stretch;
+      order: 2;
     }
   }
 </style>

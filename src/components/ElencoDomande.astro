@@ -1,30 +1,30 @@
 ---
+// Fisarmonica delle domande frequenti: details/summary, filetti tra le righe, "+" di due linee.
+// Il "+" ruota di 45° all'apertura; il contenuto sale di 12px e sfuma (--t-3).
+// Nessuno spostamento al passaggio del mouse. Nelle risposte i link non hanno freccia.
 import type { Faq } from '../data/domande-frequenti';
-import Freccia from './ui/Freccia.astro';
 
 interface Props {
   faqs: Faq[];
 }
 
 const { faqs } = Astro.props;
-// Le etichette dei link finiscono con una freccia nel testo: qui la freccia la disegna l'icona SVG.
+// Le etichette dei dati possono finire con una freccia nel testo: la freccia nel testo non si usa.
 const etichetta = (t: string) => t.replace(/\s*→\s*$/, '');
 ---
 
-<div class="fisarmonica" data-reveal>
+<div class="fisarmonica">
   {faqs.map((f) => (
     <details>
       <summary><span class="fisarmonica__domanda">{f.q}</span></summary>
       <div class="fisarmonica__corpo">
-        <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-sottolineato" href={c.href}>{etichetta(c.label)}<Freccia /></a></span>))}</>)}</p>
+        <p>{f.a}{f.cta && (<>{f.ctaAccapo ? <br /> : ' '}{f.cta.map((c, i) => (<span>{i > 0 ? ' ' : ''}<a class="link-sottolineato" href={c.href}>{etichetta(c.label)}</a></span>))}</>)}</p>
       </div>
     </details>
   ))}
 </div>
 
 <style>
-  /* Fisarmonica: righe con filetto, domanda in Archivo 500, risposta in --morbido con max 62ch.
-     Il "+" e il fade-up dell'apertura arrivano da componenti.css (A14). */
   .fisarmonica {
     border-block-start: 1px solid var(--linea);
   }
@@ -34,21 +34,46 @@ const etichetta = (t: string) => t.replace(/\s*→\s*$/, '');
   }
 
   .fisarmonica summary {
+    position: relative;
+    display: block;
+    list-style: none;
+    cursor: pointer;
     padding-block: var(--s-5);
     padding-inline-end: var(--s-7);
-    font: 500 var(--fs-h3) / 1.2 var(--font-testo);
+    font: 600 var(--fs-h3) / 1.2 var(--font-ui);
     letter-spacing: -0.02em;
   }
 
-  .fisarmonica__domanda {
-    display: inline-block;
-    transition: transform var(--t-2) var(--ease-out);
+  .fisarmonica summary::-webkit-details-marker {
+    display: none;
   }
 
-  @media (hover: hover) {
-    .fisarmonica summary:hover .fisarmonica__domanda {
-      transform: translate3d(var(--s-3), 0, 0);
-    }
+  /* Il "+": due linee di 1,5px. Barra orizzontale a 16px dal bordo destro, centro a 12px. */
+  .fisarmonica summary::before,
+  .fisarmonica summary::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    transition: transform var(--t-2) var(--ease-std);
+  }
+
+  .fisarmonica summary::before {
+    inline-size: 16px;
+    block-size: 1.5px;
+    inset-inline-end: 4px;
+    inset-block-start: calc(50% - 0.75px);
+  }
+
+  .fisarmonica summary::after {
+    inline-size: 1.5px;
+    block-size: 16px;
+    inset-inline-end: 11.25px;
+    inset-block-start: calc(50% - 8px);
+  }
+
+  .fisarmonica details[open] summary::before,
+  .fisarmonica details[open] summary::after {
+    transform: rotate(45deg);
   }
 
   .fisarmonica__corpo {
@@ -56,21 +81,17 @@ const etichetta = (t: string) => t.replace(/\s*→\s*$/, '');
   }
 
   .fisarmonica__corpo p {
-    max-inline-size: 62ch;
+    max-inline-size: 34em;
     margin: 0;
     font: 400 var(--fs-body) / 1.55 var(--font-testo);
     color: var(--morbido);
   }
 
   .fisarmonica__corpo a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
     color: var(--inchiostro);
   }
 
-  .fisarmonica__corpo :global(.icona-freccia) {
-    inline-size: 14px;
-    block-size: 14px;
+  .fisarmonica details[open] .fisarmonica__corpo {
+    animation: sali-corto var(--t-3) var(--ease-out) both;
   }
 </style>

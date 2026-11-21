@@ -1,29 +1,29 @@
 ---
-// Riga di contatto della pagina /contatti: etichetta mono del canale, valore in display, freccia.
+// Riga di contatto della pagina /contatti: canale (etichetta), valore, freccia.
 // Con href il valore è un link che copre tutta la riga (link esteso con ::after), quindi tutta la riga è cliccabile.
 // Il link contiene solo testo: ContattiDinamici può sostituirlo (data-mostra) senza rimuovere la freccia,
 // che sta fuori dal link.
 // Senza href è una riga di sola lettura (sede): niente hover, niente freccia.
+// taglia: "h2" (display, default) per i canali; "h3" (Archivo 600) per le righe che non sono un canale.
 // Gli attributi extra (data-wa, data-tel, data-mail, data-mostra, data-soggetto, target, rel) vanno sul link così come sono.
-// cursore: etichetta del cursore che segue (data-cursore), es. "Scrivi" o "Chiama".
 import Freccia from '../ui/Freccia.astro';
 
 interface Props {
   canale: string;
   valore: string;
   href?: string | undefined;
-  cursore?: string | undefined;
+  taglia?: 'h2' | 'h3' | undefined;
   [attr: string]: unknown;
 }
 
-const { canale, valore, href, cursore, ...resto } = Astro.props;
+const { canale, valore, href, taglia = 'h2', ...resto } = Astro.props;
 ---
 
-<div class:list={['contatti-riga', href && 'contatti-riga--link']} data-reveal>
+<div class:list={['contatti-riga', href && 'contatti-riga--link', `contatti-riga--${taglia}`]}>
   <p class="contatti-riga__canale">{canale}</p>
   {
     href ? (
-      <a class="contatti-riga__valore" href={href} data-cursore={cursore} {...resto}>{valore}</a>
+      <a class="contatti-riga__valore" href={href} {...resto}>{valore}</a>
     ) : (
       <p class="contatti-riga__valore">{valore}</p>
     )
@@ -39,7 +39,8 @@ const { canale, valore, href, cursore, ...resto } = Astro.props;
 
 <style>
   /* Riga: tre aree (canale, valore, freccia). Mobile: canale sopra, valore sotto, freccia a destra.
-     Da 960px: canale a sinistra, valore al centro, freccia a destra, su una riga. */
+     Da 960px: canale a sinistra, valore al centro, freccia a destra, su una riga.
+     Tra testo e freccia sempre almeno --s-5. */
   .contatti-riga {
     position: relative;
     isolation: isolate;
@@ -49,9 +50,9 @@ const { canale, valore, href, cursore, ...resto } = Astro.props;
       'canale freccia'
       'valore freccia';
     align-items: center;
-    gap: var(--s-2) var(--s-4);
+    column-gap: var(--s-5);
+    row-gap: var(--s-2);
     padding-block: var(--s-5);
-    padding-inline: var(--s-4);
     border-block-end: 1px solid var(--linea);
   }
 
@@ -64,27 +65,38 @@ const { canale, valore, href, cursore, ...resto } = Astro.props;
     }
   }
 
+  /* Canale: etichetta di supporto, Archivo 600 14px, frase normale, morbido. */
   .contatti-riga__canale {
     grid-area: canale;
     margin: 0;
-    font: 500 var(--fs-label) / 1.4 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 600 var(--fs-small) / 1.4 var(--font-ui);
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--morbido);
     transition: color var(--t-2) var(--ease-std);
   }
 
-  /* Valore: display come le sottosezioni (--fs-h2-s). Il font shorthand azzera font-stretch: va scritto dopo. */
+  /* Valore: Archivo 700, larghezza normale, frase come è scritta (email e numero si leggono in minuscolo).
+     Non è un ruolo display: il display resta per hero, H1, H2, prezzi e wordmark. */
   .contatti-riga__valore {
     grid-area: valore;
     margin: 0;
-    font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
-    font-stretch: 64%;
-    text-transform: uppercase;
+    font: 700 clamp(26px, 3.6vw, 52px) / 1.1 var(--font-ui);
+    font-stretch: 100%;
+    text-transform: none;
     letter-spacing: -0.01em;
     color: var(--inchiostro);
-    overflow-wrap: anywhere;
+    /* break-word: va a capo su un'@ o un punto quando può, e spezza una parola solo se non ha scelta.
+       anywhere spezzerebbe l'indirizzo email a metà (GM / AIL). */
+    overflow-wrap: break-word;
     text-decoration: none;
+  }
+
+  /* Variante h3: sede e righe che non sono canali. Archivo 600, frase normale. */
+  .contatti-riga--h3 .contatti-riga__valore {
+    font: 600 var(--fs-h3) / 1.15 var(--font-ui);
+    letter-spacing: -0.02em;
+    text-transform: none;
   }
 
   /* Link esteso: il ::after copre la riga (la freccia non ha posizione, quindi resta cliccabile). */
@@ -92,18 +104,6 @@ const { canale, valore, href, cursore, ...resto } = Astro.props;
     content: '';
     position: absolute;
     inset: 0;
-  }
-
-  /* Riempimento mattone che sale dal basso (scaleY). Sta dietro al testo (z -1, isolation sulla riga). */
-  .contatti-riga--link::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--mattone);
-    transform: scaleY(0);
-    transform-origin: bottom center;
-    transition: transform var(--t-3) var(--ease-expo);
   }
 
   .contatti-riga__freccia {
@@ -128,26 +128,19 @@ const { canale, valore, href, cursore, ...resto } = Astro.props;
     }
   }
 
-  /* Stato attivo: hover (solo dove c'è hover) o focus da tastiera sul link della riga. */
-  .contatti-riga--link:has(.contatti-riga__valore:focus-visible)::before {
-    transform: scaleY(1);
-  }
-
+  /* Stato attivo: hover (solo dove c'è hover) o focus da tastiera. Nessun fondo colorato: il mattone resta
+     solo sul bottone primario. La riga cambia il canale in inchiostro e la freccia si sposta. */
   .contatti-riga--link:has(.contatti-riga__valore:focus-visible) .contatti-riga__canale {
     color: var(--inchiostro);
   }
 
   @media (hover: hover) {
-    .contatti-riga--link:hover::before {
-      transform: scaleY(1);
-    }
-
     .contatti-riga--link:hover .contatti-riga__canale {
       color: var(--inchiostro);
     }
 
     .contatti-riga--link:hover .contatti-riga__freccia {
-      transform: rotate(45deg);
+      transform: translate3d(3px, -3px, 0);
     }
   }
 </style>

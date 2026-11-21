@@ -18,6 +18,10 @@ const domande: [string, string][] = [
 ];
 const faqs = domande.map(([q, a]) => ({ q, a }));
 const prezziSocial = SOCIAL_OPTIONS.map((e) => e.price);
+const prezziBanda = [
+  { valore: `${Math.min(...prezziSocial)}€`, etichetta: 'la voce più economica' },
+  { valore: `${Math.max(...prezziSocial)}€`, etichetta: 'la voce più costosa' },
+];
 ---
 
 <LayoutPagina
@@ -31,24 +35,53 @@ const prezziSocial = SOCIAL_OPTIONS.map((e) => e.price);
   ]}
 >
   <TestataPagina
-    titolo="Social | con una direzione"
-    tenue="con una direzione"
-    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Servizi', href: '/servizi/' }, { testo: 'Social' }]}
-  >
-    <p slot="lead">Sistemiamo i profili e prepariamo contenuti concordati. Senza promesse di follower o viralità.</p>
-    <Bottone href="/preventivo/" testo="Scegli i contenuti" />
-    <Bottone
-      href="#"
-      variante="secondario"
-      testo="Chiedi su WhatsApp"
-      data-wa="Ciao Trebla, vorrei informazioni sui social."
-      target="_blank"
-      rel="noopener noreferrer"
-    />
+      titolo="Social | con una direzione"
+      percorso={[{ testo: 'Home', href: '/' }, { testo: 'Servizi', href: '/servizi/' }, { testo: 'Social' }]}
+    >
+      <p slot="lead">Sistemiamo i profili e prepariamo contenuti concordati. Senza promesse di follower o viralità.</p>
+
+      <!-- Oggetto: tre tessere di post in tipografia, ai formati 1:1, 4:5 e 9:16. -->
+      <div
+        slot="oggetto"
+        class="sv-oggetto sv-social"
+        role="img"
+        aria-label="Tre esempi di post in formati diversi: quadrato 1:1, verticale 4:5 e storia 9:16, composti solo in tipografia."
+      >
+        <div class="sv-social__voce">
+          <div class="sv-social__tessera sv-social__tessera--quadro">
+            <span class="display">Menù di stagione</span>
+          </div>
+          <p class="etichetta">1:1</p>
+        </div>
+        <div class="sv-social__voce">
+          <div class="sv-social__tessera sv-social__tessera--verticale">
+            <span class="display">Tavolo per due?</span>
+          </div>
+          <p class="etichetta">4:5</p>
+        </div>
+        <div class="sv-social__voce">
+          <div class="sv-social__tessera sv-social__tessera--storia">
+            <span class="display">Oggi aperti fino alle 23</span>
+          </div>
+          <p class="etichetta">9:16</p>
+        </div>
+      </div>
+
+      <div class="sv-azioni">
+        <Bottone href="/preventivo/?servizi=social" testo="Fai il preventivo" />
+        <Bottone
+          href="#"
+          variante="secondario"
+          testo="Scrivici su WhatsApp"
+          data-wa="Ciao Trebla, vorrei informazioni sui social."
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+      </div>
   </TestataPagina>
 
   <section class="sezione">
-    <Corpo etichetta="Servizio · 03">
+    <Corpo>
       <Prosa>
         <h2>Cosa include</h2>
         <ul>
@@ -65,7 +98,7 @@ const prezziSocial = SOCIAL_OPTIONS.map((e) => e.price);
 
   <BandaPrezzo
     id="t-prezzo"
-    titolo="Prezzi e tempi"
+    prezzi={prezziBanda}
     testo={`Le voci costano da ${Math.min(...prezziSocial)}€ a ${Math.max(...prezziSocial)}€ ciascuna. La singola voce comprende il materiale concordato per quella richiesta; pacchetti o calendari ricorrenti non sono definiti dal listino attuale e vanno preventivati a parte.`}
   />
 
@@ -80,19 +113,96 @@ const prezziSocial = SOCIAL_OPTIONS.map((e) => e.price);
 
   <CtaChiusura
     id="t-chiusura"
-    etichetta="Prossimo passo"
     titolo="Scegli cosa ti serve davvero"
-    tenue="ti serve davvero"
     testo="Costruiamo una proposta con voci e tempi concordati."
   >
-    <Bottone href="/preventivo/" testo="Fai il preventivo" />
+    <Bottone href="/preventivo/?servizi=social" testo="Fai il preventivo" />
     <Bottone
       href="#"
       variante="wa"
-      testo="WhatsApp"
+      testo="Scrivici su WhatsApp"
       data-wa="Ciao Trebla, vorrei un preventivo per i social."
       target="_blank"
       rel="noopener noreferrer"
     />
   </CtaChiusura>
 </LayoutPagina>
+
+<style>
+  /* Testata con oggetto: l'oggetto è lo slot "oggetto" di TestataPagina, accanto al titolo da 960px.
+     Le azioni sono nello slot di default; il loro margine viene dal contenitore .tp__extra. */
+  .sv-oggetto {
+    justify-self: start;
+    margin-block-start: var(--s-6);
+  }
+
+  .sv-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  @media (min-width: 960px) {
+    .sv-oggetto {
+      margin-block-start: 0;
+    }
+  }
+
+  /* Oggetto: tre tessere. Le colonne sono 1 : 0.8 : 0.5625, cioè i rapporti 1:1, 4:5 e 9:16
+     con la stessa altezza. Nessuna tessera mattone: il mattone sta solo sul primario. */
+  .sv-social {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 0.5625fr);
+    align-items: end;
+    gap: var(--s-3);
+    inline-size: 100%;
+    max-inline-size: 440px;
+  }
+
+  /* La colonna è il contenitore: le unità cqi (padding e testo delle tessere) misurano la sua larghezza. */
+  .sv-social__voce {
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2);
+    min-inline-size: 0;
+  }
+
+  .sv-social__voce .etichetta {
+    max-inline-size: none;
+  }
+
+  .sv-social__tessera {
+    inline-size: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 8cqi;
+    overflow: hidden;
+  }
+
+  .sv-social__tessera .display {
+    margin: 0;
+    max-inline-size: none;
+    font-size: 15cqi;
+    line-height: 0.92;
+  }
+
+  /* Quadrato a contorno, come il telefono di siti-web: niente pieno, così pesa come le altre due. */
+  .sv-social__tessera--quadro {
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--inchiostro);
+    color: var(--inchiostro);
+  }
+
+  .sv-social__tessera--verticale {
+    aspect-ratio: 4 / 5;
+    background: var(--carta-2);
+    color: var(--inchiostro);
+  }
+
+  .sv-social__tessera--storia {
+    aspect-ratio: 9 / 16;
+    border: 1px solid var(--inchiostro);
+    color: var(--inchiostro);
+  }
+</style>

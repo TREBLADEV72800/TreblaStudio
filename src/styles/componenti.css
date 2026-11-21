@@ -1,13 +1,14 @@
 /* ============================================================
-   COMPONENTI CONDIVISI: bottone, link, etichetta, puntino, chip,
-   titolo rivelato, testata di sezione, fisarmonica, scheda.
+   COMPONENTI CONDIVISI: bottone, link, etichetta, titolo rivelato.
    Markup nei componenti Astro di src/components/ui/.
-   Nota: i selettori dei bottoni usano .btn.btn--* (specificità 0,2,0).
-   Le micro-interazioni di hover stanno in @media (hover: hover);
-   il focus da tastiera mostra lo stesso stato dell'hover sui bottoni.
+   Testata di sezione, testata di pagina, fisarmonica e prosa hanno gli stili
+   nei loro componenti (scoped): qui non ci sono duplicati.
+   L'hover sta in @media (hover: hover). Il focus da tastiera è sempre visibile
+   e mostra lo stesso stato dell'hover sui bottoni.
    ============================================================ */
 
-/* ---------- Freccia SVG (src/components/ui/Freccia.astro) ---------- */
+/* ---------- Freccia SVG (src/components/ui/Freccia.astro) ----------
+   Solo sul bottone primario, e solo dove il bottone la chiede (prop freccia). */
 .icona-freccia {
   display: block;
   inline-size: 16px;
@@ -28,9 +29,10 @@
 }
 
 /* ---------- Bottone pill (src/components/ui/Bottone.astro) ----------
-   Variabili per variante: fondo, testo, bordo, velo, cerchio, freccia
-   e i loro valori in hover. Il cerchio contiene due frecce: .btn__freccia
-   esce in alto a destra e la copia .btn__freccia--copia rientra dal basso a sinistra. */
+   Testo di interfaccia: Archivo 600, --fs-ui, frase normale, nessun letter-spacing.
+   Variabili per variante: fondo, testo, bordo, velo, cerchio, freccia e i loro valori in hover.
+   La freccia (classe .btn--con-freccia) sta in un cerchio con due copie:
+   .btn__freccia esce in alto a destra, la copia .btn__freccia--copia rientra dal basso a sinistra. */
 .btn.btn--primario,
 .btn.btn--secondario,
 .btn.btn--chiaro,
@@ -40,23 +42,29 @@
   overflow: hidden;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   box-sizing: border-box;
   min-block-size: 48px;
-  padding-inline: 24px 6px;
+  padding-inline: 24px;
   /* Padding verticale a zero: l'altezza la danno min-block-size e il cerchio. */
   padding-block: 0;
   border: 1px solid var(--btn-borde);
   border-radius: 999px;
   background: var(--btn-fondo);
   color: var(--btn-testo);
-  font: 500 13px / 1 var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font: 600 var(--fs-ui) / 1.2 var(--font-ui);
+  letter-spacing: 0;
+  text-transform: none;
   text-decoration: none;
   cursor: pointer;
   transition: transform var(--t-1) var(--ease-std);
+}
+
+/* Con freccia: il testo a sinistra, il cerchio a destra. */
+.btn.btn--con-freccia {
+  justify-content: space-between;
+  padding-inline: 24px 6px;
 }
 
 @media (min-width: 640px) {
@@ -90,15 +98,15 @@
   background: var(--btn-velo);
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform 500ms var(--ease-out);
+  transition: transform var(--t-velo) var(--ease-out);
 }
 
-/* Testo: sta sopra il velo. Cambia colore a metà corsa del velo (150ms di ritardo, 200ms di durata). */
+/* Testo: sta sopra il velo. Cambia colore a metà corsa del velo (--t-1 di ritardo). */
 .btn__testo {
   position: relative;
   min-inline-size: 0;
   color: var(--btn-testo);
-  transition: color 200ms var(--ease-std) 150ms;
+  transition: color var(--t-colore) var(--ease-std) var(--t-1);
 }
 
 /* Cerchio con le due frecce, sovrapposte nella stessa cella. */
@@ -113,12 +121,12 @@
   background: var(--btn-cerchio);
   color: var(--btn-freccia);
   overflow: hidden;
-  transition: background-color 500ms var(--ease-out), color 500ms var(--ease-out);
+  transition: background-color var(--t-velo) var(--ease-out), color var(--t-velo) var(--ease-out);
 }
 
 .btn__icona .icona-freccia {
   grid-area: 1 / 1;
-  transition: transform 500ms var(--ease-out);
+  transition: transform var(--t-velo) var(--ease-out);
 }
 
 /* A riposo la copia è fuori dal cerchio, in basso a sinistra. */
@@ -142,7 +150,7 @@
 .btn.btn--secondario {
   --btn-fondo: transparent;
   --btn-testo: var(--inchiostro);
-  --btn-borde: var(--linea);
+  --btn-borde: var(--inchiostro);
   --btn-velo: var(--inchiostro);
   --btn-cerchio: var(--inchiostro);
   --btn-freccia: var(--carta);
@@ -164,15 +172,16 @@
   --btn-freccia-hover: var(--carta);
 }
 
+/* WhatsApp: verde pieno, testo bianco. Il verde è riservato a questo bottone. */
 .btn.btn--wa {
   --btn-fondo: var(--verde);
-  --btn-testo: #fff;
+  --btn-testo: var(--su-verde);
   --btn-borde: var(--verde);
   --btn-velo: var(--inchiostro);
-  --btn-cerchio: #fff;
+  --btn-cerchio: var(--su-verde);
   --btn-freccia: var(--verde);
-  --btn-testo-hover: #fff;
-  --btn-cerchio-hover: #fff;
+  --btn-testo-hover: var(--su-verde);
+  --btn-cerchio-hover: var(--su-verde);
   --btn-freccia-hover: var(--verde);
 }
 
@@ -181,35 +190,88 @@
   outline-color: var(--mattone);
 }
 
-/* Stato attivo: hover (solo dove c'è hover) o focus da tastiera.
-   Velo che entra da sinistra, testo, cerchio e frecce. */
+/* Stato attivo, da tastiera (sempre). Velo che entra da sinistra, testo, cerchio e frecce. */
+.btn.btn--primario:focus-visible::before,
+.btn.btn--secondario:focus-visible::before,
+.btn.btn--chiaro:focus-visible::before,
+.btn.btn--wa:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.btn.btn--primario:focus-visible .btn__testo,
+.btn.btn--secondario:focus-visible .btn__testo,
+.btn.btn--chiaro:focus-visible .btn__testo,
+.btn.btn--wa:focus-visible .btn__testo {
+  color: var(--btn-testo-hover);
+}
+
+.btn.btn--primario:focus-visible .btn__icona,
+.btn.btn--secondario:focus-visible .btn__icona,
+.btn.btn--chiaro:focus-visible .btn__icona,
+.btn.btn--wa:focus-visible .btn__icona {
+  background: var(--btn-cerchio-hover);
+  color: var(--btn-freccia-hover);
+}
+
+.btn.btn--primario:focus-visible .btn__freccia,
+.btn.btn--secondario:focus-visible .btn__freccia,
+.btn.btn--chiaro:focus-visible .btn__freccia,
+.btn.btn--wa:focus-visible .btn__freccia {
+  transform: translate3d(40px, -40px, 0);
+}
+
+.btn.btn--primario:focus-visible .btn__freccia--copia,
+.btn.btn--secondario:focus-visible .btn__freccia--copia,
+.btn.btn--chiaro:focus-visible .btn__freccia--copia,
+.btn.btn--wa:focus-visible .btn__freccia--copia {
+  transform: none;
+}
+
+/* Stato attivo con il puntatore: solo dove c'è hover vero (mouse, penna con hover). */
 @media (hover: hover) {
-  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible)::before {
+  .btn.btn--primario:hover::before,
+  .btn.btn--secondario:hover::before,
+  .btn.btn--chiaro:hover::before,
+  .btn.btn--wa:hover::before {
     transform: scaleX(1);
     transform-origin: left center;
   }
 
-  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__testo {
+  .btn.btn--primario:hover .btn__testo,
+  .btn.btn--secondario:hover .btn__testo,
+  .btn.btn--chiaro:hover .btn__testo,
+  .btn.btn--wa:hover .btn__testo {
     color: var(--btn-testo-hover);
   }
 
-  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__icona {
+  .btn.btn--primario:hover .btn__icona,
+  .btn.btn--secondario:hover .btn__icona,
+  .btn.btn--chiaro:hover .btn__icona,
+  .btn.btn--wa:hover .btn__icona {
     background: var(--btn-cerchio-hover);
     color: var(--btn-freccia-hover);
   }
 
-  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__freccia {
+  .btn.btn--primario:hover .btn__freccia,
+  .btn.btn--secondario:hover .btn__freccia,
+  .btn.btn--chiaro:hover .btn__freccia,
+  .btn.btn--wa:hover .btn__freccia {
     transform: translate3d(40px, -40px, 0);
   }
 
-  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__freccia--copia {
+  .btn.btn--primario:hover .btn__freccia--copia,
+  .btn.btn--secondario:hover .btn__freccia--copia,
+  .btn.btn--chiaro:hover .btn__freccia--copia,
+  .btn.btn--wa:hover .btn__freccia--copia {
     transform: none;
   }
 }
 
 /* ---------- Link sottolineato (A10) ----------
    Due linee. A riposo la linea piena (::before). In hover la linea piena esce a destra
-   e quella nuova (::after) entra da sinistra con 120ms di ritardo. Il ritorno è simmetrico. */
+   e quella nuova (::after) entra da sinistra con un breve ritardo. Il ritorno è simmetrico.
+   Nei link di testo non c'è mai una freccia. */
 .link-sottolineato {
   position: relative;
   display: inline-block;
@@ -230,14 +292,14 @@
 .link-sottolineato::before {
   transform: scaleX(1);
   transform-origin: left center;
-  transition: transform var(--t-3) var(--ease-expo) 120ms;
+  transition: transform var(--t-3) var(--ease-expo) var(--t-1);
 }
 
 /* La linea che apparirà in hover sta fuori, a destra. */
 .link-sottolineato::after {
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform var(--t-3) var(--ease-expo) 0ms;
+  transition: transform var(--t-3) var(--ease-expo) 0s;
 }
 
 @media (hover: hover) {
@@ -245,14 +307,14 @@
   .link-sottolineato:hover::before {
     transform: scaleX(0);
     transform-origin: right center;
-    transition-delay: 0ms;
+    transition-delay: 0s;
   }
 
-  /* La nuova entra da sinistra, con 120ms di ritardo. */
+  /* La nuova entra da sinistra, con un breve ritardo. */
   .link-sottolineato:hover::after {
     transform: scaleX(1);
     transform-origin: left center;
-    transition-delay: 120ms;
+    transition-delay: var(--t-1);
   }
 }
 
@@ -276,8 +338,6 @@
 }
 
 .link-roll__testo::after {
-  /* Fallback per i browser senza alt text CSS. */
-  content: attr(data-testo);
   /* Testo alternativo vuoto: la copia visiva non viene annunciata, il link resta letto una volta. */
   content: attr(data-testo) / "";
   position: absolute;
@@ -292,68 +352,20 @@
   }
 }
 
-/* ---------- Etichetta mono (con puntino opzionale) ---------- */
+/* ---------- Etichetta ----------
+   Testo di supporto, frase normale: Archivo 600 14px, morbido. Nessun segno decorativo, nessun maiuscolo. */
 .etichetta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: block;
   margin: 0;
-  font: 500 var(--fs-label) / 1.4 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font: 600 var(--fs-small) / 1.4 var(--font-ui);
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--morbido);
-}
-
-/* ---------- Puntino (src: <span class="puntino puntino--verde"></span>) ----------
-   --pulse: alone che si espande (A16). */
-.puntino {
-  --c: var(--mattone);
-  position: relative;
-  display: inline-block;
-  flex: none;
-  inline-size: 8px;
-  block-size: 8px;
-  border-radius: 50%;
-  background: var(--c);
-}
-
-.puntino--mattone {
-  --c: var(--mattone);
-}
-
-.puntino--verde {
-  --c: var(--verde);
-}
-
-.puntino--inchiostro {
-  --c: var(--inchiostro);
-}
-
-.puntino--pulse::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--c);
-  animation: pulse 2s var(--ease-out) infinite;
-}
-
-/* ---------- Chip ---------- */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border: 1px solid var(--linea);
-  border-radius: 999px;
-  font: 400 var(--fs-micro) / 1.4 var(--font-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 /* ---------- Titolo rivelato (src/components/ui/TitoloRivelato.astro) ----------
    La maschera delle parole e le animazioni sono in movimento.css.
-   Qui: dimensioni per taglia e i due toni del titolo. */
+   Qui: dimensioni per taglia. Il titolo ha un solo tono: non ci sono classi di colore. */
 .titolo-rivelato {
   max-inline-size: none;
   margin: 0;
@@ -380,151 +392,4 @@
   font-stretch: 100%;
   letter-spacing: -0.02em;
   text-transform: none;
-}
-
-/* Accento mattone: solo nella hero e nella fascia di chiusura. */
-.titolo__accento {
-  color: var(--mattone);
-}
-
-/* Secondo tono: su fascia scura diventa morbido-scuro (vedi .fascia-scura). */
-.titolo__tenue {
-  color: var(--morbido);
-}
-
-/* ---------- Testata di sezione (src/components/TestataSezione.astro) ----------
-   Riga superiore con filetto, numero e etichetta mono; H2 display; nota opzionale. */
-.testata {
-  display: grid;
-  gap: clamp(20px, 3vw, 36px) var(--gap);
-  margin-block-end: clamp(32px, 4vw, 56px);
-}
-
-.testata__riga {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0;
-  max-inline-size: none;
-  padding-block-start: 14px;
-  border-block-start: 1px solid var(--linea);
-  font: 500 var(--fs-label) / 1.4 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--morbido);
-}
-
-.testata__num {
-  color: var(--inchiostro);
-}
-
-.testata__nota {
-  margin: 0;
-  max-inline-size: 52ch;
-  font: 400 var(--fs-lead) / 1.45 var(--font-testo);
-  color: var(--morbido);
-}
-
-@media (min-width: 960px) {
-  .testata {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: end;
-  }
-
-  .testata__riga {
-    grid-column: 1 / -1;
-  }
-
-  .testata__titolo {
-    grid-column: 1 / span 8;
-  }
-
-  .testata__nota {
-    grid-column: 9 / span 4;
-    justify-self: end;
-  }
-}
-
-/* Su fascia scura: testo carta, secondo tono e filetti chiari. */
-.testata--scuro {
-  --morbido: var(--morbido-scuro);
-  --linea: var(--linea-scura);
-  color: var(--carta);
-}
-
-.testata--scuro .testata__num {
-  color: var(--carta);
-}
-
-/* ---------- Fisarmonica (A14) (src/components/ElencoDomande.astro) ----------
-   details/summary con il "+" fatto di due linee: ruotano di 45° all'apertura (300ms).
-   Il contenuto sale di 12px e sfuma in 500ms; l'altezza cambia subito. */
-.fisarmonica {
-  border-block-start: 1px solid var(--linea);
-}
-
-.fisarmonica details {
-  border-block-end: 1px solid var(--linea);
-}
-
-.fisarmonica summary {
-  position: relative;
-  display: block;
-  list-style: none;
-  cursor: pointer;
-  padding-block: 22px;
-  padding-inline-end: 48px;
-  font: 600 var(--fs-h3) / 1.15 var(--font-testo);
-  letter-spacing: -0.02em;
-}
-
-.fisarmonica summary::-webkit-details-marker {
-  display: none;
-}
-
-.fisarmonica summary::before,
-.fisarmonica summary::after {
-  content: "";
-  position: absolute;
-  background: currentColor;
-  transition: transform var(--t-2) var(--ease-std);
-}
-
-/* Barra orizzontale: 16px, centro a 12px dal bordo destro. */
-.fisarmonica summary::before {
-  inline-size: 16px;
-  block-size: 1.5px;
-  inset-inline-end: 4px;
-  inset-block-start: calc(50% - 0.75px);
-}
-
-/* Barra verticale: stesso centro. */
-.fisarmonica summary::after {
-  inline-size: 1.5px;
-  block-size: 16px;
-  inset-inline-end: 11.25px;
-  inset-block-start: calc(50% - 8px);
-}
-
-.fisarmonica details[open] summary::before,
-.fisarmonica details[open] summary::after {
-  transform: rotate(45deg);
-}
-
-.fisarmonica__corpo {
-  max-inline-size: 62ch;
-  padding-block-end: 26px;
-}
-
-.fisarmonica details[open] .fisarmonica__corpo {
-  animation: sali-corto 500ms var(--ease-out) both;
-}
-
-/* ---------- Scheda: bordo da 1px, angoli vivi ---------- */
-.scheda {
-  border: 1px solid var(--linea);
-  border-radius: 0;
-  padding: clamp(20px, 2.2vw, 32px);
-  background: transparent;
 }

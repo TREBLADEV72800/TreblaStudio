@@ -79,21 +79,25 @@
   }
 }
 
-/* Sezione: solo il padding verticale. */
+/* Sezione: solo il padding verticale, sempre uguale (--sezione) sopra e sotto. */
 .sezione {
   padding-block: var(--sezione);
 }
 
-/* Sezioni consecutive: la seconda non ripete lo spazio alto, la prima ha uno spazio basso ridotto. */
-.sezione + .sezione {
+/* Due sezioni di carta una dopo l'altra: lo spazio tra loro è un solo --sezione, non due.
+   Le fasce scure e grafite mantengono il padding su entrambi i lati. */
+.sezione:not(.fascia-scura):not(.fascia-grafite) + .sezione:not(.fascia-scura):not(.fascia-grafite) {
   padding-block-start: 0;
 }
 
-.sezione:has(+ .sezione) {
-  padding-block-end: clamp(20px, 3vw, 36px);
+/* Senza quel padding, il margine alto del primo elemento uscirebbe dalla sezione: lo si azzera.
+   Esclusi .parola: è la maschera delle parole del titolo, con il margine negativo di -0.1em che la allinea. */
+.sezione:not(.fascia-scura):not(.fascia-grafite) + .sezione:not(.fascia-scura):not(.fascia-grafite) :first-child:not(.parola) {
+  margin-block-start: 0;
 }
 
-/* Fasce scure: ridefiniscono filetti, testo secondario e focus per la superficie scura. */
+/* Fasce scure e grafite: ridefiniscono filetti, testo secondario e focus per la superficie scura.
+   Usano lo stesso .sezione delle fasce chiare. */
 .fascia-scura,
 .fascia-grafite {
   --linea: var(--linea-scura);

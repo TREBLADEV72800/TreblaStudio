@@ -20,6 +20,10 @@ const domande: [string, string][] = [
   ['Quando ricevo i file?', 'Definiamo tempi e consegna nella proposta, dopo aver chiarito i materiali e cosa serve.'],
 ];
 const faqs = domande.map(([q, a]) => ({ q, a }));
+const prezziBanda = [
+  { valore: `${prezzoMin}€`, etichetta: 'la voce più economica' },
+  { valore: `${prezzoMax}€`, etichetta: 'la voce più costosa' },
+];
 ---
 
 <LayoutPagina
@@ -33,24 +37,44 @@ const faqs = domande.map(([q, a]) => ({ q, a }));
   ]}
 >
   <TestataPagina
-    titolo="Grafiche | per farti riconoscere"
-    tenue="per farti riconoscere"
-    percorso={[{ testo: 'Home', href: '/' }, { testo: 'Servizi', href: '/servizi/' }, { testo: 'Grafiche' }]}
-  >
-    <p slot="lead">Logo, biglietti e materiali coordinati con il sito. Scegli le voci che servono, senza pacchetti obbligatori.</p>
-    <Bottone href="/preventivo/" testo="Scegli le grafiche" />
-    <Bottone
-      href="#"
-      variante="secondario"
-      testo="Chiedi su WhatsApp"
-      data-wa="Ciao Trebla, vorrei informazioni sulle grafiche."
-      target="_blank"
-      rel="noopener noreferrer"
-    />
+      titolo="Grafiche | per farti riconoscere"
+      percorso={[{ testo: 'Home', href: '/' }, { testo: 'Servizi', href: '/servizi/' }, { testo: 'Grafiche' }]}
+    >
+      <p slot="lead">Logo, biglietti e materiali coordinati con il sito. Scegli le voci che servono, senza pacchetti obbligatori.</p>
+
+      <!-- Oggetto: un menù cartaceo in tipografia. Mostra il tipo di file che il cliente riceve. -->
+      <div
+        slot="oggetto"
+        class="sv-oggetto sv-menu"
+        role="img"
+        aria-label="Esempio di menù cartaceo: titolo, tre voci con il prezzo allineato e un piccolo logo tipografico."
+      >
+        <div class="sv-menu__foglio">
+          <p class="display sv-menu__logo">La tua<br />attività</p>
+          <p class="display sv-menu__titolo">Menù</p>
+          <ul class="sv-menu__voci">
+            <li><span>Primo del giorno</span><span class="display sv-menu__prezzo">9€</span></li>
+            <li><span>Secondo del giorno</span><span class="display sv-menu__prezzo">12€</span></li>
+            <li><span>Dolce della casa</span><span class="display sv-menu__prezzo">5€</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sv-azioni">
+        <Bottone href="/preventivo/?servizi=grafiche" testo="Fai il preventivo" />
+        <Bottone
+          href="#"
+          variante="secondario"
+          testo="Scrivici su WhatsApp"
+          data-wa="Ciao Trebla, vorrei informazioni sulle grafiche."
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+      </div>
   </TestataPagina>
 
   <section class="sezione">
-    <Corpo etichetta="Servizio · 02">
+    <Corpo>
       <Prosa>
         <h2>Cosa possiamo preparare</h2>
         <ul>
@@ -67,7 +91,7 @@ const faqs = domande.map(([q, a]) => ({ q, a }));
 
   <BandaPrezzo
     id="t-prezzo"
-    titolo="Prezzo e tempi"
+    prezzi={prezziBanda}
     testo={`Le voci costano da ${prezzoMin}€ a ${prezzoMax}€, in base al materiale. Tempi e consegna sono concordati nella proposta.`}
   />
 
@@ -82,19 +106,93 @@ const faqs = domande.map(([q, a]) => ({ q, a }));
 
   <CtaChiusura
     id="t-chiusura"
-    etichetta="Prossimo passo"
     titolo="Partiamo dal materiale che ti serve"
-    tenue="che ti serve"
     testo="Seleziona le grafiche nel preventivo oppure scrivici."
   >
-    <Bottone href="/preventivo/" testo="Fai il preventivo" />
+    <Bottone href="/preventivo/?servizi=grafiche" testo="Fai il preventivo" />
     <Bottone
       href="#"
       variante="wa"
-      testo="WhatsApp"
+      testo="Scrivici su WhatsApp"
       data-wa="Ciao Trebla, vorrei un preventivo per delle grafiche."
       target="_blank"
       rel="noopener noreferrer"
     />
   </CtaChiusura>
 </LayoutPagina>
+
+<style>
+  /* Testata con oggetto: l'oggetto è lo slot "oggetto" di TestataPagina, accanto al titolo da 960px.
+     Le azioni sono nello slot di default; il loro margine viene dal contenitore .tp__extra. */
+  .sv-oggetto {
+    justify-self: start;
+    margin-block-start: var(--s-6);
+  }
+
+  .sv-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  @media (min-width: 960px) {
+    .sv-oggetto {
+      margin-block-start: 0;
+    }
+  }
+
+  /* Oggetto: foglio di menù. Carta-2 su carta, un filetto di contorno, voci separate da filetti. */
+  .sv-menu__foglio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+    inline-size: min(280px, 100%);
+    aspect-ratio: 3 / 4;
+    padding: var(--s-6) var(--s-5);
+    border: 1px solid var(--linea);
+    background: var(--carta-2);
+    color: var(--inchiostro);
+  }
+
+  .sv-menu__logo {
+    align-self: flex-start;
+    margin: 0;
+    max-inline-size: none;
+    padding-block-end: var(--s-2);
+    border-block-end: 1px solid var(--inchiostro);
+    font-size: 16px;
+    line-height: 0.92;
+    color: var(--inchiostro);
+  }
+
+  .sv-menu__titolo {
+    margin: 0;
+    max-inline-size: none;
+    font-size: 72px;
+    line-height: 0.88;
+    color: var(--inchiostro);
+  }
+
+  .sv-menu__voci {
+    margin: auto 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sv-menu__voci li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-3);
+    padding-block: var(--s-3);
+    border-block-start: 1px solid var(--linea);
+    font: 600 15px / 1.3 var(--font-ui);
+    color: var(--inchiostro);
+  }
+
+  .sv-menu__prezzo {
+    font-size: 22px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+</style>

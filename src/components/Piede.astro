@@ -1,46 +1,41 @@
 ---
-// Piede del sito: fascia scura con griglia (presentazione, navigazione, contatti, note legali),
-// bottom bar con copyright e "Torna su", e in fondo il wordmark TREBLA tagliato dal bordo della pagina.
-// Le lettere salgono una alla volta quando il wordmark entra in vista (reveal con classe "visibile").
+// Piede del sito: fascia grafite con griglia (presentazione, pagine, contatti, note legali),
+// riga finale con copyright e "Torna su", e in fondo il wordmark TREBLA tagliato dal bordo della pagina.
+// Il wordmark è statico: nessuna animazione delle lettere.
 // I link con data-* sono riempiti da ContattiDinamici: gli attributi restano come sono.
-import Freccia from './ui/Freccia.astro';
-
 const adesso = new Date();
 const anno = adesso.getFullYear();
 const aggiornato = adesso.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
 
 const path = Astro.url.pathname;
-const active = (href: string) =>
-  href === '/' ? (path === '/' ? 'page' : undefined) : path.startsWith(href) ? 'page' : undefined;
+const active = (href: string) => (path.startsWith(href) ? 'page' : undefined);
 
 // Stesse voci della nav dell'header: se cambiano, cambiano in entrambi i componenti.
 const voci = [
-  { href: '/', testo: 'Home' },
   { href: '/servizi/', testo: 'Servizi' },
   { href: '/metodo/', testo: 'Metodo' },
   { href: '/prezzi/', testo: 'Prezzi' },
-  { href: '/chi-siamo/', testo: 'Studio' },
-  { href: '/faq/', testo: 'FAQ' },
+  { href: '/chi-siamo/', testo: 'Chi siamo' },
+  { href: '/faq/', testo: 'Domande' },
   { href: '/contatti/', testo: 'Contatti' },
 ];
-const lettere = 'TREBLA'.split('');
 ---
 
-<footer class="pie fascia-scura">
+<footer class="pie fascia-grafite">
   <div class="contenitore">
     <div class="pie__griglia">
       <div class="pie__bloc pie__presentazione">
-        <h2 class="pie__etichetta">Studio</h2>
+        <h3 class="pie__etichetta">Studio</h3>
         <p class="pie__lead">Studio indipendente ad Asti.<br />Siti web per piccole attività.</p>
       </div>
 
       <nav class="pie__bloc pie__nav" aria-labelledby="pie-nav">
-        <h2 class="pie__etichetta" id="pie-nav">Navigazione principale</h2>
+        <h3 class="pie__etichetta" id="pie-nav">Pagine</h3>
         <ul class="pie__voci-grandi">
           {
             voci.map((v) => (
               <li>
-                <a href={v.href} aria-current={active(v.href)} data-cursore={v.testo}>{v.testo}</a>
+                <a href={v.href} aria-current={active(v.href)}>{v.testo}</a>
               </li>
             ))
           }
@@ -49,17 +44,17 @@ const lettere = 'TREBLA'.split('');
 
       <div class="pie__destra">
         <div class="pie__bloc pie__contatti">
-          <h2 class="pie__etichetta">Contatti diretti</h2>
+          <h3 class="pie__etichetta">Contatti</h3>
           <ul class="pie__elenco">
-            <li><a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a></li>
-            <li><a data-tel href="#">Chiamaci</a></li>
-            <li><a data-mail data-mostra href="#">email</a></li>
+            <li><a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a></li>
+            <li><a data-tel data-mostra href="#">Chiama</a></li>
+            <li><a data-mail data-mostra href="#">Scrivi un'email</a></li>
           </ul>
           <p class="pie__nota">Asti, su appuntamento.</p>
         </div>
 
         <nav class="pie__bloc pie__legali" aria-labelledby="pie-legali">
-          <h2 class="pie__etichetta" id="pie-legali">Note legali</h2>
+          <h3 class="pie__etichetta" id="pie-legali">Note legali</h3>
           <ul class="pie__elenco pie__elenco--piccolo">
             <li><a href="/accessibilita/">Accessibilità</a></li>
             <li><a href="/note-legali/#privacy">Privacy</a></li>
@@ -71,22 +66,16 @@ const lettere = 'TREBLA'.split('');
     </div>
 
     <div class="pie__fondo">
-      <span>© {anno} Trebla · Asti · Aggiornato a {aggiornato}</span>
-      <a class="pie__torna" id="torna-su" href="#cima">
-        <span>Torna su</span>
-        <span class="pie__torna-icona"><Freccia /></span>
-      </a>
+      <p class="pie__copia">
+        <span>© {anno} Trebla, Asti</span>
+        <span>Aggiornato a {aggiornato}</span>
+      </p>
+      <a class="pie__torna" id="torna-su" href="#cima">Torna su</a>
     </div>
   </div>
 
-  <div class="pie__marchio contenitore" data-reveal aria-hidden="true">
-    <span class="pie__wordmark">
-      {
-        lettere.map((l, i) => (
-          <span class="pie__lettera"><span style={`--i:${i}`}>{l}</span></span>
-        ))
-      }
-    </span>
+  <div class="pie__marchio contenitore" aria-hidden="true">
+    <span class="pie__wordmark">TREBLA</span>
   </div>
 </footer>
 
@@ -108,10 +97,9 @@ const lettere = 'TREBLA'.split('');
     display: contents;
   }
 
+  /* Niente filetti sopra i blocchi: le linee del piede separano solo le voci degli elenchi. */
   .pie__bloc {
     min-inline-size: 0;
-    border-block-start: 1px solid var(--linea);
-    padding-block-start: var(--s-4);
   }
 
   .pie__presentazione {
@@ -130,15 +118,12 @@ const lettere = 'TREBLA'.split('');
     order: 3;
   }
 
+  /* Intestazione di blocco: Archivo 600, frase normale. */
   .pie__etichetta {
     margin: 0 0 var(--s-4);
-    font-family: var(--font-mono);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    font-stretch: normal;
-    line-height: 1.4;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 600 var(--fs-ui) / 1.4 var(--font-ui);
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--morbido-scuro);
   }
 
@@ -154,7 +139,38 @@ const lettere = 'TREBLA'.split('');
     color: var(--morbido-scuro);
   }
 
-  /* ---------- Navigazione grande: display, maiuscolo ---------- */
+  /* ---------- Link del piede ----------
+     Un solo hover per link: una sottolineatura che entra da sinistra (::after, solo scaleX).
+     La voce corrente ha la stessa sottolineatura a riposo. */
+  .pie a {
+    position: relative;
+    color: var(--carta);
+    text-decoration: none;
+  }
+
+  .pie a::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 10px;
+    block-size: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--t-2) var(--ease-expo);
+  }
+
+  .pie a[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) {
+    .pie a:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  /* ---------- Navigazione: Archivo 600, frase normale, più grande dei contatti ---------- */
   .pie__voci-grandi {
     margin: 0;
     padding: 0;
@@ -167,18 +183,15 @@ const lettere = 'TREBLA'.split('');
   }
 
   .pie__voci-grandi a {
-    display: block;
+    display: inline-block;
     padding-block: var(--s-2) var(--s-3);
-    font-family: var(--font-display);
-    font-size: clamp(28px, 3vw, 44px);
-    font-stretch: 64%;
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: var(--carta);
-    text-decoration: none;
-    transition: color var(--t-2) var(--ease-std), transform var(--t-2) var(--ease-std);
+    font: 600 clamp(24px, 2.6vw, 36px) / 1.15 var(--font-ui);
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+
+  .pie__voci-grandi a::after {
+    inset-block-end: 6px;
   }
 
   .pie__voci-grandi a[aria-current="page"] {
@@ -193,35 +206,22 @@ const lettere = 'TREBLA'.split('');
   }
 
   .pie__elenco a {
-    position: relative;
     display: inline-flex;
     align-items: center;
     min-block-size: 40px;
     overflow-wrap: anywhere;
     font: 400 var(--fs-body) / 1.3 var(--font-testo);
-    color: var(--carta);
-    text-decoration: none;
-    transition: transform var(--t-2) var(--ease-std);
   }
 
   .pie__elenco--piccolo a {
     font-size: var(--fs-small);
   }
 
-  /* Hover dei link piccoli: la barra è mattone, il testo resta carta (il mattone pieno è riservato al testo grande). */
   .pie__elenco a::after {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    inset-block-end: 6px;
-    block-size: 1px;
-    background: var(--mattone);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform var(--t-2) var(--ease-expo);
+    inset-block-end: 10px;
   }
 
-  /* ---------- Bottom bar: copyright e "Torna su" ---------- */
+  /* ---------- Riga finale: copyright e "Torna su" ---------- */
   .pie__fondo {
     display: flex;
     flex-wrap: wrap;
@@ -229,40 +229,30 @@ const lettere = 'TREBLA'.split('');
     justify-content: space-between;
     gap: var(--s-3) var(--s-6);
     margin-block: var(--s-8) var(--s-6);
-    padding-block-start: var(--s-4);
-    border-block-start: 1px solid var(--linea);
-    font: 400 var(--fs-label) / 1.5 var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 400 var(--fs-small) / 1.5 var(--font-ui);
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--morbido-scuro);
+  }
+
+  .pie__copia span {
+    display: block;
   }
 
   .pie__torna {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-3);
     min-block-size: 44px;
+    font: 600 var(--fs-small) / 1.2 var(--font-ui);
     color: var(--carta);
     text-decoration: none;
   }
 
-  .pie__torna-icona {
-    display: grid;
-    place-items: center;
-    flex: none;
-    inline-size: 32px;
-    block-size: 32px;
-    border: 1px solid var(--linea);
-    border-radius: 50%;
-    transition: background-color var(--t-2) var(--ease-std), color var(--t-2) var(--ease-std);
+  .pie__torna::after {
+    inset-block-end: 12px;
   }
 
-  /* La freccia è ruotata di 45° in senso antiorario: ↗ diventa ↑. */
-  .pie__torna-icona :global(.icona-freccia) {
-    transform: rotate(-45deg);
-  }
-
-  /* ---------- Wordmark TREBLA: tagliato dal bordo della pagina ---------- */
+  /* ---------- Wordmark TREBLA: statico, tagliato dal bordo della pagina ---------- */
   .pie__marchio {
     overflow: hidden;
   }
@@ -281,30 +271,6 @@ const lettere = 'TREBLA'.split('');
     color: var(--carta);
     /* Spostato in basso: la parte bassa delle lettere esce dal bordo della pagina. */
     transform: translate3d(0, 16%, 0);
-  }
-
-  /* Ogni lettera ha la sua maschera (overflow hidden) e sale da sotto. */
-  .pie__lettera {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
-    padding-block: 0.06em;
-    margin-block: -0.06em;
-  }
-
-  .pie__lettera > span {
-    display: inline-block;
-    transition: transform var(--t-4) var(--ease-out) calc(var(--i) * 50ms);
-  }
-
-  /* Il reveal dell'intero contenitore (data-reveal) non sfuma né solleva il blocco: salgono solo le lettere. */
-  .js .pie__marchio[data-reveal]:not(.visibile) {
-    opacity: 1;
-    transform: none;
-  }
-
-  .js .pie__marchio:not(.visibile) .pie__lettera > span {
-    transform: translate3d(0, 100%, 0);
   }
 
   /* ---------- Breakpoint 640px: due colonne ---------- */
@@ -357,42 +323,6 @@ const lettere = 'TREBLA'.split('');
 
     .pie__destra .pie__bloc {
       order: 0;
-    }
-
-    .pie__voci-grandi a:hover {
-      color: var(--mattone);
-    }
-  }
-
-  /* ---------- Hover (solo con puntatore) ---------- */
-  @media (hover: hover) {
-    .pie__elenco a:hover {
-      transform: translate3d(6px, 0, 0);
-    }
-
-    .pie__elenco a:hover::after {
-      transform: scaleX(1);
-    }
-
-    .pie__torna:hover .pie__torna-icona {
-      background-color: var(--carta);
-      color: var(--inchiostro);
-    }
-
-    .pie__voci-grandi a:hover {
-      color: var(--mattone);
-    }
-  }
-
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .pie__voci-grandi a:hover {
-      transform: translate3d(6px, 0, 0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .js .pie__marchio:not(.visibile) .pie__lettera > span {
-      transform: none;
     }
   }
 </style>

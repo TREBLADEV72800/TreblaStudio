@@ -10,20 +10,50 @@ import Bottone from '../components/ui/Bottone.astro';
   canonical={null}
   noindex={true}
 >
-  <TestataPagina titolo="Qui non c’è niente" tenue="niente" etichetta="Errore 404" taglia="hero">
+  <TestataPagina titolo="Qui non c’è niente" codice="Errore 404" taglia="hero">
     <p slot="lead">La pagina che cercavi non esiste o è stata spostata. Succede. Torniamo dove serve.</p>
-    <Bottone href="/" variante="primario" testo="Torna alla homepage" />
-    <Bottone href="/preventivo/" variante="secondario" testo="Fai il preventivo" />
-    <Bottone href="/prezzi/" variante="secondario" testo="Prezzi" />
-    <Bottone href="/faq/" variante="secondario" testo="FAQ" />
-    <Bottone
-      href="#"
-      variante="wa"
-      testo="WhatsApp"
-      data-wa="Ciao Trebla, cercavo una pagina del sito."
-      target="_blank"
-      rel="noopener noreferrer"
-      data-cursore="Scrivi"
-    />
+    <div class="nf-azioni">
+      <Bottone href="/" variante="primario" testo="Torna alla home" />
+      <ul class="nf-link">
+        <li><a class="link-sottolineato" href="/servizi/">Vedi i servizi</a></li>
+        <li><a class="link-sottolineato" href="/prezzi/">Vedi i prezzi</a></li>
+        <li><a class="link-sottolineato" href="/faq/">Leggi le domande frequenti</a></li>
+        <li>
+          <a
+            class="link-sottolineato"
+            href="#"
+            data-wa="Ciao Trebla, cercavo una pagina del sito."
+            target="_blank"
+            rel="noopener noreferrer"
+          >Scrivici su WhatsApp</a>
+        </li>
+      </ul>
+    </div>
   </TestataPagina>
 </LayoutPagina>
+
+<style>
+  /* Un'azione primaria, poi link di testo in una riga che va a capo sul telefono. */
+  .nf-azioni {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-6);
+  }
+
+  .nf-link {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nf-link a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 24px;
+    font: 600 var(--fs-ui) / 1.4 var(--font-ui);
+    color: var(--inchiostro);
+  }
+</style>
