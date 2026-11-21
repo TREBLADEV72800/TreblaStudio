@@ -143,6 +143,39 @@ const scala: [string, string, string][] = [
           <div class="col-tutte">col-tutte</div>
         </div>
       </section>
+
+      <section class="vetrina-blocco" id="movimento">
+        <p class="etichetta">Cursore che segue (solo mouse, hover fine)</p>
+        <div class="griglia">
+          <a class="vetrina-zona vetrina-zona--tutta" href="#movimento" data-cursore="Apri">Area su carta</a>
+        </div>
+        <div class="fascia-scura vetrina-fascia" style="margin-block-start: var(--s-5)">
+          <div class="griglia">
+            <a class="vetrina-zona vetrina-zona--tutta" href="#movimento" data-cursore="Apri">Area su fascia scura</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Reveal a gruppi (data-reveal-gruppo, 80ms per elemento)</p>
+        <div class="griglia vetrina-gruppo" data-reveal-gruppo>
+          <div class="col-meta" data-reveal>Uno</div>
+          <div class="col-meta" data-reveal>Due</div>
+          <div class="col-meta" data-reveal>Tre</div>
+          <div class="col-meta" data-reveal>Quattro</div>
+          <div class="col-meta" data-reveal>Cinque</div>
+          <div class="col-meta" data-reveal>Sei</div>
+        </div>
+      </section>
+
+      <section class="vetrina-blocco">
+        <p class="etichetta">Titolo allo scroll e transizione tra pagine</p>
+        <div class="vetrina-spazio" aria-hidden="true"></div>
+        <TitoloRivelato tag="h2" taglia="h2-s" testo="Un titolo che sale|parola per parola" tenue="parola per parola" />
+        <div class="vetrina-riga">
+          <a class="link-sottolineato" href="/">Vai alla home: prova la transizione</a>
+        </div>
+      </section>
     </div>
   </main>
 </LayoutPagina>
@@ -201,5 +234,31 @@ const scala: [string, string, string][] = [
     border: 1px solid var(--linea);
     font: 500 var(--fs-label) / 1.4 var(--font-mono);
     text-transform: uppercase;
+  }
+  .vetrina-zona {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 200px;
+    border: 1px solid var(--linea);
+    color: inherit;
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .vetrina-zona--tutta {
+    grid-column: 1 / -1;
+  }
+  .vetrina-gruppo > div {
+    min-block-size: 96px;
+    padding: var(--s-4);
+    border: 1px solid var(--linea);
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .vetrina-spazio {
+    block-size: 120vh;
   }
 </style>

@@ -10,6 +10,7 @@
 }
 
 html {
+  background: var(--carta);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   /* Niente grassetto o corsivo sintetici: il corsivo è vietato dal design system. */

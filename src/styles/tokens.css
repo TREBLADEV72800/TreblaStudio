@@ -33,6 +33,7 @@
   --fs-small: 14px;                                  /* lh 1.45 */
   --fs-label: 12px;                                  /* mono 500, ls .08em */
   --fs-micro: 10.5px;                                /* mono 400, ls .1em */
+  --fs-cursore: 11px;                                /* etichetta del cursore: mono 500 maiuscolo */
   --fs-wordmark: clamp(110px, 26vw, 440px);
 
   /* ---------- Spaziature e griglia ---------- */

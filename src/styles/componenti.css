@@ -4,6 +4,8 @@
    Markup nei componenti Astro di src/components/ui/.
    Nota: i selettori dei bottoni usano .btn.btn--* (specificità 0,2,0)
    per non subire il vecchio .btn del CSS legacy.
+   Le micro-interazioni di hover stanno in @media (hover: hover);
+   il focus da tastiera mostra lo stesso stato dell'hover sui bottoni.
    ============================================================ */
 
 /* ---------- Freccia SVG (src/components/ui/Freccia.astro) ---------- */
@@ -16,7 +18,8 @@
 
 /* ---------- Bottone pill (src/components/ui/Bottone.astro) ----------
    Variabili per variante: fondo, testo, bordo, velo, cerchio, freccia
-   e i loro valori in hover. */
+   e i loro valori in hover. Il cerchio contiene due frecce: .btn__freccia
+   esce in alto a destra e la copia .btn__freccia--copia rientra dal basso a sinistra. */
 .btn.btn--primario,
 .btn.btn--secondario,
 .btn.btn--chiaro,
@@ -42,7 +45,7 @@
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: color var(--t-2) var(--ease-std), border-color var(--t-2) var(--ease-std);
+  transition: transform var(--t-1) var(--ease-std);
 }
 
 @media (min-width: 640px) {
@@ -54,7 +57,16 @@
   }
 }
 
-/* Velo: entra da sinistra al passaggio del mouse. */
+/* Premuto: scala appena. */
+.btn.btn--primario:active,
+.btn.btn--secondario:active,
+.btn.btn--chiaro:active,
+.btn.btn--wa:active {
+  transform: scale(0.98);
+}
+
+/* Velo: entra da sinistra (origine a sinistra in hover) e si ritira verso destra
+   (origine a destra a riposo). Il cambio di origine è il trucco per l'uscita. */
 .btn.btn--primario::before,
 .btn.btn--secondario::before,
 .btn.btn--chiaro::before,
@@ -66,17 +78,19 @@
   border-radius: inherit;
   background: var(--btn-velo);
   transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform var(--t-3) var(--ease-expo);
+  transform-origin: right center;
+  transition: transform 500ms var(--ease-out);
 }
 
-/* Testo: sta sopra il velo. */
+/* Testo: sta sopra il velo. Cambia colore a metà corsa del velo (150ms di ritardo, 200ms di durata). */
 .btn__testo {
   position: relative;
   min-inline-size: 0;
+  color: var(--btn-testo);
+  transition: color 200ms var(--ease-std) 150ms;
 }
 
-/* Cerchio con la freccia. */
+/* Cerchio con le due frecce, sovrapposte nella stessa cella. */
 .btn__icona {
   position: relative;
   display: grid;
@@ -88,7 +102,17 @@
   background: var(--btn-cerchio);
   color: var(--btn-freccia);
   overflow: hidden;
-  transition: background-color var(--t-2) var(--ease-std), color var(--t-2) var(--ease-std);
+  transition: background-color 500ms var(--ease-out), color 500ms var(--ease-out);
+}
+
+.btn__icona .icona-freccia {
+  grid-area: 1 / 1;
+  transition: transform 500ms var(--ease-out);
+}
+
+/* A riposo la copia è fuori dal cerchio, in basso a sinistra. */
+.btn__icona .btn__freccia--copia {
+  transform: translate3d(-40px, 40px, 0);
 }
 
 /* Varianti */
@@ -146,55 +170,35 @@
   outline-color: var(--mattone);
 }
 
-/* Freccia: esce in alto a destra e rientra dal basso a sinistra. */
-@keyframes freccia-rientra {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  49% {
-    transform: translate3d(200%, -200%, 0);
-  }
-  50% {
-    transform: translate3d(-200%, 200%, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
+/* Stato attivo: hover (solo dove c'è hover) o focus da tastiera.
+   Velo che entra da sinistra, testo, cerchio e frecce. */
 @media (hover: hover) {
-  .btn.btn--primario:hover,
-  .btn.btn--secondario:hover,
-  .btn.btn--chiaro:hover,
-  .btn.btn--wa:hover {
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible)::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__testo {
     color: var(--btn-testo-hover);
   }
 
-  .btn.btn--primario:hover::before,
-  .btn.btn--secondario:hover::before,
-  .btn.btn--chiaro:hover::before,
-  .btn.btn--wa:hover::before {
-    transform: scaleX(1);
-  }
-
-  .btn.btn--primario:hover .btn__icona,
-  .btn.btn--secondario:hover .btn__icona,
-  .btn.btn--chiaro:hover .btn__icona,
-  .btn.btn--wa:hover .btn__icona {
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__icona {
     background: var(--btn-cerchio-hover);
     color: var(--btn-freccia-hover);
   }
 
-  .btn.btn--primario:hover .icona-freccia,
-  .btn.btn--secondario:hover .icona-freccia,
-  .btn.btn--chiaro:hover .icona-freccia,
-  .btn.btn--wa:hover .icona-freccia {
-    animation: freccia-rientra var(--t-3) var(--ease-expo);
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__freccia {
+    transform: translate3d(40px, -40px, 0);
+  }
+
+  .btn:is(.btn--primario, .btn--secondario, .btn--chiaro, .btn--wa):is(:hover, :focus-visible) .btn__freccia--copia {
+    transform: none;
   }
 }
 
 /* ---------- Link sottolineato (A10) ----------
-   Due linee: quella di riposo esce a destra, la nuova entra da sinistra. */
+   Due linee. A riposo la linea piena (::before). In hover la linea piena esce a destra
+   e quella nuova (::after) entra da sinistra con 120ms di ritardo. Il ritorno è simmetrico. */
 .link-sottolineato {
   position: relative;
   display: inline-block;
@@ -209,49 +213,66 @@
   inset-block-end: -2px;
   block-size: 1px;
   background: currentColor;
-  transform-origin: left center;
-  transition: transform var(--t-3) var(--ease-expo);
 }
 
+/* Riposo: la linea piena torna da sinistra con ritardo (quando si esce dall'hover). */
+.link-sottolineato::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+  transition: transform var(--t-3) var(--ease-expo) 120ms;
+}
+
+/* La linea che apparirà in hover sta fuori, a destra. */
 .link-sottolineato::after {
   transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--t-3) var(--ease-expo) 0ms;
 }
 
 @media (hover: hover) {
+  /* La linea piena esce a destra, subito. */
   .link-sottolineato:hover::before {
     transform: scaleX(0);
     transform-origin: right center;
+    transition-delay: 0ms;
   }
 
+  /* La nuova entra da sinistra, con 120ms di ritardo. */
   .link-sottolineato:hover::after {
     transform: scaleX(1);
+    transform-origin: left center;
+    transition-delay: 120ms;
   }
 }
 
 /* ---------- Link roll (A8) ----------
-   Due copie del testo: al passaggio del mouse la prima sale, la seconda entra.
+   Due copie del testo: al passaggio del mouse la prima sale del 100%, la seconda entra dal basso.
+   Il padding verticale (0,12em) tiene dentro le discendenti (g, p) nella maschera.
    Markup: <a class="link-roll"><span class="link-roll__testo" data-testo="Servizi">Servizi</span></a> */
 .link-roll {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
-  padding-block: 0.1em;
-  margin-block: -0.1em;
   text-decoration: none;
 }
 
 .link-roll__testo {
   position: relative;
   display: inline-block;
+  padding-block: 0.12em;
+  vertical-align: top;
   transition: transform var(--t-3) var(--ease-expo);
 }
 
 .link-roll__testo::after {
+  /* Fallback per i browser senza alt text CSS. */
   content: attr(data-testo);
+  /* Testo alternativo vuoto: la copia visiva non viene annunciata, il link resta letto una volta. */
+  content: attr(data-testo) / "";
   position: absolute;
   inset-inline-start: 0;
   inset-block-start: 100%;
-  padding-block: 0.1em;
+  padding-block: 0.12em;
 }
 
 @media (hover: hover) {
@@ -426,7 +447,8 @@
 }
 
 /* ---------- Fisarmonica (A14) (src/components/ElencoDomande.astro) ----------
-   details/summary con il "+" fatto di due linee: ruotano di 45° all'apertura. */
+   details/summary con il "+" fatto di due linee: ruotano di 45° all'apertura (300ms).
+   Il contenuto sale di 12px e sfuma in 500ms; l'altezza cambia subito. */
 .fisarmonica {
   border-block-start: 1px solid var(--linea);
 }
@@ -485,7 +507,7 @@
 }
 
 .fisarmonica details[open] .fisarmonica__corpo {
-  animation: sali-corto var(--t-3) var(--ease-out) both;
+  animation: sali-corto 500ms var(--ease-out) both;
 }
 
 /* ---------- Scheda: bordo da 1px, angoli vivi ---------- */

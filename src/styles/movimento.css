@@ -1,14 +1,16 @@
 /* ============================================================
-   MOVIMENTO: reveal [data-reveal], parole in maschera, keyframes comuni,
-   blocco completo per prefers-reduced-motion.
+   MOVIMENTO: reveal [data-reveal] (anche a gruppi sfalsati), parole in maschera,
+   cursore che segue, barra di avanzamento, transizioni tra pagine,
+   keyframes comuni, blocco completo per prefers-reduced-motion.
 
    Fallback senza JS (metodo scelto: classe "js" su <html>):
-   - lo script inline in MetaDocumento aggiunge class="js" a <html>;
+   - lo script inline di MetaDocumento aggiunge class="js" a <html>;
    - lo stato nascosto (opacity 0, parole sotto la maschera) vale solo
      con html.js: senza JS tutto è visibile e fermo;
    - html:not(.js) forza [data-reveal] visibile anche contro il CSS legacy.
-   Il JS (LayoutPagina) aggiunge la classe "visibile" quando l'elemento entra in vista.
-   Animazioni solo su transform e opacity.
+   Lo script inline di LayoutPagina aggiunge "visibile" ai reveal, imposta --d
+   nei gruppi data-reveal-gruppo e muove il cursore (classi cursore--visibile
+   e cursore--chiaro). Animazioni solo su transform e opacity.
    ============================================================ */
 
 /* ---------- Keyframes comuni ---------- */
@@ -54,16 +56,50 @@
   }
 }
 
+@keyframes avanzamento-scala {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes vt-esce {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -3vh, 0);
+  }
+}
+
+@keyframes vt-entra {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6vh, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 /* Ingresso con fade-up (A1 per etichetta e CTA). Il ritardo arriva da --d. */
 .entra {
   animation: sali var(--t-4) var(--ease-out) both;
   animation-delay: var(--d, 0ms);
 }
 
-/* ---------- Reveal allo scroll (A2) ---------- */
+/* ---------- Reveal allo scroll (A2) ----------
+   --d è il ritardo: lo imposta LayoutPagina nei contenitori data-reveal-gruppo. */
 .js [data-reveal] {
-  transition: opacity var(--t-4) var(--ease-out) var(--d, 0ms),
-    transform var(--t-4) var(--ease-out) var(--d, 0ms);
+  transition-property: opacity, transform;
+  transition-duration: var(--t-4);
+  transition-timing-function: var(--ease-out);
+  transition-delay: var(--d, 0ms);
 }
 
 .js [data-reveal]:not(.visibile) {
@@ -110,18 +146,149 @@ html:not(.js) [data-reveal] {
   animation-delay: calc(var(--i, 0) * var(--stagger-parola));
 }
 
-/* Allo scroll: nascoste solo con JS, salgono quando il titolo diventa visibile. */
+/* Allo scroll: nascoste solo con JS, salgono quando il titolo diventa visibile.
+   Il ritardo di ogni parola somma lo sfasamento della parola (--i) e quello del gruppo (--d). */
 .js .titolo-rivelato[data-reveal] .parola__in {
   transform: translate3d(0, 105%, 0);
-  transition: transform var(--t-5) var(--ease-out) calc(var(--i, 0) * var(--stagger-parola));
+  transition: transform var(--t-5) var(--ease-out)
+    calc(var(--i, 0) * var(--stagger-parola) + var(--d, 0ms));
 }
 
 .js .titolo-rivelato[data-reveal].visibile .parola__in {
   transform: none;
 }
 
+/* ---------- Cursore che segue (A13) ----------
+   Un solo elemento, in LayoutPagina. Il JS lo sposta con transform: translate3d()
+   (lerp 0,18 per frame) e lo mostra sopra [data-cursore]. Il cerchio è ::before:
+   scala da .3 a 1 con transform; l'elemento sfuma con opacity.
+   Il cursore nativo resta visibile: niente cursor: none. */
+.cursore {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 500;
+  display: grid;
+  place-items: center;
+  inline-size: 84px;
+  block-size: 84px;
+  color: var(--carta);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.cursore::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--inchiostro);
+  transform: scale(0.3);
+  transition: transform 400ms var(--ease-out);
+}
+
+.cursore__etichetta {
+  position: relative;
+  max-inline-size: 66px;
+  font: 500 var(--fs-cursore) / 1.2 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Sulle fasce scure (.fascia-scura, .fascia-grafite) il cerchio è carta con testo inchiostro. */
+.cursore--chiaro {
+  color: var(--inchiostro);
+}
+
+.cursore--chiaro::before {
+  background: var(--carta);
+}
+
+.cursore--visibile {
+  opacity: 1;
+}
+
+.cursore--visibile::before {
+  transform: scale(1);
+}
+
+/* Il JS toglie il cursore quando non serve; qui è anche nascosto per sicurezza. */
+@media (hover: none), (pointer: coarse) {
+  .cursore {
+    display: none;
+  }
+}
+
+/* ---------- Barra di avanzamento (A6) ----------
+   Senza animation-timeline la barra non compare. Con reduced motion resta nascosta. */
+.avanzamento {
+  display: none;
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 110;
+  inline-size: 100%;
+  block-size: 2px;
+  background: var(--mattone);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .avanzamento {
+      display: block;
+      animation: avanzamento-scala linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* ---------- Transizioni tra pagine (A15) ----------
+   View Transitions cross-document, solo CSS (navigation: auto).
+   La pagina esce in 350ms; quella nuova entra dopo 120ms in 600ms.
+   L'header (data-vt="intestazione") ha un nome proprio e resta fermo.
+   Il fondo è carta: niente flash bianchi o di colore diverso. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition {
+    background: var(--carta);
+  }
+
+  /* Niente mix-blend-mode: con plus-lighter le due immagini si sommerebbero e schiarirebbero. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    animation: vt-esce 350ms var(--ease-in-out) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-entra var(--t-3) var(--ease-out) 120ms both;
+  }
+
+  [data-vt="intestazione"] {
+    view-transition-name: intestazione;
+  }
+
+  ::view-transition-group(intestazione),
+  ::view-transition-old(intestazione),
+  ::view-transition-new(intestazione) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
 /* ---------- Movimento ridotto ----------
-   Contenuto visibile e fermo: niente animazioni, niente transizioni, niente reveal. */
+   Contenuto visibile e fermo: niente animazioni, transizioni, reveal, cursore, barra. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -135,5 +302,10 @@ html:not(.js) [data-reveal] {
   .parola__in {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .cursore,
+  .avanzamento {
+    display: none !important;
   }
 }

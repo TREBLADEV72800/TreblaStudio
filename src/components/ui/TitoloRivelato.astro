@@ -63,11 +63,14 @@ for (const p of pezzi) {
     }
   });
 }
-// Niente spazi a inizio e fine riga (restano quelli che separano le parole).
-for (const riga of righe) {
+// Niente spazi a inizio riga. A fine riga, prima del <br>, resta uno spazio reale:
+// così textContent e screen reader leggono le parole separate (non "quellocheserve").
+// Sull'ultima riga niente spazio finale.
+righe.forEach((riga, r) => {
   while (riga.length && riga[0]!.i === -1) riga.shift();
   while (riga.length && riga[riga.length - 1]!.i === -1) riga.pop();
-}
+  if (r < righe.length - 1) riga.push({ t: ' ', k: 'base', i: -1 });
+});
 ---
 
 <Tag
