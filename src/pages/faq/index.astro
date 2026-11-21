@@ -58,26 +58,34 @@ const gruppi = GRUPPI_FAQ.map((g) => ({ ...g, faqs: FAQS.filter((f) => f.gruppo 
 </LayoutPagina>
 
 <style>
-  /* Mobile: indice in linea sopra, gruppi sotto. Da 960px: indice sticky nelle colonne 1-4,
+  /* Mobile: indice verticale sopra, gruppi sotto. Da 960px: indice sticky nelle colonne 1-4,
      gruppi nelle colonne 5-12. L'indice sta dove prima c'era "24 domande". */
   .faq-corpo {
     display: grid;
     gap: var(--s-7);
   }
 
+  /* Indice: elenco verticale con filetti tra le voci, a ogni larghezza. */
   .faq-indice ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3) var(--s-6);
+    display: grid;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  .faq-indice li {
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .faq-indice li:first-child {
+    border-block-start: 1px solid var(--linea);
+  }
+
   .faq-indice a {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     min-block-size: 24px;
+    padding-block: var(--s-4);
     font: 600 var(--fs-ui) / 1.4 var(--font-ui);
     color: var(--inchiostro);
   }
@@ -108,24 +116,6 @@ const gruppi = GRUPPI_FAQ.map((g) => ({ ...g, faqs: FAQS.filter((f) => f.gruppo 
       grid-column: 1 / span 4;
       position: sticky;
       top: calc(var(--hh) + 32px);
-    }
-
-    .faq-indice ul {
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .faq-indice li {
-      border-block-end: 1px solid var(--linea);
-    }
-
-    .faq-indice li:first-child {
-      border-block-start: 1px solid var(--linea);
-    }
-
-    .faq-indice a {
-      display: flex;
-      padding-block: var(--s-4);
     }
 
     .faq-corpo__lista {

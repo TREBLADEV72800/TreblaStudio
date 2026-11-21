@@ -90,8 +90,9 @@
   padding-block-start: 0;
 }
 
-/* Senza quel padding, il margine alto del primo elemento uscirebbe dalla sezione: lo si azzera. */
-.sezione:not(.fascia-scura):not(.fascia-grafite) + .sezione:not(.fascia-scura):not(.fascia-grafite) :first-child {
+/* Senza quel padding, il margine alto del primo elemento uscirebbe dalla sezione: lo si azzera.
+   Esclusi .parola: è la maschera delle parole del titolo, con il margine negativo di -0.1em che la allinea. */
+.sezione:not(.fascia-scura):not(.fascia-grafite) + .sezione:not(.fascia-scura):not(.fascia-grafite) :first-child:not(.parola) {
   margin-block-start: 0;
 }
 

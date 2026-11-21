@@ -68,6 +68,7 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
         <TitoloRivelato tag="h2" id="t-grafiche" testo="Grafiche" taglia="h2-s" classe="sv-blocco__nome" />
       </div>
       <div class="sv-blocco__corpo">
+        <p class="sv-blocco__quando">Solo se ti serve</p>
         <p class="sv-blocco__testo">La stessa faccia ovunque: <strong>sito, vetrina, biglietti da visita, menu cartaceo</strong>. Così chi ti ha visto online ti riconosce quando passa davanti.</p>
         <div class="sv-blocco__liste">
           <div>
@@ -95,6 +96,7 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
         <TitoloRivelato tag="h2" id="t-social" testo="Social media" taglia="h2-s" classe="sv-blocco__nome" />
       </div>
       <div class="sv-blocco__corpo">
+        <p class="sv-blocco__quando">Solo se ti serve</p>
         <p class="sv-blocco__testo">Ha senso <strong>dopo</strong> avere un sito a posto: i social portano persone, il sito le accoglie. Impostiamo i profili e concordiamo contenuti e frequenza prima di iniziare.</p>
         <div class="sv-blocco__liste">
           <div>
@@ -184,6 +186,13 @@ import { BASE_PRICES, DESIGN_OPTIONS } from '../../data/prezzi';
 
   .sv-blocco__testo strong {
     font-weight: 600;
+  }
+
+  /* Condizione del servizio: testo semplice in apertura, dove sta la riga del prezzo. */
+  .sv-blocco__quando {
+    margin: 0 0 var(--s-4);
+    font: 600 var(--fs-ui) / 1.4 var(--font-ui);
+    color: var(--morbido);
   }
 
   .sv-blocco__liste {
