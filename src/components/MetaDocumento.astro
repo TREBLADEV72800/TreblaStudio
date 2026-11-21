@@ -93,7 +93,11 @@ const extraLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 const FONT_RANGE =
   'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
 // Una sola famiglia: Archivo variabile, con gli assi wght (100-900) e wdth (62-125), così font-stretch funziona.
-const fontCss = `@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('${archivoVariabile}') format('woff2');unicode-range:${FONT_RANGE}}`;
+// Fallback metrico per il display (h1 della hero): Arial Bold locale, scalato per avere le stesse
+// larghezze e altezze di riga di Archivo 64% 800. Così, mentre Archivo arriva, le righe non cambiano
+// e il titolo non si sposta (CLS). Calibrato su Archivo 800 (asc 0,88, desc 0,21): size-adjust 71%,
+// overrides = metriche / 0,71. Se nessuno dei nomi locali esiste, il browser usa il passo successivo.
+const fontCss = `@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url('${archivoVariabile}') format('woff2');unicode-range:${FONT_RANGE}}@font-face{font-family:'Archivo Fallback';font-style:normal;font-weight:800;src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('LiberationSans-Bold');size-adjust:71%;ascent-override:124%;descent-override:30%;line-gap-override:0%}@font-face{font-family:'Archivo Fallback Testo';font-style:normal;font-weight:100 900;src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('LiberationSans');size-adjust:98%;ascent-override:89.8%;descent-override:21.4%;line-gap-override:0%}`;
 ---
 
 <meta charset="UTF-8" />

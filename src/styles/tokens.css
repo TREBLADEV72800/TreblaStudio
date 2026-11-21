@@ -21,9 +21,9 @@
   --focus: var(--mattone-testo); /* anello di focus; le fasce scure lo ridefiniscono */
 
   /* ---------- Font: una sola famiglia, Archivo variabile ---------- */
-  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;  /* display: stretch 64%, 800, maiuscolo */
-  --font-testo: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* interfaccia: stretch 100%, 600 */
+  --font-display: "Archivo", "Archivo Fallback", sans-serif;  /* display: stretch 64%, 800, maiuscolo; il fallback è metrico (vedi MetaDocumento) */
+  --font-testo: "Archivo", "Archivo Fallback Testo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-ui: "Archivo", "Archivo Fallback Testo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* interfaccia: stretch 100%, 600 */
 
   /* ---------- Scala tipografica ---------- */
   --fs-hero: clamp(60px, min(12vw, 17svh), 196px);   /* display, lh .88 */
