@@ -1,0 +1,178 @@
+---
+// Testata comune delle pagine interne: percorso (o etichetta), H1 display che si rivela,
+// lead e contenuti extra (bottoni, chip).
+// titolo: testo dell'H1. Il "|" forza un a capo (come in TitoloRivelato).
+// tenue: sottostringa del titolo nel secondo tono (morbido). Niente corsivo.
+// percorso: voci della riga di percorso. L'ultima è la pagina corrente: senza link, aria-current="page".
+// etichetta: alternativa al percorso, mono con puntino mattone. Se ci sono entrambi vince il percorso.
+// taglia: dimensione dell'H1 (h2 di default, oppure hero).
+// Slot "lead": paragrafo introduttivo (HTML ammesso). Slot default: contenuto sotto il lead.
+import TitoloRivelato from './ui/TitoloRivelato.astro';
+
+interface Voce {
+  testo: string;
+  href?: string | undefined;
+}
+
+interface Props {
+  titolo: string;
+  tenue?: string | undefined;
+  percorso?: Voce[] | undefined;
+  etichetta?: string | undefined;
+  id?: string | undefined;
+  taglia?: 'h2' | 'hero' | undefined;
+}
+
+const { titolo, tenue, percorso, etichetta, id } = Astro.props;
+const taglia = Astro.props.taglia ?? 'h2';
+const haPercorso = !!percorso && percorso.length > 0;
+const ultima = haPercorso ? percorso.length - 1 : -1;
+const haLead = Astro.slots.has('lead');
+const haExtra = Astro.slots.has('default');
+---
+
+<header class="tp contenitore">
+  {
+    haPercorso ? (
+      <nav class="tp__percorso" aria-label="Percorso">
+        <ol>
+          {percorso!.map((voce, i) => {
+            const corrente = i === ultima;
+            return (
+              <li>
+                {!corrente && voce.href ? (
+                  <a href={voce.href} class="link-sottolineato">{voce.testo}</a>
+                ) : (
+                  <span aria-current={corrente ? 'page' : undefined}>{voce.testo}</span>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    ) : (
+      etichetta && (
+        <p class="etichetta tp__riga">
+          <span class="puntino puntino--mattone" aria-hidden="true"></span>
+          {etichetta}
+        </p>
+      )
+    )
+  }
+
+  <TitoloRivelato
+    tag="h1"
+    immediato
+    testo={titolo}
+    tenue={tenue}
+    taglia={taglia}
+    id={id}
+    classe={taglia === 'h2' ? 'tp__titolo tp__titolo--h2' : 'tp__titolo'}
+  />
+
+  {
+    haLead && (
+      <div class="tp__lead entra" style="--d:300ms">
+        <slot name="lead" />
+      </div>
+    )
+  }
+
+  {
+    haExtra && (
+      <div class="tp__extra entra" style="--d:450ms">
+        <slot />
+      </div>
+    )
+  }
+</header>
+
+<style>
+  /* Testata pagina interna. Mobile-first: tutto in colonna; da 960px il lead sta
+     nelle colonne 7-12, allineato a destra, sotto il titolo.
+     Il titolo è TitoloRivelato: la sua radice riceve tp__titolo, quindi i suoi stili
+     passano da :global (come in TestataSezione). */
+  .tp {
+    padding-block-start: clamp(48px, 8vw, 128px);
+    padding-block-end: clamp(40px, 6vw, 96px);
+    border-block-end: 1px solid var(--linea);
+  }
+
+  .tp__percorso,
+  .tp__riga {
+    margin: 0 0 clamp(24px, 4vw, 56px);
+  }
+
+  .tp__riga {
+    display: flex;
+  }
+
+  .tp__percorso {
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .tp__percorso ol {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Le barre tra le voci stanno in CSS, quindi non vengono lette dagli screen reader. */
+  .tp__percorso li + li::before {
+    content: "/";
+    padding-inline: 10px;
+  }
+
+  .tp__percorso a {
+    color: var(--inchiostro);
+  }
+
+  .tp :global(.tp__titolo) {
+    margin: 0;
+    inline-size: 100%;
+    max-inline-size: none;
+  }
+
+  .tp :global(.tp__titolo--h2) {
+    max-inline-size: 14ch;
+  }
+
+  .tp__lead {
+    max-inline-size: 52ch;
+    margin-block-start: clamp(24px, 3vw, 40px);
+    font: 400 var(--fs-lead) / 1.45 var(--font-testo);
+    color: var(--morbido);
+  }
+
+  .tp__extra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    margin-block-start: var(--s-6);
+  }
+
+  @media (min-width: 960px) {
+    .tp {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+    }
+
+    .tp__percorso,
+    .tp__riga,
+    .tp :global(.tp__titolo) {
+      grid-column: 1 / -1;
+    }
+
+    .tp__lead,
+    .tp__extra {
+      grid-column: 7 / -1;
+      justify-self: end;
+    }
+  }
+</style>

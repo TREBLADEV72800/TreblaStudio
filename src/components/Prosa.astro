@@ -1,0 +1,195 @@
+---
+// Contenitore per i testi lunghi delle pagine interne (servizi in dettaglio, accessibilità,
+// note legali, metodo). Il contenuto arriva dallo slot: per questo gli elementi annidati
+// si stilano con :global().
+// classe: classe extra per il contenitore.
+// larga: misura da 72ch invece di 62ch.
+interface Props {
+  classe?: string | undefined;
+  larga?: boolean | undefined;
+}
+
+const { classe, larga = false } = Astro.props;
+---
+
+<div class:list={['prosa', larga && 'prosa--larga', classe]}>
+  <slot />
+</div>
+
+<style>
+  /* ---------- Base ---------- */
+  .prosa {
+    font: 400 var(--fs-body) / 1.6 var(--font-testo);
+    color: var(--inchiostro);
+    max-inline-size: 62ch;
+    text-align: start;
+  }
+
+  .prosa--larga {
+    max-inline-size: 72ch;
+  }
+
+  .prosa :global(p) {
+    margin: 0;
+  }
+
+  .prosa :global(p) + :global(p) {
+    margin-block-start: 1em;
+  }
+
+  /* Il primo elemento non porta margine superiore: lo gestisce il contenitore della pagina. */
+  .prosa > :global(:first-child) {
+    margin-block-start: 0;
+  }
+
+  /* ---------- Titoli ---------- */
+  /* Stile di .display (Archivo 64% larghezza, 800, maiuscolo), applicato qui perché
+     i titoli arrivano dallo slot senza classe. */
+  .prosa :global(h2) {
+    max-inline-size: none;
+    margin-block: clamp(48px, 6vw, 96px) 24px;
+    font-family: var(--font-testo);
+    font-stretch: 64%;
+    font-weight: 800;
+    font-size: var(--fs-h2-s);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--inchiostro);
+  }
+
+  .prosa :global(h3) {
+    margin-block: 40px 12px;
+    font-family: var(--font-testo);
+    font-weight: 600;
+    font-size: var(--fs-h3);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--inchiostro);
+  }
+
+  /* ---------- Elenchi ---------- */
+  .prosa :global(ul),
+  .prosa :global(ol) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .prosa :global(ol) {
+    counter-reset: voce;
+  }
+
+  .prosa :global(li) {
+    position: relative;
+    padding-block: 10px;
+    padding-inline-start: 20px;
+  }
+
+  .prosa :global(li) + :global(li) {
+    border-block-start: 1px solid var(--linea);
+  }
+
+  /* Trattino mattone prima del testo (elenchi puntati). */
+  .prosa :global(ul) > :global(li)::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(10px + 0.75em);
+    inline-size: 10px;
+    block-size: 2px;
+    background: var(--mattone);
+  }
+
+  /* Contatore mono in mattone di testo (elenchi numerati). */
+  .prosa :global(ol) > :global(li) {
+    counter-increment: voce;
+  }
+
+  .prosa :global(ol) > :global(li)::before {
+    content: counter(voce, decimal-leading-zero);
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 10px;
+    font: 500 var(--fs-label) / 1.6 var(--font-mono);
+    letter-spacing: 0.08em;
+    color: var(--mattone-testo);
+  }
+
+  /* ---------- Link ---------- */
+  .prosa :global(a) {
+    color: var(--inchiostro);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: color var(--t-2) var(--ease-std);
+  }
+
+  @media (hover: hover) {
+    .prosa :global(a:hover) {
+      color: var(--mattone-testo);
+    }
+  }
+
+  /* ---------- Enfasi ---------- */
+  .prosa :global(strong) {
+    font-weight: 600;
+  }
+
+  /* Niente corsivo: l'enfasi con em diventa peso e tono. */
+  .prosa :global(em) {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--morbido);
+  }
+
+  /* ---------- Separatori ---------- */
+  .prosa :global(hr) {
+    margin-block: 48px;
+    border: 0;
+    border-block-start: 1px solid var(--linea);
+    block-size: 0;
+    background: none;
+  }
+
+  /* ---------- Tabelle ---------- */
+  .prosa :global(table) {
+    inline-size: 100%;
+    margin-block: 32px;
+    border-collapse: collapse;
+  }
+
+  .prosa :global(th),
+  .prosa :global(td) {
+    padding-block: 12px;
+    padding-inline-end: 16px;
+    border-block-end: 1px solid var(--linea);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .prosa :global(th) {
+    font: 500 var(--fs-small) / 1.4 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morbido);
+  }
+
+  .prosa :global(td) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Numeri: classe num su th o td, allineati a destra. */
+  .prosa :global(.num) {
+    text-align: end;
+  }
+
+  /* Sotto 640px la tabella scorre dentro il proprio blocco, non nella pagina. */
+  @media (max-width: 639px) {
+    .prosa :global(table) {
+      display: block;
+      max-inline-size: 100%;
+      overflow-x: auto;
+    }
+  }
+</style>
