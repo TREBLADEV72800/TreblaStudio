@@ -183,9 +183,18 @@ const designVisibili = () =>
   );
 const trova = (lista: Voce[], n: string) => lista.find((x) => x.name === n);
 const prezzoOpzione = (lista: Voce[], n: string) => trova(lista, n)?.price ?? 0;
-const conPrezzoVoci = (lista: Voce[], nomi: string[]) => nomi
-  .map((n) => `${n} (${euro(prezzoOpzione(lista, n))})`)
-  .join(', ');
+// Formato prezzo unico: "nome: +20€" per le voci a pagamento, "nome: incluso" per quelle già nel prezzo.
+const conPrezzoLista = (lista: Voce[], nomi: string[]) => nomi
+  .map((n) => `${n}: ${euro(prezzoOpzione(lista, n))}`);
+const conPrezzoVoci = (lista: Voce[], nomi: string[]) => conPrezzoLista(lista, nomi).join(', ');
+// Foto: la descrizione tra parentesi non si ripete nel prezzo: "Servono le foto: +20€".
+const fotoEtichetta = (n: string) => {
+  const p = C.photoPrices[n] ?? 0;
+  const base = n.replace(/\s*\([^)]*\)\s*$/, '');
+  return p ? `${base}: ${euro(p)}` : base;
+};
+// Una sola frase per la privacy: la usano il bottone bloccato e l'errore.
+const MSG_PRIVACY = 'Accetta i termini per inviare la richiesta.';
 
 // ---------- Flusso, stima, widgets ----------
 
@@ -264,7 +273,8 @@ interface OpzioneSpec {
   valore: string;
   titolo: string;
   nota?: string | undefined;
-  prezzo?: number | undefined;
+  /** Già formattato: "+20€", "200€" o "incluso". Assente = nessuna colonna prezzo. */
+  prezzo?: string | undefined;
   checked?: boolean | undefined;
 }
 
@@ -276,7 +286,7 @@ function opzione({ tipo, nome, valore, titolo, nota, prezzo, checked }: OpzioneS
   inp.value = valore;
   inp.checked = !!checked;
   inp.className = 'sr-solo';
-  inp.setAttribute('aria-label', titolo + (prezzo ? `, ${euro(prezzo)}` : ''));
+  inp.setAttribute('aria-label', titolo + (prezzo ? `, ${prezzo}` : ''));
   const segno = el('span', 'segno', tipo === 'checkbox' ? (checked ? '✓' : '+') : '○');
   segno.setAttribute('aria-hidden', 'true');
   const txt = el('span', 'opzione-testo', titolo);
@@ -284,7 +294,7 @@ function opzione({ tipo, nome, valore, titolo, nota, prezzo, checked }: OpzioneS
   lab.appendChild(inp);
   lab.appendChild(segno);
   lab.appendChild(txt);
-  if (prezzo) lab.appendChild(el('span', 'opzione-prezzo', euro(prezzo)));
+  if (prezzo) lab.appendChild(el('span', prezzo === 'incluso' ? 'opzione-prezzo opzione-prezzo--incluso' : 'opzione-prezzo', prezzo));
   inp.addEventListener('change', () => {
     segno.textContent = tipo === 'checkbox' ? (inp.checked ? '✓' : '+') : '●';
     sincronizza(nome, tipo);
@@ -330,7 +340,7 @@ function listaOpzioni(contenitore: HTMLElement, { nome, voci, selezionati, conPr
     li.appendChild(opzione({
       tipo: 'checkbox', nome, valore: nomeVoce, titolo: nomeVoce,
       nota: typeof v === 'string' ? undefined : v.hint,
-      prezzo: conPrezzo && typeof v !== 'string' ? v.price : 0,
+      prezzo: conPrezzo && typeof v !== 'string' ? euro(v.price) : undefined,
       checked: selezionati.includes(nomeVoce),
     }));
     ul.appendChild(li);
@@ -338,10 +348,9 @@ function listaOpzioni(contenitore: HTMLElement, { nome, voci, selezionati, conPr
   contenitore.appendChild(ul);
 }
 
-function titoloGruppo(testo: string, primo: boolean, grande?: boolean) {
-  const h = el('h2', '', testo);
-  h.style.cssText = `font:600 ${grande ? 'calc(1.5rem - 2px)' : '1.2rem'} var(--font-testo);margin:${primo ? '4px' : grande ? '16px' : '28px'} 0 0`;
-  corpo.appendChild(h);
+/** Titolo di gruppo: lo stile sta in configuratore.css, niente stili in linea. */
+function titoloGruppo(testo: string) {
+  corpo.appendChild(el('h2', '', testo));
 }
 
 function sincronizza(nome: string, tipo: 'radio' | 'checkbox') {
@@ -485,7 +494,7 @@ function renderizza() {
   }
 
   if (id === 'altro-descrivi') {
-    domanda.textContent = 'Descrivi la tua azienda';
+    domanda.textContent = 'Descrivi la tua attività';
     sotto.textContent = 'Due righe bastano: cosa fai e dove.';
     const inp = document.createElement('input');
     inp.className = 'wizard-campo';
@@ -494,7 +503,7 @@ function renderizza() {
     inp.maxLength = 80;
     inp.autocomplete = 'off';
     inp.placeholder = 'Es. venditori ambulanti, associazione...';
-    inp.setAttribute('aria-label', 'Descrivi la tua azienda');
+    inp.setAttribute('aria-label', 'Descrivi la tua attività');
     inp.addEventListener('input', () => { S.tipoAltro = inp.value.slice(0, 80); nascondiErrore(); });
     inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); vaiAvanti(); } });
     corpo.appendChild(inp);
@@ -503,7 +512,10 @@ function renderizza() {
 
   if (id === 'altro-invia') {
     domanda.textContent = 'Cosa ti serve?';
-    sotto.textContent = 'Scrivi il messaggio e invialo su WhatsApp. Ti rispondiamo noi.';
+    const daComputer = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
+    sotto.textContent = daComputer
+      ? 'Scrivi il messaggio e invialo via email. Ti rispondiamo noi.'
+      : 'Scrivi il messaggio e invialo su WhatsApp. Ti rispondiamo noi.';
     const area = document.createElement('textarea');
     area.className = 'wizard-campo';
     area.id = 'f-altro-msg';
@@ -512,7 +524,6 @@ function renderizza() {
     area.value = S.altroMsg;
     area.placeholder = 'Es. vorrei un sito semplice per farmi trovare...';
     area.setAttribute('aria-label', 'Il tuo messaggio');
-    const daComputer = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
     const wa = el('a', daComputer ? 'btn btn-mattone' : 'btn btn-wa', daComputer ? 'Invia via email' : 'Invia su WhatsApp');
     wa.id = 'w-altro-invia';
     if (!daComputer) {
@@ -534,10 +545,20 @@ function renderizza() {
       wa.href = daComputer
         ? `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo)
         : `https://wa.me/${waNum()}?text=` + encodeURIComponent(testo);
+      // Senza privacy il bottone resta bloccato e mostra la stessa frase dell'errore.
+      wa.setAttribute('aria-disabled', String(!S.privacy));
+      wa.textContent = S.privacy ? (daComputer ? 'Invia via email' : 'Invia su WhatsApp') : MSG_PRIVACY;
     };
     area.addEventListener('input', () => { S.altroMsg = area.value.slice(0, 300); aggiornaWa(); nascondiErrore(); });
     corpo.appendChild(area);
+    corpo.appendChild(casellaPrivacy());
     corpo.appendChild(wa);
+    document.getElementById('f-privacy')?.addEventListener('change', aggiornaWa);
+    wa.addEventListener('click', (e) => {
+      if (S.privacy) return;
+      e.preventDefault();
+      errorePrivacy();
+    });
     aggiornaWa();
     setTimeout(() => area.focus({ preventScroll: true }), 60);
   }
@@ -567,9 +588,9 @@ function renderizza() {
     fs.appendChild(el('legend', 'sr-solo', 'Struttura del sito'));
     const ul = el('ul', 'wizard-opzioni');
     [
-      { v: 'singola', t: 'Pagina singola', n: 'Tutto l’essenziale in una pagina', p: C.base.singola },
-      { v: 'multi', t: 'Sito a più pagine', n: 'Storia, servizi, galleria, contatti', p: C.base.multi },
-      { v: 'offerta', t: 'Offerta Tutto incluso', n: `Sito completo, logo e ${C.offerta.revisioni} modifiche · ${C.offerta.prezzo}€. Grafiche e social restano a parte.`, p: 0 },
+      { v: 'singola', t: 'Pagina singola', n: 'Tutto l’essenziale in una pagina', p: `${C.base.singola}€` },
+      { v: 'multi', t: 'Sito a più pagine', n: 'Storia, servizi, galleria, contatti', p: `${C.base.multi}€` },
+      { v: 'offerta', t: 'Offerta Tutto incluso', n: `Sito completo, logo e ${C.offerta.revisioni} modifiche. Grafiche e social restano a parte.`, p: `${C.offerta.prezzo}€` },
     ].forEach((o) => {
       const li = document.createElement('li');
       li.appendChild(opzione({ tipo: 'radio', nome: 'struttura', valore: o.v, titolo: o.t, nota: o.n, prezzo: o.p, checked: S.struttura === o.v }));
@@ -580,15 +601,15 @@ function renderizza() {
   }
 
   if (id === 'funzioni') {
-    domanda.textContent = altro() ? 'Funzioni consigliate:' : `Funzioni per ${S.tipo}:`;
-    sotto.textContent = 'Sono funzioni incluse nel prezzo del sito. Selezionale per descrivere cosa ti serve.';
+    domanda.textContent = altro() ? 'Funzioni consigliate' : `Funzioni per ${S.tipo}`;
+    sotto.textContent = 'Sono incluse nel prezzo. Seleziona quelle che ti servono.';
     listaOpzioni(corpo, { nome: 'funzioni', voci: funzioniPerTipo(), selezionati: S.funzioni, conPrezzo: true });
   }
 
   if (id === 'funzioni-extra') {
     const tutte = extraGenerali();
     domanda.textContent = 'Funzioni extra per il sito?';
-    sotto.textContent = 'Sono incluse nel prezzo del sito. Selezionale per descrivere cosa ti serve.';
+    sotto.textContent = 'Sono incluse nel prezzo. Seleziona quelle che ti servono.';
     listaOpzioni(corpo, { nome: 'funzioni', voci: tutte, selezionati: S.funzioni, conPrezzo: true });
   }
 
@@ -611,7 +632,7 @@ function renderizza() {
         : nomeVoce === 'Servono le foto (le scattate voi)'
           ? 'Foto realizzate da Trebla ad Asti.'
           : undefined;
-      li.appendChild(opzione({ tipo: 'radio', nome: 'foto', valore: nomeVoce, titolo: nomeVoce, nota, prezzo, checked: S.foto === nomeVoce }));
+      li.appendChild(opzione({ tipo: 'radio', nome: 'foto', valore: nomeVoce, titolo: nomeVoce, nota, prezzo: prezzo ? euro(prezzo) : undefined, checked: S.foto === nomeVoce }));
       ul.appendChild(li);
     });
     corpo.appendChild(ul);
@@ -642,9 +663,9 @@ function renderizza() {
       riga.appendChild(b);
     });
     corpo.appendChild(riga);
-    titoloGruppo(`Contenuti${S.tipo && !altro() ? ` · ${S.tipo}` : ''}`, false);
+    titoloGruppo(`Contenuti${S.tipo && !altro() ? ` per ${S.tipo}` : ''}`);
     listaOpzioni(corpo, { nome: 'socialExtra', voci: socialContenuti(), selezionati: S.socialExtra, conPrezzo: true });
-    titoloGruppo(`Video · ${C.videoPrice}€ ciascuno`, false);
+    titoloGruppo(`Video: ${C.videoPrice}€ ciascuno`);
     const ulQ = el('ul', 'wizard-opzioni');
     const liQ = document.createElement('li');
     const qta = el('div', 'video-qta');
@@ -659,7 +680,7 @@ function renderizza() {
     piu.textContent = '+';
     piu.setAttribute('aria-label', 'Un video in più');
     const aggiornaQta = () => {
-      num.textContent = S.videoQty === 0 ? '0' : (S.videoQty === 1 ? `1 video · ${C.videoPrice}€` : `${S.videoQty} video · ${S.videoQty * C.videoPrice}€`);
+      num.textContent = S.videoQty === 0 ? '0' : (S.videoQty === 1 ? `1 video: ${C.videoPrice}€` : `${S.videoQty} video: ${S.videoQty * C.videoPrice}€`);
       meno.disabled = S.videoQty <= 0;
       piu.disabled = S.videoQty >= 30;
     };
@@ -684,9 +705,9 @@ function renderizza() {
 
   if (id === 'obiettivi-tempi') {
     domanda.textContent = 'Cosa vuoi ottenere?';
-    sotto.style.display = 'none';
+    sotto.textContent = 'Facoltativo: puoi saltare questo passo.';
     listaOpzioni(corpo, { nome: 'obiettivi', voci: C.goals, selezionati: S.obiettivi, conPrezzo: false });
-    titoloGruppo('Quando vorresti iniziare?', false, true);
+    titoloGruppo('Quando vorresti iniziare?');
     const ul2 = el('ul', 'wizard-opzioni');
     ul2.setAttribute('role', 'group');
     ul2.setAttribute('aria-label', 'Tempi desiderati');
@@ -711,87 +732,96 @@ function renderizza() {
       dl.appendChild(d);
     };
     const nomiServizi = S.servizi.map((s) => SERVIZI_INFO[s][0]).join(' + ');
-    riga('Attività', `${S.nome} · ${tipoLabel()}`);
+    riga('Attività', `${S.nome}, ${tipoLabel()}`);
     riga('Servizi', nomiServizi);
     if (ha('sito')) {
       if (inOfferta()) {
-        riga('Sito', `${C.offerta.nome} · ${C.offerta.prezzo}€`);
+        riga('Sito', `${C.offerta.nome}: ${C.offerta.prezzo}€`);
         riga('Include', 'Funzioni del sito, pagine concordate, foto e logo. Grafiche e social selezionati restano extra.', true);
         riga('Foto', 'Le scattiamo noi ad Asti');
         riga('Logo', 'Nuovo o rifacimento');
         riga('Revisioni', `${C.offerta.revisioni} modifiche gratuite`);
       } else {
-        riga('Sito', S.struttura === 'multi' ? `Più pagine · ${C.base.multi}€` : `Pagina singola · ${C.base.singola}€`);
-        if (S.funzioni.length) riga('Funzioni', conPrezzoVoci([...funzioniPerTipo(), ...extraGenerali()], ordina(S.funzioni)), true);
+        riga('Sito', S.struttura === 'multi' ? `Più pagine: ${C.base.multi}€` : `Pagina singola: ${C.base.singola}€`);
+        if (S.funzioni.length) riga('Funzioni', conPrezzoLista([...funzioniPerTipo(), ...extraGenerali()], ordina(S.funzioni)).join('\n'), true);
         if (S.pagine.length) riga('Pagine', ordina(S.pagine).join(', '), true);
-        if (S.foto) riga('Foto', `${S.foto} (${euro(C.photoPrices[S.foto] ?? 0)})`);
+        if (S.foto) riga('Foto', fotoEtichetta(S.foto));
       }
     }
     if (ha('grafiche')) {
       const scelte = S.graficheExtra.filter((n) => designVisibili().has(n));
       const vociGrafiche = [...designPerTipo(), ...designGenerici()];
-      riga('Grafiche', scelte.length ? conPrezzoVoci(vociGrafiche, scelte) : 'Da decidere insieme');
+      riga('Grafiche', scelte.length ? conPrezzoLista(vociGrafiche, scelte).join('\n') : 'Da decidere insieme');
     }
     if (ha('social')) {
-      const vociSocial = [S.canali.length ? `Canali: ${S.canali.join(', ')} (inclusi)` : '', S.socialExtra.length ? conPrezzoVoci(socialContenuti(), S.socialExtra) : ''].filter(Boolean).join(' · ');
+      const vociSocial = [S.canali.length ? `Canali: ${S.canali.join(', ')} (inclusi)` : '', S.socialExtra.length ? conPrezzoVoci(socialContenuti(), S.socialExtra) : ''].filter(Boolean).join('; ');
       riga('Social media', vociSocial || 'Da decidere insieme');
-      if (S.videoQty) riga('Video', `${S.videoQty} video · ${S.videoQty * C.videoPrice}€`);
+      if (S.videoQty) riga('Video', `${S.videoQty} video: ${S.videoQty * C.videoPrice}€`);
     }
     if (S.obiettivi.length) riga('Obiettivi', S.obiettivi.join(', '));
     riga('Tempi', S.tempi);
+    // Il totale sta in cima, dove si legge per primo; l'elenco dei dati sotto. Il passo successivo lo ripete con le azioni.
+    const totale = el('div', 'wizard-totale-finale');
+    totale.appendChild(el('p', 'k', 'Stima indicativa'));
+    totale.appendChild(el('p', 'v', `${stima()}€`));
+    corpo.appendChild(totale);
     corpo.appendChild(dl);
   }
 
   if (id === 'invia') {
-    domanda.textContent = 'Ecco la tua stima. Invia';
-    sotto.textContent = 'Stima da concordare insieme prima di iniziare. Inviala su WhatsApp o email. Senza impegno.';
+    domanda.textContent = 'Ecco la tua stima.';
+    sotto.textContent = 'Inviala su WhatsApp o email. Senza impegno.';
     const box = el('div', 'wizard-totale-finale');
     box.appendChild(el('p', 'k', 'Stima indicativa'));
-    const cifra = el('p', 'v', `€ ${stima()}`);
+    const cifra = el('p', 'v', `${stima()}€`);
     cifra.setAttribute('aria-live', 'polite');
     box.appendChild(cifra);
     box.appendChild(el('p', 'd', 'Prezzo concordato insieme prima di iniziare. Il sito resta tuo, nessun canone obbligatorio.'));
     if (S.struttura === 'offerta') box.appendChild(el('p', 'd', `Offerta Tutto incluso: ${C.offerta.revisioni} modifiche gratuite e logo (nuovo o rifacimento) compresi.`));
     box.appendChild(el('p', 'd', `Anticipo di ${ANTICIPO}€ già compreso nella stima: lo versi per iniziare, il resto alla consegna o in ${RATE_SALDO} rate.`));
+    corpo.appendChild(box);
+
+    // La privacy sta sopra i bottoni: si accetta prima di inviare.
+    corpo.appendChild(casellaPrivacy());
+
+    const azioni = el('div', 'wizard-azioni');
     const invia = el('a', 'btn btn-wa', 'Invia su WhatsApp');
     invia.setAttribute('data-track', 'preventivo-invia');
     invia.id = 'w-invia';
     invia.target = '_blank';
     invia.rel = 'noopener noreferrer';
-    // Senza privacy WhatsApp si comporta come l'email: niente navigazione, stesso errore.
-    // Con privacy accettata href e messaggio restano quelli di aggiornaInvia().
+    // Senza privacy o con passi mancanti il link non parte: si mostra cosa completare.
     invia.addEventListener('click', (e) => {
-      if (S.privacy) return;
-      e.preventDefault();
-      mostraErrore('Accetta i termini e le condizioni per inviare la richiesta.');
+      if (!S.privacy) { e.preventDefault(); errorePrivacy(); return; }
+      const manc = mancantiRiepilogo();
+      if (manc.length) { e.preventDefault(); portaAlMancante(manc); }
     });
-    box.appendChild(invia);
-    const inviaMail = el('a', 'btn btn-fantasma', isPC ? 'Copia email' : 'Invia via email');
+    azioni.appendChild(invia);
+
+    const inviaMail = el('a', 'btn btn-fantasma', isPC ? 'Copia il messaggio' : 'Invia via email');
     inviaMail.id = 'w-invia-mail';
     inviaMail.setAttribute('data-track', 'preventivo-invia-email');
+    inviaMail.setAttribute('aria-live', 'polite');
     inviaMail.addEventListener('click', (e) => {
       e.preventDefault();
+      if (!S.privacy) { errorePrivacy(); return; }
       const manc = mancantiRiepilogo();
-      if (!S.privacy || manc.length) {
-        mostraErrore(!S.privacy ? 'Accetta i termini e le condizioni per inviare la richiesta.' : `Per inviare manca ancora: ${manc.join(', ')}. Torna indietro e completa.`);
-        return;
-      }
+      if (manc.length) { portaAlMancante(manc); return; }
       const testo = messaggio().replace(/\*/g, '');
       if (isPC) {
-        // Da PC spesso manca un client email: copiamo il messaggio e mostriamo a chi inviarlo
-        const fatto = () => {
-          inviaMail.textContent = 'Copiato! Scrivici a: ' + mailAddr();
-          setTimeout(aggiornaInvia, 3000);
-        };
+        // Da PC spesso manca un client email: copiamo il messaggio e diciamo a chi incollarlo.
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(testo).then(fatto).catch(fatto);
+          navigator.clipboard.writeText(testo).then(
+            () => { inviaMail.textContent = `Copiato. Incollalo in un'email a ${mailAddr()}.`; },
+            () => { inviaMail.textContent = `Copia non riuscita. Scrivi a ${mailAddr()}.`; }
+          );
         } else {
-          fatto();
+          inviaMail.textContent = `Copia non riuscita. Scrivi a ${mailAddr()}.`;
         }
         return;
       }
-      // La mail lunga a volte non parte: copiamo il testo e poi apriamo comunque l'email
-      // Apertura sincrona nel gesto del clic: così la mail parte davvero
+      // La mail lunga a volte non parte: copiamo il testo e poi apriamo comunque l'email.
+      // Apertura sincrona nel gesto del clic: così la mail parte davvero.
       const a = document.createElement('a');
       a.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(testo);
       document.body.appendChild(a);
@@ -801,23 +831,8 @@ function renderizza() {
         navigator.clipboard.writeText(testo).catch(() => {});
       }
     });
-    box.appendChild(inviaMail);
-    corpo.appendChild(box);
-
-    const priv = el('label', 'privacy-riga');
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.id = 'f-privacy';
-    cb.checked = S.privacy;
-    cb.addEventListener('change', () => { S.privacy = cb.checked; aggiornaInvia(); nascondiErrore(); });
-    priv.appendChild(cb);
-    const span = el('span', '', 'Ho letto e accetto i termini e le condizioni: ');
-    const link = el('a', 'link-freccia', 'Termini e condizioni');
-    link.href = '/note-legali/#termini';
-    span.appendChild(link);
-    span.appendChild(document.createTextNode('. *'));
-    priv.appendChild(span);
-    corpo.appendChild(priv);
+    azioni.appendChild(inviaMail);
+    corpo.appendChild(azioni);
     aggiornaInvia();
   }
 
@@ -840,8 +855,8 @@ function messaggio() {
     if (inOfferta()) {
       L.push(
         '',
-        '*SITO*',
-        `• *Offerta:* ${C.offerta.nome} (${C.offerta.prezzo}€)`,
+        '*Sito*',
+        `• *${C.offerta.nome}:* ${C.offerta.prezzo}€`,
         '• *Include:* funzioni del sito, pagine concordate, foto e logo',
         '• *Grafiche e social:* eventuali scelte aggiunte sono extra',
         '• *Foto:* le scattiamo noi',
@@ -851,29 +866,30 @@ function messaggio() {
     } else {
       L.push(
         '',
-        '*SITO*',
+        '*Sito*',
         `• *Struttura:* ${S.struttura === 'multi' ? 'Più pagine' : 'Pagina singola'}`,
         `• *Funzioni incluse:* ${S.funzioni.length ? ordina(S.funzioni).join(', ') : 'Standard'}`,
         `• *Pagine:* ${S.pagine.length ? ordina(S.pagine).join(', ') : 'Standard'}`,
-        `• *Foto:* ${S.foto ? `${S.foto} (${euro(C.photoPrices[S.foto] ?? 0)})` : 'Da decidere'}`
+        `• *Foto:* ${S.foto ? fotoEtichetta(S.foto) : 'Da decidere'}`
       );
     }
   }
   if (ha('grafiche')) {
+    const scelte = S.graficheExtra.filter((n) => designVisibili().has(n));
     L.push(
       '',
-      '*GRAFICHE*',
-      `• *Materiali:* ${S.graficheExtra.filter((n) => designVisibili().has(n)).length ? conPrezzoVoci([...designPerTipo(), ...designGenerici()], S.graficheExtra.filter((n) => designVisibili().has(n))) : 'Da decidere'}`
+      '*Grafiche*',
+      `• *Materiali:* ${scelte.length ? conPrezzoVoci([...designPerTipo(), ...designGenerici()], scelte) : 'Da decidere'}`
     );
   }
   if (ha('social')) {
     L.push(
       '',
-      '*SOCIAL MEDIA*',
+      '*Social media*',
       `• *Canali:* ${S.canali.join(', ') || 'Da decidere'}`,
       `• *Contenuti:* ${S.socialExtra.length ? conPrezzoVoci(socialContenuti(), S.socialExtra) : 'Da decidere'}`
     );
-    if (S.videoQty) L.push(`• *Video:* ${S.videoQty} video`);
+    if (S.videoQty) L.push(`• *Video:* ${S.videoQty} video: ${S.videoQty * C.videoPrice}€`);
   }
   L.push(
     '',
@@ -882,7 +898,7 @@ function messaggio() {
     ...(UTM.utm_source ? [`• *Fonte:* ${[UTM.utm_source, UTM.utm_medium, UTM.utm_campaign].filter(Boolean).join(' / ')}`] : []),
     `• *Anticipo:* ${ANTICIPO}€ compresi nella stima`,
     '',
-    `*STIMA INDICATIVA:* ${stima()} €`
+    `*Stima indicativa:* ${stima()}€`
   );
   let msg = L.join('\n');
   if (msg.length > 1800) msg = msg.slice(0, 1780) + '\n…(continua a voce)';
@@ -890,31 +906,31 @@ function messaggio() {
 }
 
 function aggiornaInvia() {
-  const a = $<HTMLAnchorElement>('w-invia');
+  // getElementById, non $(): la casella privacy chiama questa funzione anche nel percorso "Altro", dove #w-invia non c'è.
+  const a = document.getElementById('w-invia') as HTMLAnchorElement | null;
   if (!a) return;
   const mancanti = mancantiRiepilogo();
-  if (!S.privacy || mancanti.length) {
+  const bloccato = !S.privacy || mancanti.length > 0;
+  // Stessa frase per il bottone bloccato e per l'errore; senza privacy vince la privacy.
+  const etichettaBloccata = !S.privacy ? MSG_PRIVACY : `Serve ancora ${mancanti[0]}`;
+  if (bloccato) {
     a.setAttribute('aria-disabled', 'true');
-    a.style.opacity = '0.55';
     a.href = `https://wa.me/${waNum()}?text=` + encodeURIComponent('Ciao Trebla! Non so cosa scegliere per il preventivo, mi aiutate su WhatsApp?');
-    a.textContent = mancanti.length && S.privacy ? `Manca: ${mancanti.join(', ')}` : S.privacy ? 'Invia su WhatsApp' : 'Accetta i termini per inviare';
+    a.textContent = etichettaBloccata;
   } else {
     a.removeAttribute('aria-disabled');
-    a.style.opacity = '';
     a.textContent = 'Invia su WhatsApp';
     a.href = `https://wa.me/${waNum()}?text=` + encodeURIComponent(messaggio());
   }
-  const m = $<HTMLAnchorElement>('w-invia-mail');
+  const m = document.getElementById('w-invia-mail') as HTMLAnchorElement | null;
   if (m) {
-    if (!S.privacy || mancanti.length) {
+    if (bloccato) {
       m.setAttribute('aria-disabled', 'true');
-      m.style.opacity = '0.55';
       m.href = '#';
-      m.textContent = !S.privacy ? 'Accetta i termini per inviare' : 'Completa i passi mancanti';
+      m.textContent = etichettaBloccata;
     } else {
       m.removeAttribute('aria-disabled');
-      m.style.opacity = '';
-      m.textContent = isPC ? 'Copia email' : 'Invia via email';
+      m.textContent = isPC ? 'Copia il messaggio' : 'Invia via email';
       m.href = `mailto:${mailAddr()}?subject=` + encodeURIComponent('Richiesta sito web') + '&body=' + encodeURIComponent(messaggio().replace(/\*/g, ''));
     }
   }
@@ -941,6 +957,53 @@ function nascondiErrore() {
   errore.textContent = '';
 }
 
+/** Privacy non accettata: stesso messaggio del bottone bloccato, e il focus va alla casella. */
+function errorePrivacy() {
+  mostraErrore(MSG_PRIVACY);
+  document.getElementById('f-privacy')?.focus();
+}
+
+/** Casella privacy: la usano il percorso principale e "Altro". Sta sopra i bottoni. */
+function casellaPrivacy() {
+  const priv = el('label', 'privacy-riga');
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.id = 'f-privacy';
+  cb.checked = S.privacy;
+  cb.addEventListener('change', () => { S.privacy = cb.checked; aggiornaInvia(); nascondiErrore(); });
+  priv.appendChild(cb);
+  const span = el('span', '', 'Ho letto e accetto i ');
+  const link = el('a', 'link-sottolineato', 'termini e le condizioni');
+  link.href = '/note-legali/#termini';
+  span.appendChild(link);
+  span.appendChild(document.createTextNode(' (obbligatoria).'));
+  priv.appendChild(span);
+  return priv;
+}
+
+/** Dal nome del passo mancante (come lo scrive mancantiRiepilogo) all'id del passo. */
+const PASSO_DI: Record<string, string> = {
+  'il nome': 'nome',
+  'il settore': 'categoria',
+  'il tipo': 'tipo',
+  'un servizio': 'servizi',
+  'la struttura del sito': 'sito',
+  'le foto': 'foto',
+};
+
+/** Passi mancanti: l'errore nomina il primo e porta a quel passo. */
+function portaAlMancante(manc: string[]) {
+  const primo = manc[0] ?? '';
+  const i = flusso().indexOf(PASSO_DI[primo] ?? '');
+  if (i < 0) {
+    mostraErrore(`Per inviare serve ancora ${manc.join(', ')}.`);
+    return;
+  }
+  idx = i;
+  renderizza();
+  mostraErrore(`Per inviare serve ancora ${primo}. Completa questo passo, poi torna qui.`);
+}
+
 function valido(id: string) {
   if (id === 'nome') return S.nome.trim().length >= 2 ? '' : 'Scrivi il nome della tua attività per continuare.';
   if (id === 'categoria') return S.categoria ? '' : 'Scegli il settore della tua attività.';
@@ -951,21 +1014,28 @@ function valido(id: string) {
   if (id === 'sito') return S.struttura ? '' : 'Scegli la struttura del sito: pagina singola, più pagine o offerta tutto incluso.';
   if (id === 'funzioni' || id === 'funzioni-extra' || id === 'pagine') return '';
   if (id === 'foto') return S.foto ? '' : 'Scegli come procurare le foto per il sito.';
-  if (id === 'social-tutto') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale, un contenuto o dei video, oppure togli Social media dai servizi.';
+  if (id === 'social-tutto') return (S.canali.length || S.socialExtra.length || S.videoQty) ? '' : 'Scegli almeno un canale o un contenuto, oppure togli Social media.';
   if (id === 'grafiche-materiali') return S.graficheExtra.length ? '' : 'Scegli almeno un materiale, oppure togli Grafiche dai servizi.';
   if (id === 'obiettivi-tempi') return '';
   if (id === 'riepilogo' || id === 'invia') return '';
   return '';
 }
 
+/** Progresso: non scende mai. Il numero di passi cambia con le scelte, quindi si mostra il massimo raggiunto. */
+let progressoMax = 0;
+
 function aggiornaCromo(scroll: boolean) {
   const f = flusso();
-  riemp.style.transform = `scaleX(${(idx + 1) / f.length})`;
-  $('w-barra')?.setAttribute('aria-valuenow', String(Math.round(((idx + 1) / f.length) * 100)));
+  progressoMax = Math.max(progressoMax, (idx + 1) / f.length);
+  riemp.style.transform = `scaleX(${progressoMax})`;
+  $('w-barra')?.setAttribute('aria-valuenow', String(Math.round(progressoMax * 100)));
   indietro.hidden = idx === 0;
   const id = f[idx]!;
-  avanti.textContent = id === 'invia' ? 'Torna su per inviare ↑' : id === 'riepilogo' ? 'Conferma e invia →' : id === 'obiettivi-tempi' ? 'Salta →' : id === 'altro-descrivi' ? 'Continua il preventivo →' : 'Avanti →';
-  avanti.hidden = id === 'altro-invia' || id === 'invia';
+  // Scelta singola che avanza da sola: niente Avanti. Con "Altro" il campo del tipo resta, quindi serve Avanti.
+  const avanzaDaSola = id === 'categoria' || (id === 'tipo' && !altro());
+  const nessunaScelta = !S.obiettivi.length && !S.tempi;
+  avanti.textContent = id === 'riepilogo' ? 'Vedi la stima' : id === 'obiettivi-tempi' && nessunaScelta ? 'Salta' : 'Avanti';
+  avanti.hidden = id === 'altro-invia' || id === 'invia' || avanzaDaSola;
   if (id === 'invia') aggiornaInvia();
   if (scroll) {
     domanda.focus({ preventScroll: true });
@@ -977,16 +1047,9 @@ function vaiAvanti() {
   const f = flusso();
   const id = f[idx]!;
   if (id === 'invia') {
-    if (!S.privacy) {
-      mostraErrore('Accetta i termini e le condizioni per inviare la richiesta.');
-      $('f-privacy')?.focus();
-      return;
-    }
+    if (!S.privacy) { errorePrivacy(); return; }
     const m = mancantiRiepilogo();
-    if (m.length) {
-      mostraErrore(`Per inviare manca ancora: ${m.join(', ')}. Torna indietro e completa.`);
-      return;
-    }
+    if (m.length) { portaAlMancante(m); return; }
     $('w-invia')?.focus();
     return;
   }
@@ -1022,6 +1085,13 @@ indietro.addEventListener('click', () => {
         .filter((x): x is Servizio => x !== null)
     )];
     if (pre.length) S.servizi = pre;
+    // Struttura da ?struttura=singola|multi: preseleziona il passo del sito (come ?servizi=).
+    // Il passo resta visibile: chi arriva può confermare o cambiare con Avanti.
+    const struttura = (q.get('struttura') || '').trim().toLowerCase();
+    if (struttura === 'singola' || struttura === 'multi') {
+      S.struttura = struttura;
+      if (!S.servizi.includes('sito')) S.servizi = ['sito', ...S.servizi];
+    }
     // Ingresso diretto offerta da ?offerta=1: sito e struttura già scelti, via i passi decisi
     if (q.get('offerta') === '1') {
       S.servizi = ['sito'];

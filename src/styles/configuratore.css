@@ -4,9 +4,11 @@
 
    Il markup dei passi lo genera lo script (configuratore-preventivo.ts):
    classi e id usati qui sono un contratto con lo script, non si rinominano.
-   Per battere le regole di pari specificità si usano :has(), attributi
-   e l'ordine di caricamento. Animazioni solo su transform e opacity.
-   Niente ombre, gradienti, raggi (tranne le pillole dei bottoni) e corsivo.
+
+   Regole del sistema: interfaccia in Archivo (--font-ui), frase normale, mai maiuscolo.
+   Il maiuscolo resta solo sul titolo display (H1 del passo). Il mattone riempie solo
+   il bottone primario; le scelte si segnano in inchiostro. Niente ombre, gradienti.
+   Animazioni solo su transform e opacity.
    ============================================================ */
 
 .involucro {
@@ -14,257 +16,29 @@
   margin-inline: auto;
 }
 
-/* ---------- Bottoni creati dallo script (btn + btn-mattone | btn-wa | btn-fantasma) ----------
-   Non usano le varianti .btn--* dei bottoni del sito: l'aspetto sta tutto qui. */
-.btn.btn-mattone,
-.btn.btn-wa,
-.btn.btn-fantasma {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-block-size: 54px;
-  padding: 14px 28px;
-  border-radius: 0;
-  font: 700 0.98rem / 1.2 var(--font-testo);
-  letter-spacing: 0.015em;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background var(--t-1) var(--ease-std), color var(--t-1) var(--ease-std), transform 0.12s ease;
-}
-
-.btn.btn-mattone:active,
-.btn.btn-wa:active,
-.btn.btn-fantasma:active {
-  transform: scale(0.98);
-}
-
-.btn-mattone {
-  background: var(--mattone);
-  color: #fff8ef;
-}
-
-.btn-mattone:hover {
-  background: var(--mattone-testo);
-}
-
-.btn-fantasma {
-  border-color: var(--inchiostro);
-  color: var(--inchiostro);
-  background: transparent;
-}
-
-.btn-fantasma:hover {
-  background: var(--inchiostro);
-  color: var(--carta);
-}
-
-.btn-wa {
-  background: var(--verde);
-  color: #fff;
-}
-
-.btn-wa:hover {
-  background: var(--inchiostro);
-}
-
-
-.link-freccia {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--mattone);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
-  position: relative;
-}
-/* Area di tap piu' generosa: il pseudo-elemento esce dal testo e basta.
-   Non sposta niente nel layout, rende solo il link premibile col dito. */
-.link-freccia::after {
-  content: '';
-  position: absolute;
-  inset: -6px -4px;
-}
-.link-freccia:hover { color: var(--mattone-testo); }
-
-/* ---------- Wizard: struttura, opzioni, riepilogo, invio ---------- */
 .wizard {
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  padding-block: clamp(20px, 3vw, 32px) clamp(32px, 4vw, 56px);
 }
-.wizard-corpo { flex: 1 1 auto; }
-.wizard-barra { block-size: 3px; background: var(--carta-2); border-radius: 99px; margin-block-start: 14px; overflow: hidden; }
-.wizard-riempimento { block-size: 100%; inline-size: 10%; background: var(--mattone); border-radius: 99px; transition: inline-size 0.25s ease; }
-.wizard-domanda {
-  font: 600 clamp(1.7rem, 4.4vw, 2.9rem)/1.05 var(--font-testo);
-  letter-spacing: -0.015em;
-  margin: clamp(18px, 3vw, 32px) 0 8px;
-  max-inline-size: 20ch;
-}
-/* Il titolo riceve il focus per annunciare il passo: niente riquadro,
-   che sembrerebbe un errore di layout. */
-.wizard-domanda:focus { outline: none; }
-.wizard-sotto { color: var(--morbido); margin: 0 0 8px; max-inline-size: 56ch; }
-.wizard-corpo { padding-block-end: 130px; }
-.wizard-opzioni { list-style: none; margin: 12px 0 0; padding: 0; border-block-end: 1px solid var(--inchiostro); }
-.wizard-opzioni li { border-block-start: 1px solid var(--inchiostro); }
-.opzione {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  inline-size: 100%;
-  background: transparent;
-  border: 0;
-  padding: 17px 6px;
-  font: 600 1.02rem/1.4 var(--font-testo);
-  color: var(--inchiostro);
-  text-align: start;
-  cursor: pointer;
-  min-block-size: 58px;
-}
-.opzione:hover { background: var(--carta-2); }
-.opzione .segno {
-  flex: none;
-  display: grid;
-  place-items: center;
-  inline-size: 30px; block-size: 30px;
-  border: 1.5px solid var(--inchiostro);
-  border-radius: 7px;
-  font: 400 1rem/1 var(--font-mono);
-  background: var(--carta);
-}
-.opzione[aria-pressed="true"] { color: var(--mattone-testo); }
-.opzione[aria-pressed="true"] .segno {
-  background: var(--mattone);
-  border-color: var(--mattone);
-  color: #fff;
-}
-.opzione-testo { flex: 1 1 auto; min-inline-size: 0; }
-.opzione-testo small { display: block; font-weight: 400; color: var(--morbido); font-size: 0.86rem; }
-.opzione-prezzo { flex: none; font: 700 0.85rem var(--font-mono); color: var(--mattone); white-space: nowrap; }
-/* Stato degli input creati via JS nel configuratore: selettori senza scope */
-.sr-solo {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-.wizard .opzione { position: relative; border-radius: 6px; }
-.wizard .opzione input { position: absolute; opacity: 0; pointer-events: none; }
-.wizard .opzione:has(input:checked) { background: var(--carta-2); color: var(--mattone-testo); }
-.wizard .opzione:has(input:checked) .segno { background: var(--mattone); border-color: var(--mattone); color: #fff; }
-.wizard .opzione:has(input:focus-visible) { outline: 2px solid var(--mattone); outline-offset: 2px; }
-.wizard fieldset { min-inline-size: 0; }
-.wizard-campo {
-  display: block;
-  inline-size: 100%;
-  border: 0;
-  border-block-end: 2px solid var(--inchiostro);
-  background: transparent;
-  border-radius: 0;
-  padding: 14px 2px;
-  font: 400 1.15rem var(--font-testo);
-  color: var(--inchiostro);
-  margin-block-start: 18px;
-}
-/* Il campo è già una riga: il focus resta una riga, senza il riquadro
-   che sembrava tre linee orizzontali sopra e sotto il testo. */
-.wizard-campo:focus-visible { outline: none; background: var(--carta-2); }
-.wizard-campo:focus { border-color: var(--mattone); }
-.wizard-campo::placeholder { color: var(--morbido); }
-.wizard-errore { color: var(--mattone-testo); font-size: 0.92rem; font-weight: 600; margin: 10px 0 0; }
-.wizard-barra-fissa {
-  position: fixed;
-  inset-inline: 0;
-  inset-block-end: 0;
-  z-index: 90;
-  background: rgba(247, 242, 232, 0.97);
-  border-block-start: 1px solid var(--inchiostro);
-  padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom));
-}
-.wizard-barra-interna {
-  inline-size: min(1160px, 100%);
-  max-inline-size: 920px;
-  margin-inline: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.wizard-indietro {
-  background: transparent;
-  border: 1px solid var(--linea-scura);
-  border-radius: 0;
-  min-block-size: 52px;
-  padding: 12px 20px;
-  font: 700 0.95rem var(--font-testo);
-  cursor: pointer;
-  color: var(--inchiostro);
-}
-.wizard-indietro:hover { border-color: var(--inchiostro); }
-.wizard-avanti { flex: 1 1 auto; min-inline-size: 0; }
-/* Niente zoom da doppio tocco sui tasti del configuratore */
-.wizard-indietro, .wizard-avanti, .opzione { touch-action: manipulation; }
-.wizard-riepilogo { border-block-start: 1px solid var(--inchiostro); margin-block-start: 18px; }
-.wizard-riga {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 20px;
-  padding: 12px 0;
-  border-block-end: 1px solid var(--linea);
-  font-size: 0.97rem;
-}
-.wizard-riga dt { flex: none; font: 700 0.75rem/1.5 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--morbido); }
-.wizard-riga dd { margin: 0; text-align: end; font-weight: 600; overflow-wrap: anywhere; }
-.wizard-totale-finale {
-  background: var(--inchiostro);
-  color: var(--carta);
-  border-radius: 0;
-  padding: clamp(24px, 4vw, 36px);
-  margin-block-start: 24px;
-}
-.wizard-totale-finale .k { font: 700 0.75rem var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--morbido-scuro); margin: 0; }
-.wizard-totale-finale .v { font: 600 clamp(2.4rem, 6vw, 3.4rem)/1 var(--font-testo); margin: 10px 0 6px; }
-.wizard-totale-finale .d { color: var(--morbido-scuro); font-size: 0.92rem; line-height: 1.45; margin: 0 0 8px; }
-.wizard-totale-finale .btn { display: flex; width: 100%; margin-top: 12px; }
-@media (min-width: 700px) {
-  .wizard-totale-finale .btn { display: inline-flex; width: auto; }
-  #w-invia-mail { margin-left: 12px; }
-}
-.wizard-totale-finale .btn-fantasma { border-color: var(--morbido-scuro); color: var(--carta); background: transparent; }
-.privacy-riga { display: flex; gap: 12px; align-items: flex-start; margin-block-start: 20px; font-size: 0.92rem; cursor: pointer; }
-.privacy-riga input { inline-size: 24px; block-size: 24px; margin-block-start: 2px; accent-color: var(--mattone); flex: none; cursor: pointer; }
-
-/* Sulle superfici scure del configuratore il focus è il mattone. */
-.wizard-totale-finale,
-.wizard-barra-fissa {
-  --focus: var(--mattone);
-}
-
-
-@media print {
-  .wizard-barra-fissa {
-    display: none !important;
-  }
-}
-
-
-/* ---------- Pagina bloccata: niente scroll della pagina ---------- */
-html.cfg-lock,
-html.cfg-lock body { height: 100%; }
-html.cfg-lock body { overflow: hidden; }
 
 /* Lo script nasconde con l'attributo hidden: nessuna regola di display lo riapre. */
 html.cfg-lock [hidden] { display: none !important; }
 
-/* ---------- Senza JavaScript (html senza classe "js", vedi MetaDocumento): niente controlli che non fanno nulla.
-   La barra nasconde anche la percentuale, che è il suo ::after. Resta il messaggio con i link. ---------- */
+/* La pagina non scorre: scorre solo il corpo del passo. */
+html.cfg-lock,
+html.cfg-lock body { height: 100%; }
+html.cfg-lock body { overflow: hidden; }
+
+/* Sul PC lo scroll resta con rotella e tastiera, senza barra visibile. */
+@media (hover: hover) and (pointer: fine) {
+  .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
+  .cfg-schermo .wizard-corpo::-webkit-scrollbar { display: none; }
+}
+
+/* Senza JavaScript (html senza classe "js", vedi MetaDocumento): niente controlli che non fanno nulla.
+   Resta il messaggio con i link. */
 html:not(.js) .wizard-barra,
 html:not(.js) .wizard-barra-fissa,
 html:not(.js) .wizard-avanti,
@@ -273,16 +47,20 @@ html:not(.js) .wizard-indietro { display: none; }
 .wizard-noscript {
   max-inline-size: 36ch;
   margin: 18px 0 0;
-  font: 400 1.15rem / 1.45 var(--font-testo);
+  font: 400 var(--fs-lead) / 1.45 var(--font-testo);
   color: var(--inchiostro);
 }
 
 .wizard-noscript a {
-  color: var(--inchiostro);
+  color: inherit;
   text-decoration: underline;
-  text-decoration-color: var(--mattone-testo);
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--inchiostro);
+  text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
+}
+
+@media print {
+  .wizard-barra-fissa { display: none !important; }
 }
 
 /* ---------- Schermo: testata, barra, domanda, corpo scorrevole ---------- */
@@ -306,18 +84,11 @@ html:not(.js) .wizard-indietro { display: none; }
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-block: 0 12px;
+  /* Un margine sotto l'ultima riga: la casella privacy e l'errore restano sopra la barra. */
+  padding-block: 0 32px;
 }
 
-body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
-
-/* PC: niente barra di scorrimento visibile, resta lo scroll con rotella e tastiera. */
-@media (hover: hover) and (pointer: fine) {
-  .cfg-schermo .wizard-corpo { scrollbar-width: none; -ms-overflow-style: none; }
-  .cfg-schermo .wizard-corpo::-webkit-scrollbar { display: none; }
-}
-
-/* ---------- Testata: Home come link mono con freccia ---------- */
+/* ---------- Testata: link Torna al sito, in frase normale e sottolineato ---------- */
 .wizard-testa {
   flex: none;
   display: flex;
@@ -327,36 +98,19 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
 }
 
 .wizard-casa {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font: 500 var(--fs-label) / 1 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font: 600 var(--fs-small) / 1 var(--font-ui);
   color: var(--inchiostro);
   text-decoration: none;
 }
 
-.wizard-casa-freccia {
-  flex: none;
-  display: block;
-  inline-size: 14px;
-  block-size: 14px;
-  transition: transform var(--t-2) var(--ease-expo);
-}
-
-@media (hover: hover) {
-  .wizard-casa:hover .wizard-casa-freccia { transform: translate3d(-4px, 0, 0); }
-}
-
-/* ---------- Avanzamento: 2px mattone, scaleX, percentuale in mono sopra a destra ---------- */
+/* ---------- Avanzamento: filo di 2px, riempimento inchiostro, percentuale a destra ---------- */
 .wizard-barra {
   position: relative;
   flex: none;
   block-size: 2px;
   margin: 0;
   border-radius: 0;
-  background: var(--linea);
+  background: var(--carta-2);
   overflow: visible;
 }
 
@@ -364,21 +118,20 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   block-size: 100%;
   inline-size: 100%;
   border-radius: 0;
-  background: var(--mattone);
+  background: var(--inchiostro);
   transform-origin: left center;
   transform: scaleX(0);
-  transition: transform var(--t-3) var(--ease-out);
+  transition: transform var(--t-2) var(--ease-out);
   will-change: transform;
 }
 
-/* Il numero legge aria-valuenow, che lo script già aggiorna a ogni passo: nessun JS in più. */
+/* Il numero legge aria-valuenow, che lo script aggiorna a ogni passo: nessun JS in più. */
 .wizard-barra::after {
   content: attr(aria-valuenow) "%";
   position: absolute;
   inset-inline-end: 0;
   inset-block-end: 10px;
-  font: 500 var(--fs-label) / 1 var(--font-mono);
-  letter-spacing: 0.08em;
+  font: 600 var(--fs-small) / 1 var(--font-ui);
   color: var(--morbido);
   font-variant-numeric: tabular-nums;
 }
@@ -387,7 +140,6 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
 .wizard-domanda {
   font: 800 var(--fs-h2-s) / 0.92 var(--font-display);
   font-stretch: 64%;
-  letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--inchiostro);
   max-inline-size: 16ch;
@@ -405,24 +157,12 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   color: var(--morbido);
 }
 
-/* Errore: mono in tinta piccola, con un puntino mattone. */
+/* Errore: frase in inchiostro, in grassetto. Nessun colore d'accento sul testo. */
 .wizard-errore:not([hidden]) {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  display: block;
   margin: 0 0 12px;
-  font: 500 var(--fs-small) / 1.4 var(--font-mono);
-  color: var(--mattone-testo);
-}
-
-.wizard-errore::before {
-  content: "";
-  flex: none;
-  inline-size: 8px;
-  block-size: 8px;
-  margin-block-start: 0.42em;
-  border-radius: 50%;
-  background: var(--mattone);
+  font: 600 var(--fs-small) / 1.4 var(--font-ui);
+  color: var(--inchiostro);
 }
 
 /* ---------- Ingresso dei passi: i figli di #w-corpo salgono di 16px ----------
@@ -460,7 +200,7 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   border-block-end: 1px solid var(--linea);
 }
 
-/* L'elenco "Altro" sta sotto quello dei tipi: il filetto di chiusura sopra basta, non se ne aggiunge un secondo. */
+/* L'elenco "Altro" sta sotto quello dei tipi: il filetto di chiusura sopra basta. */
 .cfg-schermo .wizard-opzioni[aria-label="Altro tipo"] {
   border-block-start: 0;
 }
@@ -502,6 +242,16 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   }
 }
 
+/* Testo per lo screen reader: fuori vista, ma nel DOM (legenda della struttura, input delle scelte). */
+.sr-solo {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* Singola opzione: una riga o una tessera (label con checkbox/radio, oppure button con aria-pressed). */
 .cfg-schermo .opzione {
   position: relative;
@@ -519,8 +269,7 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   border-radius: 0;
   background: transparent;
   color: var(--inchiostro);
-  font: 500 clamp(18px, 1.4vw, 20px) / 1.25 var(--font-testo);
-  letter-spacing: -0.01em;
+  font: 600 var(--fs-lead) / 1.3 var(--font-ui);
   text-align: start;
   cursor: pointer;
   touch-action: manipulation;
@@ -547,7 +296,7 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   transition: transform var(--t-2) var(--ease-out);
 }
 
-/* Marcatore: quadrato con bordo (cerchio per le radio), riempito da un quadrato mattone di 10px.
+/* Marcatore: quadrato con bordo (cerchio per le radio), riempito da un quadrato inchiostro.
    Lo script scrive il simbolo nello span .segno: il testo resta fuori vista. */
 .cfg-schermo .opzione .segno {
   position: relative;
@@ -569,7 +318,7 @@ body[data-passo="invia"] .cfg-schermo .wizard-corpo { padding-block-end: 0; }
   position: absolute;
   inset: 3px;
   border-radius: 0;
-  background: var(--mattone);
+  background: var(--inchiostro);
   transform: scale(0);
   transition: transform var(--t-2) var(--ease-out);
 }
@@ -596,16 +345,20 @@ body[data-passo="tipo"] .cfg-schermo .opzione .segno::after {
   display: block;
   margin-block-start: 4px;
   font: 400 var(--fs-small) / 1.45 var(--font-testo);
-  letter-spacing: 0;
   color: var(--morbido);
 }
 
+/* Colonna prezzo: cifre tabulari. "incluso" sta in morbido, così il prezzo a pagamento si legge prima. */
 .cfg-schermo .opzione-prezzo {
-  font: 500 13px / 1 var(--font-mono);
-  letter-spacing: 0.04em;
+  font: 600 var(--fs-ui) / 1 var(--font-ui);
   color: var(--inchiostro);
   white-space: nowrap;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.cfg-schermo .opzione-prezzo--incluso {
+  font-weight: 400;
+  color: var(--morbido);
 }
 
 /* Scelte grosse nelle prime domande: più spazio per toccare. */
@@ -625,18 +378,23 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   }
 }
 
-/* Selezionata: bordo e marcatore mattone, testo inchiostro.
-   Regola dopo l'hover, così vince anche sopra il puntatore. */
+/* Selezionata: riempimento chiaro, marcatore pieno, contorno inchiostro.
+   Regola dopo l'hover, così vale anche sopra il puntatore. */
 .cfg-schermo .opzione:has(input:checked),
 .cfg-schermo .opzione[aria-pressed="true"] {
   background: transparent;
   color: var(--inchiostro);
-  outline-color: var(--mattone);
+  outline-color: var(--inchiostro);
+}
+
+.cfg-schermo .opzione:has(input:checked)::before,
+.cfg-schermo .opzione[aria-pressed="true"]::before {
+  transform: scaleY(1);
 }
 
 .cfg-schermo .opzione:has(input:checked) .segno,
 .cfg-schermo .opzione[aria-pressed="true"] .segno {
-  border-color: var(--mattone);
+  border-color: var(--inchiostro);
   background: transparent;
   color: transparent;
 }
@@ -646,23 +404,21 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   transform: scale(1);
 }
 
-/* Focus da tastiera: contorno inchiostro dentro la cella, sempre visibile. */
+/* Focus da tastiera: anello di focus dentro la cella, sempre visibile. */
 .cfg-schermo .opzione:focus-visible,
 .cfg-schermo .opzione:has(input:focus-visible) {
-  outline: 2px solid var(--inchiostro);
+  outline: 2px solid var(--focus);
   outline-offset: -2px;
 }
 
-/* Titoli di gruppo: lo script li scrive con stile inline, qui vincono con !important.
-   Etichetta mono maiuscola con filetto sopra. */
+/* Titoli di gruppo: in Archivo 600, frase normale. Il tipo globale dei titoli H2 (display, maiuscolo, tracking)
+   va azzerato qui: lo shorthand font non lo copre. Lo script non mette stili in linea. */
 .cfg-schermo .wizard-corpo > h2 {
-  font: 500 var(--fs-label) / 1.4 var(--font-mono) !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  color: var(--morbido) !important;
-  margin: clamp(24px, 4.5vh, 40px) 0 12px !important;
-  padding-block-start: 12px;
-  border-block-start: 1px solid var(--linea);
+  font: 600 var(--fs-h3) / 1.2 var(--font-ui);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--inchiostro);
+  margin: clamp(28px, 5vh, 40px) 0 12px;
 }
 
 /* ---------- Campi di testo: solo filetto inferiore; al focus diventa inchiostro da 2px ----------
@@ -673,12 +429,11 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   margin: clamp(12px, 3vh, 24px) 0 0;
   padding: 12px 0 13px;
   border: 0;
-  border-block-end: 1px solid var(--linea);
+  border-block-end: 1px solid var(--morbido);
   border-radius: 0;
   background: transparent;
   color: var(--inchiostro);
   font: 400 var(--fs-lead) / 1.3 var(--font-testo);
-  letter-spacing: -0.01em;
   outline: none;
 }
 
@@ -692,7 +447,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   opacity: 1;
 }
 
-/* Focus dei campi: anello solid 2px come nel resto del sito (token --focus, circa 5:1 su carta). Solo al focus, non a riposo. */
+/* Focus dei campi: anello 2px (token --focus) e filetto inchiostro. Solo al focus, non a riposo. */
 .cfg-schermo .wizard-campo:focus,
 .cfg-schermo .wizard-campo:focus-visible {
   outline: 2px solid var(--focus);
@@ -701,6 +456,8 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   border-block-end: 2px solid var(--inchiostro);
   padding-block: 12px;
 }
+
+.cfg-schermo fieldset { min-inline-size: 0; }
 
 /* ---------- Canali social: bottoni grandi, tre colonne (due sotto 400px) ---------- */
 .cfg-schermo .canali-riga {
@@ -727,8 +484,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   border-radius: 0;
   background: transparent;
   color: var(--inchiostro);
-  font: 600 clamp(16px, 1.5vw, 18px) / 1.2 var(--font-testo);
-  letter-spacing: -0.01em;
+  font: 600 var(--fs-body) / 1.2 var(--font-ui);
   text-align: start;
   cursor: pointer;
   touch-action: manipulation;
@@ -749,7 +505,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   white-space: nowrap;
 }
 
-/* Marcatore in alto a destra: quadrato con bordo, quadrato pieno mattone quando è scelto. */
+/* Marcatore in alto a destra: quadrato con bordo, quadrato pieno inchiostro quando è scelto. */
 .cfg-schermo .canale::before {
   content: "";
   position: absolute;
@@ -768,7 +524,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   inset-inline-end: 18px;
   inline-size: 10px;
   block-size: 10px;
-  background: var(--mattone);
+  background: var(--inchiostro);
   transform: scale(0);
   transition: transform var(--t-2) var(--ease-out);
 }
@@ -778,16 +534,15 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
 }
 
 .cfg-schermo .canale[aria-pressed="true"] {
-  border-color: var(--mattone);
+  border-color: var(--inchiostro);
   color: var(--inchiostro);
 }
 
-.cfg-schermo .canale[aria-pressed="true"]::before { border-color: var(--mattone); }
 .cfg-schermo .canale[aria-pressed="true"]::after { transform: scale(1); }
 
 .cfg-schermo .canale:focus-visible {
-  outline: 2px solid var(--inchiostro);
-  outline-offset: -2px;
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 @media (max-width: 399px) {
@@ -797,7 +552,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   .cfg-schermo .canale:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 
-/* ---------- Contatore dei video: −/+ quadrati e numero mono grande ---------- */
+/* ---------- Contatore dei video: −/+ quadrati e numero grande ---------- */
 .cfg-schermo .video-qta {
   display: flex;
   align-items: center;
@@ -820,7 +575,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   border-radius: 0;
   background: transparent;
   color: var(--inchiostro);
-  font: 400 24px / 1 var(--font-mono);
+  font: 400 var(--fs-h3) / 1 var(--font-ui);
   cursor: pointer;
   touch-action: manipulation;
   transition: background-color var(--t-1) var(--ease-std), color var(--t-1) var(--ease-std);
@@ -839,7 +594,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
 }
 
 .cfg-schermo .video-qta button:focus-visible {
-  outline: 2px solid var(--inchiostro);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 
@@ -847,16 +602,14 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   flex: 1 1 auto;
   min-inline-size: 0;
   text-align: center;
-  font: 500 clamp(18px, 4.6vw, 26px) / 1.2 var(--font-mono);
-  letter-spacing: -0.01em;
+  font: 600 var(--fs-lead) / 1.2 var(--font-ui);
   color: var(--inchiostro);
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
-/* ---------- Riepilogo: voci con filetti, etichetta mono e valore in Archivo ---------- */
+/* ---------- Riepilogo: voci con filetti, etichetta in Archivo 600 e valore ---------- */
 .cfg-schermo .wizard-riepilogo {
   margin: 0;
-  border-block-start: 1px solid var(--inchiostro);
 }
 
 .cfg-schermo .wizard-riga {
@@ -867,23 +620,25 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   margin: 0;
   padding: 14px 0;
   border-block-end: 1px solid var(--linea);
-  font-size: inherit;
+}
+
+.cfg-schermo .wizard-riga:first-child {
+  border-block-start: 1px solid var(--linea);
 }
 
 .cfg-schermo .wizard-riga dt {
-  font: 500 var(--fs-label) / 1.4 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font: 600 var(--fs-small) / 1.4 var(--font-ui);
   color: var(--morbido);
 }
 
+/* Più voci nello stesso valore (funzioni, grafiche): una per riga, come da testo dello script. */
 .cfg-schermo .wizard-riga dd {
   margin: 0;
-  font: 500 clamp(16px, 1.3vw, 18px) / 1.4 var(--font-testo);
-  letter-spacing: -0.01em;
+  font: 600 var(--fs-body) / 1.4 var(--font-ui);
   color: var(--inchiostro);
   text-align: start;
   overflow-wrap: anywhere;
+  white-space: pre-line;
 }
 
 .cfg-schermo .wizard-riga.wizard-riga-sotto {
@@ -891,56 +646,47 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   gap: 6px;
 }
 
-/* ---------- Stima e invio ---------- */
+/* ---------- Totale: un oggetto tipografico, in display con cifre tabulari ---------- */
 .cfg-schermo .wizard-totale-finale {
-  margin: clamp(20px, 4vh, 36px) 0 0;
-  padding: 16px 0 0;
-  border-block-start: 1px solid var(--inchiostro);
-  border-radius: 0;
-  background: transparent;
-  color: var(--inchiostro);
-}
-
-/* Flusso di blocco: testi su righe proprie, bottoni inline-flex che vanno a capo da soli. */
-.cfg-schermo .wizard-totale-finale .k,
-.cfg-schermo .wizard-totale-finale .v,
-.cfg-schermo .wizard-totale-finale .d {
-  display: block;
+  margin: clamp(24px, 4vh, 36px) 0 0;
 }
 
 .cfg-schermo .wizard-totale-finale .k {
-  font: 500 var(--fs-label) / 1.4 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--morbido);
+  display: block;
   margin: 0;
+  font: 600 var(--fs-small) / 1.4 var(--font-ui);
+  color: var(--morbido);
 }
 
 .cfg-schermo .wizard-totale-finale .v {
-  margin: 8px 0 14px;
-  font: 800 clamp(64px, 9vw, 128px) / 0.88 var(--font-display);
+  display: block;
+  margin: 6px 0 14px;
+  font: 800 var(--fs-prezzo) / 0.88 var(--font-display);
   font-stretch: 64%;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
   color: var(--inchiostro);
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .cfg-schermo .wizard-totale-finale .d {
+  display: block;
   max-inline-size: 60ch;
   margin: 0 0 6px;
   font: 400 var(--fs-small) / 1.45 var(--font-testo);
   color: var(--morbido);
 }
 
-/* Privacy: quadratino inchiostro, link in testo inchiostro sottolineato. */
+@media (max-height: 740px) {
+  .cfg-schermo .wizard-totale-finale .v { font-size: clamp(56px, 10vh, 96px); }
+}
+
+/* ---------- Privacy: casella inchiostro, link sottolineato ---------- */
 .cfg-schermo .privacy-riga {
   display: flex;
   align-items: flex-start;
   gap: 12px;
   margin: 24px 0 0;
   font: 400 var(--fs-small) / 1.45 var(--font-testo);
-  color: var(--morbido);
+  color: var(--inchiostro);
   cursor: pointer;
 }
 
@@ -951,13 +697,6 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   margin: 1px 0 0;
   accent-color: var(--inchiostro);
   cursor: pointer;
-}
-
-.cfg-schermo .privacy-riga .link-freccia {
-  color: var(--inchiostro);
-  font-size: inherit;
-  font-weight: 500;
-  text-decoration-thickness: 1px;
 }
 
 /* ---------- Pillole: Avanti, Indietro, WhatsApp, email ----------
@@ -981,19 +720,16 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   /* Il fondo non passa sotto il bordo: niente filo del colore di fondo ai bordi arrotondati. */
   background-clip: padding-box;
   color: var(--btn-testo);
-  font: 500 13px / 1.2 var(--font-mono);
-  letter-spacing: 0.06em;
+  font: 600 var(--fs-ui) / 1.2 var(--font-ui);
   text-align: center;
   text-decoration: none;
-  text-transform: uppercase;
   cursor: pointer;
   touch-action: manipulation;
-  transition: transform var(--t-1) var(--ease-std), color 200ms var(--ease-std) 150ms, border-color 500ms var(--ease-out);
+  transition: transform var(--t-1) var(--ease-std), color var(--t-colore) var(--ease-std) var(--t-1), border-color var(--t-velo) var(--ease-out);
 }
 
 /* Velo che entra da sinistra e si ritira verso destra (come .btn in componenti.css).
-   Il velo copre il padding, non il bordo: in hover il bordo prende il colore del velo,
-   così non resta un filo del colore di fondo attorno alla pillola. */
+   Il velo copre il padding, non il bordo: in hover il bordo prende il colore del velo. */
 :is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia)::before {
   content: "";
   position: absolute;
@@ -1003,7 +739,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   background: var(--btn-velo);
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform 500ms var(--ease-out);
+  transition: transform var(--t-velo) var(--ease-out);
 }
 
 :is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):active {
@@ -1023,7 +759,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
 }
 
 :is(#w-avanti, #w-indietro, #w-invia, #w-invia-mail, #w-altro-invia):focus-visible {
-  outline: 2px solid var(--inchiostro);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   color: var(--btn-testo-hover);
   border-color: var(--btn-velo);
@@ -1034,7 +770,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   transform-origin: left center;
 }
 
-/* Primario: mattone con testo inchiostro. */
+/* Primario: mattone con testo inchiostro. È l'unico uso del mattone come riempimento. */
 :is(#w-avanti, #w-altro-invia.btn-mattone) {
   --btn-fondo: var(--mattone);
   --btn-testo: var(--inchiostro);
@@ -1052,19 +788,42 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   --btn-testo-hover: var(--carta);
 }
 
-/* WhatsApp: verde con testo bianco. */
+/* WhatsApp: verde con testo bianco (--su-verde). */
 :is(#w-invia, #w-altro-invia.btn-wa) {
   --btn-fondo: var(--verde);
-  --btn-testo: #fff;
+  --btn-testo: var(--su-verde);
   --btn-borde: var(--verde);
   --btn-velo: var(--inchiostro);
-  --btn-testo-hover: #fff;
+  --btn-testo-hover: var(--su-verde);
+}
+
+/* Bloccato (privacy non accettata, o passi mancanti): grigio chiaro, nessun velo.
+   Regola dopo le varianti, così vince a parità di specificità. */
+:is(#w-invia, #w-invia-mail, #w-altro-invia)[aria-disabled="true"] {
+  --btn-fondo: var(--carta-2);
+  --btn-testo: var(--morbido);
+  --btn-borde: var(--carta-2);
+  cursor: pointer;
+}
+
+:is(#w-invia, #w-invia-mail, #w-altro-invia)[aria-disabled="true"]::before {
+  transform: scaleX(0);
+}
+
+@media (hover: hover) {
+  :is(#w-invia, #w-invia-mail, #w-altro-invia)[aria-disabled="true"]:hover {
+    color: var(--morbido);
+    border-color: var(--carta-2);
+  }
+
+  :is(#w-invia, #w-invia-mail, #w-altro-invia)[aria-disabled="true"]:hover::before {
+    transform: scaleX(0);
+  }
 }
 
 /* Invio finale: bottoni grandi. */
 :is(#w-invia, #w-invia-mail, #w-altro-invia) {
   min-block-size: 60px;
-  font-size: 14px;
 }
 
 #w-invia,
@@ -1089,7 +848,7 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   }
 }
 
-/* ---------- Barra fissa in basso: Indietro a sinistra, Avanti a destra ---------- */
+/* ---------- Barra fissa in basso: Indietro a sinistra, Avanti a destra, sulla colonna dei contenuti ---------- */
 .wizard-barra-fissa {
   position: fixed;
   inset-inline: 0;
@@ -1097,7 +856,6 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   z-index: 90;
   padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom));
   background: var(--carta);
-  border-block-start: 1px solid var(--linea);
 }
 
 .wizard-barra-interna {
@@ -1133,7 +891,6 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   .wizard-sotto { margin-block-end: 12px; font-size: var(--fs-body); }
   .cfg-schermo .opzione { min-block-size: 52px; padding-block: 10px; }
   .cfg-schermo .canale { min-block-size: 92px; }
-  .cfg-schermo .wizard-totale-finale .v { font-size: clamp(56px, 10vh, 96px); }
 }
 
 /* Telefono in orizzontale: ogni pixel in altezza conta, il contenuto scorre. */
@@ -1141,7 +898,13 @@ body[data-passo="tipo"] .cfg-schermo .opzione {
   .cfg-schermo { padding-block-start: 8px; }
   .wizard-testa { min-block-size: 32px; }
   .wizard-domanda { font-size: clamp(22px, 6vh, 32px); margin-block: 8px 4px; max-inline-size: none; }
-  .wizard-sotto { font-size: 0.85rem; margin-block-end: 4px; }
+  .wizard-sotto { font-size: var(--fs-small); margin-block-end: 4px; }
   .cfg-schermo .opzione { min-block-size: 44px; padding-block: 6px; }
   .cfg-schermo .wizard-corpo { padding-block-end: 0; }
+}
+
+/* ---------- Movimento ridotto: nessun ingresso dei passi, nessuna transizione della barra ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .cfg-schermo .wizard-corpo > * { animation: none; }
+  .wizard-riempimento { transition: none; }
 }

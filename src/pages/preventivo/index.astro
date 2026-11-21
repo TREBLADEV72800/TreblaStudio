@@ -15,14 +15,14 @@ const description =
 <!doctype html>
 <html lang="it" class="cfg-lock">
   <head>
-    <MetaDocumento title={title} description={description} canonical="/preventivo" />
+    <MetaDocumento title={title} description={description} canonical="/preventivo" preloadLogo={false} />
   </head>
   <body>
     <a class="salto" href="#contenuto">Salta al contenuto</a>
     <!-- main è il contenitore flex dello schermo (.cfg-schermo): al posto di div.involucro, non dentro, così il layout non cambia. -->
     <main id="contenuto" class="involucro wizard cfg-schermo" aria-labelledby="w-domanda">
       <div class="wizard-testa">
-        <a class="wizard-casa link-sottolineato" href="/" aria-label="Home, torna alla homepage"><svg class="wizard-casa-freccia" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true" focusable="false"><path d="M12 8H4M7.5 4.5 4 8l3.5 3.5"/></svg><span>Home</span></a>
+        <a class="wizard-casa link-sottolineato" href="/" aria-label="Torna al sito">Torna al sito</a>
       </div>
 
       <div class="wizard-barra" id="w-barra" role="progressbar" aria-label="Avanzamento preventivo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wizard-riempimento" id="w-riempimento"></div></div>
@@ -40,8 +40,8 @@ const description =
 
     <div class="wizard-barra-fissa">
       <div class="wizard-barra-interna">
-        <button type="button" class="wizard-indietro" id="w-indietro" hidden>← Indietro</button>
-        <button type="button" class="wizard-avanti" id="w-avanti">Avanti →</button>
+        <button type="button" class="wizard-indietro" id="w-indietro" hidden>Indietro</button>
+        <button type="button" class="wizard-avanti" id="w-avanti">Avanti</button>
       </div>
     </div>
     <script>
