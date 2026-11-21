@@ -8,11 +8,11 @@ export default defineConfig({
   output: 'static',
   // Cloudflare Pages serve le directory con slash finale: allineo dev e build.
   trailingSlash: 'always',
+  // Astro 7 usa compressHTML 'jsx' di default, che rimuove gli spazi tra elementi inline.
+  // true mantiene il comportamento precedente e la resa visibile invariata.
+  compressHTML: true,
   build: {
     // CSS inline: niente file che blocca il rendering, primo paint subito
     inlineStylesheets: 'always',
-  },
-  image: {
-    service: { entrypoint: 'astro/assets/services/sharp' },
   },
 });
