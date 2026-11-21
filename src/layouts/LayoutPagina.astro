@@ -45,7 +45,6 @@ const {
       // Movimento globale: un solo script per il sito. is:inline: JS puro, niente chunk.
       // 1. Reveal allo scroll dei soli titoli (.titolo-rivelato[data-reveal]): diventano "visibile" una sola volta.
       //    Gli altri [data-reveal] non sono toccati: restano sempre visibili.
-      //    Nei contenitori [data-reveal-gruppo] i titoli ricevono --d: --stagger-elemento per passo, max 8 passi.
       //    I titoli già sopra il viewport (ancora, refresh a metà pagina) risultano visibili.
       // 2. Cursore che segue (A13): più sotto, solo con hover fine e senza reduced motion.
       (function () {
@@ -91,12 +90,6 @@ const {
         }
 
         try {
-          document.querySelectorAll('[data-reveal-gruppo]').forEach(function (gruppo) {
-            gruppo.querySelectorAll('.titolo-rivelato[data-reveal]').forEach(function (el, i) {
-              el.style.setProperty('--d', 'calc(' + Math.min(i, 8) + ' * var(--stagger-elemento))');
-            });
-          });
-
           if (riduci || !('IntersectionObserver' in window)) {
             rivelaTutto();
           } else {

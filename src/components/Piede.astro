@@ -25,12 +25,12 @@ const voci = [
   <div class="contenitore">
     <div class="pie__griglia">
       <div class="pie__bloc pie__presentazione">
-        <h2 class="pie__etichetta">Studio</h2>
+        <h3 class="pie__etichetta">Studio</h3>
         <p class="pie__lead">Studio indipendente ad Asti.<br />Siti web per piccole attività.</p>
       </div>
 
       <nav class="pie__bloc pie__nav" aria-labelledby="pie-nav">
-        <h2 class="pie__etichetta" id="pie-nav">Pagine</h2>
+        <h3 class="pie__etichetta" id="pie-nav">Pagine</h3>
         <ul class="pie__voci-grandi">
           {
             voci.map((v) => (
@@ -44,7 +44,7 @@ const voci = [
 
       <div class="pie__destra">
         <div class="pie__bloc pie__contatti">
-          <h2 class="pie__etichetta">Contatti</h2>
+          <h3 class="pie__etichetta">Contatti</h3>
           <ul class="pie__elenco">
             <li><a data-wa="Ciao Trebla! Vorrei un sito per la mia attività, parliamone." target="_blank" rel="noopener noreferrer" href="#">Scrivici su WhatsApp</a></li>
             <li><a data-tel data-mostra href="#">Chiama</a></li>
@@ -54,7 +54,7 @@ const voci = [
         </div>
 
         <nav class="pie__bloc pie__legali" aria-labelledby="pie-legali">
-          <h2 class="pie__etichetta" id="pie-legali">Note legali</h2>
+          <h3 class="pie__etichetta" id="pie-legali">Note legali</h3>
           <ul class="pie__elenco pie__elenco--piccolo">
             <li><a href="/accessibilita/">Accessibilità</a></li>
             <li><a href="/note-legali/#privacy">Privacy</a></li>
@@ -97,10 +97,9 @@ const voci = [
     display: contents;
   }
 
+  /* Niente filetti sopra i blocchi: le linee del piede separano solo le voci degli elenchi. */
   .pie__bloc {
     min-inline-size: 0;
-    border-block-start: 1px solid var(--linea);
-    padding-block-start: var(--s-4);
   }
 
   .pie__presentazione {
@@ -230,8 +229,6 @@ const voci = [
     justify-content: space-between;
     gap: var(--s-3) var(--s-6);
     margin-block: var(--s-8) var(--s-6);
-    padding-block-start: var(--s-4);
-    border-block-start: 1px solid var(--linea);
     font: 400 var(--fs-small) / 1.5 var(--font-ui);
     letter-spacing: 0;
     text-transform: none;

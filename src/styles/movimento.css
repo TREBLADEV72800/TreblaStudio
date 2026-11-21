@@ -3,7 +3,7 @@
    cursore che segue, transizioni tra pagine, keyframes comuni, blocco per prefers-reduced-motion.
 
    Cosa si anima allo scroll: solo i titoli con data-reveal (TitoloRivelato, non immediato).
-   Gli altri [data-reveal] e [data-reveal-gruppo] sono sempre visibili: non hanno stato nascosto.
+   Gli altri [data-reveal] sono sempre visibili: non hanno stato nascosto.
 
    Fallback senza JS (metodo: classe "js" su <html>, aggiunta da MetaDocumento):
    - lo stato nascosto delle parole vale solo con html.js: senza JS tutto è visibile e fermo.

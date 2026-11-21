@@ -41,7 +41,7 @@ Ruoli:
 Scala (token):
 - `--fs-hero` clamp(60px, min(12vw, 17svh), 196px), lh .88
 - `--fs-h2` clamp(44px, 7.6vw, 124px), lh .9
-- `--fs-h2-s` clamp(30px, 4.8vw, 72px), lh .92 (sottosezioni e pagine interne)
+- `--fs-h2-s` clamp(34px, 4.8vw, 72px), lh .92 (sottosezioni e pagine interne; 34px a 390px, per restare sopra `--fs-h2-xs`)
 - `--fs-h2-xs` clamp(26px, 2.4vw, 40px), lh .92 (h2 dentro la prosa)
 - `--fs-prezzo` clamp(56px, 7vw, 120px), lh .88
 - `--fs-h3` clamp(21px, 1.7vw, 24px), Archivo 600
@@ -89,7 +89,7 @@ Nel piede e nei contatti: "Chiama +39 …" compare solo a runtime (ContattiDinam
 ## Componenti di struttura
 
 - **Intestazione**: logo a sinistra; nav Servizi, Metodo, Prezzi, Chi siamo, Domande, Contatti; bottone "Fai il preventivo" senza freccia. Sotto 960px: bottone Menu che apre il pannello, senza numeri.
-- **Piede**: fascia grafite. Blocchi "Studio", "Pagine", "Contatti", "Note legali". Riga finale con copyright su due righe e "Torna su" come link di testo. Wordmark statico.
+- **Piede**: fascia grafite. Blocchi "Studio", "Pagine", "Contatti", "Note legali". Senza filetti sopra i blocchi: le linee separano solo le voci degli elenchi. Le etichette dei blocchi sono h3. Riga finale con copyright su due righe e "Torna su" come link di testo. Wordmark statico.
 - **Testata di pagina** (`TestataPagina`): percorso in Archivo 14px (con `aria-label` "Percorso di navigazione"), prop `codice` facoltativa (testo morbido 14px sopra l'H1), H1 display. Slot `oggetto` facoltativo: da 960px accanto al titolo (colonne 8-12), sotto il lead su schermi piccoli.
 - **Prosa** (`Prosa`): p e liste 34em, h2 display a `--fs-h2-xs`, h3 Archivo 600, trattini degli elenchi morbidi, tabelle con `.num` a cifre tabulari.
 - **Domande** (`ElencoDomande`): fisarmonica con filetti, "+" di due linee che ruota. Nessuno spostamento all'hover.
